@@ -43,7 +43,7 @@ function TestList() {
 
   return (
     <div>
-      <h1>Elo cycu może jakiś callpage?</h1>
+      <h1>Elo cycu</h1>
       
       <ul>
         {items.map(({ name }) => <li>{name}</li>)}
