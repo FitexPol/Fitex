@@ -1,7 +1,7 @@
-import Elysia from "elysia";
-import Document from "../_document";
+import Elysia from 'elysia';
+import Document from '@components/Document';
 
-export const home = new Elysia().get("/", () => (
+export const home = new Elysia().get('/', () => (
   <Document title="Fitex">
     <>
       <h1>Hello world!</h1>
