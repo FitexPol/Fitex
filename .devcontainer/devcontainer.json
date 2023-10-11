@@ -3,10 +3,12 @@
 {
   "name": "Bun",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "oven/bun:latest",
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [3000],
