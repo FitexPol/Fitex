@@ -3,18 +3,21 @@
 {
   "name": "Bun",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/base:alpine",
+  // "image": "mcr.microsoft.com/devcontainers/base:alpine",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
   // Features to add to the dev container. More info: https://containers.dev/features.
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {}
-  },
+  // "features": {
+  //   "ghcr.io/shyim/devcontainers-features/bun:0": {}
+  // },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [3000],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "bun install",
+  // "postCreateCommand": "bun install",
 
   // Configure tool-specific properties.
   "customizations": {
