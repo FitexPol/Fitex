@@ -3,21 +3,21 @@
 {
   "name": "Bun",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  // "image": "mcr.microsoft.com/devcontainers/base:alpine",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "image": "oven/bun:debian",
+  // "build": {
+  //   "dockerfile": "Dockerfile"
+  // },
 
   // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {
-  //   "ghcr.io/shyim/devcontainers-features/bun:0": {}
-  // },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [3000],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "bun install",
+  "postCreateCommand": "git config --global --add safe.directory /workspaces/Fitex & bun install",
 
   // Configure tool-specific properties.
   "customizations": {
