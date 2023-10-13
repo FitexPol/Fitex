@@ -1,4 +1,5 @@
 import Elysia from 'elysia';
+
 import Document from '@components/Document';
 
 export const home = new Elysia().get('/', () => (

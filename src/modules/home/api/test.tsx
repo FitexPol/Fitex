@@ -1,5 +1,6 @@
 import Elysia from 'elysia';
-import Test, { Item } from '../components/Test';
+
+import Test, { type Item } from '../components/Test';
 
 export const test = new Elysia().get('/test', () => {
   const items: Item[] = [{ name: 'Dupa' }, { name: 'Cyce' }];

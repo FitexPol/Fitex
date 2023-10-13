@@ -28,7 +28,9 @@
         "christian-kohler.npm-intellisense",
         "christian-kohler.path-intellisense",
         "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "GitHub.copilot",
+        "eamodio.gitlens"
       ]
     }
   }

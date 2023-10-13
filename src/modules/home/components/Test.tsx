@@ -1,13 +1,14 @@
+import type { ComponentProps } from '@types';
+
 export type Item = {
   name: string;
 };
 
 type TestProps = {
-  children: JSX.Element;
   items: Item[];
 };
 
-export default function Test({ children, items }: TestProps) {
+export default function Test({ children, items }: ComponentProps<TestProps>) {
   return (
     <>
       {children}

@@ -1,9 +1,10 @@
+import type { ComponentProps } from '@types';
+
 type DocumentProps = {
   title: string;
-  children: JSX.Element;
 };
 
-export default function Document({ children, title }: DocumentProps) {
+export default function Document({ children, title }: ComponentProps<DocumentProps>) {
   return (
     <>
       {'<!DOCTYPE html>'}
