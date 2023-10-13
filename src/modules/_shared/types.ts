@@ -3,9 +3,7 @@ type Class = {
 };
 
 type Children = {
-  children?: JSX.Element
+  children?: JSX.Element;
 };
 
 export type ComponentProps<Props = object> = Props & Class & Children;
-
-
