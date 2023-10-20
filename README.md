@@ -1,5 +1,7 @@
 # Elysia with Bun runtime
 
+![example workflow](https://github.com/github/docs/actions/workflows/bun-ci.yml/badge.svg)
+
 ## Getting Started
 
 To get started with this template, simply paste this command into your terminal:
