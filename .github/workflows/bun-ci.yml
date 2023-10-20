@@ -17,5 +17,5 @@ jobs:
     - uses: oven-sh/setup-bun@v1
       with:
         bun-version: latest
-    - run: bunx format
-    - run: bunx lint
+    - run: bun run format
+    - run: bun run lint
