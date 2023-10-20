@@ -1,6 +1,6 @@
 # Elysia with Bun runtime
 
-![example workflow](https://github.com/github/docs/actions/workflows/bun-ci.yml/badge.svg)
+![Bun CI](https://github.com/FitexPol/Fitex/actions/workflows/bun-ci.yml/badge.svg)
 
 ## Getting Started
 
