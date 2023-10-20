@@ -1,6 +1,8 @@
 {
   "name": "Fitex",
   "version": "1.0.50",
+  "module": "src/index.ts",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" & exit 1",
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run tw\"",
@@ -14,6 +16,7 @@
   "dependencies": {
     "@elysiajs/html": "^0.7.0",
     "@elysiajs/static": "^0.7.1",
+    "@elysiajs/swagger": "^0.7.3",
     "elysia": "^0.7.0"
   },
   "devDependencies": {
@@ -30,8 +33,6 @@
     "prettier-plugin-tailwindcss": "^0.5.5",
     "tailwindcss": "^3.3.3"
   },
-  "module": "src/index.ts",
-  "type": "module",
   "peerDependencies": {
     "typescript": "^5.0.0"
   }
