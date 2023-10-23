@@ -1,9 +1,10 @@
 import type { ComponentProps } from '../types';
 
 type InputProps = {
-  type: 'email' | 'password';
+  type: 'email' | 'password' | 'submit';
+  value?: string;
 };
 
-export default function Input({ type, class: className }: ComponentProps<InputProps>) {
-  return <input type={type} class={`rounded-lg border-2 border-gray-500 px-3 py-1 ${className}`} />;
+export default function Input({ ...attr }: Omit<ComponentProps<InputProps>, 'children'>) {
+  return <input {...attr} />;
 }

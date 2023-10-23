@@ -7,7 +7,7 @@ export const home = new Elysia().get('/', () => (
     <>
       <h1>Hello world!</h1>
 
-      <button hx-get="/api/test" hx-swap="outerHTML" class="text-red-500">
+      <button hx-get="/api/test" hx-swap="outerHTML">
         Click Me
       </button>
     </>

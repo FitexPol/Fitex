@@ -1,21 +1,22 @@
 import Elysia from 'elysia';
 
-import Button from '@components/Button';
 import Document from '@components/Document';
 import Input from '@components/Input';
 
 export const auth = new Elysia().get('/auth', () => (
-  <Document>
-    <div class="flex min-h-screen items-center justify-center">
-      <div class="rounded-lg border-2 bg-white px-5 py-3">
-        <h1 class="mb-5 text-center">Zaloguj się</h1>
-
-        <form class="flex flex-col gap-2">
+  <Document layout="none">
+    <div class="container">
+      <article>
+        <header>
+          <h1>Zaloguj się</h1>
+        </header>
+        
+        <form>
           <Input type="email" />
           <Input type="password" />
-          <Button type='submit'>Zatwierdź</Button>
+          <Input type="submit" value="Zatwierdź" class="contrast" />
         </form>
-      </div>
+      </article>
     </div>
   </Document>
 ));
