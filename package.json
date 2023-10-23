@@ -1,11 +1,12 @@
 {
-  "name": "Fitex",
+  "name": "fitex",
   "version": "1.0.50",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" & exit 1",
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run tw\"",
+    "start": "bun run src/index.ts",
     "tw": "tailwindcss -i ./src/styles.css -o ./public/styles.css --watch",
     "tslint": "tsc --noEmit",
     "lint": "eslint . & bun run tslint",

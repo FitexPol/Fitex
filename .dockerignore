@@ -1,0 +1,11 @@
+.devcontainer
+.github
+.vscode
+node_modules
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+LICENSE
+README.md
