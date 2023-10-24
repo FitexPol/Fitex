@@ -34,13 +34,10 @@ export default function Document({ layout = 'default', children }: ComponentProp
 }
 
 function Layout({ children }: ComponentProps) {
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Auth', href: '/auth' },
-  ];
+  const navigation = [{ name: 'Home', href: '/' }];
 
   return (
-    <>
+    <div class="container">
       <nav>
         <ul hx-boost="true">
           {navigation.map(({ href, name }) => (
@@ -52,6 +49,6 @@ function Layout({ children }: ComponentProps) {
       </nav>
 
       <main>{children}</main>
-    </>
+    </div>
   );
 }

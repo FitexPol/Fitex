@@ -2,6 +2,7 @@ import type { ComponentProps } from '../types';
 
 type InputProps = {
   type: 'email' | 'password' | 'submit';
+  name?: string;
   value?: string;
 };
 

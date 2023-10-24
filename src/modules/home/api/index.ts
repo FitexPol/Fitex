@@ -1,5 +1,6 @@
-import Elysia from 'elysia';
+import type { App } from '@/app';
+import getEnvSecure from '@utils/getEnvSecure';
 
 import { test } from './test';
 
-export const api = new Elysia({ prefix: '/api' }).use(test);
+export const api = (app: App) => app.group(getEnvSecure('API_PREFIX'), (app) => app.use(test));

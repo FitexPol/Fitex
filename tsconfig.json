@@ -34,6 +34,7 @@
       "@/*": ["./src/*"],
       "@types": ["./src/modules/_shared/types.ts"],
       "@components/*": ["./src/modules/_shared/components/*"],
+      "@utils/*": ["./src/modules/_shared/utils/*"],
       "@home/*": ["./src/modules/home/*"]
     },
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

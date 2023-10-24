@@ -15,7 +15,9 @@
     "format:fix": "prettier --write ."
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.7.0",
     "@elysiajs/html": "^0.7.0",
+    "@elysiajs/jwt": "^0.7.0",
     "@elysiajs/static": "^0.7.1",
     "@elysiajs/swagger": "^0.7.3",
     "@picocss/pico": "^1.5.10",
