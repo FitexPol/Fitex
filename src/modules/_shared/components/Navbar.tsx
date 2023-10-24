@@ -5,7 +5,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav class="border-b border-b-slate-500">
+    <nav hx-boost="true" class="border-b border-b-slate-500">
       <ul>
         <li>
           <a href="/">
@@ -13,7 +13,7 @@ export default function Navbar() {
           </a>
         </li>
       </ul>
-      <ul hx-boost="true">
+      <ul>
         {navigation.map(({ href, name }) => (
           <li>
             <a href={href}>{name}</a>
