@@ -1,4 +1,5 @@
 import type { ComponentProps } from '../types';
+import Navbar from './Navbar';
 
 type DocumentProps = {
   layout?: 'default' | 'none';
@@ -34,19 +35,9 @@ export default function Document({ layout = 'default', children }: ComponentProp
 }
 
 function Layout({ children }: ComponentProps) {
-  const navigation = [{ name: 'Home', href: '/' }];
-
   return (
     <div class="container">
-      <nav>
-        <ul hx-boost="true">
-          {navigation.map(({ href, name }) => (
-            <li>
-              <a href={href}>{name}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <Navbar />
 
       <main>{children}</main>
     </div>
