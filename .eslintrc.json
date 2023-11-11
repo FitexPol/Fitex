@@ -42,8 +42,23 @@
         }
       }
     ],
-    "import/no-unresolved": "error",
+    "import/no-unresolved": "warn",
     "@typescript-eslint/consistent-type-imports": "warn",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
-  }
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowFunctionsWithoutTypeParameters": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
 }

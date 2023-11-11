@@ -1,5 +1,5 @@
 import type { App } from '@/app';
-import Document from '@components/Document';
+import Document from '@components/_Document';
 
 export const home = (app: App) =>
   app.get('/', ({ user }) => (

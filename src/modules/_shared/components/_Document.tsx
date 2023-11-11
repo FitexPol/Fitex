@@ -8,7 +8,7 @@ export default function Document({ layout = 'default', children }: ComponentProp
   function renderContent(layout: DocumentProps['layout']) {
     switch (layout) {
       case 'none':
-        return <main>{children}</main>;
+        return <main class="max-h-screen">{children}</main>;
       default:
         return <Layout>{children}</Layout>;
     }
@@ -22,12 +22,13 @@ export default function Document({ layout = 'default', children }: ComponentProp
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>Fitex</title>
-          <script src="/htmx"></script>
-          <link href="/picocss" rel="stylesheet" />
+          <script src="/lib/htmx"></script>
+          <script src="/lib/htmx-response-targets"></script>
+          <link href="/lib/picocss" rel="stylesheet" />
           <link href="/public/styles.css" rel="stylesheet" />
         </head>
 
-        <body class="min-h-screen">{renderContent(layout)}</body>
+        <body hx-ext="response-targets">{renderContent(layout)}</body>
       </html>
     </>
   );

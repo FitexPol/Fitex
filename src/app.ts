@@ -5,6 +5,8 @@ import staticPlugin from '@elysiajs/static';
 import swagger from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
 
+import { lib } from './lib';
+
 export const app = new Elysia()
   .use(swagger())
   .use(
@@ -15,8 +17,7 @@ export const app = new Elysia()
   .use(cookie())
   .use(html())
   .use(staticPlugin())
-  .get('/picocss', () => Bun.file(`${import.meta.dir}/../node_modules/@picocss/pico/css/pico.min.css`))
-  .get('/htmx', () => Bun.file(`${import.meta.dir}/../node_modules/htmx.org/dist/htmx.min.js`))
+  .use(lib)
   .derive(async ({ cookie: { token }, jwt }) => {
     const user = await jwt.verify(token);
 
