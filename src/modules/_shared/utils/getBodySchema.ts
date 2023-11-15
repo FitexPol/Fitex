@@ -34,16 +34,10 @@ function getSchemaTextField(validators?: TextValidators): SchemaTextField {
 
   if (validators) {
     options = {
-      minLength: validators.minLength?.value,
-      maxLength: validators.maxLength?.value,
-      error: (type) => {
-        switch (type) {
-          case 'minLength':
-            return validators.minLength?.message;
-          case 'maxLength':
-            return validators.maxLength?.message;
-        }
-      },
+      minLength: validators.minLength,
+      maxLength: validators.maxLength,
+      pattern: validators.regex?.toString(),
+      error: validators.message,
     };
   }
 
@@ -55,16 +49,9 @@ function getSchemaNumberField(validators?: NumberValidators): SchemaNumberField 
 
   if (validators) {
     options = {
-      minimum: validators.min?.value,
-      maximum: validators.max?.value,
-      error: (type) => {
-        switch (type) {
-          case 'minimum':
-            return validators.min?.message;
-          case 'maximum':
-            return validators.max?.message;
-        }
-      },
+      minimum: validators.min,
+      maximum: validators.max,
+      error: validators.message,
     };
   }
 

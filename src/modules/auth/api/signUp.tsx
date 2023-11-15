@@ -2,6 +2,7 @@ import type { ValidationError } from 'elysia';
 
 import type { App } from '@/app';
 import getBodySchema from '@utils/getBodySchema';
+import getBodySchemaErrors from '@utils/getBodySchemaErrors';
 
 import SignUpForm, { type SignUpFormErrors, signUpForm } from '../components/SignUpForm';
 
@@ -30,10 +31,7 @@ export const signUp = (app: App) =>
   );
 
 function getSignUpFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
-  console.log(error.all);
-  const errors: SignUpFormErrors = {
-    password: error.all.find(({ path }) => path === '/password')?.schema.error as string,
-  };
+  const errors: SignUpFormErrors = getBodySchemaErrors<typeof signUpForm>(error, signUpForm);
 
   return <SignUpForm errors={errors} />;
 }

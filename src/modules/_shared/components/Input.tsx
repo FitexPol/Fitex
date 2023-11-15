@@ -23,11 +23,24 @@ export default function Input({
 }
 
 function getInputAttributes(control: FormControl): JSX.HtmlInputTag {
-  const { validators, ...inputAttributes } = control;
+  let validatorAttributes: JSX.HtmlInputTag = {};
 
-  if (!validators) return inputAttributes;
+  if (control.validators) {
+    switch (control.type) {
+      case 'number':
+        validatorAttributes = getNumberValidators(control.validators);
+        break;
+      default:
+        validatorAttributes = getTextValidators(control.validators);
+    }
+  }
 
-  const validatorAttributes: JSX.HtmlInputTag = getValidatorAttributes(control.type, validators);
+  const inputAttributes: JSX.HtmlInputTag = (() => {
+    const inputAttributes = { ...control };
+    delete inputAttributes.validators;
+
+    return inputAttributes;
+  })();
 
   return {
     ...inputAttributes,
@@ -35,27 +48,17 @@ function getInputAttributes(control: FormControl): JSX.HtmlInputTag {
   };
 }
 
-function getValidatorAttributes(
-  controlType: FormControl['type'],
-  validators: FormControl['validators'],
-): JSX.HtmlInputTag {
-  switch (controlType) {
-    case 'number':
-      return getNumberValidators(validators as NumberValidators);
-    default:
-      return getTextValidators(validators as TextValidators);
-  }
-}
-
 function getNumberValidators(validators: NumberValidators): JSX.HtmlInputTag {
   return {
-    min: validators.min?.value.toString(),
-    max: validators.max?.value.toString(),
+    min: validators.min?.toString(),
+    max: validators.max?.toString(),
+    required: validators.required ? 'true' : undefined,
   };
 }
 
 function getTextValidators(validators: TextValidators): JSX.HtmlInputTag {
   return {
-    maxlength: validators.maxLength?.value.toString(),
+    maxlength: validators.maxLength?.toString(),
+    required: validators.minLength ? 'true' : undefined,
   };
 }

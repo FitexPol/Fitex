@@ -8,26 +8,30 @@ export const signUpForm = {
     name: 'username',
     placeholder: 'Username',
     validators: {
-      minLength: {
-        value: 3,
-        message: 'Username must be at least 3 characters long',
-      },
+      minLength: 3,
+      maxLength: 20,
+      message: 'Username must be at least 3 characters long',
     },
   },
   email: {
     type: 'email',
     name: 'email',
     placeholder: 'E-mail',
+    validators: {
+      minLength: 3,
+      regex:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      message: 'E-mail is invalid',
+    },
   },
   password: {
     type: 'password',
     name: 'password',
     placeholder: 'Password',
     validators: {
-      minLength: {
-        value: 6,
-        message: 'Password must be at least 6 characters long',
-      },
+      minLength: 6,
+      maxLength: 20,
+      message: 'Password must be at least 6 characters long',
     },
   },
   repeatedPassword: {

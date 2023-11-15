@@ -8,19 +8,20 @@ type Children = {
 
 export type ComponentProps<Props = object> = Props & Class & Children;
 
-type Validator<T = unknown> = {
-  value: T;
+type Validator = {
   message: string;
 };
 
-export type TextValidators = {
-  minLength?: Validator<number>;
-  maxLength?: Validator<number>;
+export type TextValidators = Validator & {
+  minLength?: number;
+  maxLength?: number;
+  regex?: RegExp;
 };
 
-export type NumberValidators = {
-  min?: Validator<number>;
-  max?: Validator<number>;
+export type NumberValidators = Validator & {
+  min?: number;
+  max?: number;
+  required?: boolean;
 };
 
 export type TextControl = {
