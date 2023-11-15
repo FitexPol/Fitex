@@ -1,4 +1,4 @@
-import type { ComponentProps } from '../types';
+import type { ComponentProps } from '@types';
 
 type DocumentProps = {
   layout?: 'default' | 'none';
@@ -25,6 +25,7 @@ export default function Document({ layout = 'default', children }: ComponentProp
           <script src="/lib/htmx"></script>
           <script src="/lib/htmx-response-targets"></script>
           <link href="/lib/picocss" rel="stylesheet" />
+
           <link href="/public/styles.css" rel="stylesheet" />
         </head>
 

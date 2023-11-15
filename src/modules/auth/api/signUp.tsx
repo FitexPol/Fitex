@@ -1,8 +1,9 @@
-import { type ValidationError, t } from 'elysia';
+import type { ValidationError } from 'elysia';
 
 import type { App } from '@/app';
+import getBodySchema from '@utils/getBodySchema';
 
-import SignUpForm, { type SignUpFormErrors } from '../components/SignUpForm';
+import SignUpForm, { type SignUpFormErrors, signUpForm } from '../components/SignUpForm';
 
 export const signUp = (app: App) =>
   app.post(
@@ -21,24 +22,17 @@ export const signUp = (app: App) =>
       set.redirect = '/';
     },
     {
-      body: t.Object({
-        username: t.String(),
-        email: t.String(),
-        password: t.String({
-          minLength: 6,
-          error: 'Hasło musi zawierać przynajmniej 6 znaków',
-        }),
-        repeatedPassword: t.String(),
-      }),
+      body: getBodySchema<typeof signUpForm>(signUpForm),
       error({ code, error }) {
         if (code === 'VALIDATION') return getSignUpFormWithErrors(error);
       },
     },
   );
 
-function getSignUpFormWithErrors({ all }: Readonly<ValidationError>): JSX.Element {
+function getSignUpFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
+  console.log(error.all);
   const errors: SignUpFormErrors = {
-    password: all.find(({ path }) => path === '/password')?.schema.error as string,
+    password: error.all.find(({ path }) => path === '/password')?.schema.error as string,
   };
 
   return <SignUpForm errors={errors} />;

@@ -1,10 +1,43 @@
+import Button from '@components/Button';
 import Input from '@components/Input';
-import type { ComponentProps } from '@types';
+import type { ComponentProps, Form, FormErrors } from '@types';
 
-export type SignUpFormErrors = {
-  password?: string;
-  repeatedPassword?: string;
-};
+export const signUpForm = {
+  username: {
+    type: 'text',
+    name: 'username',
+    placeholder: 'Username',
+    validators: {
+      minLength: {
+        value: 3,
+        message: 'Username must be at least 3 characters long',
+      },
+    },
+  },
+  email: {
+    type: 'email',
+    name: 'email',
+    placeholder: 'E-mail',
+  },
+  password: {
+    type: 'password',
+    name: 'password',
+    placeholder: 'Password',
+    validators: {
+      minLength: {
+        value: 6,
+        message: 'Password must be at least 6 characters long',
+      },
+    },
+  },
+  repeatedPassword: {
+    type: 'password',
+    name: 'repeatedPassword',
+    placeholder: 'Repeat password',
+  },
+} satisfies Form;
+
+export type SignUpFormErrors = FormErrors<typeof signUpForm>;
 
 type SignUpFormProps = {
   errors?: SignUpFormErrors;
@@ -13,19 +46,14 @@ type SignUpFormProps = {
 export default function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
   return (
     <form hx-boost="true" action="/api/sign-up" method="post" hx-target-4xx="this">
-      <Input type="text" name="username" placeholder="Username" value="Test" />
-      <Input type="email" name="email" placeholder="E-mail" value="test@test.pl" />
+      <Input control={signUpForm.username} error={errors?.username} />
+      <Input control={signUpForm.email} error={errors?.email} />
+      <Input control={signUpForm.password} error={errors?.password} />
+      <Input control={signUpForm.repeatedPassword} error={errors?.repeatedPassword} />
 
-      <Input type="password" name="password" placeholder="Password" error={errors?.password} />
-
-      <Input
-        type="password"
-        name="repeatedPassword"
-        placeholder="Repeat password"
-        error={errors?.repeatedPassword}
-      />
-
-      <Input type="submit" value="Sign up" class="contrast" />
+      <Button type="submit" class="contrast">
+        Sign up
+      </Button>
     </form>
   );
 }
