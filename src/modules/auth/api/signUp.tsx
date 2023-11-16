@@ -4,7 +4,8 @@ import type { App } from '@/app';
 import getBodySchema from '@utils/getBodySchema';
 import getBodySchemaErrors from '@utils/getBodySchemaErrors';
 
-import SignUpForm, { type SignUpFormErrors, signUpForm } from '../components/SignUpForm';
+import SignUpForm from '../components/SignUpForm';
+import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms';
 
 export const signUp = (app: App) =>
   app.post(
@@ -23,7 +24,7 @@ export const signUp = (app: App) =>
       set.redirect = '/';
     },
     {
-      body: getBodySchema<typeof signUpForm>(signUpForm),
+      body: getBodySchema<SignUpFormType>(signUpForm),
       error({ code, error }) {
         if (code === 'VALIDATION') return getSignUpFormWithErrors(error);
       },
@@ -31,7 +32,7 @@ export const signUp = (app: App) =>
   );
 
 function getSignUpFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
-  const errors: SignUpFormErrors = getBodySchemaErrors<typeof signUpForm>(error, signUpForm);
+  const errors: SignUpFormErrors = getBodySchemaErrors<SignUpFormType>(error, signUpForm);
 
   return <SignUpForm errors={errors} />;
 }

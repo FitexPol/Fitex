@@ -30,30 +30,25 @@ export default function getBodySchema<T extends Form>(form: Form): Schema<T> {
 }
 
 function getSchemaTextField(validators?: TextValidators): SchemaTextField {
-  let options: Parameters<typeof t.String>[0] = {};
+  if (!validators) return t.String();
 
-  if (validators) {
-    options = {
-      minLength: validators.minLength,
-      maxLength: validators.maxLength,
-      pattern: validators.regex?.toString(),
-      error: validators.message,
-    };
-  }
+  const error: string = validators.message;
 
-  return t.String(options);
+  if (validators.regex) return t.RegExp(validators.regex, { error });
+
+  return t.String({
+    minLength: validators.minLength,
+    maxLength: validators.maxLength,
+    error,
+  });
 }
 
 function getSchemaNumberField(validators?: NumberValidators): SchemaNumberField {
-  let options: Parameters<typeof t.Number>[0] = {};
+  if (!validators) return t.Number();
 
-  if (validators) {
-    options = {
-      minimum: validators.min,
-      maximum: validators.max,
-      error: validators.message,
-    };
-  }
-
-  return t.Number(options);
+  return t.Number({
+    minimum: validators.min,
+    maximum: validators.max,
+    error: validators.message,
+  });
 }

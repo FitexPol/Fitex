@@ -10,6 +10,7 @@ export type ComponentProps<Props = object> = Props & Class & Children;
 
 type Validator = {
   message: string;
+  required?: boolean;
 };
 
 export type TextValidators = Validator & {
@@ -21,7 +22,6 @@ export type TextValidators = Validator & {
 export type NumberValidators = Validator & {
   min?: number;
   max?: number;
-  required?: boolean;
 };
 
 export type TextControl = {

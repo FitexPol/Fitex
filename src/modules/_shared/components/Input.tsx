@@ -52,13 +52,13 @@ function getNumberValidators(validators: NumberValidators): JSX.HtmlInputTag {
   return {
     min: validators.min?.toString(),
     max: validators.max?.toString(),
-    required: validators.required ? 'true' : undefined,
+    required: validators.required?.toString(),
   };
 }
 
 function getTextValidators(validators: TextValidators): JSX.HtmlInputTag {
   return {
     maxlength: validators.maxLength?.toString(),
-    required: validators.minLength ? 'true' : undefined,
+    required: validators.required?.toString(),
   };
 }
