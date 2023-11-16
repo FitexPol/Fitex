@@ -10,7 +10,7 @@ type SignUpFormProps = {
 
 export default function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
   return (
-    <form hx-post="/api/sign-up" hx-target-4xx="this">
+    <form hx-post="/api/sign-up" hx-swap="outerHTML" hx-target-4xx="this">
       <Input control={signUpForm.username} error={errors?.username} />
       <Input control={signUpForm.email} error={errors?.email} />
       <Input control={signUpForm.password} error={errors?.password} />
