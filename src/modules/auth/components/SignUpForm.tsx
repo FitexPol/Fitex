@@ -1,5 +1,5 @@
-import Button from '@components/Button';
-import Input from '@components/Input';
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
 import type { ComponentProps } from '@types';
 
 import { type SignUpFormErrors, signUpForm } from '../forms';
@@ -8,7 +8,7 @@ type SignUpFormProps = {
   errors?: SignUpFormErrors;
 };
 
-export default function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
+export function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
   return (
     <form hx-post="/api/sign-up" hx-swap="outerHTML" hx-target-4xx="this">
       <Input control={signUpForm.username} error={errors?.username} />

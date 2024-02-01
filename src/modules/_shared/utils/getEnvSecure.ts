@@ -1,6 +1,6 @@
 type EnvKey = 'API_PREFIX';
 
-export default function getEnvSecure(envKey: EnvKey): string {
+export function getEnvSecure(envKey: EnvKey): string {
   const env = process.env[envKey];
 
   if (!env) {

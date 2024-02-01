@@ -1,17 +1,13 @@
 import type { ComponentProps, FormControl, NumberValidators, TextValidators } from '@types';
 
-import $tm from '../utils/$tm';
+import { $tm } from '../utils/$tm';
 
 type InputProps = {
   control: FormControl;
   error?: string;
 };
 
-export default function Input({
-  control,
-  error,
-  class: className,
-}: Omit<ComponentProps<InputProps>, 'children'>) {
+export function Input({ control, error, class: className }: Omit<ComponentProps<InputProps>, 'children'>) {
   const inputAttributes: JSX.HtmlInputTag = getInputAttributes(control);
 
   return (
@@ -48,17 +44,18 @@ function getInputAttributes(control: FormControl): JSX.HtmlInputTag {
   };
 }
 
-function getNumberValidators(validators: NumberValidators): JSX.HtmlInputTag {
+function getNumberValidators({ min, max, required }: NumberValidators): JSX.HtmlInputTag {
   return {
-    min: validators.min?.toString(),
-    max: validators.max?.toString(),
-    required: validators.required?.toString(),
+    min,
+    max,
+    required,
   };
 }
 
-function getTextValidators(validators: TextValidators): JSX.HtmlInputTag {
+function getTextValidators({ minLength, maxLength, required }: TextValidators): JSX.HtmlInputTag {
   return {
-    maxlength: validators.maxLength?.toString(),
-    required: validators.required?.toString(),
+    minlength: minLength,
+    maxlength: maxLength,
+    required,
   };
 }

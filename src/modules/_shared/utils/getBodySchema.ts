@@ -2,7 +2,7 @@ import { t } from 'elysia';
 
 import type { Form, NumberValidators, TextValidators } from '../types';
 
-type SchemaTextField = ReturnType<typeof t.String>;
+type SchemaTextField = ReturnType<typeof t.String> | ReturnType<typeof t.RegExp>;
 type SchemaNumberField = ReturnType<typeof t.Number>;
 
 type SchemaObject<T extends Form> = {
@@ -11,7 +11,7 @@ type SchemaObject<T extends Form> = {
 
 type Schema<T extends Form> = ReturnType<typeof t.Object<SchemaObject<T>>>;
 
-export default function getBodySchema<T extends Form>(form: Form): Schema<T> {
+export function getBodySchema<T extends Form>(form: Form): Schema<T> {
   const schemaObject: SchemaObject<T> = Object.entries(form).reduce((acc, [key, control]) => {
     let schemaField: SchemaNumberField | SchemaTextField;
 

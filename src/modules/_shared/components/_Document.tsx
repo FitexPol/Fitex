@@ -4,7 +4,7 @@ type DocumentProps = {
   layout?: 'default' | 'none';
 };
 
-export default function Document({ layout = 'default', children }: ComponentProps<DocumentProps>) {
+export function Document({ layout = 'default', children }: ComponentProps<DocumentProps>) {
   function renderContent(layout: DocumentProps['layout']) {
     switch (layout) {
       case 'none':
@@ -29,7 +29,9 @@ export default function Document({ layout = 'default', children }: ComponentProp
           <link href="/public/styles.css" rel="stylesheet" />
         </head>
 
-        <body hx-ext="response-targets">{renderContent(layout)}</body>
+        <body id="body" hx-ext="response-targets">
+          {renderContent(layout)}
+        </body>
       </html>
     </>
   );

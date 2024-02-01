@@ -1,8 +1,8 @@
 import type { ComponentProps } from '@types';
-import $tm from '@utils/$tm';
+import { $tm } from '@utils/$tm';
 
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
+import { SignInForm } from './SignInForm';
+import { SignUpForm } from './SignUpForm';
 
 type FormType = 'signIn' | 'signUp';
 type Tab = { href: string; label: string };
@@ -28,7 +28,7 @@ type AuthSectionProps = {
   typeQuery: string;
 };
 
-export default function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
+export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
   const formType: FormType = getFormType(typeQuery);
 
   return (

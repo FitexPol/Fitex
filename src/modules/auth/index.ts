@@ -1,5 +1,5 @@
-import type { App } from '@/app';
+import { Elysia } from 'elysia';
 
 import { api } from './api';
 
-export const authModule = (app: App) => app.use(api);
+export const authModule = new Elysia().use(api);

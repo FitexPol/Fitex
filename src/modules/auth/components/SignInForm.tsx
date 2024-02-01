@@ -1,6 +1,6 @@
-import Input from '@components/Input';
+import { Input } from '@components/Input';
 
-export default function SignInForm() {
+export function SignInForm() {
   return (
     <form hx-boost="true" action="/api/sign-up" method="post">
       {/* <Input type="email" name="email" placeholder="E-mail" />

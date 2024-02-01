@@ -1,6 +1,6 @@
-import type { App } from '@/app';
+import { Elysia } from 'elysia';
 
 import { authModule } from './auth';
 import { homeModule } from './home';
 
-export const modules = (app: App) => app.use(homeModule).use(authModule);
+export const modules = new Elysia().use(authModule).use(homeModule);

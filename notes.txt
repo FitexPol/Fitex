@@ -1,0 +1,2 @@
+TODO:
+  - poprawić typowanie getBodySchema (optional type)

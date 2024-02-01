@@ -8,7 +8,7 @@ type TestProps = {
   items: Item[];
 };
 
-export default function Test({ children, items }: ComponentProps<TestProps>) {
+export function Test({ children, items }: ComponentProps<TestProps>) {
   return (
     <>
       {children}

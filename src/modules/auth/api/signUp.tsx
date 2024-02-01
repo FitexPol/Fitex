@@ -1,27 +1,32 @@
-import type { ValidationError } from 'elysia';
+import { Elysia, type ValidationError } from 'elysia';
 
-import type { App } from '@/app';
-import getBodySchema from '@utils/getBodySchema';
-import getBodySchemaErrors from '@utils/getBodySchemaErrors';
+import { setup } from '@/setup';
+import { getBodySchema } from '@utils/getBodySchema';
+import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 
-import SignUpForm from '../components/SignUpForm';
+import { SignUpForm } from '../components/SignUpForm';
 import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms';
 
-export const signUp = (app: App) =>
+export const signUp = new Elysia().use(setup).group('/sign-up', (app) =>
   app.post(
-    '/sign-up',
-    async ({ body, jwt, setCookie, set }) => {
+    '',
+    async ({ body, jwt, set, cookie: { auth } }) => {
       if (body.password !== body.repeatedPassword) {
         set.status = 'Bad Request';
 
-        return <SignUpForm errors={{ repeatedPassword: 'Hasła nie są takie same' }} />;
+        return <SignUpForm errors={{ repeatedPassword: 'Provided passwords are not the same' }} />;
       }
 
-      const token = await jwt.sign({ email: body.email });
+      auth.set({
+        value: await jwt.sign({ email: body.email }),
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        maxAge: 7 * 86400,
+      });
 
-      setCookie('token', token);
-
-      set.redirect = '/';
+      set.status = 201;
+      set.headers = { 'Hx-Location': '/' };
     },
     {
       body: getBodySchema<SignUpFormType>(signUpForm),
@@ -29,7 +34,8 @@ export const signUp = (app: App) =>
         if (code === 'VALIDATION') return getSignUpFormWithErrors(error);
       },
     },
-  );
+  ),
+);
 
 function getSignUpFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
   const errors: SignUpFormErrors = getBodySchemaErrors<SignUpFormType>(error, signUpForm);

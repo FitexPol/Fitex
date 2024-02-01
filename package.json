@@ -15,14 +15,13 @@
     "format:fix": "prettier --write ."
   },
   "dependencies": {
-    "@elysiajs/cookie": "^0.7.0",
-    "@elysiajs/html": "^0.7.0",
-    "@elysiajs/jwt": "^0.7.0",
-    "@elysiajs/static": "^0.7.1",
-    "@elysiajs/swagger": "^0.7.3",
+    "@elysiajs/html": "^0.8.0",
+    "@elysiajs/jwt": "^0.8.0",
+    "@elysiajs/static": "0.8.0",
+    "@elysiajs/swagger": "^0.8.5",
     "@picocss/pico": "^1.5.10",
     "clsx": "^2.0.0",
-    "elysia": "^0.7.0",
+    "elysia": "^0.8.15",
     "htmx.org": "^1.9.6",
     "tailwind-merge": "^1.14.0"
   },
