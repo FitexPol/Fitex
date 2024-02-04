@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,tsx,ts,js,jsx}'],
+  content: ['./src/**/*.{tsx,ts,js,jsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'pico-card-background': 'var(--card-background-color)',
+      },
+    },
   },
   plugins: [],
 };
