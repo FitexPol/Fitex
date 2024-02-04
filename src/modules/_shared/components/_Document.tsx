@@ -42,15 +42,19 @@ function Layout({ children }: ComponentProps) {
 
   return (
     <div class="container">
-      <nav>
-        <ul hx-boost="true">
-          {navigation.map(({ href, name }) => (
-            <li>
-              <a href={href}>{name}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div class="flex justify-between">
+        <nav>
+          <ul hx-boost="true">
+            {navigation.map(({ href, name }) => (
+              <li>
+                <a href={href}>{name}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <button hx-get="/api/auth/logout">Logout</button>
+      </div>
 
       <main>{children}</main>
     </div>

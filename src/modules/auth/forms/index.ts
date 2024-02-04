@@ -1,6 +1,7 @@
 import type { Form, FormErrors } from '@types';
+import { emailMatcher } from '@utils/validators';
 
-export const signUpForm = {
+export const signInForm = {
   username: {
     type: 'text',
     name: 'username',
@@ -18,9 +19,7 @@ export const signUpForm = {
     placeholder: 'E-mail',
     validators: {
       required: true,
-      minLength: 3,
-      regex:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      regex: emailMatcher,
       message: 'E-mail is invalid',
     },
   },
@@ -35,6 +34,13 @@ export const signUpForm = {
       message: 'Username must be between 6 and 20 characters long',
     },
   },
+} satisfies Form;
+
+export type SignInForm = typeof signInForm;
+export type SignInFormErrors = FormErrors<SignInForm>;
+
+export const signUpForm = {
+  ...signInForm,
   repeatedPassword: {
     type: 'password',
     name: 'repeatedPassword',

@@ -1,9 +1,9 @@
 import { Elysia } from 'elysia';
 
-import { setup } from '@/setup';
+import { context } from '@/context';
 import { Document } from '@components/_Document';
 
-export const homePage = new Elysia().use(setup).get('/', ({ user }) => (
+export const homePage = new Elysia().use(context).get('/', ({ user }) => (
   <Document>
     <>
       <h1>{`Hello ${user?.email}`}</h1>

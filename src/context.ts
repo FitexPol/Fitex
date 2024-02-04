@@ -1,7 +1,7 @@
 import { jwt } from '@elysiajs/jwt';
 import { Elysia } from 'elysia';
 
-export const setup = new Elysia()
+export const context = new Elysia()
   .use(
     jwt({
       secret: 'secret',

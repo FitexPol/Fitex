@@ -3,5 +3,5 @@
     "*.css": "tailwindcss"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["devcontainers", "elysia", "fitex", "clsx", "pico"]
+  "cSpell.words": ["devcontainers", "elysia", "fitex", "clsx", "pico", "maxlength"]
 }

@@ -1,16 +1,27 @@
 import { Elysia } from 'elysia';
 
-import { setup } from '@/setup';
+import { context } from '@/context';
 
 import { authPage } from './auth';
 import { homePage } from './home';
 
 export const pages = new Elysia()
-  .use(setup)
-  .use(authPage)
+  .use(context)
   .guard(
     {
-      beforeHandle: ({ set, user }) => {
+      beforeHandle: ({ user, set }) => {
+        if (user) {
+          set.redirect = '/';
+
+          return 'User already logged in';
+        }
+      },
+    },
+    (app) => app.use(authPage),
+  )
+  .guard(
+    {
+      beforeHandle: ({ user, set }) => {
         if (!user) {
           set.redirect = '/auth';
 
