@@ -1,3 +1,4 @@
 TODO:
   - poprawić typowanie getBodySchema (optional type)
   - dodać animacje on request
+  - stworzyć user service

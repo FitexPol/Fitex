@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" & exit 1",
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run tw\"",
+    "build": "bun build ./src/index.ts --outdir ./dist",
     "start": "bun run src/index.ts",
     "tw": "tailwindcss -i ./src/styles.css -o ./public/styles.css --watch --minify",
     "tslint": "tsc --noEmit",

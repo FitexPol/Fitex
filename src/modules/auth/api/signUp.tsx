@@ -17,17 +17,9 @@ export const signUp = new Elysia().use(context).post(
       return <SignUpForm errors={{ repeatedPassword: 'Provided passwords are not the same' }} />;
     }
 
-    const existingEmail = await User.exists({ email: body.email });
+    const existingUser = await User.exists({ username: body.username });
 
-    if (existingEmail) {
-      set.status = 'Bad Request';
-
-      return <SignUpForm errors={{ email: 'Email is already taken' }} />;
-    }
-
-    const existingUsername = await User.exists({ username: body.username });
-
-    if (existingUsername) {
+    if (existingUser) {
       set.status = 'Bad Request';
 
       return <SignUpForm errors={{ username: 'Username is already taken' }} />;
@@ -37,15 +29,14 @@ export const signUp = new Elysia().use(context).post(
 
     const user = new User({
       username: body.username,
-      email: body.email,
       password: hash,
     });
 
-    await user.save();
+    const userDoc = await user.save();
 
     const token = await jwt.sign({
+      id: userDoc.id,
       username: body.username,
-      email: body.email,
     });
 
     auth.set({

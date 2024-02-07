@@ -11,21 +11,15 @@ import { User } from '../models/user';
 export const signIn = new Elysia().use(context).post(
   '/sign-in',
   async ({ body, jwt, set, cookie: { auth } }) => {
-    const user = await User.findOne({ email: body.email });
+    const userDoc = await User.findOne({ username: body.username }).exec();
 
-    if (!user) {
+    if (!userDoc) {
       set.status = 'Bad Request';
 
-      return <SignInForm errors={{ email: 'User with provided email does not exist' }} />;
+      return <SignInForm errors={{ username: 'User with provided username does not exist' }} />;
     }
 
-    if (user.username !== body.username) {
-      set.status = 'Bad Request';
-
-      return <SignInForm errors={{ username: 'Provided username is incorrect' }} />;
-    }
-
-    const isPasswordCorrect = await Bun.password.verify(body.password, user.password);
+    const isPasswordCorrect = await Bun.password.verify(body.password, userDoc.password);
 
     if (!isPasswordCorrect) {
       set.status = 'Bad Request';
@@ -34,8 +28,8 @@ export const signIn = new Elysia().use(context).post(
     }
 
     const token = await jwt.sign({
-      username: user.username,
-      email: user.email,
+      id: userDoc.id,
+      username: userDoc.username,
     });
 
     auth.set({

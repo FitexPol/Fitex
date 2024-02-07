@@ -19,7 +19,7 @@
       }
     }
   },
-  "ignorePatterns": ["tailwind.config.js"],
+  "ignorePatterns": ["tailwind.config.js", "public/scripts.js"],
   "rules": {
     "sort-imports": [
       "warn",

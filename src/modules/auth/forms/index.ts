@@ -13,16 +13,6 @@ export const signInForm = {
       message: 'Username must be between 3 and 20 characters long',
     },
   },
-  email: {
-    type: 'email',
-    name: 'email',
-    placeholder: 'E-mail',
-    validators: {
-      required: true,
-      regex: emailMatcher,
-      message: 'E-mail is invalid',
-    },
-  },
   password: {
     type: 'password',
     name: 'password',

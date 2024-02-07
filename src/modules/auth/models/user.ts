@@ -1,10 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-import { emailMatcher } from '@utils/validators';
-
-type User = {
+export type User = {
   username: string;
-  email: string;
   password: string;
 };
 
@@ -15,12 +12,6 @@ const userSchema = new Schema<User>({
     unique: true,
     minlength: 3,
     maxlength: 20,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    match: emailMatcher,
   },
   password: {
     type: String,
