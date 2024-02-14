@@ -32,8 +32,6 @@ export const getMealModal = new Elysia().use(context).get('/modal', async ({ set
     throw new Error('You are not authorized to get this meal');
   }
 
-  console.log(mealDoc);
-
   return (
     <Modal title={mealDoc.name}>
       <MealForm meal={mealDoc} />
