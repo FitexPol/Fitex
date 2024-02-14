@@ -44,9 +44,8 @@ export type PasswordControl = Omit<TextControl, 'type'> & {
 
 export type FormControl = (TextControl | NumberControl | EmailControl | PasswordControl) & {
   name: string;
-  value?: string;
   placeholder?: string;
 };
 
-export type Form = Record<string, FormControl>;
+export type Form = Record<string, FormControl | FormControl[]>;
 export type FormErrors<T extends Form> = Partial<Record<keyof T, string>>;

@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, type Types, model } from 'mongoose';
 
 export type User = {
+  id: Types.ObjectId;
   username: string;
   password: string;
 };

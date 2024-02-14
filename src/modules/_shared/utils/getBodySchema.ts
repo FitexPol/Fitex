@@ -6,7 +6,7 @@ type SchemaTextField = ReturnType<typeof t.String> | ReturnType<typeof t.RegExp>
 type SchemaNumberField = ReturnType<typeof t.Number>;
 
 type SchemaObject<T extends Form> = {
-  [K in keyof T]: T[K]['type'] extends 'number' ? SchemaNumberField : SchemaTextField;
+  [K in keyof T]: T[K] extends { type: 'number' } ? SchemaNumberField : SchemaTextField;
 };
 
 type Schema<T extends Form> = ReturnType<typeof t.Object<SchemaObject<T>>>;
@@ -14,6 +14,11 @@ type Schema<T extends Form> = ReturnType<typeof t.Object<SchemaObject<T>>>;
 export function getBodySchema<T extends Form>(form: Form): Schema<T> {
   const schemaObject: SchemaObject<T> = Object.entries(form).reduce((acc, [key, control]) => {
     let schemaField: SchemaNumberField | SchemaTextField;
+
+    if (Array.isArray(control)) {
+      schemaField = t.String();
+      return { ...acc, [key]: schemaField };
+    }
 
     switch (control.type) {
       case 'number':

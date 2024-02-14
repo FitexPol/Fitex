@@ -1,13 +1,14 @@
-import { type JWTPayloadSpec } from '@elysiajs/jwt';
 import { icons } from 'feather-icons';
 
+import { type User } from '@auth/models/user';
 import type { ComponentProps } from '@types';
 
+import { Button } from './Button';
 import { Dropdown } from './Dropdown';
 
 type DocumentProps = {
   layout?: 'default' | 'none';
-  user: (Record<string, string | number> & JWTPayloadSpec) | null;
+  user: User | null;
 };
 
 export function Document({ layout = 'default', user, children }: ComponentProps<DocumentProps>) {
@@ -38,6 +39,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
         <body id="body" hx-ext="response-targets">
           {renderContent(layout)}
+          <dialog id="modal-portal"></dialog>
         </body>
       </html>
     </>
@@ -51,7 +53,7 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
   ];
 
   return (
-    <div class="container px-2">
+    <div class="container">
       <div class="flex items-center justify-between">
         <nav>
           <ul hx-boost="true">
@@ -65,14 +67,14 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
 
         <Dropdown label={username} icon={icons.user.toSvg()}>
           <Dropdown.Item>
-            <button hx-get="/api/auth/logout" class="border-none">
+            <Button hx-get="/api/auth/logout" class="border-none">
               Logout
-            </button>
+            </Button>
           </Dropdown.Item>
         </Dropdown>
       </div>
 
-      <main>{children}</main>
+      <main class="pt-5">{children}</main>
     </div>
   );
 }

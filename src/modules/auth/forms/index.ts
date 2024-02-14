@@ -1,5 +1,4 @@
 import type { Form, FormErrors } from '@types';
-import { emailMatcher } from '@utils/validators';
 
 export const signInForm = {
   username: {

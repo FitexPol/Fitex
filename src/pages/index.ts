@@ -4,6 +4,7 @@ import { context } from '@/context';
 
 import { authPage } from './auth';
 import { homePage } from './home';
+import { mealsPage } from './meals';
 
 export const pages = new Elysia()
   .use(context)
@@ -29,5 +30,5 @@ export const pages = new Elysia()
         }
       },
     },
-    (app) => app.use(homePage),
+    (app) => app.use(homePage).use(mealsPage),
   );
