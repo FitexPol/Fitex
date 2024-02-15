@@ -3,5 +3,16 @@
     "*.css": "tailwindcss"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["devcontainers", "elysia", "fitex", "clsx", "pico", "maxlength", "htmx", "upsert"]
+  "cSpell.words": [
+    "devcontainers",
+    "elysia",
+    "fitex",
+    "clsx",
+    "pico",
+    "maxlength",
+    "htmx",
+    "upsert",
+    "Retarget",
+    "Reswap"
+  ]
 }

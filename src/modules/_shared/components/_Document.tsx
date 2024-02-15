@@ -46,12 +46,12 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
   );
 }
 
-function Layout({ children, username }: ComponentProps<{ username: string }>) {
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Meals', href: '/meals' },
-  ];
+const navigation = [
+  { name: 'Home', href: '/' },
+  { name: 'Meals', href: '/meals' },
+];
 
+function Layout({ children, username }: ComponentProps<{ username: string }>) {
   return (
     <div class="container">
       <div class="flex items-center justify-between">
@@ -74,7 +74,7 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
         </Dropdown>
       </div>
 
-      <main class="pt-5">{children}</main>
+      <main class="pt-8">{children}</main>
     </div>
   );
 }

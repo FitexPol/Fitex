@@ -2,13 +2,14 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Modal } from '@components/Modal';
+import { HxEvent, HxResponseHeader } from '@vars';
 
 import { MealForm } from '../components/MealForm';
 import { Meal } from '../models/meal';
 
 export const getMealModal = new Elysia().use(context).get('/modal', async ({ set, query, user }) => {
   set.headers = {
-    'HX-Trigger-After-Swap': 'showModal',
+    [HxResponseHeader.TriggerAfterSwap]: HxEvent.ShowModal,
   };
 
   if (!query.mealId) {

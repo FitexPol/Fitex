@@ -3,8 +3,9 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getParsedBody } from '@utils/getParsedBody';
+import { HxEvent, HxResponseHeader } from '@vars';
 
-import { Meals } from '../components/Meals';
+import { MealsSection } from '../components/MealsSection';
 import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
@@ -24,19 +25,20 @@ export const createMeal = new Elysia().use(context).post(
       throw new Error('Failed to create meal');
     }
 
+    set.status = 'Created';
     set.headers = {
-      'HX-Trigger-After-Swap': 'closeModal',
+      [HxResponseHeader.TriggerAfterSwap]: HxEvent.CloseModal,
     };
 
-    return <Meals user={user!} />;
+    return <MealsSection user={user!} sortQuery="" />;
   },
   {
     body: getBodySchema<MealFormType>(mealForm),
     error({ code, error, set }) {
       if (code === 'VALIDATION') {
         set.headers = {
-          'HX-Retarget': '#meal-form',
-          'HX-Reswap': 'outerHTML',
+          [HxResponseHeader.Retarget]: '#meal-form',
+          [HxResponseHeader.Reswap]: 'outerHTML',
         };
 
         return getMealFormWithErrors(error);

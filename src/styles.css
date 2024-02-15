@@ -10,4 +10,15 @@
   .container {
     @apply px-4;
   }
+
+  a,
+  a:hover,
+  a:active,
+  a:focus {
+    --color: white;
+  }
+
+  a:focus {
+    --background-color: transparent;
+  }
 }

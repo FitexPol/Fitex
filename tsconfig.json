@@ -33,6 +33,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@types": ["./src/modules/_shared/types.ts"],
+      "@vars": ["./src/modules/_shared/vars.ts"],
       "@components/*": ["./src/modules/_shared/components/*"],
       "@utils/*": ["./src/modules/_shared/utils/*"],
       "@auth/*": ["./src/modules/auth/*"],

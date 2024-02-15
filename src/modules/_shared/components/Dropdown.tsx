@@ -13,7 +13,7 @@ export function Dropdown({ children, label, icon }: ComponentProps<DropdownProps
         {label}
       </summary>
 
-      <ul role="listbox" class="left-auto">
+      <ul role="listbox" class="!left-auto w-fit">
         {children}
       </ul>
     </details>

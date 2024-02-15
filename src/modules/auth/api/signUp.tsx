@@ -47,7 +47,7 @@ export const signUp = new Elysia().use(context).post(
       maxAge: 7 * 86400,
     });
 
-    set.status = 201;
+    set.status = 'Created';
     set.headers = { 'Hx-Location': '/' };
   },
   {

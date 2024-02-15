@@ -36,17 +36,17 @@ export async function MealForm({ meal, errors }: ComponentProps<MealFormProps>) 
       <ul id="ingredients">
         {!!meal && meal.ingredients.length > 0 ? (
           meal.ingredients.map((ingredient) => (
-            <Ingredient ingredientOptions={ingredientOptions} ingredient={ingredient} />
+            <IngredientFieldset ingredientOptions={ingredientOptions} ingredient={ingredient} />
           ))
         ) : (
-          <Ingredient ingredientOptions={ingredientOptions} />
+          <IngredientFieldset ingredientOptions={ingredientOptions} />
         )}
       </ul>
 
       <Button
         type="button"
         class="mx-auto mb-5 w-auto border-none"
-        hx-get="/api/meals/ingredient"
+        hx-get="/api/meals/ingredient-fieldset"
         hx-target="#ingredients"
         hx-swap="beforeend"
       >
@@ -60,32 +60,40 @@ export async function MealForm({ meal, errors }: ComponentProps<MealFormProps>) 
   );
 }
 
-type IngredientProps = {
+type IngredientFieldsetProps = {
   ingredientOptions: SelectOption[];
   ingredient?: Ingredient;
 };
 
-function Ingredient({ ingredientOptions, ingredient }: ComponentProps<IngredientProps>) {
-  const unitOptions: SelectOption[] = [
-    { value: 'g', label: 'g' },
-    { value: 'kg', label: 'kg' },
-    { value: 'ml', label: 'ml' },
-    { value: 'l', label: 'l' },
-    { value: 'unit', label: 'unit' },
-  ];
+const unitOptions: SelectOption[] = [
+  { value: 'g', label: 'g' },
+  { value: 'kg', label: 'kg' },
+  { value: 'ml', label: 'ml' },
+  { value: 'l', label: 'l' },
+  { value: 'unit', label: 'unit' },
+];
+
+function IngredientFieldset({ ingredientOptions, ingredient }: ComponentProps<IngredientFieldsetProps>) {
   const [nameControl, quantityControl, unitControl] = mealForm.ingredients;
 
   return (
-    <li class="grid grid-cols-12 gap-x-1">
-      <Select control={nameControl} value={ingredient?.name} options={ingredientOptions} class="col-span-6" />
-      <Input control={quantityControl} value={ingredient?.quantity?.toString() ?? '1'} class="col-span-2" />
-      <Select control={unitControl} value={ingredient?.unit} options={unitOptions} class="col-span-3" />
+    <li>
+      <fieldset class="grid grid-cols-12 gap-x-1">
+        <Select
+          control={nameControl}
+          value={ingredient?.name}
+          options={ingredientOptions}
+          class="col-span-6"
+        />
+        <Input control={quantityControl} value={ingredient?.quantity?.toString() ?? '1'} class="col-span-2" />
+        <Select control={unitControl} value={ingredient?.unit} options={unitOptions} class="col-span-3" />
 
-      <Button class="col-span-1 h-[3.2rem] border-none" onclick="removeIngredient(this)">
-        {icons.trash.toSvg({ class: 'm-auto' })}
-      </Button>
+        <Button class="col-span-1 h-[3.2rem] border-none" onclick="removeIngredient(this)">
+          {icons.trash.toSvg({ class: 'm-auto' })}
+        </Button>
+      </fieldset>
     </li>
   );
 }
 
-MealForm.Ingredient = Ingredient;
+MealForm.IngredientFieldset = IngredientFieldset;
