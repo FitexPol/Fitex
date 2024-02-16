@@ -57,6 +57,7 @@ function renderItem(path: string, currentQuery: Record<string, string>, i: numbe
       <a
         href={getPath(path, { ...currentQuery, page: i.toString() })}
         class={$tm('p-1', page === i && 'pointer-events-none font-bold underline underline-offset-4')}
+        hx-indicator="#loader"
       >
         {i}
       </a>

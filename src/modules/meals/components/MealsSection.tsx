@@ -72,7 +72,12 @@ export async function MealsSection({
       <div class="mb-6 flex justify-between">
         <div class="flex items-center gap-2">
           <h1>Your meals</h1>
-          <Button class="w-auto border-none p-0" hx-get="/api/meals/modal" hx-target="#modal-portal">
+          <Button
+            class="w-auto border-none p-0"
+            hx-get="/api/meals/modal"
+            hx-target="#modal-portal"
+            hx-indicator="#loader"
+          >
             {icons['plus-circle'].toSvg()}
           </Button>
         </div>
@@ -82,7 +87,11 @@ export async function MealsSection({
             <>
               {itemsPerPageOptions.map(({ label, query }) => (
                 <Dropdown.Item active={query === itemsPerPage.toString()}>
-                  <a hx-boost="true" href={getPath('/meals', { itemsPerPage: query, sort: sortQuery })}>
+                  <a
+                    hx-boost="true"
+                    href={getPath('/meals', { itemsPerPage: query, sort: sortQuery })}
+                    hx-indicator="#loader"
+                  >
                     {label}
                   </a>
                 </Dropdown.Item>
@@ -101,6 +110,7 @@ export async function MealsSection({
                       sort: query,
                     })}
                     class="capitalize"
+                    hx-indicator="#loader"
                   >
                     {label}
                   </a>

@@ -16,6 +16,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
       <a
         href={`/meal/${meal.id}`}
         class="flex h-full flex-col items-stretch gap-y-2 overflow-y-auto border-none text-start"
+        hx-indicator="#loader"
       >
         <>
           <h3 class="text-lg font-medium">{meal.name}</h3>
@@ -38,6 +39,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
           class="w-auto border-none px-0"
           hx-get={getPath('/api/meals/modal', { mealId: meal.id.toString() })}
           hx-target="#modal-portal"
+          hx-indicator="#loader"
         >
           {icons.edit.toSvg()}
         </Button>

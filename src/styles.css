@@ -22,3 +22,14 @@
     --background-color: transparent;
   }
 }
+
+@layer components {
+  .loader-indicator {
+    @apply hidden;
+  }
+
+  .htmx-request .loader-indicator,
+  .htmx-request.loader-indicator {
+    @apply inline-block;
+  }
+}

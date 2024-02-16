@@ -46,6 +46,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
             class="contrast w-auto py-2 font-bold"
             hx-get={getPath('/api/meals/modal', { mealId: mealDoc.id.toString() })}
             hx-target="#modal-portal"
+            hx-indicator="#loader"
           >
             Edytuj
           </Button>

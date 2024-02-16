@@ -40,6 +40,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
         <body id="body" hx-ext="response-targets">
           {renderContent(layout)}
           <dialog id="modal-portal"></dialog>
+          <Loader />
         </body>
       </html>
     </>
@@ -59,7 +60,9 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
           <ul hx-boost="true">
             {navigation.map(({ href, name }) => (
               <li>
-                <a href={href}>{name}</a>
+                <a href={href} hx-indicator="#loader">
+                  {name}
+                </a>
               </li>
             ))}
           </ul>
@@ -75,6 +78,21 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
       </div>
 
       <main class="pt-8">{children}</main>
+    </div>
+  );
+}
+
+function Loader() {
+  return (
+    <div id="loader" class="loader-indicator fixed bottom-4 right-4">
+      <div
+        class="relative inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+        role="status"
+      >
+        <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+          Loading...
+        </span>
+      </div>
     </div>
   );
 }
