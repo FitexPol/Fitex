@@ -2,6 +2,7 @@ import { icons } from 'feather-icons';
 
 import { Button } from '@components/Button';
 import { type ComponentProps } from '@types';
+import { getPath } from '@utils/getPath';
 
 import { type Meal } from '../models/meal';
 
@@ -35,7 +36,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
       <div class="invisible absolute right-2 top-2 flex gap-2 group-hover:visible">
         <Button
           class="w-auto border-none px-0"
-          hx-get={`/api/meals/modal?mealId=${meal.id}`}
+          hx-get={getPath('/api/meals/modal', { mealId: meal.id.toString() })}
           hx-target="#modal-portal"
         >
           {icons.edit.toSvg()}

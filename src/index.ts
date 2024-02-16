@@ -6,11 +6,10 @@ import mongoose from 'mongoose';
 
 import { getEnvSecure } from '@utils/getEnvSecure';
 
-import { lib } from './lib';
 import { modules } from './modules';
 import { pages } from './pages';
 
-const app = new Elysia().use(swagger()).use(staticPlugin()).use(html()).use(lib).use(pages).use(modules);
+const app = new Elysia().use(swagger()).use(staticPlugin()).use(html()).use(pages).use(modules);
 
 try {
   await mongoose.connect(

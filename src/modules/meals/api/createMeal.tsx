@@ -3,7 +3,9 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getParsedBody } from '@utils/getParsedBody';
-import { HxEvent, HxResponseHeader } from '@vars';
+import { getQueryParams } from '@utils/getQueryParams';
+import { getQueryParamSecure } from '@utils/getQueryParamSecure';
+import { HxEvent, HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { MealsSection } from '../components/MealsSection';
 import { type MealForm as MealFormType, mealForm } from '../forms';
@@ -12,7 +14,7 @@ import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
 export const createMeal = new Elysia().use(context).post(
   '',
-  async ({ body, user, set }) => {
+  async ({ body, user, set, request }) => {
     const mealBody = getParsedBody<Omit<typeof body, 'ingredients'> & { ingredients: Meal['ingredients'] }>(
       body,
     );
@@ -30,7 +32,16 @@ export const createMeal = new Elysia().use(context).post(
       [HxResponseHeader.TriggerAfterSwap]: HxEvent.CloseModal,
     };
 
-    return <MealsSection user={user!} sortQuery="" />;
+    const queryParams = getQueryParams(request.headers.get(HxRequestHeader.CurrentUrl));
+
+    return (
+      <MealsSection
+        user={user!}
+        sortQuery={getQueryParamSecure(queryParams.sort)}
+        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
+        pageQuery={getQueryParamSecure(queryParams.page)}
+      />
+    );
   },
   {
     body: getBodySchema<MealFormType>(mealForm),

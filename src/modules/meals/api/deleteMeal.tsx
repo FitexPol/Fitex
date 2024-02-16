@@ -1,6 +1,8 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { getQueryParams } from '@utils/getQueryParams';
+import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { MealsSection } from '../components/MealsSection';
@@ -38,5 +40,14 @@ export const deleteMeal = new Elysia()
       return;
     }
 
-    return <MealsSection user={user!} sortQuery="" />;
+    const queryParams = getQueryParams(currentUrl);
+
+    return (
+      <MealsSection
+        user={user!}
+        sortQuery={getQueryParamSecure(queryParams.sort)}
+        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
+        pageQuery={getQueryParamSecure(queryParams.page)}
+      />
+    );
   });

@@ -1,4 +1,5 @@
 import { type ComponentProps } from '../types';
+import { $tm } from '../utils/$tm';
 
 type DropdownProps = {
   label: string;
@@ -20,8 +21,18 @@ export function Dropdown({ children, label, icon }: ComponentProps<DropdownProps
   );
 }
 
-function Item({ children }: ComponentProps): JSX.Element {
-  return <li class="text-white">{children}</li>;
+type ItemProps = {
+  active?: boolean;
+};
+
+function Item({ active, children }: ComponentProps<ItemProps>): JSX.Element {
+  return (
+    <li
+      class={$tm('text-white', active && 'pointer-events-none bg-[var(--dropdown-hover-background-color)]')}
+    >
+      {children}
+    </li>
+  );
 }
 
 Dropdown.Item = Item;

@@ -29,9 +29,9 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>Fitex</title>
-          <script src="/lib/htmx"></script>
-          <script src="/lib/htmx-response-targets"></script>
-          <link href="/lib/picocss" rel="stylesheet" />
+          <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+          <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1.5.10/css/pico.min.css" />
 
           <link href="/public/styles.css" rel="stylesheet" />
           <script src="/public/scripts.js" defer></script>

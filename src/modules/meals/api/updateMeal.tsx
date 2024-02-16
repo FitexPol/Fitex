@@ -3,6 +3,8 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getParsedBody } from '@utils/getParsedBody';
+import { getQueryParams } from '@utils/getQueryParams';
+import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxEvent, HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { MealSection } from '../components/MealSection';
@@ -51,7 +53,16 @@ export const updateMeal = new Elysia().use(context).put(
 
     set.headers = { ...baseHeader };
 
-    return <MealsSection user={user!} sortQuery="" />;
+    const queryParams = getQueryParams(currentUrl);
+
+    return (
+      <MealsSection
+        user={user!}
+        sortQuery={getQueryParamSecure(queryParams.sort)}
+        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
+        pageQuery={getQueryParamSecure(queryParams.page)}
+      />
+    );
   },
   {
     body: getBodySchema<MealFormType>(mealForm),

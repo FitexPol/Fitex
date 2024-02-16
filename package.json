@@ -20,11 +20,9 @@
     "@elysiajs/jwt": "^0.8.0",
     "@elysiajs/static": "0.8.0",
     "@elysiajs/swagger": "^0.8.5",
-    "@picocss/pico": "^1.5.10",
     "clsx": "^2.0.0",
     "elysia": "^0.8.15",
     "feather-icons": "^4.29.1",
-    "htmx.org": "^1.9.6",
     "mongoose": "^8.1.1",
     "tailwind-merge": "^1.14.0"
   },

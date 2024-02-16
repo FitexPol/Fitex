@@ -1,6 +1,7 @@
 import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { type ComponentProps } from '@types';
+import { getPath } from '@utils/getPath';
 
 import { Meal } from '../models/meal';
 
@@ -43,7 +44,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
         <footer class="flex justify-end gap-2">
           <Button
             class="contrast w-auto py-2 font-bold"
-            hx-get={`/api/meals/modal?mealId=${mealDoc.id}`}
+            hx-get={getPath('/api/meals/modal', { mealId: mealDoc.id.toString() })}
             hx-target="#modal-portal"
           >
             Edytuj
