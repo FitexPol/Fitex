@@ -121,13 +121,17 @@ export async function MealsSection({
         </div>
       </div>
 
-      <ul class="grid grid-cols-4 gap-2 xl:grid-cols-5">
-        {mealDocs.map((mealDoc) => (
-          <li>
-            <MealCard meal={mealDoc} />
-          </li>
-        ))}
-      </ul>
+      {mealDocs.length > 0 ? (
+        <ul class="grid grid-cols-4 gap-2 xl:grid-cols-5">
+          {mealDocs.map((mealDoc) => (
+            <li>
+              <MealCard meal={mealDoc} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <span>There are no results matching this query</span>
+      )}
 
       <Pagination
         itemsPerPage={itemsPerPage}

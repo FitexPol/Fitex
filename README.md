@@ -1,20 +1,13 @@
-# Elysia with Bun runtime
+# Requirements
 
-![Bun CI](https://github.com/FitexPol/Fitex/actions/workflows/bun-ci.yml/badge.svg)
-
-## Getting Started
-
-To get started with this template, simply paste this command into your terminal:
-
-```bash
-bun create elysia ./elysia-example
-```
+Bun min. v1.0.0
 
 ## Development
 
 To start the development server run:
 
 ```bash
+bun install
 bun run dev
 ```
 
