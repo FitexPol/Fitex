@@ -7,10 +7,11 @@ export type Ingredient = {
 };
 
 export type Meal = {
-  id: Types.ObjectId;
+  id: string;
+  author: Types.ObjectId;
   name: string;
   description: string;
-  author: Types.ObjectId;
+  isFavorite: boolean;
   creationDate: Date;
   ingredients: Ingredient[];
 };
@@ -30,6 +31,11 @@ export const mealSchema = new Schema<Meal>({
   description: {
     type: String,
     maxlength: 100,
+  },
+  isFavorite: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   creationDate: {
     type: Date,

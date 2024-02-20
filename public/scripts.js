@@ -32,7 +32,7 @@ function submitMealForm(event, form, mealId) {
 
   if (!htmx) throw new Error('Htmx not found');
 
-  const [method, endpoint] = mealId ? ['PUT', `/api/meals/${mealId}`] : ['POST', '/api/meals'];
+  const [method, endpoint] = mealId ? ['PATCH', `/api/meals/${mealId}`] : ['POST', '/api/meals'];
 
   htmx.ajax(method, endpoint, {
     target: '#meals-section',

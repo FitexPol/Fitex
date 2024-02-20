@@ -1,7 +1,10 @@
+import { icons } from 'feather-icons';
+
 import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
+import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
 import { Meal } from '../models/meal';
@@ -26,9 +29,19 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
   return (
     <section id="meal-section">
-      <article class="my-0">
+      <article class="relative my-0">
+        <Button
+          class="visible absolute left-2 top-2 mr-auto w-auto border-none px-0"
+          hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
+          hx-target="#meal-section"
+          hx-swap="outerHTML"
+          hx-indicator="#loader"
+        >
+          {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
+        </Button>
+
         <header>
-          <h1 class="">{mealDoc.name}</h1>
+          <h1>{mealDoc.name}</h1>
         </header>
 
         <ul class="w-fit">
@@ -47,7 +60,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
         <footer class="flex justify-end gap-2">
           <Button
             class="contrast w-auto py-2 font-bold"
-            hx-get={getPath('/api/meals/modal', { mealId: mealDoc.id.toString() })}
+            hx-get={getPath('/api/meals/modal', { mealId: mealDoc.id })}
             hx-target="#modal-portal"
             hx-indicator="#loader"
           >
@@ -57,7 +70,8 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
           <Button
             class="secondary w-auto py-2"
             hx-delete={`/api/meals/${mealDoc.id}`}
-            hx-confirm="Are you sure you want to delete this meal? This action cannot be undone."
+            hx-confirm={_t('_shared.deletionConfirmation')}
+            hx-indicator="#loader"
           >
             {_t('mealSection.delete')}
           </Button>

@@ -1,6 +1,13 @@
 {
+  "_shared": {
+    "deletionConfirmation": "Czy na pewno chcesz usunąć ten posiłek? Ta operacja jest nieodwracalna."
+  },
   "getMealModal": {
     "modalTitle": "Stwórz posiłek"
+  },
+  "favoriteMealsSection": {
+    "title": "Twoje ulubione posiłki",
+    "noResults": "Nie masz jeszcze ulubionych posiłków"
   },
   "mealsSection": {
     "title": "Twoje posiłki",
@@ -11,7 +18,8 @@
       "nameDesc": "po nazwie (malejąco)",
       "creationDateAsc": "po dacie utworzenia (rosnąco)",
       "creationDateDesc": "po dacie utworzenia (malejąco)"
-    }
+    },
+    "noResults": "Brak wyników"
   },
   "mealSection": {
     "notFound": "Nie znaleziono posiłku",

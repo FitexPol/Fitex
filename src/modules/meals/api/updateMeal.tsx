@@ -7,13 +7,14 @@ import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxEvent, HxRequestHeader, HxResponseHeader } from '@vars';
 
+import { FavoriteMealsSection } from '../components/FavoriteMealsSection';
 import { MealSection } from '../components/MealSection';
 import { MealsSection } from '../components/MealsSection';
 import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
-export const updateMeal = new Elysia().use(context).put(
+export const updateMeal = new Elysia().use(context).patch(
   '/:id',
   async ({ body, user, set, params: { id }, request }) => {
     const mealBody = getParsedBody<Omit<typeof body, 'ingredients'> & { ingredients: Meal['ingredients'] }>(
@@ -51,18 +52,24 @@ export const updateMeal = new Elysia().use(context).put(
       return <MealSection user={user!} mealId={mealDoc.id} />;
     }
 
-    set.headers = { ...baseHeader };
+    if (currentUrl && currentUrl.includes('/meals')) {
+      set.headers = { ...baseHeader };
 
-    const queryParams = getQueryParams(currentUrl);
+      const queryParams = getQueryParams(currentUrl);
 
-    return (
-      <MealsSection
-        user={user!}
-        sortQuery={getQueryParamSecure(queryParams.sort)}
-        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
-        pageQuery={getQueryParamSecure(queryParams.page)}
-      />
-    );
+      return (
+        <MealsSection
+          user={user!}
+          sortQuery={getQueryParamSecure(queryParams.sort)}
+          itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
+          pageQuery={getQueryParamSecure(queryParams.page)}
+        />
+      );
+    }
+
+    set.headers = { ...baseHeader, [HxResponseHeader.Retarget]: '#favorite-meals-section' };
+
+    return <FavoriteMealsSection user={user!} />;
   },
   {
     body: getBodySchema<MealFormType>(mealForm),

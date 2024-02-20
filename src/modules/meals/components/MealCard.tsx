@@ -3,6 +3,7 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
+import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
 import { type Meal } from '../models/meal';
@@ -16,6 +17,40 @@ type MealCard = {
 export function MealCard({ meal }: ComponentProps<MealCard>) {
   return (
     <article class="group relative m-0 h-full max-h-72 py-10" hx-boost="true">
+      <Button
+        class={$tm(
+          'absolute left-2 top-2 mr-auto w-auto border-none px-0',
+          meal.isFavorite ? 'visible' : 'invisible group-hover:visible',
+        )}
+        hx-patch={`/api/meals/${meal.id}/toggle-favorite`}
+        hx-target="closest section"
+        hx-swap="outerHTML"
+        hx-indicator="#loader"
+      >
+        {icons.star.toSvg({ class: $tm(meal.isFavorite && 'fill-current') })}
+      </Button>
+
+      <div class="invisible absolute right-0 top-0 flex gap-2 px-2 py-2 group-hover:visible">
+        <Button
+          class="w-auto border-none px-0"
+          hx-get={getPath('/api/meals/modal', { mealId: meal.id })}
+          hx-target="#modal-portal"
+          hx-indicator="#loader"
+        >
+          {icons.edit.toSvg()}
+        </Button>
+
+        <Button
+          class="w-auto border-none px-0"
+          hx-delete={`/api/meals/${meal.id}`}
+          hx-target="closest section"
+          hx-swap="outerHTML"
+          hx-confirm={_t('_shared.deletionConfirmation')}
+        >
+          {icons.trash.toSvg()}
+        </Button>
+      </div>
+
       <a
         href={`/meal/${meal.id}`}
         class="flex h-full flex-col items-stretch gap-y-2 overflow-y-auto border-none text-start"
@@ -36,27 +71,6 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
           </ul>
         </>
       </a>
-
-      <div class="invisible absolute right-2 top-2 flex gap-2 group-hover:visible">
-        <Button
-          class="w-auto border-none px-0"
-          hx-get={getPath('/api/meals/modal', { mealId: meal.id.toString() })}
-          hx-target="#modal-portal"
-          hx-indicator="#loader"
-        >
-          {icons.edit.toSvg()}
-        </Button>
-
-        <Button
-          class="w-auto border-none px-0"
-          hx-delete={`/api/meals/${meal.id}`}
-          hx-target="#meals-section"
-          hx-swap="outerHTML"
-          hx-confirm="Are you sure you want to delete this meal? This action cannot be undone."
-        >
-          {icons.trash.toSvg()}
-        </Button>
-      </div>
     </article>
   );
 }

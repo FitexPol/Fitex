@@ -3,15 +3,16 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
-import { HxRequestHeader, HxResponseHeader } from '@vars';
+import { HxRequestHeader } from '@vars';
 
 import { FavoriteMealsSection } from '../components/FavoriteMealsSection';
+import { MealSection } from '../components/MealSection';
 import { MealsSection } from '../components/MealsSection';
 import { Meal } from '../models/meal';
 
-export const deleteMeal = new Elysia()
+export const toggleFavorite = new Elysia()
   .use(context)
-  .delete('/:id', async ({ user, set, params: { id }, request }) => {
+  .patch('/:id/toggle-favorite', async ({ params: { id }, set, user, request }) => {
     const mealDoc = await Meal.findById(id).exec();
 
     if (!mealDoc) {
@@ -24,21 +25,13 @@ export const deleteMeal = new Elysia()
       throw new Error('You are not authorized to update this meal');
     }
 
-    try {
-      await mealDoc.deleteOne();
-    } catch {
-      set.status = 'Bad Request';
-      throw new Error('Failed to update meal');
-    }
+    mealDoc.isFavorite = !mealDoc.isFavorite;
+    await mealDoc.save();
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
 
     if (currentUrl && currentUrl.includes('/meal/')) {
-      set.headers = {
-        [HxResponseHeader.Location]: '/meals',
-      };
-
-      return;
+      return <MealSection user={user!} mealId={mealDoc.id} />;
     }
 
     if (currentUrl && currentUrl.includes('/meals')) {

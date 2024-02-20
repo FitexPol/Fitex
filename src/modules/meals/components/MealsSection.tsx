@@ -2,6 +2,7 @@ import { icons } from 'feather-icons';
 
 import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
+import { CardList } from '@components/CardList';
 import { Dropdown } from '@components/Dropdown';
 import { Pagination } from '@components/Pagination';
 import { type ComponentProps } from '@types';
@@ -117,17 +118,15 @@ export async function MealsSection({
         </div>
       </div>
 
-      {mealDocs.length > 0 ? (
-        <ul class="grid grid-cols-4 gap-2 xl:grid-cols-5">
+      <CardList count={mealDocs.length} noResultsMessage={_t('mealsSection.noResults')}>
+        <>
           {mealDocs.map((mealDoc) => (
-            <li>
+            <CardList.Item>
               <MealCard meal={mealDoc} />
-            </li>
+            </CardList.Item>
           ))}
-        </ul>
-      ) : (
-        <span>No results</span>
-      )}
+        </>
+      </CardList>
 
       <Pagination
         itemsPerPage={itemsPerPage}
