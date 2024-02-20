@@ -25,6 +25,7 @@
     "selectIngredient": "Wybierz składnik"
   },
   "mealForm": {
+    "submit": "Zapisz",
     "ingredients": {
       "title": "Składniki",
       "options": {
@@ -603,7 +604,6 @@
         "yukonGoldPotatoes": "Yukon Gold Potatoes",
         "zucchini": "Zucchini"
       }
-    },
-    "submit": "Zapisz"
+    }
   }
 }

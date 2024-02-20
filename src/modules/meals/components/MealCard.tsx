@@ -2,9 +2,12 @@ import { icons } from 'feather-icons';
 
 import { Button } from '@components/Button';
 import { type ComponentProps } from '@types';
+import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
 import { type Meal } from '../models/meal';
+
+const _t = $t('meals');
 
 type MealCard = {
   meal: Meal;
@@ -24,7 +27,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
           <ul class="mt-auto">
             {meal.ingredients.map(({ name, quantity, unit }) => (
               <li class="flex justify-between text-xs font-light">
-                <span>{name}</span>
+                <span>{_t(`mealForm.ingredients.options.${name}`)}</span>
                 <span>
                   {quantity} {unit}
                 </span>

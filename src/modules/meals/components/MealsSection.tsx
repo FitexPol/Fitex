@@ -126,7 +126,7 @@ export async function MealsSection({
           ))}
         </ul>
       ) : (
-        <span>There are no results matching this query</span>
+        <span>No results</span>
       )}
 
       <Pagination

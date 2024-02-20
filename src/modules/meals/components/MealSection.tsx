@@ -32,11 +32,11 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
         </header>
 
         <ul class="w-fit">
-          {mealDoc.ingredients.map((ingredient) => (
+          {mealDoc.ingredients.map(({ name, quantity, unit }) => (
             <li>
               <label>
-                <input type="checkbox" name={ingredient.name} />
-                {ingredient.name} - {ingredient.quantity} {ingredient.unit}
+                <input type="checkbox" name={name} />
+                {_t(`mealForm.ingredients.options.${name}`)} - {quantity} {unit}
               </label>
             </li>
           ))}
