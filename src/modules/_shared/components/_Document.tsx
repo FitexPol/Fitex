@@ -5,6 +5,9 @@ import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
+import { $t } from '../utils/$t';
+
+const _t = $t('_shared');
 
 type DocumentProps = {
   layout?: 'default' | 'none';
@@ -48,8 +51,8 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 }
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Meals', href: '/meals' },
+  { name: _t('_document.navigation.home'), href: '/' },
+  { name: _t('_document.navigation.meals'), href: '/meals' },
 ];
 
 function Layout({ children, username }: ComponentProps<{ username: string }>) {
@@ -71,7 +74,7 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
         <Dropdown label={username} icon={icons.user.toSvg()}>
           <Dropdown.Item>
             <Button hx-get="/api/auth/logout" class="border-none">
-              Logout
+              {_t('_document.logout')}
             </Button>
           </Dropdown.Item>
         </Dropdown>
@@ -89,9 +92,7 @@ function Loader() {
         class="relative inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
         role="status"
       >
-        <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-          Loading...
-        </span>
+        <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"></span>
       </div>
     </div>
   );

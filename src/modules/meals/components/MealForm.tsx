@@ -6,18 +6,21 @@ import { type SelectOption } from '@components/Select';
 import { Select } from '@components/Select';
 import { Textarea } from '@components/Textarea';
 import { type ComponentProps } from '@types';
+import { $t } from '@utils/$t';
 
 import { type MealForm, type MealFormErrors, mealForm } from '../forms';
 import { type Ingredient, type Meal } from '../models/meal';
 import { getIngredientOptions } from '../utils/getIngredientOptions';
+
+const _t = $t('meals');
 
 type MealFormProps = {
   meal?: Meal;
   errors?: MealFormErrors;
 };
 
-export async function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
-  const ingredientOptions: SelectOption[] = await getIngredientOptions();
+export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
+  const ingredientOptions: SelectOption[] = getIngredientOptions();
   const mealId = meal ? `'${meal.id}'` : undefined;
 
   return (
@@ -31,7 +34,7 @@ export async function MealForm({ meal, errors }: ComponentProps<MealFormProps>) 
         error={errors?.description}
       />
 
-      <span class="mb-2 block">Ingredients:</span>
+      <span class="mb-2 block">{_t('mealForm.ingredients.title')}:</span>
 
       <ul id="ingredients">
         {!!meal && meal.ingredients.length > 0 ? (
@@ -54,7 +57,7 @@ export async function MealForm({ meal, errors }: ComponentProps<MealFormProps>) 
       </Button>
 
       <Button type="submit" class="contrast">
-        Submit
+        {_t('mealForm.submit')}
       </Button>
     </form>
   );

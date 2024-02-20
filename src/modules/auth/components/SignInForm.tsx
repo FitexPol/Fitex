@@ -1,8 +1,11 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { type ComponentProps } from '@types';
+import { $t } from '@utils/$t';
 
 import { type SignInFormErrors, signInForm } from '../forms';
+
+const _t = $t('auth');
 
 type SignInFormProps = {
   errors?: SignInFormErrors;
@@ -15,7 +18,7 @@ export function SignInForm({ errors }: ComponentProps<SignInFormProps>) {
       <Input control={signInForm.password} error={errors?.password} />
 
       <Button type="submit" class="contrast">
-        Sign in
+        {_t('signInForm.submit')}
       </Button>
     </form>
   );

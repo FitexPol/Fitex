@@ -1,9 +1,12 @@
 import type { ComponentProps } from '@types';
+import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
 import { SignInForm } from './SignInForm';
 import { SignUpForm } from './SignUpForm';
+
+const _t = $t('auth');
 
 type FormType = 'signIn' | 'signUp';
 type Tab = { href: string; label: string };
@@ -13,14 +16,14 @@ const tabs = new Map<FormType, Tab>([
     'signIn',
     {
       href: '/auth',
-      label: 'Sign in',
+      label: _t('authSection.signIn'),
     },
   ],
   [
     'signUp',
     {
       href: getPath('/auth', { type: 'signUp' }),
-      label: 'Sign up',
+      label: _t('authSection.signUp'),
     },
   ],
 ]);

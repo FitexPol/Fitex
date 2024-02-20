@@ -1,0 +1,9 @@
+{
+  "_document": {
+    "navigation": {
+      "home": "Strona główna",
+      "meals": "Posiłki"
+    },
+    "logout": "Wyloguj"
+  }
+}

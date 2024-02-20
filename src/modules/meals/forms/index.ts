@@ -4,7 +4,7 @@ export const mealForm = {
   name: {
     type: 'text',
     name: 'name',
-    placeholder: 'Name',
+    placeholder: 'meals.forms.name',
     validators: {
       required: true,
       minLength: 3,
@@ -15,7 +15,7 @@ export const mealForm = {
   description: {
     type: 'text',
     name: 'description',
-    placeholder: 'Description',
+    placeholder: 'meals.forms.description',
     validators: {
       maxLength: 100,
       message: 'Meal description must be between 3 and 100 characters long',
@@ -25,7 +25,7 @@ export const mealForm = {
     {
       type: 'text',
       name: 'ingredients[].name',
-      placeholder: 'Select an ingredient',
+      placeholder: 'meals.forms.selectIngredient',
       validators: {
         required: true,
         message: 'Ingredient name is required',

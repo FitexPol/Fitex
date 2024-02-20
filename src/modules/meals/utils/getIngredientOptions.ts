@@ -1,17 +1,19 @@
+import translations from '@/i18n/pl-PL/meals.json';
 import { type SelectOption } from '@components/Select';
-import { getEnvSecure } from '@utils/getEnvSecure';
+import { $t } from '@utils/$t';
 
-export async function getIngredientOptions(): Promise<SelectOption[]> {
-  const { meals: ingredients }: { meals: { strIngredient: string }[] } = await fetch(
-    `${getEnvSecure('INGREDIENTS_API')}`,
-  ).then((res) => res.json());
+const _t = $t('meals');
 
-  const ingredientOptions: SelectOption[] = ingredients
-    .map(({ strIngredient }) => ({
-      value: strIngredient,
-      label: strIngredient,
+const ingredientOptions = Object.keys(translations.mealForm.ingredients.options).map((key) => ({
+  value: key,
+  label: key,
+}));
+
+export function getIngredientOptions(): SelectOption[] {
+  return ingredientOptions
+    .map((option) => ({
+      ...option,
+      label: _t(`mealForm.ingredients.options.${option.label}`),
     }))
-    .sort((a, b) => (a.label < b.label ? -1 : a.label > b.label ? 1 : 0));
-
-  return ingredientOptions;
+    .sort((a, b) => a.label.localeCompare(b.label));
 }

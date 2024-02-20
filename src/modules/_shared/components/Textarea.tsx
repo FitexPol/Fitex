@@ -1,5 +1,6 @@
 import { type ComponentProps, type FormControl } from '../types';
 import { $tm } from '../utils/$tm';
+import { getPlaceholder } from '../utils/getPlaceholder';
 import { getTextValidators } from '../utils/getTextValidators';
 
 type TextareaProps = {
@@ -18,13 +19,14 @@ export function Textarea({
   error,
   class: className,
 }: ComponentProps<TextareaProps>) {
-  const textareaAttributes: JSX.HtmlTextAreaTag = getTextareaAttributes(control);
+  const { placeholder, ...textareaAttributes }: JSX.HtmlTextAreaTag = getTextareaAttributes(control);
 
   return (
     <label class={`${$tm('relative mb-0 pb-2', className)}`}>
       {!!label && <span class="mb-1 block">{label}</span>}
       <textarea
         {...textareaAttributes}
+        placeholder={getPlaceholder(placeholder)}
         rows={rows}
         class={$tm('resize-none px-4 py-3', error && 'border-red-600')}
         safe

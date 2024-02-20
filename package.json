@@ -12,8 +12,8 @@
     "tslint": "tsc --noEmit",
     "lint": "eslint . & bun run tslint",
     "lint:fix": "eslint --fix . & bun run tslint",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format": "prettier --check ./src/**/*",
+    "format:fix": "prettier --write ./src/**/*"
   },
   "dependencies": {
     "@elysiajs/html": "^0.8.0",

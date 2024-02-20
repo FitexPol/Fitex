@@ -2,10 +2,13 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Modal } from '@components/Modal';
+import { $t } from '@utils/$t';
 import { HxEvent, HxResponseHeader } from '@vars';
 
 import { MealForm } from '../components/MealForm';
 import { Meal } from '../models/meal';
+
+const _t = $t('meals');
 
 export const getMealModal = new Elysia().use(context).get('/modal', async ({ set, query, user }) => {
   set.headers = {
@@ -14,7 +17,7 @@ export const getMealModal = new Elysia().use(context).get('/modal', async ({ set
 
   if (!query.mealId) {
     return (
-      <Modal title="Create meal">
+      <Modal title={_t('getMealModal.modalTitle')}>
         <MealForm />
       </Modal>
     );

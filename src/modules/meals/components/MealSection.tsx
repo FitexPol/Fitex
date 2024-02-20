@@ -1,9 +1,12 @@
 import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { type ComponentProps } from '@types';
+import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
 import { Meal } from '../models/meal';
+
+const _t = $t('meals');
 
 type MealSectionProps = {
   user: User;
@@ -14,11 +17,11 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
   const mealDoc = await Meal.findById(mealId).exec();
 
   if (!mealDoc) {
-    return <span>Meal not found</span>;
+    return <span>{_t('mealSection.notFound')}</span>;
   }
 
   if (!mealDoc.author._id.equals(user.id)) {
-    return <span>You don't have permission to see this meal</span>;
+    return <span>{_t('mealSection.permissionDenied')}</span>;
   }
 
   return (
@@ -48,7 +51,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
             hx-target="#modal-portal"
             hx-indicator="#loader"
           >
-            Edytuj
+            {_t('mealSection.edit')}
           </Button>
 
           <Button
@@ -56,7 +59,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
             hx-delete={`/api/meals/${mealDoc.id}`}
             hx-confirm="Are you sure you want to delete this meal? This action cannot be undone."
           >
-            Usuń
+            {_t('mealSection.delete')}
           </Button>
         </footer>
       </article>

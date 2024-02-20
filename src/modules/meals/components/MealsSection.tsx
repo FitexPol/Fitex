@@ -5,17 +5,13 @@ import { Button } from '@components/Button';
 import { Dropdown } from '@components/Dropdown';
 import { Pagination } from '@components/Pagination';
 import { type ComponentProps } from '@types';
+import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
 import { MealCard } from './MealCard';
 import { Meal } from '../models/meal';
 
-enum SortLabel {
-  NameAsc = 'by name - ASC',
-  NameDesc = 'by name - DESC',
-  CreationDateAsc = 'by creation date - ASC',
-  CreationDateDesc = 'by creation date - DESC',
-}
+const _t = $t('meals');
 
 enum SortQuery {
   NameAsc = 'name-asc',
@@ -25,10 +21,10 @@ enum SortQuery {
 }
 
 const sortOptions = [
-  { label: SortLabel.NameAsc, query: SortQuery.NameAsc },
-  { label: SortLabel.NameDesc, query: SortQuery.NameDesc },
-  { label: SortLabel.CreationDateAsc, query: SortQuery.CreationDateAsc },
-  { label: SortLabel.CreationDateDesc, query: SortQuery.CreationDateDesc },
+  { label: _t('mealsSection.sortLabels.nameAsc'), query: SortQuery.NameAsc },
+  { label: _t('mealsSection.sortLabels.nameDesc'), query: SortQuery.NameDesc },
+  { label: _t('mealsSection.sortLabels.creationDateAsc'), query: SortQuery.CreationDateAsc },
+  { label: _t('mealsSection.sortLabels.creationDateDesc'), query: SortQuery.CreationDateDesc },
 ];
 
 enum ItemsPerPage {
@@ -71,7 +67,7 @@ export async function MealsSection({
     <section id="meals-section">
       <div class="mb-6 flex justify-between">
         <div class="flex items-center gap-2">
-          <h1>Your meals</h1>
+          <h1>{_t('mealsSection.title')}</h1>
           <Button
             class="w-auto border-none p-0"
             hx-get="/api/meals/modal"
@@ -83,7 +79,7 @@ export async function MealsSection({
         </div>
 
         <div class="flex gap-2">
-          <Dropdown label={`Items per page: ${itemsPerPage}`}>
+          <Dropdown label={`${_t('mealsSection.itemsPerPage')}: ${itemsPerPage}`}>
             <>
               {itemsPerPageOptions.map(({ label, query }) => (
                 <Dropdown.Item active={query === itemsPerPage.toString()}>
@@ -99,7 +95,7 @@ export async function MealsSection({
             </>
           </Dropdown>
 
-          <Dropdown label={`Sort: ${sortLabel}`}>
+          <Dropdown label={`${_t('mealsSection.sort')}: ${sortLabel}`}>
             <>
               {sortOptions.map(({ label, query }) => (
                 <Dropdown.Item active={label === sortLabel}>
@@ -147,7 +143,7 @@ export async function MealsSection({
 type SortValues = Record<keyof Meal, -1 | 1>;
 
 type SortOption = {
-  label: SortLabel;
+  label: string;
   value: Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>;
 };
 
@@ -155,22 +151,22 @@ function getSortOption(queryParam: string): SortOption {
   switch (queryParam) {
     case SortQuery.NameAsc:
       return {
-        label: SortLabel.NameAsc,
+        label: sortOptions[0].label,
         value: { name: 1 },
       };
     case SortQuery.NameDesc:
       return {
-        label: SortLabel.NameDesc,
+        label: sortOptions[1].label,
         value: { name: -1 },
       };
     case SortQuery.CreationDateAsc:
       return {
-        label: SortLabel.CreationDateAsc,
+        label: sortOptions[2].label,
         value: { creationDate: 1 },
       };
     default:
       return {
-        label: SortLabel.CreationDateDesc,
+        label: sortOptions[3].label,
         value: { creationDate: -1 },
       };
   }

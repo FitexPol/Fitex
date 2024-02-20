@@ -1,6 +1,7 @@
 import type { ComponentProps, FormControl, NumberValidators } from '@types';
 
 import { $tm } from '../utils/$tm';
+import { getPlaceholder } from '../utils/getPlaceholder';
 import { getTextValidators } from '../utils/getTextValidators';
 
 type InputProps = {
@@ -22,13 +23,14 @@ export function Input({
   error,
   class: className,
 }: ComponentProps<InputProps>) {
-  const inputAttributes: JSX.HtmlInputTag = getInputAttributes(control);
+  const { placeholder, ...inputAttributes }: JSX.HtmlInputTag = getInputAttributes(control);
 
   return (
     <label class={`${$tm('relative mb-0 pb-2', className)}`}>
       {!!label && <span class="mb-1 block">{label}</span>}
       <input
         {...inputAttributes}
+        placeholder={getPlaceholder(placeholder)}
         value={value}
         list={datalist && datalist.id}
         class={$tm(error && 'border-red-600')}
