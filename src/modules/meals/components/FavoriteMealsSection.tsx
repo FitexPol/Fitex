@@ -14,7 +14,7 @@ type MealsSectionProps = {
 
 export async function FavoriteMealsSection({ user }: ComponentProps<MealsSectionProps>) {
   const mealDocs = await Meal.find({ author: user.id, isFavorite: true })
-    .limit(30)
+    .limit(15)
     .sort({ creationDate: -1 })
     .exec();
 
