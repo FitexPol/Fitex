@@ -1,10 +1,6 @@
 import { Schema, type Types, model } from 'mongoose';
 
-export type Ingredient = {
-  name: string;
-  unit: string;
-  quantity: number;
-};
+import { type Ingredient } from '@types';
 
 export type Meal = {
   id: string;

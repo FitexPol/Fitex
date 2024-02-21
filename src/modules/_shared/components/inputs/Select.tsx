@@ -1,5 +1,5 @@
-import { type ComponentProps, type FormControl } from '../types';
-import { $tm } from '../utils/$tm';
+import { type ComponentProps, type FormControl } from '../../types';
+import { $tm } from '../../utils/$tm';
 
 export type SelectOption = {
   value: string;

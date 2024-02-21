@@ -1,8 +1,8 @@
 import type { ComponentProps, FormControl, NumberValidators } from '@types';
 
-import { $tm } from '../utils/$tm';
-import { getPlaceholder } from '../utils/getPlaceholder';
-import { getTextValidators } from '../utils/getTextValidators';
+import { $tm } from '../../utils/$tm';
+import { getPlaceholder } from '../../utils/getPlaceholder';
+import { getTextValidators } from '../../utils/getTextValidators';
 
 type InputProps = {
   control: FormControl;

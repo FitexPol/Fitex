@@ -10,6 +10,7 @@ import { getPath } from '@utils/getPath';
 import { type Meal } from '../models/meal';
 
 const _t = $t('meals');
+const _tShared = $t('_shared');
 
 type MealCard = {
   meal: Meal;
@@ -60,7 +61,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
             <ul class="mt-auto">
               {meal.ingredients.map(({ name, quantity, unit }) => (
                 <li class="flex justify-between text-xs font-light">
-                  <span>{_t(`mealForm.ingredients.options.${name}`)}</span>
+                  <span>{_tShared(`_shared.ingredients.${name}`)}</span>
                   <span>
                     {quantity} {unit}
                   </span>

@@ -1,11 +1,14 @@
 import { Schema, type Types, model } from 'mongoose';
 
+import { type Ingredient } from '@types';
+
 export type ShoppingList = {
   id: string;
   author: Types.ObjectId;
   name: string;
   isFavorite: boolean;
   creationDate: Date;
+  ingredients: Ingredient[];
 };
 
 export const shoppingListSchema = new Schema<ShoppingList>({

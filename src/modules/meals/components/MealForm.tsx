@@ -1,18 +1,19 @@
 import { icons } from 'feather-icons';
 
 import { Button } from '@components/Button';
-import { Input } from '@components/Input';
-import { type SelectOption } from '@components/Select';
-import { Select } from '@components/Select';
-import { Textarea } from '@components/Textarea';
+import { IngredientFieldset } from '@components/IngredientFieldset';
+import { Input } from '@components/inputs/Input';
+import { type SelectOption } from '@components/inputs/Select';
+import { Textarea } from '@components/inputs/Textarea';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
+import { getIngredientOptions } from '@utils/getIngredientOptions';
 
 import { type MealForm, type MealFormErrors, mealForm } from '../forms';
-import { type Ingredient, type Meal } from '../models/meal';
-import { getIngredientOptions } from '../utils/getIngredientOptions';
+import { type Meal } from '../models/meal';
 
 const _t = $t('meals');
+const _tShared = $t('_shared');
 
 type MealFormProps = {
   meal?: Meal;
@@ -21,10 +22,10 @@ type MealFormProps = {
 
 export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
   const ingredientOptions: SelectOption[] = getIngredientOptions();
-  const mealId = meal ? `'${meal.id}'` : undefined;
+  const [method, endpoint] = meal ? ['PATCH', `/api/meals/${meal.id}`] : ['POST', '/api/meals'];
 
   return (
-    <form id="meal-form" onsubmit={`submitMealForm(event, this, ${mealId})`}>
+    <form id="meal-form" onsubmit={`submitForm(event, '${method}', '${endpoint}', this)`}>
       <Input control={mealForm.name} value={meal?.name} error={errors?.name} />
 
       <Textarea
@@ -34,15 +35,23 @@ export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
         error={errors?.description}
       />
 
-      <span class="mb-2 block">{_t('mealForm.ingredients.title')}:</span>
+      <span class="mb-2 block">{_t('mealForm.ingredients')}:</span>
 
       <ul id="ingredients">
         {!!meal && meal.ingredients.length > 0 ? (
           meal.ingredients.map((ingredient) => (
-            <IngredientFieldset ingredientOptions={ingredientOptions} ingredient={ingredient} />
+            <li>
+              <IngredientFieldset
+                controls={mealForm.ingredients}
+                ingredientOptions={ingredientOptions}
+                ingredient={ingredient}
+              />
+            </li>
           ))
         ) : (
-          <IngredientFieldset ingredientOptions={ingredientOptions} />
+          <li>
+            <IngredientFieldset controls={mealForm.ingredients} ingredientOptions={ingredientOptions} />
+          </li>
         )}
       </ul>
 
@@ -57,46 +66,8 @@ export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
       </Button>
 
       <Button type="submit" class="contrast">
-        {_t('mealForm.submit')}
+        {_tShared('_shared.forms.submit')}
       </Button>
     </form>
   );
 }
-
-type IngredientFieldsetProps = {
-  ingredientOptions: SelectOption[];
-  ingredient?: Ingredient;
-};
-
-const unitOptions: SelectOption[] = [
-  { value: 'g', label: 'g' },
-  { value: 'kg', label: 'kg' },
-  { value: 'ml', label: 'ml' },
-  { value: 'l', label: 'l' },
-  { value: 'unit', label: 'unit' },
-];
-
-function IngredientFieldset({ ingredientOptions, ingredient }: ComponentProps<IngredientFieldsetProps>) {
-  const [nameControl, quantityControl, unitControl] = mealForm.ingredients;
-
-  return (
-    <li>
-      <fieldset class="grid grid-cols-12 gap-x-1">
-        <Select
-          control={nameControl}
-          value={ingredient?.name}
-          options={ingredientOptions}
-          class="col-span-6"
-        />
-        <Input control={quantityControl} value={ingredient?.quantity?.toString() ?? '1'} class="col-span-2" />
-        <Select control={unitControl} value={ingredient?.unit} options={unitOptions} class="col-span-3" />
-
-        <Button class="col-span-1 h-[3.2rem] border-none" onclick="removeIngredient(this)">
-          {icons.trash.toSvg({ class: 'm-auto' })}
-        </Button>
-      </fieldset>
-    </li>
-  );
-}
-
-MealForm.IngredientFieldset = IngredientFieldset;

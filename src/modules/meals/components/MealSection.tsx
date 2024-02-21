@@ -11,6 +11,7 @@ import { getPath } from '@utils/getPath';
 import { Meal } from '../models/meal';
 
 const _t = $t('meals');
+const _tShared = $t('_shared');
 
 type MealSectionProps = {
   user: User;
@@ -21,7 +22,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
   const mealDoc = await Meal.findById(mealId).exec();
 
   if (!mealDoc) {
-    return <span>{_t('mealSection.notFound')}</span>;
+    return <span>{_t('_shared.notFound')}</span>;
   }
 
   if (!mealDoc.author._id.equals(user.id)) {
@@ -49,7 +50,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
               <li>
                 <label>
                   <input type="checkbox" name={name} />
-                  {_t(`mealForm.ingredients.options.${name}`)} - {quantity} {unit}
+                  {_tShared(`_shared.ingredients.${name}`)} - {quantity} {unit}
                 </label>
               </li>
             ))}
@@ -66,7 +67,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
                 hx-boost="true"
                 hx-indicator="#loader"
               >
-                {_t('mealSection.edit')}
+                {_tShared('_shared.edit')}
               </a>
 
               <Button
@@ -75,7 +76,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
                 hx-confirm={_t('_shared.deletionConfirmation')}
                 hx-indicator="#loader"
               >
-                {_t('mealSection.delete')}
+                {_tShared('_shared.delete')}
               </Button>
             </>
           </Card.Footer>

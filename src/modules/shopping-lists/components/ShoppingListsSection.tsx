@@ -10,26 +10,12 @@ import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
 import { getPath } from '@utils/getPath';
 import { getSkipValue } from '@utils/getSkipValue';
-import { itemsPerPageOptions } from '@vars';
+import { SortQuery, itemsPerPageOptions, sortOptions } from '@vars';
 
 import { ShoppingList } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
-
-enum SortQuery {
-  NameAsc = 'name-asc',
-  NameDesc = 'name-desc',
-  CreationDateAsc = 'creationDate-asc',
-  CreationDateDesc = 'creationDate-desc',
-}
-
-const sortOptions = [
-  { label: _t('shoppingListsSection.sortLabels.nameAsc'), query: SortQuery.NameAsc },
-  { label: _t('shoppingListsSection.sortLabels.nameDesc'), query: SortQuery.NameDesc },
-  { label: _t('shoppingListsSection.sortLabels.creationDateAsc'), query: SortQuery.CreationDateAsc },
-  { label: _t('shoppingListsSection.sortLabels.creationDateDesc'), query: SortQuery.CreationDateDesc },
-];
 
 type ShoppingListsSectionProps = {
   user: User;

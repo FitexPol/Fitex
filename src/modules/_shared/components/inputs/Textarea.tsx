@@ -1,7 +1,7 @@
-import { type ComponentProps, type FormControl } from '../types';
-import { $tm } from '../utils/$tm';
-import { getPlaceholder } from '../utils/getPlaceholder';
-import { getTextValidators } from '../utils/getTextValidators';
+import { type ComponentProps, type FormControl } from '../../types';
+import { $tm } from '../../utils/$tm';
+import { getPlaceholder } from '../../utils/getPlaceholder';
+import { getTextValidators } from '../../utils/getTextValidators';
 
 type TextareaProps = {
   control: FormControl;

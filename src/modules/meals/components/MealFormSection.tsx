@@ -16,7 +16,7 @@ type MealFormSectionProps = {
 export async function MealFormSection({ user, mealId }: ComponentProps<MealFormSectionProps>) {
   if (!mealId) {
     return (
-      <Section title="Stwórz posiłek">
+      <Section title={_t('mealFormSection.title')}>
         <MealForm />
       </Section>
     );
@@ -25,11 +25,11 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
   const mealDoc = await Meal.findById(mealId).exec();
 
   if (!mealDoc) {
-    return <span>{_t('mealSection.notFound')}</span>;
+    return <span>{_t('_shared.notFound')}</span>;
   }
 
   if (!mealDoc.author._id.equals(user.id)) {
-    return <span>{_t('mealSection.permissionDenied')}</span>;
+    return <span>{_t('mealFormSection.permissionDenied')}</span>;
   }
 
   return (

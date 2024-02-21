@@ -3,14 +3,14 @@ import { Elysia } from 'elysia';
 import { IngredientFieldset } from '@components/IngredientFieldset';
 import { getIngredientOptions } from '@utils/getIngredientOptions';
 
-import { mealForm } from '../forms';
+import { shoppingListForm } from '../forms';
 
 export const getIngredientFieldset = new Elysia().get('/ingredient-fieldset', () => {
   const ingredientOptions = getIngredientOptions();
 
   return (
     <li>
-      <IngredientFieldset controls={mealForm.ingredients} ingredientOptions={ingredientOptions} />
+      <IngredientFieldset controls={shoppingListForm.ingredients} ingredientOptions={ingredientOptions} />
     </li>
   );
 });

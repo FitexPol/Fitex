@@ -10,27 +10,13 @@ import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
 import { getPath } from '@utils/getPath';
 import { getSkipValue } from '@utils/getSkipValue';
-import { itemsPerPageOptions } from '@vars';
+import { SortQuery, itemsPerPageOptions, sortOptions } from '@vars';
 
 import { MealCard } from './MealCard';
 import { Meal } from '../models/meal';
 
 const _t = $t('meals');
 const _tShared = $t('_shared');
-
-enum SortQuery {
-  NameAsc = 'name-asc',
-  NameDesc = 'name-desc',
-  CreationDateAsc = 'creationDate-asc',
-  CreationDateDesc = 'creationDate-desc',
-}
-
-const sortOptions = [
-  { label: _t('mealsSection.sortLabels.nameAsc'), query: SortQuery.NameAsc },
-  { label: _t('mealsSection.sortLabels.nameDesc'), query: SortQuery.NameDesc },
-  { label: _t('mealsSection.sortLabels.creationDateAsc'), query: SortQuery.CreationDateAsc },
-  { label: _t('mealsSection.sortLabels.creationDateDesc'), query: SortQuery.CreationDateDesc },
-];
 
 type MealsSectionProps = {
   user: User;

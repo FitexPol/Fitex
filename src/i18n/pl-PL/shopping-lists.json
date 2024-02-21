@@ -1,12 +1,16 @@
 {
+  "_shared": {
+    "notFound": "Nie znaleziono listy zakupów"
+  },
+  "shoppingListForm": {
+    "additionalIngredients": "Składniki dodatkowe"
+  },
+  "shoppingListFormSection": {
+    "title": "Stwórz listę zakupów",
+    "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
+  },
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",
-    "sortLabels": {
-      "nameAsc": "po nazwie (rosnąco)",
-      "nameDesc": "po nazwie (malejąco)",
-      "creationDateAsc": "po dacie utworzenia (rosnąco)",
-      "creationDateDesc": "po dacie utworzenia (malejąco)"
-    },
     "noResults": "Nie masz jeszcze żadnych list zakupów"
   }
 }

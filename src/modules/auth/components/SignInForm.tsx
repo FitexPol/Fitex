@@ -1,5 +1,5 @@
 import { Button } from '@components/Button';
-import { Input } from '@components/Input';
+import { Input } from '@components/inputs/Input';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 

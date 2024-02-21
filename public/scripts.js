@@ -27,15 +27,13 @@ function removeIngredient(element) {
   row.remove();
 }
 
-function submitMealForm(event, form, mealId) {
+function submitForm(event, method, endpoint, form) {
   event.preventDefault();
 
   if (!htmx) throw new Error('Htmx not found');
 
-  const [method, endpoint] = mealId ? ['PATCH', `/api/meals/${mealId}`] : ['POST', '/api/meals'];
-
   htmx.ajax(method, endpoint, {
-    target: '#meal-form-section',
+    target: 'closest section',
     swap: 'outerHTML',
     values: parseFormData(new FormData(form)),
   });

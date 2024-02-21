@@ -13,6 +13,12 @@ export type SortOption<T> = {
   value: T;
 };
 
+export type Ingredient = {
+  name: string;
+  unit: string;
+  quantity: number;
+};
+
 type Validator = {
   message: string;
   required?: boolean;
