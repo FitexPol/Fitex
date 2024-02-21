@@ -1,0 +1,12 @@
+{
+  "shoppingListsSection": {
+    "title": "Twoje listy zakupów",
+    "sortLabels": {
+      "nameAsc": "po nazwie (rosnąco)",
+      "nameDesc": "po nazwie (malejąco)",
+      "creationDateAsc": "po dacie utworzenia (rosnąco)",
+      "creationDateDesc": "po dacie utworzenia (malejąco)"
+    },
+    "noResults": "Nie masz jeszcze żadnych list zakupów"
+  }
+}

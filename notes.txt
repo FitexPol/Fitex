@@ -1,3 +1,4 @@
 TODO:
   - poprawić typowanie getBodySchema (optional type)
   - tagowanie posiłków
+  - dodać notifications

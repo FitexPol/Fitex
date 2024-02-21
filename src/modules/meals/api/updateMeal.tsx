@@ -3,20 +3,15 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getParsedBody } from '@utils/getParsedBody';
-import { getQueryParams } from '@utils/getQueryParams';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
-import { HxEvent, HxRequestHeader, HxResponseHeader } from '@vars';
+import { HxResponseHeader } from '@vars';
 
-import { FavoriteMealsSection } from '../components/FavoriteMealsSection';
-import { MealSection } from '../components/MealSection';
-import { MealsSection } from '../components/MealsSection';
 import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
 export const updateMeal = new Elysia().use(context).patch(
   '/:id',
-  async ({ body, user, set, params: { id }, request }) => {
+  async ({ body, user, set, params: { id } }) => {
     const mealBody = getParsedBody<Omit<typeof body, 'ingredients'> & { ingredients: Meal['ingredients'] }>(
       body,
     );
@@ -40,46 +35,14 @@ export const updateMeal = new Elysia().use(context).patch(
       throw new Error('Failed to update meal');
     }
 
-    const baseHeader = { [HxResponseHeader.TriggerAfterSwap]: HxEvent.CloseModal };
-    const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
-
-    if (currentUrl && currentUrl.includes('/meal/')) {
-      set.headers = {
-        ...baseHeader,
-        [HxResponseHeader.Retarget]: '#meal-section',
-      };
-
-      return <MealSection user={user!} mealId={mealDoc.id} />;
-    }
-
-    if (currentUrl && currentUrl.includes('/meals')) {
-      set.headers = { ...baseHeader };
-
-      const queryParams = getQueryParams(currentUrl);
-
-      return (
-        <MealsSection
-          user={user!}
-          sortQuery={getQueryParamSecure(queryParams.sort)}
-          itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
-          pageQuery={getQueryParamSecure(queryParams.page)}
-        />
-      );
-    }
-
-    set.headers = { ...baseHeader, [HxResponseHeader.Retarget]: '#favorite-meals-section' };
-
-    return <FavoriteMealsSection user={user!} />;
+    set.headers = {
+      [HxResponseHeader.Location]: `/meals/${mealDoc.id}`,
+    };
   },
   {
     body: getBodySchema<MealFormType>(mealForm),
-    error({ code, error, set }) {
+    error({ code, error }) {
       if (code === 'VALIDATION') {
-        set.headers = {
-          [HxResponseHeader.Retarget]: '#meal-form',
-          [HxResponseHeader.Reswap]: 'outerHTML',
-        };
-
         return getMealFormWithErrors(error);
       }
     },

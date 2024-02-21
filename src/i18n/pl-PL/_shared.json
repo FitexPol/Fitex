@@ -1,7 +1,12 @@
 {
+  "_shared": {
+    "itemsPerPage": "Pozycji na stronie",
+    "sort": "Sortuj"
+  },
   "_document": {
     "navigation": {
       "home": "Strona główna",
+      "shoppingLists": "Listy zakupów",
       "meals": "Posiłki"
     },
     "logout": "Wyloguj"

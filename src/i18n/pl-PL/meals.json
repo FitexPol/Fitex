@@ -11,15 +11,13 @@
   },
   "mealsSection": {
     "title": "Twoje posiłki",
-    "itemsPerPage": "Pozycji na stronie",
-    "sort": "Sortuj",
     "sortLabels": {
       "nameAsc": "po nazwie (rosnąco)",
       "nameDesc": "po nazwie (malejąco)",
       "creationDateAsc": "po dacie utworzenia (rosnąco)",
       "creationDateDesc": "po dacie utworzenia (malejąco)"
     },
-    "noResults": "Brak wyników"
+    "noResults": "Nie masz jeszcze żadnych posiłków"
   },
   "mealSection": {
     "notFound": "Nie znaleziono posiłku",

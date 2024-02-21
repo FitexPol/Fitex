@@ -1,5 +1,5 @@
 import { type User } from '@auth/models/user';
-import { CardList } from '@components/CardList';
+import { Tiles } from '@components/Tiles';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
@@ -26,15 +26,15 @@ export async function FavoriteMealsSection({ user }: ComponentProps<MealsSection
         </div>
       </div>
 
-      <CardList count={mealDocs.length} noResultsMessage={_t('favoriteMealsSection.noResults')}>
+      <Tiles count={mealDocs.length} noResultsMessage={_t('favoriteMealsSection.noResults')}>
         <>
           {mealDocs.map((mealDoc) => (
-            <CardList.Item>
+            <Tiles.Item>
               <MealCard meal={mealDoc} />
-            </CardList.Item>
+            </Tiles.Item>
           ))}
         </>
-      </CardList>
+      </Tiles>
     </section>
   );
 }

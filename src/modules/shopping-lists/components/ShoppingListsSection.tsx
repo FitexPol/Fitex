@@ -12,10 +12,9 @@ import { getPath } from '@utils/getPath';
 import { getSkipValue } from '@utils/getSkipValue';
 import { itemsPerPageOptions } from '@vars';
 
-import { MealCard } from './MealCard';
-import { Meal } from '../models/meal';
+import { ShoppingList } from '../models/shoppingList';
 
-const _t = $t('meals');
+const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
 enum SortQuery {
@@ -26,42 +25,42 @@ enum SortQuery {
 }
 
 const sortOptions = [
-  { label: _t('mealsSection.sortLabels.nameAsc'), query: SortQuery.NameAsc },
-  { label: _t('mealsSection.sortLabels.nameDesc'), query: SortQuery.NameDesc },
-  { label: _t('mealsSection.sortLabels.creationDateAsc'), query: SortQuery.CreationDateAsc },
-  { label: _t('mealsSection.sortLabels.creationDateDesc'), query: SortQuery.CreationDateDesc },
+  { label: _t('shoppingListsSection.sortLabels.nameAsc'), query: SortQuery.NameAsc },
+  { label: _t('shoppingListsSection.sortLabels.nameDesc'), query: SortQuery.NameDesc },
+  { label: _t('shoppingListsSection.sortLabels.creationDateAsc'), query: SortQuery.CreationDateAsc },
+  { label: _t('shoppingListsSection.sortLabels.creationDateDesc'), query: SortQuery.CreationDateDesc },
 ];
 
-type MealsSectionProps = {
+type ShoppingListsSectionProps = {
   user: User;
   sortQuery: string;
   itemsPerPageQuery: string;
   pageQuery: string;
 };
 
-export async function MealsSection({
+export async function ShoppingListsSection({
   user,
   sortQuery,
   itemsPerPageQuery,
   pageQuery,
-}: ComponentProps<MealsSectionProps>) {
-  const { label: sortLabel, value: sortValue }: MealsSortOption = getSortOption(sortQuery);
+}: ComponentProps<ShoppingListsSectionProps>) {
+  const { label: sortLabel, value: sortValue }: ShoppingListsSortOption = getSortOption(sortQuery);
   const itemsPerPage: number = getItemsPerPageOption(itemsPerPageQuery);
   const page = getPage(pageQuery);
-  const totalMealDocs = await Meal.countDocuments({ author: user.id });
+  const totalShoppingListDocs = await ShoppingList.countDocuments({ author: user.id });
 
-  const mealDocs = await Meal.find({ author: user.id })
+  const shoppingListDocs = await ShoppingList.find({ author: user.id })
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
     .exec();
 
   return (
-    <section id="meals-section">
+    <section id="shopping-lists-section">
       <div class="mb-6 flex justify-between">
         <div class="flex items-center gap-2">
-          <h1>{_t('mealsSection.title')}</h1>
-          <a href="/meals/form" hx-indicator="#loader" hx-boost="true">
+          <h1>{_t('shoppingListsSection.title')}</h1>
+          <a href="/shopping-lists/form" hx-indicator="#loader" hx-boost="true">
             {icons['plus-circle'].toSvg()}
           </a>
         </div>
@@ -73,7 +72,7 @@ export async function MealsSection({
                 <Dropdown.Item active={query === itemsPerPage.toString()}>
                   <a
                     hx-boost="true"
-                    href={getPath('/meals', { itemsPerPage: query, sort: sortQuery })}
+                    href={getPath('/shopping-lists', { itemsPerPage: query, sort: sortQuery })}
                     hx-indicator="#loader"
                   >
                     {label}
@@ -89,7 +88,7 @@ export async function MealsSection({
                 <Dropdown.Item active={label === sortLabel}>
                   <a
                     hx-boost="true"
-                    href={getPath('/meals', {
+                    href={getPath('/shopping-lists', {
                       itemsPerPage: itemsPerPageQuery,
                       sort: query,
                     })}
@@ -105,11 +104,11 @@ export async function MealsSection({
         </div>
       </div>
 
-      <Tiles count={mealDocs.length} noResultsMessage={_t('mealsSection.noResults')}>
+      <Tiles count={shoppingListDocs.length} noResultsMessage={_t('shoppingListsSection.noResults')}>
         <>
-          {mealDocs.map((mealDoc) => (
+          {shoppingListDocs.map(() => (
             <Tiles.Item>
-              <MealCard meal={mealDoc} />
+              <span>Test</span>
             </Tiles.Item>
           ))}
         </>
@@ -118,18 +117,18 @@ export async function MealsSection({
       <Pagination
         itemsPerPage={itemsPerPage}
         page={page}
-        totalCount={totalMealDocs}
-        path="/meals"
+        totalCount={totalShoppingListDocs}
+        path="/shopping-lists"
         currentQuery={{ sort: sortQuery, itemsPerPage: itemsPerPageQuery }}
       />
     </section>
   );
 }
 
-type SortValues = Record<keyof Meal, -1 | 1>;
-type MealsSortOption = SortOption<Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>>;
+type SortValues = Record<keyof ShoppingList, -1 | 1>;
+type ShoppingListsSortOption = SortOption<Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>>;
 
-function getSortOption(queryParam: string): MealsSortOption {
+function getSortOption(queryParam: string): ShoppingListsSortOption {
   switch (queryParam) {
     case SortQuery.NameAsc:
       return {

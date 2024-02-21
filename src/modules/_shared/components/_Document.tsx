@@ -52,6 +52,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
 const navigation = [
   { name: _t('_document.navigation.home'), href: '/' },
+  { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
   { name: _t('_document.navigation.meals'), href: '/meals' },
 ];
 

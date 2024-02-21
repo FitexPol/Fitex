@@ -8,6 +8,11 @@ type Children = {
 
 export type ComponentProps<Props = object> = Props & Class & Children;
 
+export type SortOption<T> = {
+  label: string;
+  value: T;
+};
+
 type Validator = {
   message: string;
   required?: boolean;

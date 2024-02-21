@@ -35,7 +35,7 @@ function submitMealForm(event, form, mealId) {
   const [method, endpoint] = mealId ? ['PATCH', `/api/meals/${mealId}`] : ['POST', '/api/meals'];
 
   htmx.ajax(method, endpoint, {
-    target: '#meals-section',
+    target: '#meal-form-section',
     swap: 'outerHTML',
     values: parseFormData(new FormData(form)),
   });

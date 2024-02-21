@@ -1,11 +1,11 @@
 import { type ComponentProps } from '../types';
 
-type CardListProps = {
+type TilesProps = {
   count: number;
   noResultsMessage: string;
 };
 
-function CardList({ count, noResultsMessage, children }: ComponentProps<CardListProps>) {
+export function Tiles({ count, noResultsMessage, children }: ComponentProps<TilesProps>) {
   return count > 0 ? (
     <ul class="grid grid-cols-4 gap-2 xl:grid-cols-5">{children}</ul>
   ) : (
@@ -13,10 +13,8 @@ function CardList({ count, noResultsMessage, children }: ComponentProps<CardList
   );
 }
 
-function CardListItem({ children }: ComponentProps) {
+function Item({ children }: ComponentProps) {
   return <li>{children}</li>;
 }
 
-CardList.Item = CardListItem;
-
-export { CardList };
+Tiles.Item = Item;

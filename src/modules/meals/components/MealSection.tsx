@@ -2,6 +2,7 @@ import { icons } from 'feather-icons';
 
 import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
+import { Card } from '@components/Card';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -29,54 +30,57 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
   return (
     <section id="meal-section">
-      <article class="relative my-0">
-        <Button
-          class="visible absolute left-2 top-2 mr-auto w-auto border-none px-0"
-          hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
-          hx-target="#meal-section"
-          hx-swap="outerHTML"
-          hx-indicator="#loader"
-        >
-          {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
-        </Button>
-
-        <header>
-          <h1>{mealDoc.name}</h1>
-        </header>
-
-        <ul class="w-fit">
-          {mealDoc.ingredients.map(({ name, quantity, unit }) => (
-            <li>
-              <label>
-                <input type="checkbox" name={name} />
-                {_t(`mealForm.ingredients.options.${name}`)} - {quantity} {unit}
-              </label>
-            </li>
-          ))}
-        </ul>
-
-        <p class="mt-10">{mealDoc.description}</p>
-
-        <footer class="flex justify-end gap-2">
+      <Card class="relative">
+        <>
           <Button
-            class="contrast w-auto py-2 font-bold"
-            hx-get={getPath('/api/meals/modal', { mealId: mealDoc.id })}
-            hx-target="#modal-portal"
+            class="visible absolute left-2 top-2 mr-auto w-auto border-none px-0"
+            hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
+            hx-target="#meal-section"
+            hx-swap="outerHTML"
             hx-indicator="#loader"
           >
-            {_t('mealSection.edit')}
+            {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
           </Button>
 
-          <Button
-            class="secondary w-auto py-2"
-            hx-delete={`/api/meals/${mealDoc.id}`}
-            hx-confirm={_t('_shared.deletionConfirmation')}
-            hx-indicator="#loader"
-          >
-            {_t('mealSection.delete')}
-          </Button>
-        </footer>
-      </article>
+          <Card.Header title={mealDoc.name} />
+
+          <ul class="w-fit">
+            {mealDoc.ingredients.map(({ name, quantity, unit }) => (
+              <li>
+                <label>
+                  <input type="checkbox" name={name} />
+                  {_t(`mealForm.ingredients.options.${name}`)} - {quantity} {unit}
+                </label>
+              </li>
+            ))}
+          </ul>
+
+          <p class="mt-10">{mealDoc.description}</p>
+
+          <Card.Footer class="flex justify-end gap-2">
+            <>
+              <a
+                href={getPath('/meals/form', { mealId: mealDoc.id })}
+                role="button"
+                class="contrast"
+                hx-boost="true"
+                hx-indicator="#loader"
+              >
+                {_t('mealSection.edit')}
+              </a>
+
+              <Button
+                class="secondary w-auto py-2"
+                hx-delete={`/api/meals/${mealDoc.id}`}
+                hx-confirm={_t('_shared.deletionConfirmation')}
+                hx-indicator="#loader"
+              >
+                {_t('mealSection.delete')}
+              </Button>
+            </>
+          </Card.Footer>
+        </>
+      </Card>
     </section>
   );
 }

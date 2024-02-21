@@ -1,3 +1,4 @@
+import { Card } from '@components/Card';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -37,23 +38,25 @@ export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
 
   return (
     <div class="container">
-      <article class="relative">
-        <div hx-boost="true" class="absolute left-0 top-0 flex -translate-y-full">
-          {Array.from(tabs.entries()).map(([type, { href, label }]) => (
-            <a
-              href={href}
-              class={$tm(
-                'rounded-t-lg px-4 py-2',
-                formType === type && 'pointer-events-none bg-pico-card-background',
-              )}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
+      <Card class="relative">
+        <>
+          <div hx-boost="true" class="absolute left-0 top-0 flex -translate-y-full">
+            {Array.from(tabs.entries()).map(([type, { href, label }]) => (
+              <a
+                href={href}
+                class={$tm(
+                  'rounded-t-lg px-4 py-2',
+                  formType === type && 'pointer-events-none bg-pico-card-background',
+                )}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
 
-        {formType === 'signUp' ? <SignUpForm /> : <SignInForm />}
-      </article>
+          {formType === 'signUp' ? <SignUpForm /> : <SignInForm />}
+        </>
+      </Card>
     </div>
   );
 }
