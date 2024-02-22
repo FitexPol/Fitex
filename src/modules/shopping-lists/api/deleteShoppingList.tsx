@@ -5,27 +5,27 @@ import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
-import { FavoriteMealsSection } from '../components/FavoriteMealsSection';
-import { MealsSection } from '../components/MealsSection';
-import { Meal } from '../models/meal';
+import { FavoriteShoppingListsSection } from '../components/FavoriteShoppingListsSection';
+import { ShoppingListsSection } from '../components/ShoppingListsSection';
+import { ShoppingList } from '../models/shoppingList';
 
-export const deleteMeal = new Elysia()
+export const deleteShoppingList = new Elysia()
   .use(context)
   .delete('/:id', async ({ user, set, params: { id }, request }) => {
-    const mealDoc = await Meal.findById(id).exec();
+    const shoppingListDoc = await ShoppingList.findById(id).exec();
 
-    if (!mealDoc) {
+    if (!shoppingListDoc) {
       set.status = 'Not Found';
-      throw new Error('Meal not found');
+      throw new Error('Shopping list not found');
     }
 
-    if (!mealDoc.author._id.equals(user!.id)) {
+    if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to update this meal');
+      throw new Error('You are not authorized to update this shopping list');
     }
 
     try {
-      await mealDoc.deleteOne();
+      await shoppingListDoc.deleteOne();
     } catch {
       set.status = 'Bad Request';
       throw new Error('Failed to update meal');
@@ -33,19 +33,19 @@ export const deleteMeal = new Elysia()
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
 
-    if (currentUrl && currentUrl.includes('/meals/')) {
+    if (currentUrl && currentUrl.includes('/shopping-lists/')) {
       set.headers = {
-        [HxResponseHeader.Location]: '/meals',
+        [HxResponseHeader.Location]: '/shopping-lists',
       };
 
       return;
     }
 
-    if (currentUrl && currentUrl.includes('/meals')) {
+    if (currentUrl && currentUrl.includes('/shopping-lists')) {
       const queryParams = getQueryParams(currentUrl);
 
       return (
-        <MealsSection
+        <ShoppingListsSection
           user={user!}
           sortQuery={getQueryParamSecure(queryParams.sort)}
           itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
@@ -54,5 +54,5 @@ export const deleteMeal = new Elysia()
       );
     }
 
-    return <FavoriteMealsSection user={user!} />;
+    return <FavoriteShoppingListsSection user={user!} />;
   });

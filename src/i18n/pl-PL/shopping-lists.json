@@ -5,6 +5,10 @@
     "meals": "Posiłki",
     "additionalIngredients": "Składniki dodatkowe"
   },
+  "favoriteShoppingListsSection": {
+    "title": "Twoje ulubione listy zakupów",
+    "noResults": "Nie masz jeszcze ulubionych list zakupów"
+  },
   "shoppingListFormSection": {
     "title": "Stwórz listę zakupów",
     "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"

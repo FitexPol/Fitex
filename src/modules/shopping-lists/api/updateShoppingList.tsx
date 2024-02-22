@@ -7,47 +7,47 @@ import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
 import { HxResponseHeader } from '@vars';
 
+import { type ShoppingListBody } from './createShoppingList';
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
 import { ShoppingList } from '../models/shoppingList';
 import { getMealsByIds } from '../utils/getMealsByIds';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
 
-export type ShoppingListBody<T> = T & {
-  meals: {
-    id: string;
-    quantity: string;
-  }[];
-  ingredients: ShoppingList['ingredients'];
-};
-
-export const createShoppingList = new Elysia().use(context).post(
-  '',
-  async ({ body, user, set }) => {
+export const updateShoppingList = new Elysia().use(context).patch(
+  '/:id',
+  async ({ body, user, set, params: { id } }) => {
     const {
       meals: mealsBody,
       ingredients: ingredientsBody,
       ...shoppingListBody
     } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'ingredients'>>>(body);
-    const meals: ShoppingList['meals'] = await getMealsByIds(mealsBody);
+    const shoppingListDoc = await ShoppingList.findById(id).exec();
 
-    const shoppingList = new ShoppingList({
-      ...shoppingListBody,
-      author: user!.id,
-      meals,
-      ingredients: getGroupedIngredients(ingredientsBody),
-    });
-
-    try {
-      await shoppingList.save();
-    } catch {
-      set.status = 'Bad Request';
-      throw new Error('Failed to create meal');
+    if (!shoppingListDoc) {
+      set.status = 'Not Found';
+      throw new Error('Shopping list not found');
     }
 
-    set.status = 'Created';
+    if (!shoppingListDoc.author._id.equals(user!.id)) {
+      set.status = 'Forbidden';
+      throw new Error('You are not authorized to update this shopping list');
+    }
+
+    const meals: ShoppingList['meals'] = await getMealsByIds(mealsBody);
+
+    try {
+      await shoppingListDoc.updateOne({
+        ...shoppingListBody,
+        meals,
+        ingredients: getGroupedIngredients(ingredientsBody),
+      });
+    } catch {
+      set.status = 'Bad Request';
+      throw new Error('Failed to update meal');
+    }
 
     set.headers = {
-      [HxResponseHeader.Location]: getPath(`/shopping-lists/${shoppingList.id}`, { groupByMeals: 'on' }),
+      [HxResponseHeader.Location]: getPath(`/shopping-lists/${shoppingListDoc.id}`, { groupByMeals: 'on' }),
     };
   },
   {

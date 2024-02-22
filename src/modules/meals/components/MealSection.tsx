@@ -35,7 +35,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
       <Card class="relative">
         <>
           <Button
-            class="visible absolute left-2 top-2 mr-auto w-auto border-none px-0"
+            class="visible absolute right-4 top-4 mr-auto w-auto border-none px-0"
             hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
             hx-target="#meal-section"
             hx-swap="outerHTML"

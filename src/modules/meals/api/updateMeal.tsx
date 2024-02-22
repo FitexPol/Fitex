@@ -2,9 +2,11 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { getBodySchema } from '@utils/getBodySchema';
+import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
 
+import { type MealBody } from './createMeal';
 import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
@@ -12,10 +14,8 @@ import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 export const updateMeal = new Elysia().use(context).patch(
   '/:id',
   async ({ body, user, set, params: { id } }) => {
-    const mealBody = getParsedBody<Omit<typeof body, 'ingredients'> & { ingredients: Meal['ingredients'] }>(
-      body,
-    );
-
+    const { ingredients: ingredientsBody, ...mealBody } =
+      getParsedBody<MealBody<Omit<typeof body, 'ingredients'>>>(body);
     const mealDoc = await Meal.findById(id).exec();
 
     if (!mealDoc) {
@@ -29,7 +29,7 @@ export const updateMeal = new Elysia().use(context).patch(
     }
 
     try {
-      await mealDoc.updateOne(mealBody);
+      await mealDoc.updateOne({ ...mealBody, ingredients: getGroupedIngredients(ingredientsBody) });
     } catch {
       set.status = 'Bad Request';
       throw new Error('Failed to update meal');
