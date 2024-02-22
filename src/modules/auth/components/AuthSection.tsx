@@ -1,4 +1,5 @@
 import { Card } from '@components/Card';
+import { Link } from '@components/Link';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -42,7 +43,7 @@ export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
         <>
           <div hx-boost="true" class="absolute left-0 top-0 flex -translate-y-full">
             {Array.from(tabs.entries()).map(([type, { href, label }]) => (
-              <a
+              <Link
                 href={href}
                 class={$tm(
                   'rounded-t-lg px-4 py-2',
@@ -50,7 +51,7 @@ export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
                 )}
               >
                 {label}
-              </a>
+              </Link>
             ))}
           </div>
 

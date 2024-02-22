@@ -5,6 +5,7 @@ import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
+import { Link } from './Link';
 import { $t } from '../utils/$t';
 
 const _t = $t('_shared');
@@ -64,9 +65,7 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
           <ul hx-boost="true">
             {navigation.map(({ href, name }) => (
               <li>
-                <a href={href} hx-indicator="#loader">
-                  {name}
-                </a>
+                <Link href={href}>{name}</Link>
               </li>
             ))}
           </ul>

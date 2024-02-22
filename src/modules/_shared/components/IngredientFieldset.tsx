@@ -3,13 +3,8 @@ import { icons } from 'feather-icons';
 import { Button } from './Button';
 import { Input } from './inputs/Input';
 import { Select, type SelectOption } from './inputs/Select';
-import { type ComponentProps, type FormControl, type Ingredient } from '../types';
-
-type IngredientFieldsetProps = {
-  controls: FormControl[];
-  ingredientOptions: SelectOption[];
-  ingredient?: Ingredient;
-};
+import { type Ingredient } from '../models/ingredient';
+import { type ComponentProps, type FormControl } from '../types';
 
 const unitOptions: SelectOption[] = [
   { value: 'g', label: 'g' },
@@ -18,6 +13,12 @@ const unitOptions: SelectOption[] = [
   { value: 'l', label: 'l' },
   { value: 'unit', label: 'unit' },
 ];
+
+type IngredientFieldsetProps = {
+  controls: FormControl[];
+  ingredientOptions: SelectOption[];
+  ingredient?: Ingredient;
+};
 
 export function IngredientFieldset({
   controls,
@@ -32,7 +33,7 @@ export function IngredientFieldset({
       <Input control={quantityControl} value={ingredient?.quantity?.toString() ?? '1'} class="col-span-2" />
       <Select control={unitControl} value={ingredient?.unit} options={unitOptions} class="col-span-3" />
 
-      <Button class="col-span-1 h-[3.2rem] border-none" onclick="removeIngredient(this)">
+      <Button class="col-span-1 h-[3.2rem] border-none" onclick="removeRow(this)">
         {icons.trash.toSvg({ class: 'm-auto' })}
       </Button>
     </fieldset>

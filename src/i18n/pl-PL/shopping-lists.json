@@ -1,13 +1,16 @@
 {
   "_shared": {
-    "notFound": "Nie znaleziono listy zakupów"
-  },
-  "shoppingListForm": {
+    "deletionConfirmation": "Czy na pewno chcesz usunąć tę listę zakupów? Ta operacja jest nieodwracalna.",
+    "notFound": "Nie znaleziono listy zakupów",
+    "meals": "Posiłki",
     "additionalIngredients": "Składniki dodatkowe"
   },
   "shoppingListFormSection": {
     "title": "Stwórz listę zakupów",
     "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
+  },
+  "shoppingListSection": {
+    "permissionDenied": "Nie masz uprawnień do wyświetlenia tej listy zakupów"
   },
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",

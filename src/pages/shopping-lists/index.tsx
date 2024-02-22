@@ -5,6 +5,7 @@ import { Document } from '@components/_Document';
 import { ShoppingListsSection } from '@shopping-lists/components/ShoppingListsSection';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
+import { shoppingListPage } from './[id]';
 import { shoppingListFormPage } from './form';
 
 export const shoppingListPages = new Elysia().use(context).group('/shopping-lists', (app) =>
@@ -21,5 +22,6 @@ export const shoppingListPages = new Elysia().use(context).group('/shopping-list
         </Document>
       );
     })
+    .use(shoppingListPage)
     .use(shoppingListFormPage),
 );

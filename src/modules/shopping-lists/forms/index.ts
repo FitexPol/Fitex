@@ -1,3 +1,4 @@
+import { ingredientsForm } from '@/modules/_shared/forms';
 import type { Form, FormErrors } from '@types';
 
 export const shoppingListForm = {
@@ -12,19 +13,19 @@ export const shoppingListForm = {
       message: 'Shopping list name must be between 3 and 20 characters long',
     },
   },
-  ingredients: [
+  meals: [
     {
       type: 'text',
-      name: 'ingredients[].name',
-      placeholder: '_shared._shared.forms.selectIngredient',
+      name: 'meals[].id',
+      placeholder: 'shoppingLists.forms.selectMeal',
       validators: {
         required: true,
-        message: 'Ingredient name is required',
+        message: 'Meal is required',
       },
     },
     {
       type: 'number',
-      name: 'ingredients[].quantity',
+      name: 'meals[].quantity',
       validators: {
         required: true,
         min: 1,
@@ -32,15 +33,8 @@ export const shoppingListForm = {
         message: 'Must be at least 1',
       },
     },
-    {
-      type: 'text',
-      name: 'ingredients[].unit',
-      validators: {
-        required: true,
-        message: 'Unit is required',
-      },
-    },
   ],
+  ingredients: ingredientsForm,
 } satisfies Form;
 
 export type ShoppingListForm = typeof shoppingListForm;

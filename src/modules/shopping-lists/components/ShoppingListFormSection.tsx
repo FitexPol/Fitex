@@ -20,7 +20,7 @@ export async function ShoppingListFormSection({
   if (!shoppingListId) {
     return (
       <Section title={_t('shoppingListFormSection.title')}>
-        <ShoppingListForm />
+        <ShoppingListForm user={user} />
       </Section>
     );
   }
@@ -37,7 +37,7 @@ export async function ShoppingListFormSection({
 
   return (
     <Section title={shoppingListDoc.name}>
-      <ShoppingListForm shoppingList={shoppingListDoc} />
+      <ShoppingListForm user={user} shoppingList={shoppingListDoc} />
     </Section>
   );
 }

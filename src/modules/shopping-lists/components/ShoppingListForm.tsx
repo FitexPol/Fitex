@@ -1,5 +1,6 @@
 import { icons } from 'feather-icons';
 
+import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { IngredientFieldset } from '@components/IngredientFieldset';
 import { Input } from '@components/inputs/Input';
@@ -8,18 +9,26 @@ import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getIngredientOptions } from '@utils/getIngredientOptions';
 
+import { MealFieldset } from './MealFieldset';
 import { type ShoppingListFormErrors, shoppingListForm } from '../forms';
 import { type ShoppingList } from '../models/shoppingList';
+import { getMealOptions } from '../utils/getMealOptions';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
 type ShoppingListFormProps = {
+  user: User;
   shoppingList?: ShoppingList;
   errors?: ShoppingListFormErrors;
 };
 
-export function ShoppingListForm({ shoppingList, errors }: ComponentProps<ShoppingListFormProps>) {
+export async function ShoppingListForm({
+  user,
+  shoppingList,
+  errors,
+}: ComponentProps<ShoppingListFormProps>) {
+  const mealOptions: SelectOption[] = await getMealOptions(user);
   const ingredientOptions: SelectOption[] = getIngredientOptions();
   const [method, endpoint] = shoppingList
     ? ['PATCH', `/api/shopping-lists/${shoppingList.id}`]
@@ -29,7 +38,33 @@ export function ShoppingListForm({ shoppingList, errors }: ComponentProps<Shoppi
     <form id="shopping-list-form" onsubmit={`submitForm(event, '${method}', '${endpoint}', this)`}>
       <Input control={shoppingListForm.name} value={shoppingList?.name} error={errors?.name} />
 
-      <span class="mb-2 block">{_t('shoppingListForm.additionalIngredients')}:</span>
+      <span class="mb-2 block">{_t('_shared.meals')}:</span>
+
+      <ul id="meals">
+        {!!shoppingList && shoppingList.meals.length > 0 ? (
+          shoppingList.meals.map((meal) => (
+            <li>
+              <MealFieldset mealOptions={mealOptions} meal={meal} />
+            </li>
+          ))
+        ) : (
+          <li>
+            <MealFieldset mealOptions={mealOptions} />
+          </li>
+        )}
+      </ul>
+
+      <Button
+        type="button"
+        class="mx-auto mb-5 w-auto border-none"
+        hx-get="/api/shopping-lists/meal-fieldset"
+        hx-target="#meals"
+        hx-swap="beforeend"
+      >
+        {icons['plus-circle'].toSvg()}
+      </Button>
+
+      <span class="mb-2 block">{_t('_shared.additionalIngredients')}:</span>
 
       <ul id="additional-ingredients">
         {!!shoppingList && shoppingList.ingredients.length > 0 ? (

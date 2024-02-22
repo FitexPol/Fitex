@@ -2,6 +2,7 @@ import { icons } from 'feather-icons';
 
 import { type User } from '@auth/models/user';
 import { Dropdown } from '@components/Dropdown';
+import { Link } from '@components/Link';
 import { Pagination } from '@components/Pagination';
 import { Tiles } from '@components/Tiles';
 import { type ComponentProps, type SortOption } from '@types';
@@ -47,9 +48,7 @@ export async function MealsSection({
       <div class="mb-6 flex justify-between">
         <div class="flex items-center gap-2">
           <h1>{_t('mealsSection.title')}</h1>
-          <a href="/meals/form" hx-indicator="#loader" hx-boost="true">
-            {icons['plus-circle'].toSvg()}
-          </a>
+          <Link href="/meals/form">{icons['plus-circle'].toSvg()}</Link>
         </div>
 
         <div class="flex gap-2">
@@ -57,13 +56,7 @@ export async function MealsSection({
             <>
               {itemsPerPageOptions.map(({ label, query }) => (
                 <Dropdown.Item active={query === itemsPerPage.toString()}>
-                  <a
-                    hx-boost="true"
-                    href={getPath('/meals', { itemsPerPage: query, sort: sortQuery })}
-                    hx-indicator="#loader"
-                  >
-                    {label}
-                  </a>
+                  <Link href={getPath('/meals', { itemsPerPage: query, sort: sortQuery })}>{label}</Link>
                 </Dropdown.Item>
               ))}
             </>
@@ -73,17 +66,15 @@ export async function MealsSection({
             <>
               {sortOptions.map(({ label, query }) => (
                 <Dropdown.Item active={label === sortLabel}>
-                  <a
-                    hx-boost="true"
+                  <Link
                     href={getPath('/meals', {
                       itemsPerPage: itemsPerPageQuery,
                       sort: query,
                     })}
                     class="capitalize"
-                    hx-indicator="#loader"
                   >
                     {label}
-                  </a>
+                  </Link>
                 </Dropdown.Item>
               ))}
             </>

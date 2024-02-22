@@ -22,7 +22,7 @@ function onDialogBackdropClick({ target }) {
   dialog.close();
 }
 
-function removeIngredient(element) {
+function removeRow(element) {
   const row = element.closest('li');
   row.remove();
 }

@@ -1,6 +1,6 @@
 import { Schema, type Types, model } from 'mongoose';
 
-import { type Ingredient } from '@types';
+import { type Ingredient, ingredientSchema } from '@models/ingredient';
 
 export type Meal = {
   id: string;
@@ -38,24 +38,7 @@ export const mealSchema = new Schema<Meal>({
     required: true,
     default: Date.now,
   },
-  ingredients: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 100,
-      },
-      unit: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  ingredients: [ingredientSchema],
 });
 
 export const Meal = model('Meal', mealSchema);

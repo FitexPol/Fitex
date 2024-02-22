@@ -1,5 +1,6 @@
 import { icons } from 'feather-icons';
 
+import { Link } from '@/modules/_shared/components/Link';
 import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
@@ -60,15 +61,9 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
           <Card.Footer class="flex justify-end gap-2">
             <>
-              <a
-                href={getPath('/meals/form', { mealId: mealDoc.id })}
-                role="button"
-                class="contrast"
-                hx-boost="true"
-                hx-indicator="#loader"
-              >
+              <Link href={getPath('/meals/form', { mealId: mealDoc.id })} role="button" class="contrast">
                 {_tShared('_shared.edit')}
-              </a>
+              </Link>
 
               <Button
                 class="secondary w-auto py-2"

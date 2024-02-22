@@ -35,6 +35,7 @@
       "@types": ["./src/modules/_shared/types.ts"],
       "@vars": ["./src/modules/_shared/vars.ts"],
       "@components/*": ["./src/modules/_shared/components/*"],
+      "@models/*": ["./src/modules/_shared/models/*"],
       "@utils/*": ["./src/modules/_shared/utils/*"],
       "@auth/*": ["./src/modules/auth/*"],
       "@home/*": ["./src/modules/home/*"],

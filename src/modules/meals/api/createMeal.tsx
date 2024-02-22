@@ -9,13 +9,13 @@ import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
+type MealBody<T> = T & { ingredients: Meal['ingredients'] };
+
 export const createMeal = new Elysia().use(context).post(
   '',
   async ({ body, user, set }) => {
-    const mealBody = getParsedBody<Omit<typeof body, 'ingredients'> & { ingredients: Meal['ingredients'] }>(
-      body,
-    );
-    const meal = new Meal({ author: user!.id, ...mealBody });
+    const mealBody = getParsedBody<MealBody<Omit<typeof body, 'ingredients'>>>(body);
+    const meal = new Meal({ ...mealBody, author: user!.id });
 
     try {
       await meal.save();

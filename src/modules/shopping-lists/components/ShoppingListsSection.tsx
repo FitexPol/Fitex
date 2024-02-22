@@ -1,5 +1,6 @@
 import { icons } from 'feather-icons';
 
+import { Link } from '@/modules/_shared/components/Link';
 import { type User } from '@auth/models/user';
 import { Dropdown } from '@components/Dropdown';
 import { Pagination } from '@components/Pagination';
@@ -12,6 +13,7 @@ import { getPath } from '@utils/getPath';
 import { getSkipValue } from '@utils/getSkipValue';
 import { SortQuery, itemsPerPageOptions, sortOptions } from '@vars';
 
+import { ShoppingListCard } from './ShoppingListCard';
 import { ShoppingList } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
@@ -46,9 +48,7 @@ export async function ShoppingListsSection({
       <div class="mb-6 flex justify-between">
         <div class="flex items-center gap-2">
           <h1>{_t('shoppingListsSection.title')}</h1>
-          <a href="/shopping-lists/form" hx-indicator="#loader" hx-boost="true">
-            {icons['plus-circle'].toSvg()}
-          </a>
+          <Link href="/shopping-lists/form">{icons['plus-circle'].toSvg()}</Link>
         </div>
 
         <div class="flex gap-2">
@@ -56,13 +56,9 @@ export async function ShoppingListsSection({
             <>
               {itemsPerPageOptions.map(({ label, query }) => (
                 <Dropdown.Item active={query === itemsPerPage.toString()}>
-                  <a
-                    hx-boost="true"
-                    href={getPath('/shopping-lists', { itemsPerPage: query, sort: sortQuery })}
-                    hx-indicator="#loader"
-                  >
+                  <Link href={getPath('/shopping-lists', { itemsPerPage: query, sort: sortQuery })}>
                     {label}
-                  </a>
+                  </Link>
                 </Dropdown.Item>
               ))}
             </>
@@ -72,17 +68,15 @@ export async function ShoppingListsSection({
             <>
               {sortOptions.map(({ label, query }) => (
                 <Dropdown.Item active={label === sortLabel}>
-                  <a
-                    hx-boost="true"
+                  <Link
                     href={getPath('/shopping-lists', {
                       itemsPerPage: itemsPerPageQuery,
                       sort: query,
                     })}
                     class="capitalize"
-                    hx-indicator="#loader"
                   >
                     {label}
-                  </a>
+                  </Link>
                 </Dropdown.Item>
               ))}
             </>
@@ -92,9 +86,9 @@ export async function ShoppingListsSection({
 
       <Tiles count={shoppingListDocs.length} noResultsMessage={_t('shoppingListsSection.noResults')}>
         <>
-          {shoppingListDocs.map(() => (
+          {shoppingListDocs.map((shoppingListDoc) => (
             <Tiles.Item>
-              <span>Test</span>
+              <ShoppingListCard shoppingList={shoppingListDoc} />
             </Tiles.Item>
           ))}
         </>

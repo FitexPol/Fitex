@@ -1,3 +1,4 @@
+import { Link } from './Link';
 import { type ComponentProps } from '../types';
 import { $tm } from '../utils/$tm';
 import { getPath } from '../utils/getPath';
@@ -54,13 +55,12 @@ function getFilteredItems(totalPages: number, page: number): number[] {
 function renderItem(path: string, currentQuery: Record<string, string>, i: number, page: number) {
   return (
     <li class="mx-1">
-      <a
+      <Link
         href={getPath(path, { ...currentQuery, page: i.toString() })}
         class={$tm('p-1', page === i && 'pointer-events-none font-bold underline underline-offset-4')}
-        hx-indicator="#loader"
       >
-        {i}
-      </a>
+        <>{i}</>
+      </Link>
     </li>
   );
 }

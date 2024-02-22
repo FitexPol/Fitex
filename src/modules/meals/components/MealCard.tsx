@@ -2,6 +2,7 @@ import { icons } from 'feather-icons';
 
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
+import { Link } from '@components/Link';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -34,9 +35,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
         </Button>
 
         <div class="invisible absolute right-0 top-0 flex gap-2 px-2 py-2 group-hover:visible">
-          <a href={getPath('/meals/form', { mealId: meal.id })} hx-indicator="#loader" hx-boost="true">
-            {icons.edit.toSvg()}
-          </a>
+          <Link href={getPath('/meals/form', { mealId: meal.id })}>{icons.edit.toSvg()}</Link>
 
           <Button
             class="w-auto border-none px-0"
@@ -49,14 +48,12 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
           </Button>
         </div>
 
-        <a
+        <Link
           href={`/meals/${meal.id}`}
           class="flex h-full flex-col items-stretch gap-y-2 overflow-y-auto border-none text-start"
-          hx-indicator="#loader"
-          hx-boost="true"
         >
           <>
-            <h3 class="text-lg font-medium">{meal.name}</h3>
+            <h2 class="text-lg font-medium">{meal.name}</h2>
 
             <ul class="mt-auto">
               {meal.ingredients.map(({ name, quantity, unit }) => (
@@ -69,7 +66,7 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
               ))}
             </ul>
           </>
-        </a>
+        </Link>
       </>
     </Card>
   );

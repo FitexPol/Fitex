@@ -1,8 +1,23 @@
 import { Elysia } from 'elysia';
 
-import { authModule } from './auth';
-import { homeModule } from './home';
-import { mealsModule } from './meals';
-import { shoppingListsModule } from './shopping-lists';
+import { context } from '@/context';
 
-export const modules = new Elysia().use(authModule).use(homeModule).use(mealsModule).use(shoppingListsModule);
+import { authApi } from './auth/api';
+import { homeApi } from './home/api';
+import { mealsApi } from './meals/api';
+import { shoppingListApi } from './shopping-lists/api';
+
+export const api = new Elysia().group('/api', (app) =>
+  app.use(context).guard(
+    {
+      beforeHandle: ({ user, set }) => {
+        if (!user) {
+          set.redirect = '/auth';
+
+          return 'Unauthorized';
+        }
+      },
+    },
+    (app) => app.use(authApi).use(homeApi).use(mealsApi).use(shoppingListApi),
+  ),
+);
