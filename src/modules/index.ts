@@ -8,16 +8,19 @@ import { mealsApi } from './meals/api';
 import { shoppingListApi } from './shopping-lists/api';
 
 export const api = new Elysia().group('/api', (app) =>
-  app.use(context).guard(
-    {
-      beforeHandle: ({ user, set }) => {
-        if (!user) {
-          set.redirect = '/auth';
+  app
+    .use(context)
+    .use(authApi)
+    .guard(
+      {
+        beforeHandle: ({ user, set }) => {
+          if (!user) {
+            set.redirect = '/auth';
 
-          return 'Unauthorized';
-        }
+            return 'Unauthorized';
+          }
+        },
       },
-    },
-    (app) => app.use(authApi).use(homeApi).use(mealsApi).use(shoppingListApi),
-  ),
+      (app) => app.use(homeApi).use(mealsApi).use(shoppingListApi),
+    ),
 );

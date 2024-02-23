@@ -2,6 +2,7 @@ import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
 import { type MealDoc } from '@meals/models/meal';
 import { type Ingredient, ingredientSchema } from '@models/ingredient';
+import { type Populated } from '@types';
 
 type ShoppingList = {
   _id: string;
@@ -10,7 +11,7 @@ type ShoppingList = {
   isFavorite: boolean;
   creationDate: Date;
   meals: {
-    meal: Types.ObjectId | MealDoc;
+    meal: Populated<MealDoc>;
     quantity: number;
   }[];
   additionalIngredients: Ingredient[];

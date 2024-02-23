@@ -10,6 +10,10 @@
       "creationDateAsc": "po dacie utworzenia (rosnąco)",
       "creationDateDesc": "po dacie utworzenia (malejąco)"
     },
+    "errors": {
+      "translation": "BŁĄD: Nie udało się załadować tłumaczenia",
+      "population": "BŁĄD: Nie udało się załadować danych"
+    },
     "forms": {
       "name": "Nazwa",
       "description": "Opis",

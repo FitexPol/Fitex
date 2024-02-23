@@ -1,3 +1,5 @@
+import { type Document, type PopulatedDoc, type Types } from 'mongoose';
+
 type Class = {
   class?: string;
 };
@@ -12,6 +14,8 @@ export type JWTUser = {
   id: string;
   username: string;
 };
+
+export type Populated<T> = PopulatedDoc<Document<Types.ObjectId> & T>;
 
 export type SortOption<T> = {
   label: string;

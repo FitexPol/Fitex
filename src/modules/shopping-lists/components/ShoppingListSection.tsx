@@ -4,13 +4,13 @@ import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
-import { type MealDoc } from '@meals/models/meal';
 import { type Ingredient } from '@models/ingredient';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getPath } from '@utils/getPath';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
@@ -111,19 +111,19 @@ function GroupedByMealsIngredients({
     <>
       {meals.length > 0 &&
         meals.map(({ meal, quantity }) => {
-          const { id, name, ingredients } = meal as MealDoc;
+          const mealDoc = getPopulatedDoc(meal);
 
-          return (
+          return mealDoc ? (
             <ListSection>
               <>
                 <Title>
-                  <Link href={`/meals/${id}`}>{`${name} x ${quantity}`}</Link>
+                  <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
                 </Title>
 
-                {ingredients.length > 0 ? (
+                {mealDoc.ingredients.length > 0 ? (
                   <List>
                     <>
-                      {ingredients.map((ingredient) => (
+                      {mealDoc.ingredients.map((ingredient) => (
                         <Item ingredient={ingredient} multiplier={quantity} />
                       ))}
                     </>
@@ -133,6 +133,8 @@ function GroupedByMealsIngredients({
                 )}
               </>
             </ListSection>
+          ) : (
+            <span class="mb-5 block">{_tShared('_shared.errors.population')}</span>
           );
         })}
 
@@ -219,7 +221,11 @@ function getAllIngredients(shoppingList: ShoppingListDoc): Ingredient[] {
 
   if (meals.length > 0) {
     meals.forEach(({ meal, quantity }) => {
-      (meal as MealDoc).ingredients.forEach((ingredient) => {
+      const mealDoc = getPopulatedDoc(meal);
+
+      if (!mealDoc) return;
+
+      mealDoc.ingredients.forEach((ingredient) => {
         allIngredients.push({ ...ingredient, quantity: ingredient.quantity * quantity });
       });
     });

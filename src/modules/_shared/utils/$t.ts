@@ -24,7 +24,8 @@ export function $t(module: TranslationModule, lang: Lang = Lang.Pl): (keys: stri
       const t = acc[key as keyof typeof acc];
 
       if (!t) {
-        throw new Error(`Translation for ${keys} not found`);
+        translation = $t('_shared')('_shared.errors.translation');
+        return {} as typeof tModule;
       }
 
       if (typeof t === 'string') {

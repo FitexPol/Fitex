@@ -3,11 +3,11 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
-import { type MealDoc } from '@meals/models/meal';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type ShoppingListDoc } from '../models/shoppingList';
 
@@ -62,14 +62,18 @@ export function ShoppingListCard({ shoppingList }: ComponentProps<ShoppingListCa
             {shoppingList.meals.length > 0 && (
               <List title={_t('_shared.meals')}>
                 <>
-                  {shoppingList.meals.map(({ meal, quantity }) => (
-                    <ListItem>
-                      <>
-                        <span>{(meal as MealDoc).name}</span>
-                        <span>x {quantity}</span>
-                      </>
-                    </ListItem>
-                  ))}
+                  {shoppingList.meals.map(({ meal, quantity }) => {
+                    const mealDoc = getPopulatedDoc(meal);
+
+                    return (
+                      <ListItem>
+                        <>
+                          <span>{mealDoc?.name ?? _tShared('_shared.errors.population')}</span>
+                          <span>x {quantity}</span>
+                        </>
+                      </ListItem>
+                    );
+                  })}
                 </>
               </List>
             )}

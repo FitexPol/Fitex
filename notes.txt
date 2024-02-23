@@ -1,5 +1,5 @@
 TODO:
-  - dodawać posiłki jako referencja
+  - usuwanie zależności
+  - dodać notifications
   - poprawić typowanie getBodySchema (optional type)
   - tagowanie posiłków
-  - dodać notifications
