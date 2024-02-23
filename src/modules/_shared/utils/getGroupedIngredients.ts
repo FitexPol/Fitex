@@ -5,14 +5,14 @@ export function getGroupedIngredients(ingredients: Ingredient[]): Ingredient[] {
 
   const groupedIngredients = ingredients.reduce(
     (acc, ingredient) => {
-      acc[ingredient.name]
-        ? (acc[ingredient.name].quantity += ingredient.quantity)
-        : (acc[ingredient.name] = ingredient);
+      const key = `${ingredient.name}.${ingredient.unit}`;
+
+      acc[key] ? (acc[key].quantity += ingredient.quantity) : (acc[key] = ingredient);
 
       return acc;
     },
     {} as Record<string, Ingredient>,
   );
 
-  return Object.values(groupedIngredients);
+  return Object.entries(groupedIngredients).map((entry) => entry[1]);
 }

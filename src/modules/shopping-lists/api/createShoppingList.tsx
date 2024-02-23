@@ -8,7 +8,7 @@ import { getPath } from '@utils/getPath';
 import { HxResponseHeader } from '@vars';
 
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
-import { ShoppingList } from '../models/shoppingList';
+import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 import { getMealsByIds } from '../utils/getMealsByIds';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
 
@@ -17,7 +17,7 @@ export type ShoppingListBody<T> = T & {
     id: string;
     quantity: string;
   }[];
-  ingredients: ShoppingList['ingredients'];
+  ingredients: ShoppingListDoc['additionalIngredients'];
 };
 
 export const createShoppingList = new Elysia().use(context).post(
@@ -28,13 +28,13 @@ export const createShoppingList = new Elysia().use(context).post(
       ingredients: ingredientsBody,
       ...shoppingListBody
     } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'ingredients'>>>(body);
-    const meals: ShoppingList['meals'] = await getMealsByIds(mealsBody);
+    const meals: ShoppingListDoc['meals'] = await getMealsByIds(mealsBody);
 
     const shoppingList = new ShoppingList({
       ...shoppingListBody,
       author: user!.id,
       meals,
-      ingredients: getGroupedIngredients(ingredientsBody),
+      additionalIngredients: getGroupedIngredients(ingredientsBody),
     });
 
     try {

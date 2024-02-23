@@ -9,7 +9,7 @@ import { HxResponseHeader } from '@vars';
 
 import { type ShoppingListBody } from './createShoppingList';
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
-import { ShoppingList } from '../models/shoppingList';
+import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 import { getMealsByIds } from '../utils/getMealsByIds';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
 
@@ -33,13 +33,13 @@ export const updateShoppingList = new Elysia().use(context).patch(
       throw new Error('You are not authorized to update this shopping list');
     }
 
-    const meals: ShoppingList['meals'] = await getMealsByIds(mealsBody);
+    const meals: ShoppingListDoc['meals'] = await getMealsByIds(mealsBody);
 
     try {
       await shoppingListDoc.updateOne({
         ...shoppingListBody,
         meals,
-        ingredients: getGroupedIngredients(ingredientsBody),
+        additionalIngredients: getGroupedIngredients(ingredientsBody),
       });
     } catch {
       set.status = 'Bad Request';

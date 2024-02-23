@@ -1,21 +1,19 @@
-import { Schema, type Types, model } from 'mongoose';
+import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
-import { type Meal, mealSchema } from '@meals/models/meal';
+import { type MealDoc } from '@meals/models/meal';
 import { type Ingredient, ingredientSchema } from '@models/ingredient';
 
-export type ShoppingListMeal = {
-  meal: Meal;
-  quantity: number;
-};
-
-export type ShoppingList = {
-  id: string;
+type ShoppingList = {
+  _id: string;
   author: Types.ObjectId;
   name: string;
   isFavorite: boolean;
   creationDate: Date;
-  meals: ShoppingListMeal[];
-  ingredients: Ingredient[];
+  meals: {
+    meal: Types.ObjectId | MealDoc;
+    quantity: number;
+  }[];
+  additionalIngredients: Ingredient[];
 };
 
 const shoppingListSchema = new Schema<ShoppingList>({
@@ -40,18 +38,28 @@ const shoppingListSchema = new Schema<ShoppingList>({
     required: true,
     default: Date.now,
   },
-  meals: [
-    {
-      meal: mealSchema,
-      quantity: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 100,
+  meals: {
+    type: [
+      {
+        meal: {
+          type: Schema.Types.ObjectId,
+          ref: 'Meal',
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+          max: 100,
+        },
       },
-    },
-  ],
-  ingredients: [ingredientSchema],
+    ],
+    default: [],
+  },
+  additionalIngredients: {
+    type: [ingredientSchema],
+    default: [],
+  },
 });
 
 export const ShoppingList = model('ShoppingList', shoppingListSchema);
+export type ShoppingListDoc = HydratedDocument<ShoppingList>;

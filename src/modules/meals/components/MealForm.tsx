@@ -10,13 +10,13 @@ import { $t } from '@utils/$t';
 import { getIngredientOptions } from '@utils/getIngredientOptions';
 
 import { type MealForm, type MealFormErrors, mealForm } from '../forms';
-import { type Meal } from '../models/meal';
+import { type MealDoc } from '../models/meal';
 
 const _t = $t('meals');
 const _tShared = $t('_shared');
 
 type MealFormProps = {
-  meal?: Meal;
+  meal?: MealDoc;
   errors?: MealFormErrors;
 };
 
@@ -25,7 +25,7 @@ export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
   const [method, endpoint] = meal ? ['PATCH', `/api/meals/${meal.id}`] : ['POST', '/api/meals'];
 
   return (
-    <form id="meal-form" onsubmit={`submitForm(event, '${method}', '${endpoint}', this)`}>
+    <form id="meal-form" onsubmit={`submitMealForm(event, '${method}', '${endpoint}', this)`}>
       <Input control={mealForm.name} value={meal?.name} error={errors?.name} />
 
       <Textarea
@@ -38,7 +38,7 @@ export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
       <span class="mb-2 block">{_t('mealForm.ingredients')}:</span>
 
       <ul id="ingredients">
-        {!!meal && meal.ingredients.length > 0 ? (
+        {meal ? (
           meal.ingredients.map((ingredient) => (
             <li>
               <IngredientFieldset

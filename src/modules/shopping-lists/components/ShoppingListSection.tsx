@@ -1,23 +1,24 @@
 import { icons } from 'feather-icons';
 
-import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
+import { type MealDoc } from '@meals/models/meal';
 import { type Ingredient } from '@models/ingredient';
-import { type ComponentProps } from '@types';
+import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
+import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getPath } from '@utils/getPath';
 
-import { ShoppingList } from '../models/shoppingList';
+import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
 type ShoppingListSectionProps = {
-  user: User;
+  user: JWTUser;
   shoppingListId: string;
   groupByMealsQuery: string;
 };
@@ -27,7 +28,7 @@ export async function ShoppingListSection({
   shoppingListId,
   groupByMealsQuery,
 }: ComponentProps<ShoppingListSectionProps>) {
-  const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
+  const shoppingListDoc = await ShoppingList.findById(shoppingListId).populate('meals.meal').exec();
 
   if (!shoppingListDoc) {
     return <span>{_t('_shared.notFound')}</span>;
@@ -53,48 +54,25 @@ export async function ShoppingListSection({
 
           <Card.Header title={shoppingListDoc.name} />
 
-          <Link
-            href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {
-              groupByMeals: groupByMealsQuery ? '' : 'on',
-            })}
-          >
-            <Switch control={{ name: 'groupByMeals' }} class="mb-4" checked={!!groupByMealsQuery}>
-              <span class="mr-2">Grupuj według posiłków</span>
-            </Switch>
-          </Link>
-
-          {groupByMealsQuery ? (
-            <>
-              {shoppingListDoc.meals.length > 0 &&
-                shoppingListDoc.meals.map(({ meal, quantity }) => (
-                  <List title={<Link href={`/meals/${meal.id}`}>{`${meal.name} x ${quantity}`}</Link>}>
-                    <>
-                      {meal.ingredients.map((ingredient) => (
-                        <ListItem ingredient={ingredient} multiplier={quantity} />
-                      ))}
-                    </>
-                  </List>
-                ))}
-
-              {shoppingListDoc.ingredients.length > 0 && (
-                <List title={_t('_shared.additionalIngredients')}>
-                  <>
-                    {shoppingListDoc.ingredients.map((ingredient) => (
-                      <ListItem ingredient={ingredient} />
-                    ))}
-                  </>
-                </List>
-              )}
-            </>
+          {shoppingListDoc.meals.length === 0 && shoppingListDoc.additionalIngredients.length === 0 ? (
+            <span>{_t('shoppingListSection.noMealsAndAdditionalIngredients')}</span>
           ) : (
             <>
-              <List title="Wszystkie składniki">
-                <>
-                  {getAllIngredients(shoppingListDoc.toObject()).map((ingredient) => (
-                    <ListItem ingredient={ingredient} />
-                  ))}
-                </>
-              </List>
+              <Link
+                href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {
+                  groupByMeals: groupByMealsQuery ? '' : 'on',
+                })}
+              >
+                <Switch control={{ name: 'groupByMeals' }} class="mb-4" checked={!!groupByMealsQuery}>
+                  <span class="mr-2">{_t('shoppingListSection.groupByMeals')}</span>
+                </Switch>
+              </Link>
+
+              {groupByMealsQuery ? (
+                <GroupedByMealsIngredients shoppingListDoc={shoppingListDoc} />
+              ) : (
+                <AllIngredients shoppingListDoc={shoppingListDoc} />
+              )}
             </>
           )}
 
@@ -124,17 +102,93 @@ export async function ShoppingListSection({
   );
 }
 
-type ListProps = {
-  title: JSX.Element;
-};
+function GroupedByMealsIngredients({
+  shoppingListDoc,
+}: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
+  const { meals, additionalIngredients } = shoppingListDoc;
 
-function List({ title, children }: ComponentProps<ListProps>) {
   return (
-    <div class="mt-4 first-of-type:mt-0">
-      <h3 class="mb-1">{title}:</h3>
-      <ul class="w-fit">{children}</ul>
-    </div>
+    <>
+      {meals.length > 0 &&
+        meals.map(({ meal, quantity }) => {
+          const { id, name, ingredients } = meal as MealDoc;
+
+          return (
+            <ListSection>
+              <>
+                <Title>
+                  <Link href={`/meals/${id}`}>{`${name} x ${quantity}`}</Link>
+                </Title>
+
+                {ingredients.length > 0 ? (
+                  <List>
+                    <>
+                      {ingredients.map((ingredient) => (
+                        <Item ingredient={ingredient} multiplier={quantity} />
+                      ))}
+                    </>
+                  </List>
+                ) : (
+                  <span>{_t('shoppingListSection.noMealIngredients')}</span>
+                )}
+              </>
+            </ListSection>
+          );
+        })}
+
+      {additionalIngredients.length > 0 && (
+        <ListSection>
+          <>
+            <Title>{_t('_shared.additionalIngredients')}</Title>
+
+            <List>
+              <>
+                {additionalIngredients.map((ingredient) => (
+                  <Item ingredient={ingredient} />
+                ))}
+              </>
+            </List>
+          </>
+        </ListSection>
+      )}
+    </>
   );
+}
+
+function AllIngredients({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
+  const allIngredients = getAllIngredients(shoppingListDoc);
+
+  return (
+    <ListSection>
+      <>
+        <Title>{_t('shoppingListSection.allIngredients')}</Title>
+
+        {allIngredients.length > 0 ? (
+          <List>
+            <>
+              {allIngredients.map((ingredient) => (
+                <Item ingredient={ingredient} />
+              ))}
+            </>
+          </List>
+        ) : (
+          <span>{_t('shoppingListSection.noIngredients')}</span>
+        )}
+      </>
+    </ListSection>
+  );
+}
+
+function ListSection({ children }: ComponentProps) {
+  return <div class="mt-4 first-of-type:mt-0">{children}</div>;
+}
+
+function Title({ children }: ComponentProps) {
+  return <h3 class="mb-1">{children}:</h3>;
+}
+
+function List({ children }: ComponentProps) {
+  return <ul class="w-fit">{children}</ul>;
 }
 
 type ListItemProps = {
@@ -142,7 +196,7 @@ type ListItemProps = {
   multiplier?: number;
 };
 
-function ListItem({ ingredient, multiplier }: ComponentProps<ListItemProps>) {
+function Item({ ingredient, multiplier }: ComponentProps<ListItemProps>) {
   const { name, quantity, unit } = ingredient;
   const finalQuantity = multiplier ? quantity * multiplier : quantity;
 
@@ -156,34 +210,24 @@ function ListItem({ ingredient, multiplier }: ComponentProps<ListItemProps>) {
   );
 }
 
-function getAllIngredients({ meals, ingredients }: ShoppingList): Ingredient[] {
-  if (meals.length === 0 && ingredients.length === 0) return [];
+function getAllIngredients(shoppingList: ShoppingListDoc): Ingredient[] {
+  const { meals, additionalIngredients } = shoppingList.toObject();
 
-  const allIngredients: Record<string, Ingredient> = {};
+  if (meals.length === 0 && additionalIngredients.length === 0) return [];
+
+  const allIngredients: Ingredient[] = [];
 
   if (meals.length > 0) {
     meals.forEach(({ meal, quantity }) => {
-      meal.ingredients.forEach((ingredient) => {
-        if (!allIngredients[ingredient.name]) {
-          allIngredients[ingredient.name] = { ...ingredient, quantity: ingredient.quantity * quantity };
-          return;
-        }
-
-        allIngredients[ingredient.name].quantity += ingredient.quantity * quantity;
+      (meal as MealDoc).ingredients.forEach((ingredient) => {
+        allIngredients.push({ ...ingredient, quantity: ingredient.quantity * quantity });
       });
     });
   }
 
-  if (ingredients.length > 0) {
-    ingredients.forEach((ingredient) => {
-      if (!allIngredients[ingredient.name]) {
-        allIngredients[ingredient.name] = ingredient;
-        return;
-      }
-
-      allIngredients[ingredient.name].quantity += ingredient.quantity;
-    });
+  if (additionalIngredients.length > 0) {
+    allIngredients.push(...additionalIngredients);
   }
 
-  return Object.values(allIngredients);
+  return getGroupedIngredients(allIngredients);
 }

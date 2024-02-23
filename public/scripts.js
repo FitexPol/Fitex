@@ -1,41 +1,44 @@
 // custom client scripts here
-let dialog;
-
-document.body.addEventListener('showModal', () => {
-  dialog = document.getElementById('modal-portal');
-  dialog.showModal();
-  dialog.addEventListener('click', onDialogBackdropClick);
-});
-
-document.body.addEventListener('closeModal', () => closeModal());
-
-function closeModal() {
-  if (!dialog) throw new Error('Dialog not found');
-
-  dialog.close();
-  dialog.removeEventListener('click', onDialogBackdropClick);
-}
-
-function onDialogBackdropClick({ target }) {
-  if (target !== dialog) return;
-
-  dialog.close();
-}
-
 function removeRow(element) {
   const row = element.closest('li');
   row.remove();
 }
 
-function submitForm(event, method, endpoint, form) {
+function submitMealForm(event, method, endpoint, form) {
   event.preventDefault();
 
+  const values = parseFormData(new FormData(form));
+
+  if (!values.ingredients) {
+    values.ingredients = JSON.stringify([]);
+  }
+
+  submitForm(method, endpoint, values);
+}
+
+function submitShoppingListForm(event, method, endpoint, form) {
+  event.preventDefault();
+
+  const values = parseFormData(new FormData(form));
+
+  if (!values.meals) {
+    values.meals = JSON.stringify([]);
+  }
+
+  if (!values.ingredients) {
+    values.ingredients = JSON.stringify([]);
+  }
+
+  submitForm(method, endpoint, values);
+}
+
+function submitForm(method, endpoint, values) {
   if (!htmx) throw new Error('Htmx not found');
 
   htmx.ajax(method, endpoint, {
     target: 'closest section',
     swap: 'outerHTML',
-    values: parseFormData(new FormData(form)),
+    values,
   });
 }
 

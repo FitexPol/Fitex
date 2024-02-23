@@ -1,7 +1,6 @@
 import { icons } from 'feather-icons';
 
-import { type User } from '@auth/models/user';
-import type { ComponentProps } from '@types';
+import type { ComponentProps, JWTUser } from '@types';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
@@ -12,7 +11,7 @@ const _t = $t('_shared');
 
 type DocumentProps = {
   layout?: 'default' | 'none';
-  user: User | null;
+  user: JWTUser | null;
 };
 
 export function Document({ layout = 'default', user, children }: ComponentProps<DocumentProps>) {
@@ -21,7 +20,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
       case 'none':
         return <main class="max-h-screen">{children}</main>;
       default:
-        return <Layout username={user ? (user.username as string) : ''}>{children}</Layout>;
+        return <Layout username={user ? user.username : ''}>{children}</Layout>;
     }
   }
 
@@ -43,7 +42,6 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
         <body id="body" hx-ext="response-targets">
           {renderContent(layout)}
-          <dialog id="modal-portal"></dialog>
           <Loader />
         </body>
       </html>
@@ -62,7 +60,7 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
     <div class="container">
       <div class="flex items-center justify-between">
         <nav>
-          <ul hx-boost="true">
+          <ul>
             {navigation.map(({ href, name }) => (
               <li>
                 <Link href={href}>{name}</Link>

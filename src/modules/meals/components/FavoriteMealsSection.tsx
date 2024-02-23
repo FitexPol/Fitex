@@ -1,6 +1,5 @@
-import { type User } from '@auth/models/user';
 import { Tiles } from '@components/Tiles';
-import { type ComponentProps } from '@types';
+import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 
 import { MealCard } from './MealCard';
@@ -9,7 +8,7 @@ import { Meal } from '../models/meal';
 const _t = $t('meals');
 
 type MealsSectionProps = {
-  user: User;
+  user: JWTUser;
 };
 
 export async function FavoriteMealsSection({ user }: ComponentProps<MealsSectionProps>) {

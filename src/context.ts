@@ -1,7 +1,7 @@
 import { jwt } from '@elysiajs/jwt';
 import { Elysia } from 'elysia';
 
-import { type User } from '@auth/models/user';
+import { type JWTUser } from '@types';
 
 export const context = new Elysia()
   .use(
@@ -13,6 +13,6 @@ export const context = new Elysia()
     const user = await jwt.verify(auth.value);
 
     return {
-      user: user ? (user as unknown as User) : null,
+      user: user ? (user as JWTUser) : null,
     };
   });

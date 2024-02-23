@@ -1,6 +1,5 @@
-import { type User } from '@auth/models/user';
 import { Tiles } from '@components/Tiles';
-import { type ComponentProps } from '@types';
+import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 
 import { ShoppingListCard } from './ShoppingListCard';
@@ -9,13 +8,14 @@ import { ShoppingList } from '../models/shoppingList';
 const _t = $t('shoppingLists');
 
 type MealsSectionProps = {
-  user: User;
+  user: JWTUser;
 };
 
 export async function FavoriteShoppingListsSection({ user }: ComponentProps<MealsSectionProps>) {
   const shoppingListDocs = await ShoppingList.find({ author: user.id, isFavorite: true })
     .limit(15)
     .sort({ creationDate: -1 })
+    .populate('meals.meal')
     .exec();
 
   return (

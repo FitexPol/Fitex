@@ -8,13 +8,13 @@ import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
-import { type Meal } from '../models/meal';
+import { type MealDoc } from '../models/meal';
 
 const _t = $t('meals');
 const _tShared = $t('_shared');
 
 type MealCard = {
-  meal: Meal;
+  meal: MealDoc;
 };
 
 export function MealCard({ meal }: ComponentProps<MealCard>) {
@@ -56,16 +56,18 @@ export function MealCard({ meal }: ComponentProps<MealCard>) {
           <>
             <h2 class="text-lg font-medium">{meal.name}</h2>
 
-            <ul class="mt-auto">
-              {meal.ingredients.map(({ name, quantity, unit }) => (
-                <li class="flex justify-between text-xs font-light">
-                  <span>{_tShared(`_shared.ingredients.${name}`)}</span>
-                  <span>
-                    {quantity} {unit}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            {meal.ingredients.length > 0 && (
+              <ul class="mt-auto">
+                {meal.ingredients.map(({ name, quantity, unit }) => (
+                  <li class="flex justify-between text-xs font-light">
+                    <span>{_tShared(`_shared.ingredients.${name}`)}</span>
+                    <span>
+                      {quantity} {unit}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </>
         </Link>
       </>

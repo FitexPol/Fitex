@@ -1,9 +1,8 @@
-import { Schema, type Types, model } from 'mongoose';
+import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
 import { type Ingredient, ingredientSchema } from '@models/ingredient';
 
-export type Meal = {
-  id: string;
+type Meal = {
   author: Types.ObjectId;
   name: string;
   description: string;
@@ -12,7 +11,7 @@ export type Meal = {
   ingredients: Ingredient[];
 };
 
-export const mealSchema = new Schema<Meal>({
+const mealSchema = new Schema<Meal>({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -38,7 +37,12 @@ export const mealSchema = new Schema<Meal>({
     required: true,
     default: Date.now,
   },
-  ingredients: [ingredientSchema],
+  ingredients: {
+    type: [ingredientSchema],
+    required: true,
+    default: [],
+  },
 });
 
 export const Meal = model('Meal', mealSchema);
+export type MealDoc = HydratedDocument<Meal>;

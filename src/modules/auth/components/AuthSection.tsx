@@ -41,7 +41,7 @@ export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
     <div class="container">
       <Card class="relative">
         <>
-          <div hx-boost="true" class="absolute left-0 top-0 flex -translate-y-full">
+          <div class="absolute left-0 top-0 flex -translate-y-full">
             {Array.from(tabs.entries()).map(([type, { href, label }]) => (
               <Link
                 href={href}

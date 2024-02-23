@@ -3,18 +3,19 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
+import { type MealDoc } from '@meals/models/meal';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
-import { type ShoppingList } from '../models/shoppingList';
+import { type ShoppingListDoc } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
 type ShoppingListCardProps = {
-  shoppingList: ShoppingList;
+  shoppingList: ShoppingListDoc;
 };
 
 export function ShoppingListCard({ shoppingList }: ComponentProps<ShoppingListCardProps>) {
@@ -64,7 +65,7 @@ export function ShoppingListCard({ shoppingList }: ComponentProps<ShoppingListCa
                   {shoppingList.meals.map(({ meal, quantity }) => (
                     <ListItem>
                       <>
-                        <span>{meal.name}</span>
+                        <span>{(meal as MealDoc).name}</span>
                         <span>x {quantity}</span>
                       </>
                     </ListItem>
@@ -73,10 +74,10 @@ export function ShoppingListCard({ shoppingList }: ComponentProps<ShoppingListCa
               </List>
             )}
 
-            {shoppingList.ingredients.length > 0 && (
+            {shoppingList.additionalIngredients.length > 0 && (
               <List title={_t('_shared.additionalIngredients')}>
                 <>
-                  {shoppingList.ingredients.map(({ name, quantity, unit }) => (
+                  {shoppingList.additionalIngredients.map(({ name, quantity, unit }) => (
                     <ListItem>
                       <>
                         <span>{_tShared(`_shared.ingredients.${name}`)}</span>

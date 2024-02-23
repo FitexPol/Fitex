@@ -1,10 +1,9 @@
 import { icons } from 'feather-icons';
 
 import { Link } from '@/modules/_shared/components/Link';
-import { type User } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
-import { type ComponentProps } from '@types';
+import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
@@ -15,7 +14,7 @@ const _t = $t('meals');
 const _tShared = $t('_shared');
 
 type MealSectionProps = {
-  user: User;
+  user: JWTUser;
   mealId: string;
 };
 
@@ -46,16 +45,20 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
           <Card.Header title={mealDoc.name} />
 
-          <ul class="w-fit">
-            {mealDoc.ingredients.map(({ name, quantity, unit }) => (
-              <li>
-                <label>
-                  <input type="checkbox" name={name} />
-                  {_tShared(`_shared.ingredients.${name}`)} - {quantity} {unit}
-                </label>
-              </li>
-            ))}
-          </ul>
+          {mealDoc.ingredients.length > 0 ? (
+            <ul class="w-fit">
+              {mealDoc.ingredients.map(({ name, quantity, unit }) => (
+                <li>
+                  <label>
+                    <input type="checkbox" name={name} />
+                    {_tShared(`_shared.ingredients.${name}`)} - {quantity} {unit}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span>{_t('mealSection.noIngredients')}</span>
+          )}
 
           <p class="mt-10">{mealDoc.description}</p>
 

@@ -1,7 +1,6 @@
-import { Schema, type Types, model } from 'mongoose';
+import { type HydratedDocument, Schema, model } from 'mongoose';
 
-export type User = {
-  id: Types.ObjectId;
+type User = {
   username: string;
   password: string;
 };
@@ -21,3 +20,4 @@ const userSchema = new Schema<User>({
 });
 
 export const User = model('User', userSchema);
+export type UserDoc = HydratedDocument<User>;

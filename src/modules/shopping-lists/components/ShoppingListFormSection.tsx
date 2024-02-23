@@ -1,6 +1,5 @@
-import { type User } from '@auth/models/user';
 import { Card } from '@components/Card';
-import { type ComponentProps } from '@types';
+import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 
 import { ShoppingListForm } from './ShoppingListForm';
@@ -9,7 +8,7 @@ import { ShoppingList } from '../models/shoppingList';
 const _t = $t('shoppingLists');
 
 type ShoppingListFormSectionProps = {
-  user: User;
+  user: JWTUser;
   shoppingListId?: string;
 };
 

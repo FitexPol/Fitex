@@ -1,11 +1,10 @@
 import { icons } from 'feather-icons';
 
 import { Link } from '@/modules/_shared/components/Link';
-import { type User } from '@auth/models/user';
 import { Dropdown } from '@components/Dropdown';
 import { Pagination } from '@components/Pagination';
 import { Tiles } from '@components/Tiles';
-import { type ComponentProps, type SortOption } from '@types';
+import { type ComponentProps, type JWTUser, type SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
@@ -14,13 +13,13 @@ import { getSkipValue } from '@utils/getSkipValue';
 import { SortQuery, itemsPerPageOptions, sortOptions } from '@vars';
 
 import { ShoppingListCard } from './ShoppingListCard';
-import { ShoppingList } from '../models/shoppingList';
+import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
 type ShoppingListsSectionProps = {
-  user: User;
+  user: JWTUser;
   sortQuery: string;
   itemsPerPageQuery: string;
   pageQuery: string;
@@ -41,6 +40,7 @@ export async function ShoppingListsSection({
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
+    .populate('meals.meal')
     .exec();
 
   return (
@@ -105,7 +105,7 @@ export async function ShoppingListsSection({
   );
 }
 
-type SortValues = Record<keyof ShoppingList, -1 | 1>;
+type SortValues = Record<keyof ShoppingListDoc, -1 | 1>;
 type ShoppingListsSortOption = SortOption<Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>>;
 
 function getSortOption(queryParam: string): ShoppingListsSortOption {

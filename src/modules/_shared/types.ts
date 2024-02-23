@@ -8,6 +8,11 @@ type Children = {
 
 export type ComponentProps<Props = object> = Props & Class & Children;
 
+export type JWTUser = {
+  id: string;
+  username: string;
+};
+
 export type SortOption<T> = {
   label: string;
   value: T;

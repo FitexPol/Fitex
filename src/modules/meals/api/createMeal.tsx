@@ -7,10 +7,10 @@ import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
 
 import { type MealForm as MealFormType, mealForm } from '../forms';
-import { Meal } from '../models/meal';
+import { Meal, type MealDoc } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
-export type MealBody<T> = T & { ingredients: Meal['ingredients'] };
+export type MealBody<T> = T & { ingredients: MealDoc['ingredients'] };
 
 export const createMeal = new Elysia().use(context).post(
   '',

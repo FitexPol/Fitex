@@ -14,7 +14,12 @@
     "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
   },
   "shoppingListSection": {
-    "permissionDenied": "Nie masz uprawnień do wyświetlenia tej listy zakupów"
+    "permissionDenied": "Nie masz uprawnień do wyświetlenia tej listy zakupów",
+    "noMealsAndAdditionalIngredients": "Nie dodano żadnych posiłków ani składników dodatkowych",
+    "groupByMeals": "Grupuj według posiłków",
+    "noMealIngredients": "Ten posiłek nie ma dodanych żadnych składników",
+    "allIngredients": "Wszystkie składniki",
+    "noIngredients": "Brak składników"
   },
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",

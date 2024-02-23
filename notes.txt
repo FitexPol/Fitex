@@ -1,5 +1,4 @@
 TODO:
-  - poprawić sumowanie składników
   - dodawać posiłki jako referencja
   - poprawić typowanie getBodySchema (optional type)
   - tagowanie posiłków

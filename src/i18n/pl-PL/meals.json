@@ -12,6 +12,7 @@
     "permissionDenied": "Nie masz uprawnień do edytowania tego posiłku"
   },
   "mealSection": {
+    "noIngredients": "Nie dodano żadnych składników",
     "permissionDenied": "Nie masz uprawnień do wyświetlenia tego posiłku"
   },
   "mealsSection": {

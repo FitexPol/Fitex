@@ -1,11 +1,10 @@
 import { icons } from 'feather-icons';
 
-import { type User } from '@auth/models/user';
 import { Dropdown } from '@components/Dropdown';
 import { Link } from '@components/Link';
 import { Pagination } from '@components/Pagination';
 import { Tiles } from '@components/Tiles';
-import { type ComponentProps, type SortOption } from '@types';
+import { type ComponentProps, type JWTUser, type SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
@@ -14,13 +13,13 @@ import { getSkipValue } from '@utils/getSkipValue';
 import { SortQuery, itemsPerPageOptions, sortOptions } from '@vars';
 
 import { MealCard } from './MealCard';
-import { Meal } from '../models/meal';
+import { Meal, type MealDoc } from '../models/meal';
 
 const _t = $t('meals');
 const _tShared = $t('_shared');
 
 type MealsSectionProps = {
-  user: User;
+  user: JWTUser;
   sortQuery: string;
   itemsPerPageQuery: string;
   pageQuery: string;
@@ -103,7 +102,7 @@ export async function MealsSection({
   );
 }
 
-type SortValues = Record<keyof Meal, -1 | 1>;
+type SortValues = Record<keyof MealDoc, -1 | 1>;
 type MealsSortOption = SortOption<Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>>;
 
 function getSortOption(queryParam: string): MealsSortOption {

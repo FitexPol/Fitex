@@ -23,7 +23,7 @@ export function Pagination({
   return (
     <>
       {totalPages > 1 ? (
-        <ul class="mx-auto my-7 flex w-fit gap-1" hx-boost="true">
+        <ul class="mx-auto my-7 flex w-fit gap-1">
           {totalPages <= 5
             ? getAllItems(totalPages).map((i) => renderItem(path, currentQuery, i, page))
             : getFilteredItems(totalPages, page).map((i) =>
