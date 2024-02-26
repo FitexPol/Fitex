@@ -22,7 +22,7 @@ export type ShoppingListBody<T> = T & {
   products: {
     productId: string;
     quantity: number;
-    unit: Unit
+    unit: Unit;
   }[];
 };
 

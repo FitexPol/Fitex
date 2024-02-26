@@ -38,11 +38,10 @@ export enum ItemsPerPage {
   _60 = '60',
 }
 
-export const itemsPerPageOptions = [
-  { label: ItemsPerPage._15, query: ItemsPerPage._15 },
-  { label: ItemsPerPage._30, query: ItemsPerPage._30 },
-  { label: ItemsPerPage._60, query: ItemsPerPage._60 },
-];
+export const itemsPerPageOptions = Object.values(ItemsPerPage).map((value) => ({
+  label: value,
+  query: value,
+}));
 
 export enum Unit {
   G = 'g',
