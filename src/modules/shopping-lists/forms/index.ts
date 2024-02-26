@@ -16,9 +16,9 @@ export const shoppingListForm = {
     type: 'text',
     name: 'meals',
   },
-  additionalProducts: {
+  products: {
     type: 'text',
-    name: 'additionalProducts',
+    name: 'products',
   },
 } satisfies Form;
 

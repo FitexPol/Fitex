@@ -11,10 +11,12 @@ import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
-export type ProductBody = { productId: string; quantity: number; unit: Unit };
-
 export type MealBody<T> = T & {
-  products: ProductBody[];
+  products: {
+    productId: string;
+    quantity: number;
+    unit: Unit;
+  }[];
 };
 
 export const createMeal = new Elysia().use(context).post(

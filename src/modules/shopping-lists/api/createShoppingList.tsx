@@ -1,8 +1,10 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { type MealDoc } from '@meals/models/meal';
+import { getGroupedMeals } from '@meals/utils/getGroupedMeals';
 import { getMealsById } from '@meals/utils/getMealsById';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import { getProductsById } from '@products/utils/getProductsById';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
@@ -15,7 +17,7 @@ import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithE
 export type ShoppingListBody<T> = T & {
   meals: {
     mealId: string;
-    quantity: string;
+    quantity: number;
   }[];
   products: {
     productId: string;
@@ -32,13 +34,15 @@ export const createShoppingList = new Elysia().use(context).post(
       products: productsBody,
       ...shoppingListBody
     } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'products'>>>(body);
-    const meals: { meal: MealDoc; quantity: number }[] = await getMealsById(mealsBody);
+
+    const shoppingListMeals = await getMealsById(getGroupedMeals(mealsBody));
+    const shoppingListProducts = await getProductsById(getGroupedProducts(productsBody));
 
     const shoppingList = new ShoppingList({
       ...shoppingListBody,
       author: user!.id,
-      meals,
-      additionalProducts: [],
+      meals: shoppingListMeals,
+      products: shoppingListProducts,
     });
 
     try {

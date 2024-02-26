@@ -79,10 +79,10 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
               </List>
             )}
 
-            {shoppingListDoc.additionalProducts.length > 0 && (
-              <List title={_t('_shared.Products')}>
+            {shoppingListDoc.products.length > 0 && (
+              <List title={_t('_shared.products')}>
                 <>
-                  {shoppingListDoc.additionalProducts.map(({ product, quantity, unit }) => {
+                  {shoppingListDoc.products.map(({ product, quantity, unit }) => {
                     const productDoc = getPopulatedDoc(product);
 
                     return (

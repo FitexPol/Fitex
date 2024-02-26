@@ -10,7 +10,7 @@ import { type MealDoc } from '../models/meal';
 const form = {
   name: {
     type: 'text',
-    name: 'mealId',
+    name: 'meals[].mealId',
     placeholder: '_shared._shared.forms.name',
     validators: {
       required: true,
@@ -19,7 +19,7 @@ const form = {
   },
   quantity: {
     type: 'number',
-    name: 'quantity',
+    name: 'meals[].quantity',
     validators: {
       required: true,
       min: 1,
@@ -37,13 +37,13 @@ type MealFieldsetProps = {
 
 export function MealFieldset({ mealOptions, mealDoc, quantity }: ComponentProps<MealFieldsetProps>) {
   return (
-    <form class="grid grid-cols-12 gap-x-1">
+    <fieldset class="grid grid-cols-12 gap-x-1">
       <Select control={form.name} value={mealDoc?.id} options={mealOptions} class="col-span-8" />
       <Input control={form.quantity} value={quantity?.toString() ?? '1'} class="col-span-3" />
 
       <Button class="col-span-1 h-[3.2rem] border-none" onclick="removeRow(this)">
         {icons.trash.toSvg({ class: 'm-auto' })}
       </Button>
-    </form>
+    </fieldset>
   );
 }

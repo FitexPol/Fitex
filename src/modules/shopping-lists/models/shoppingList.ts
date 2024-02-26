@@ -15,7 +15,7 @@ type ShoppingList = {
     meal: Populated<MealDoc>;
     quantity: number;
   }[];
-  additionalProducts: {
+  products: {
     product: Populated<ProductDoc>;
     quantity: number;
     unit: Unit;
@@ -61,7 +61,7 @@ const shoppingListSchema = new Schema<ShoppingList>({
     ],
     default: [],
   },
-  additionalProducts: {
+  products: {
     type: [
       {
         product: {

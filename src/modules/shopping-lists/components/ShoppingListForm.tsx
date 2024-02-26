@@ -68,18 +68,18 @@ export async function ShoppingListForm({
       <Button
         type="button"
         class="mx-auto mb-5 w-auto border-none"
-        hx-get="/api/shopping-lists/meal-fieldset"
+        hx-get="/api/meals/fieldset"
         hx-target="#meals"
         hx-swap="beforeend"
       >
         {icons['plus-circle'].toSvg()}
       </Button>
 
-      <span class="mb-2 block">{_t('_shared.additionalProducts')}:</span>
+      <span class="mb-2 block">{_t('_shared.products')}:</span>
 
-      <ul id="additional-products">
+      <ul id="products">
         {shoppingListDoc ? (
-          shoppingListDoc.additionalProducts.map(({ product, quantity, unit }) => {
+          shoppingListDoc.products.map(({ product, quantity, unit }) => {
             const productDoc = getPopulatedDoc(product);
 
             return (
@@ -108,7 +108,7 @@ export async function ShoppingListForm({
         type="button"
         class="mx-auto mb-5 w-auto border-none"
         hx-get="/api/products/fieldset"
-        hx-target="#additional-products"
+        hx-target="#products"
         hx-swap="beforeend"
       >
         {icons['plus-circle'].toSvg()}

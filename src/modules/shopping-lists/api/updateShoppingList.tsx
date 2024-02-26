@@ -1,7 +1,10 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { getGroupedMeals } from '@meals/utils/getGroupedMeals';
 import { getMealsById } from '@meals/utils/getMealsById';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import { getProductsById } from '@products/utils/getProductsById';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
@@ -9,7 +12,7 @@ import { HxResponseHeader } from '@vars';
 
 import { type ShoppingListBody } from './createShoppingList';
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
-import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
+import { ShoppingList } from '../models/shoppingList';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
 
 export const updateShoppingList = new Elysia().use(context).patch(
@@ -19,7 +22,7 @@ export const updateShoppingList = new Elysia().use(context).patch(
       meals: mealsBody,
       products: productsBody,
       ...shoppingListBody
-    } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'additionalProducts'>>>(body);
+    } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'products'>>>(body);
     const shoppingListDoc = await ShoppingList.findById(id).exec();
 
     if (!shoppingListDoc) {
@@ -32,13 +35,14 @@ export const updateShoppingList = new Elysia().use(context).patch(
       throw new Error('You are not authorized to update this shopping list');
     }
 
-    const meals: ShoppingListDoc['meals'] = await getMealsById(mealsBody);
+    const shoppingListMeals = await getMealsById(getGroupedMeals(mealsBody));
+    const shoppingListProducts = await getProductsById(getGroupedProducts(productsBody));
 
     try {
       await shoppingListDoc.updateOne({
         ...shoppingListBody,
-        meals,
-        additionalProducts: [],
+        meals: shoppingListMeals,
+        products: shoppingListProducts,
       });
     } catch {
       set.status = 'Bad Request';

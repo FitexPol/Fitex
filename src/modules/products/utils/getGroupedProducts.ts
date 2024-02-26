@@ -6,7 +6,7 @@ type GroupedProduct = {
   unit: Unit;
 };
 
-export function getGroupedProducts(items: GroupedProduct[]): GroupedProduct[] {
+export function getGroupedProducts(items: GroupedProduct[]): typeof items {
   if (items.length === 0) return [];
 
   const groupedProducts = items.reduce(

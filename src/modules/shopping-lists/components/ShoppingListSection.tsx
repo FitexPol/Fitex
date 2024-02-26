@@ -5,7 +5,6 @@ import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
 import { type ProductDoc } from '@products/models/product';
-import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
@@ -30,7 +29,13 @@ export async function ShoppingListSection({
   shoppingListId,
   groupByMealsQuery,
 }: ComponentProps<ShoppingListSectionProps>) {
-  const shoppingListDoc = await ShoppingList.findById(shoppingListId).populate('meals.meal').exec();
+  const shoppingListDoc = await ShoppingList.findById(shoppingListId)
+    .populate({
+      path: 'meals.meal',
+      populate: { path: 'products.product' },
+    })
+    .populate('products.product')
+    .exec();
 
   if (!shoppingListDoc) {
     return <span>{_t('_shared.notFound')}</span>;
@@ -56,8 +61,8 @@ export async function ShoppingListSection({
 
           <Card.Header title={shoppingListDoc.name} />
 
-          {shoppingListDoc.meals.length === 0 && shoppingListDoc.additionalProducts.length === 0 ? (
-            <span>{_t('shoppingListSection.noMealsAndAdditionalProducts')}</span>
+          {shoppingListDoc.meals.length === 0 && shoppingListDoc.products.length === 0 ? (
+            <span>{_t('shoppingListSection.noMealsAndProducts')}</span>
           ) : (
             <>
               <Link
@@ -105,7 +110,7 @@ export async function ShoppingListSection({
 }
 
 function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  const { meals, additionalProducts } = shoppingListDoc;
+  const { meals, products } = shoppingListDoc;
 
   return (
     <>
@@ -123,13 +128,13 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
                 {mealDoc.products.length > 0 ? (
                   <List>
                     <>
-                      {mealDoc.products.map(({ product, quantity, unit }) => {
+                      {mealDoc.products.map(({ product, quantity: productQuantity, unit }) => {
                         const productDoc = getPopulatedDoc(product);
 
                         return productDoc ? (
                           <Item
                             productDoc={productDoc}
-                            quantity={quantity}
+                            quantity={productQuantity}
                             unit={unit}
                             multiplier={quantity}
                           />
@@ -151,14 +156,14 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
           );
         })}
 
-      {additionalProducts.length > 0 && (
+      {products.length > 0 && (
         <ListSection>
           <>
-            <Title>{_t('_shared.additionalProducts')}</Title>
+            <Title>{_t('_shared.products')}</Title>
 
             <List>
               <>
-                {additionalProducts.map(({ product, quantity, unit }) => {
+                {products.map(({ product, quantity, unit }) => {
                   const productDoc = getPopulatedDoc(product);
 
                   return productDoc ? (
@@ -179,29 +184,67 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
 }
 
 function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  // const allProducts = getAllProducts(shoppingListDoc);
+  const { meals, products } = shoppingListDoc;
+  const allProducts: { productDoc: ProductDoc; quantity: number; unit: Unit }[] = [];
 
-  return <></>
+  if (meals.length > 0) {
+    meals.forEach(({ meal, quantity }) => {
+      const mealDoc = getPopulatedDoc(meal);
 
-  // return (
-  //   <ListSection>
-  //     <>
-  //       <Title>{_t('shoppingListSection.allProducts')}</Title>
+      if (!mealDoc) return;
 
-  //       {allProducts.length > 0 ? (
-  //         <List>
-  //           <>
-  //             {allProducts.map(({ product, quantity, unit }) => (
-  //               <Item productDoc={product} quantity={quantity} unit={unit} />
-  //             ))}
-  //           </>
-  //         </List>
-  //       ) : (
-  //         <span>{_t('shoppingListSection.noProducts')}</span>
-  //       )}
-  //     </>
-  //   </ListSection>
-  // );
+      mealDoc.products.forEach(({ product, quantity: productQuantity, unit }) => {
+        const productDoc = getPopulatedDoc(product);
+
+        if (!productDoc) return;
+
+        allProducts.push({ productDoc, quantity: productQuantity * quantity, unit });
+      });
+    });
+  }
+
+  if (products.length > 0) {
+    products.forEach(({ product, quantity, unit }) => {
+      const productDoc = getPopulatedDoc(product);
+
+      if (!productDoc) return;
+
+      allProducts.push({ productDoc, quantity, unit });
+    });
+  }
+
+  const groupedProducts = allProducts.reduce(
+    (acc, { productDoc, quantity, unit }) => {
+      const key = `${productDoc.id}.${unit}`;
+
+      acc[key] ? (acc[key].quantity += quantity) : (acc[key] = { productDoc, quantity, unit });
+
+      return acc;
+    },
+    {} as Record<string, { productDoc: ProductDoc; quantity: number; unit: Unit }>,
+  );
+
+  const groupedProductsArray = Object.entries(groupedProducts).map((entry) => entry[1]);
+
+  return (
+    <ListSection>
+      <>
+        <Title>{_t('shoppingListSection.allProducts')}</Title>
+
+        {groupedProductsArray.length > 0 ? (
+          <List>
+            <>
+              {groupedProductsArray.map(({ productDoc, quantity, unit }) => (
+                <Item productDoc={productDoc} quantity={quantity} unit={unit} />
+              ))}
+            </>
+          </List>
+        ) : (
+          <span>{_t('shoppingListSection.noProducts')}</span>
+        )}
+      </>
+    </ListSection>
+  );
 }
 
 function ListSection({ children }: ComponentProps) {
@@ -235,41 +278,3 @@ function Item({ productDoc, quantity, unit, multiplier }: ComponentProps<ListIte
     </li>
   );
 }
-
-// function getAllProducts(
-//   shoppingList: ShoppingListDoc,
-// ): { product: ProductDoc; quantity: number; unit: Unit }[] {
-//   const { meals, additionalProducts } = shoppingList.toObject();
-
-//   if (meals.length === 0 && additionalProducts.length === 0) return [];
-
-//   const allProducts: { product: ProductDoc; quantity: number; unit: Unit }[] = [];
-
-//   if (meals.length > 0) {
-//     meals.forEach(({ meal, quantity }) => {
-//       const mealDoc = getPopulatedDoc(meal);
-
-//       if (!mealDoc) return;
-
-//       mealDoc.products.forEach(({ product, quantity: productQuantity, unit }) => {
-//         const productDoc = getPopulatedDoc(product);
-
-//         if (!productDoc) return;
-
-//         allProducts.push({ product: productDoc, quantity: productQuantity * quantity, unit });
-//       });
-//     });
-//   }
-
-//   if (additionalProducts.length > 0) {
-//     additionalProducts.forEach(({ product, quantity, unit }) => {
-//       const productDoc = getPopulatedDoc(product);
-
-//       if (!productDoc) return;
-
-//       allProducts.push({ product: productDoc, quantity, unit });
-//     });
-//   }
-
-//   return getGroupedProducts(allProducts);
-// }

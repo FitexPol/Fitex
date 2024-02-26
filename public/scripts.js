@@ -21,12 +21,13 @@ function submitShoppingListForm(event, method, endpoint, form) {
 
   const values = parseFormData(new FormData(form));
 
+
   if (!values.meals) {
     values.meals = JSON.stringify([]);
   }
 
-  if (!values.additionalProducts) {
-    values.additionalProducts = JSON.stringify([]);
+  if (!values.products) {
+    values.products = JSON.stringify([]);
   }
 
   submitForm(method, endpoint, values);

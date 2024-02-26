@@ -1,25 +1,23 @@
 import { Meal, type MealDoc } from '../models/meal';
 
 export async function getMealsById(
-  mealsBody: { mealId: string; quantity: string }[],
+  mealsBody: { mealId: string; quantity: number }[],
 ): Promise<{ meal: MealDoc; quantity: number }[]> {
   const mealDocs = await Meal.find({ _id: { $in: mealsBody.map(({ mealId }) => mealId) } });
 
-  const meals: { meal: MealDoc; quantity: number }[] = mealDocs.reduce(
-    (acc, mealDoc) => {
-      const meal = mealsBody.find(({ mealId }) => mealId === mealDoc.id);
+  return mealsBody.reduce(
+    (acc, { mealId, quantity }) => {
+      const mealDoc = mealDocs.find(({ id }) => id === mealId);
 
-      if (!meal) return acc;
+      if (!mealDoc) return acc;
 
       acc.push({
         meal: mealDoc,
-        quantity: Number(meal.quantity),
+        quantity,
       });
 
       return acc;
     },
     [] as { meal: MealDoc; quantity: number }[],
   );
-
-  return meals;
 }
