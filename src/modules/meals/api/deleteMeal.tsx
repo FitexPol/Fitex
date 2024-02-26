@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
@@ -21,14 +22,19 @@ export const deleteMeal = new Elysia()
 
     if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to update this meal');
+      throw new Error('You are not authorized to delete this meal');
     }
 
     try {
       await mealDoc.deleteOne();
+
+      await ShoppingList.updateMany(
+        { 'meals.meal': mealDoc._id },
+        { $pull: { meals: { meal: mealDoc._id } } },
+      );
     } catch {
       set.status = 'Bad Request';
-      throw new Error('Failed to update meal');
+      throw new Error('Failed to delete meal');
     }
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);

@@ -23,7 +23,7 @@
     "clsx": "^2.0.0",
     "elysia": "^0.8.15",
     "feather-icons": "^4.29.1",
-    "mongoose": "^8.1.1",
+    "mongoose": "^8.2.0",
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {

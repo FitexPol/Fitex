@@ -1,7 +1,7 @@
 import { icons } from 'feather-icons';
 
-import { Link } from '@/modules/_shared/components/Link';
 import { Dropdown } from '@components/Dropdown';
+import { Link } from '@components/Link';
 import { Pagination } from '@components/Pagination';
 import { Tiles } from '@components/Tiles';
 import { type ComponentProps, type JWTUser, type SortOption } from '@types';

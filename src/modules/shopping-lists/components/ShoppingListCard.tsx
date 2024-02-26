@@ -1,9 +1,9 @@
 import { icons } from 'feather-icons';
 
-import { getProductName } from '@/modules/products/utils/getProductName';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
+import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';

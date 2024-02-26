@@ -21,14 +21,14 @@ export const deleteShoppingList = new Elysia()
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to update this shopping list');
+      throw new Error('You are not authorized to delete this shopping list');
     }
 
     try {
       await shoppingListDoc.deleteOne();
     } catch {
       set.status = 'Bad Request';
-      throw new Error('Failed to update meal');
+      throw new Error('Failed to delete meal');
     }
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
