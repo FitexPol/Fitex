@@ -1,12 +1,14 @@
 import { icons } from 'feather-icons';
 
-import { Link } from '@/modules/_shared/components/Link';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
+import { Link } from '@components/Link';
+import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { Meal } from '../models/meal';
 
@@ -19,7 +21,7 @@ type MealSectionProps = {
 };
 
 export async function MealSection({ user, mealId }: ComponentProps<MealSectionProps>) {
-  const mealDoc = await Meal.findById(mealId).exec();
+  const mealDoc = await Meal.findById(mealId).populate('products.product').exec();
 
   if (!mealDoc) {
     return <span>{_t('_shared.notFound')}</span>;
@@ -45,19 +47,27 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
           <Card.Header title={mealDoc.name} />
 
-          {mealDoc.ingredients.length > 0 ? (
+          {mealDoc.products.length > 0 ? (
             <ul class="w-fit">
-              {mealDoc.ingredients.map(({ name, quantity, unit }) => (
-                <li>
-                  <label>
-                    <input type="checkbox" name={name} />
-                    {_tShared(`_shared.ingredients.${name}`)} - {quantity} {unit}
-                  </label>
-                </li>
-              ))}
+              {mealDoc.products.map(({ product, quantity, unit }) => {
+                const productDoc = getPopulatedDoc(product);
+
+                return (
+                  <li>
+                    {productDoc ? (
+                      <label>
+                        <input type="checkbox" name={productDoc.name} />
+                        {getProductName(productDoc.name)} - {quantity} {unit}
+                      </label>
+                    ) : (
+                      <span>{_tShared('_shared.errors.population')}</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           ) : (
-            <span>{_t('mealSection.noIngredients')}</span>
+            <span>{_t('mealSection.noProducts')}</span>
           )}
 
           <p class="mt-10">{mealDoc.description}</p>

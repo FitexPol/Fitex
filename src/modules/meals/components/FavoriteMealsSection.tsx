@@ -15,6 +15,7 @@ export async function FavoriteMealsSection({ user }: ComponentProps<MealsSection
   const mealDocs = await Meal.find({ author: user.id, isFavorite: true })
     .limit(15)
     .sort({ creationDate: -1 })
+    .populate('products.product')
     .exec();
 
   return (
@@ -29,7 +30,7 @@ export async function FavoriteMealsSection({ user }: ComponentProps<MealsSection
         <>
           {mealDocs.map((mealDoc) => (
             <Tiles.Item>
-              <MealCard meal={mealDoc} />
+              <MealCard mealDoc={mealDoc} />
             </Tiles.Item>
           ))}
         </>

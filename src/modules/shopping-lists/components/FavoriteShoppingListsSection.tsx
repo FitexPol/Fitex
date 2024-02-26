@@ -30,7 +30,7 @@ export async function FavoriteShoppingListsSection({ user }: ComponentProps<Meal
         <>
           {shoppingListDocs.map((shoppingListDoc) => (
             <Tiles.Item>
-              <ShoppingListCard shoppingList={shoppingListDoc} />
+              <ShoppingListCard shoppingListDoc={shoppingListDoc} />
             </Tiles.Item>
           ))}
         </>

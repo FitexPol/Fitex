@@ -88,7 +88,7 @@ export async function ShoppingListsSection({
         <>
           {shoppingListDocs.map((shoppingListDoc) => (
             <Tiles.Item>
-              <ShoppingListCard shoppingList={shoppingListDoc} />
+              <ShoppingListCard shoppingListDoc={shoppingListDoc} />
             </Tiles.Item>
           ))}
         </>

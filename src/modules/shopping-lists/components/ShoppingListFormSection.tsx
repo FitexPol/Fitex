@@ -36,7 +36,7 @@ export async function ShoppingListFormSection({
 
   return (
     <Section title={shoppingListDoc.name}>
-      <ShoppingListForm user={user} shoppingList={shoppingListDoc} />
+      <ShoppingListForm user={user} shoppingListDoc={shoppingListDoc} />
     </Section>
   );
 }

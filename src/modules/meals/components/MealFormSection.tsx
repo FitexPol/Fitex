@@ -21,7 +21,7 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
     );
   }
 
-  const mealDoc = await Meal.findById(mealId).exec();
+  const mealDoc = await Meal.findById(mealId).populate('products.product').exec();
 
   if (!mealDoc) {
     return <span>{_t('_shared.notFound')}</span>;
@@ -33,7 +33,7 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
 
   return (
     <Section title={mealDoc.name}>
-      <MealForm meal={mealDoc} />
+      <MealForm mealDoc={mealDoc} />
     </Section>
   );
 }

@@ -43,3 +43,11 @@ export const itemsPerPageOptions = [
   { label: ItemsPerPage._30, query: ItemsPerPage._30 },
   { label: ItemsPerPage._60, query: ItemsPerPage._60 },
 ];
+
+export enum Unit {
+  G = 'g',
+  Kg = 'kg',
+  Ml = 'ml',
+  L = 'l',
+  Unit = 'unit',
+}

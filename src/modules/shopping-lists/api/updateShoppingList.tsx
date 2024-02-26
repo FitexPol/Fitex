@@ -1,8 +1,8 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { getMealsById } from '@meals/utils/getMealsById';
 import { getBodySchema } from '@utils/getBodySchema';
-import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
 import { HxResponseHeader } from '@vars';
@@ -10,7 +10,6 @@ import { HxResponseHeader } from '@vars';
 import { type ShoppingListBody } from './createShoppingList';
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
-import { getMealsByIds } from '../utils/getMealsByIds';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
 
 export const updateShoppingList = new Elysia().use(context).patch(
@@ -18,9 +17,9 @@ export const updateShoppingList = new Elysia().use(context).patch(
   async ({ body, user, set, params: { id } }) => {
     const {
       meals: mealsBody,
-      ingredients: ingredientsBody,
+      products: productsBody,
       ...shoppingListBody
-    } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'ingredients'>>>(body);
+    } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'additionalProducts'>>>(body);
     const shoppingListDoc = await ShoppingList.findById(id).exec();
 
     if (!shoppingListDoc) {
@@ -33,13 +32,13 @@ export const updateShoppingList = new Elysia().use(context).patch(
       throw new Error('You are not authorized to update this shopping list');
     }
 
-    const meals: ShoppingListDoc['meals'] = await getMealsByIds(mealsBody);
+    const meals: ShoppingListDoc['meals'] = await getMealsById(mealsBody);
 
     try {
       await shoppingListDoc.updateOne({
         ...shoppingListBody,
         meals,
-        additionalIngredients: getGroupedIngredients(ingredientsBody),
+        additionalProducts: [],
       });
     } catch {
       set.status = 'Bad Request';

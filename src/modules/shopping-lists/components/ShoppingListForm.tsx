@@ -1,36 +1,37 @@
 import { icons } from 'feather-icons';
 
 import { Button } from '@components/Button';
-import { IngredientFieldset } from '@components/IngredientFieldset';
 import { Input } from '@components/inputs/Input';
 import { type SelectOption } from '@components/inputs/Select';
+import { MealFieldset } from '@meals/components/MealFieldset';
+import { ProductFieldset } from '@products/components/ProductFieldset';
+import { getProductOptions } from '@products/utils/getProductOptions';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
-import { getIngredientOptions } from '@utils/getIngredientOptions';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
-import { MealFieldset } from './MealFieldset';
+import { getMealOptions } from '../../meals/utils/getMealOptions';
 import { type ShoppingListFormErrors, shoppingListForm } from '../forms';
 import { type ShoppingListDoc } from '../models/shoppingList';
-import { getMealOptions } from '../utils/getMealOptions';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
 type ShoppingListFormProps = {
   user: JWTUser;
-  shoppingList?: ShoppingListDoc;
+  shoppingListDoc?: ShoppingListDoc;
   errors?: ShoppingListFormErrors;
 };
 
 export async function ShoppingListForm({
   user,
-  shoppingList,
+  shoppingListDoc,
   errors,
 }: ComponentProps<ShoppingListFormProps>) {
   const mealOptions: SelectOption[] = await getMealOptions(user);
-  const ingredientOptions: SelectOption[] = getIngredientOptions();
-  const [method, endpoint] = shoppingList
-    ? ['PATCH', `/api/shopping-lists/${shoppingList.id}`]
+  const productOptions = await getProductOptions();
+  const [method, endpoint] = shoppingListDoc
+    ? ['PATCH', `/api/shopping-lists/${shoppingListDoc.id}`]
     : ['POST', '/api/shopping-lists'];
 
   return (
@@ -38,17 +39,25 @@ export async function ShoppingListForm({
       id="shopping-list-form"
       onsubmit={`submitShoppingListForm(event, '${method}', '${endpoint}', this)`}
     >
-      <Input control={shoppingListForm.name} value={shoppingList?.name} error={errors?.name} />
+      <Input control={shoppingListForm.name} value={shoppingListDoc?.name} error={errors?.name} />
 
       <span class="mb-2 block">{_t('_shared.meals')}:</span>
 
       <ul id="meals">
-        {shoppingList ? (
-          shoppingList.meals.map((meal) => (
-            <li>
-              <MealFieldset mealOptions={mealOptions} meal={meal} />
-            </li>
-          ))
+        {shoppingListDoc ? (
+          shoppingListDoc.meals.map(({ meal, quantity }) => {
+            const mealDoc = getPopulatedDoc(meal);
+
+            return (
+              <li>
+                {mealDoc ? (
+                  <MealFieldset mealOptions={mealOptions} mealDoc={mealDoc} quantity={quantity} />
+                ) : (
+                  <span>{_tShared('_shared.errors.population')}</span>
+                )}
+              </li>
+            );
+          })
         ) : (
           <li>
             <MealFieldset mealOptions={mealOptions} />
@@ -66,25 +75,31 @@ export async function ShoppingListForm({
         {icons['plus-circle'].toSvg()}
       </Button>
 
-      <span class="mb-2 block">{_t('_shared.additionalIngredients')}:</span>
+      <span class="mb-2 block">{_t('_shared.additionalProducts')}:</span>
 
-      <ul id="additional-ingredients">
-        {shoppingList ? (
-          shoppingList.additionalIngredients.map((ingredient) => (
-            <li>
-              <IngredientFieldset
-                controls={shoppingListForm.ingredients}
-                ingredientOptions={ingredientOptions}
-                ingredient={ingredient}
-              />
-            </li>
-          ))
+      <ul id="additional-products">
+        {shoppingListDoc ? (
+          shoppingListDoc.additionalProducts.map(({ product, quantity, unit }) => {
+            const productDoc = getPopulatedDoc(product);
+
+            return (
+              <li>
+                {productDoc ? (
+                  <ProductFieldset
+                    productOptions={productOptions}
+                    productDoc={productDoc}
+                    quantity={quantity}
+                    unit={unit}
+                  />
+                ) : (
+                  <span>{_tShared('_shared.errors.population')}</span>
+                )}
+              </li>
+            );
+          })
         ) : (
           <li>
-            <IngredientFieldset
-              controls={shoppingListForm.ingredients}
-              ingredientOptions={ingredientOptions}
-            />
+            <ProductFieldset productOptions={productOptions} />
           </li>
         )}
       </ul>
@@ -92,8 +107,8 @@ export async function ShoppingListForm({
       <Button
         type="button"
         class="mx-auto mb-5 w-auto border-none"
-        hx-get="/api/shopping-lists/ingredient-fieldset"
-        hx-target="#additional-ingredients"
+        hx-get="/api/products/fieldset"
+        hx-target="#additional-products"
         hx-swap="beforeend"
       >
         {icons['plus-circle'].toSvg()}

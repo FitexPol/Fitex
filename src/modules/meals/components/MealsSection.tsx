@@ -40,6 +40,7 @@ export async function MealsSection({
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
+    .populate('products.product')
     .exec();
 
   return (
@@ -85,7 +86,7 @@ export async function MealsSection({
         <>
           {mealDocs.map((mealDoc) => (
             <Tiles.Item>
-              <MealCard meal={mealDoc} />
+              <MealCard mealDoc={mealDoc} />
             </Tiles.Item>
           ))}
         </>

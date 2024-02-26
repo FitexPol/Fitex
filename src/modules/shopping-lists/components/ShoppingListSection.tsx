@@ -4,13 +4,15 @@ import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
-import { type Ingredient } from '@models/ingredient';
+import { type ProductDoc } from '@products/models/product';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
-import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
+import { type Unit } from '@vars';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
@@ -54,8 +56,8 @@ export async function ShoppingListSection({
 
           <Card.Header title={shoppingListDoc.name} />
 
-          {shoppingListDoc.meals.length === 0 && shoppingListDoc.additionalIngredients.length === 0 ? (
-            <span>{_t('shoppingListSection.noMealsAndAdditionalIngredients')}</span>
+          {shoppingListDoc.meals.length === 0 && shoppingListDoc.additionalProducts.length === 0 ? (
+            <span>{_t('shoppingListSection.noMealsAndAdditionalProducts')}</span>
           ) : (
             <>
               <Link
@@ -69,9 +71,9 @@ export async function ShoppingListSection({
               </Link>
 
               {groupByMealsQuery ? (
-                <GroupedByMealsIngredients shoppingListDoc={shoppingListDoc} />
+                <GroupedByMealsProducts shoppingListDoc={shoppingListDoc} />
               ) : (
-                <AllIngredients shoppingListDoc={shoppingListDoc} />
+                <AllProducts shoppingListDoc={shoppingListDoc} />
               )}
             </>
           )}
@@ -102,10 +104,8 @@ export async function ShoppingListSection({
   );
 }
 
-function GroupedByMealsIngredients({
-  shoppingListDoc,
-}: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  const { meals, additionalIngredients } = shoppingListDoc;
+function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
+  const { meals, additionalProducts } = shoppingListDoc;
 
   return (
     <>
@@ -120,16 +120,29 @@ function GroupedByMealsIngredients({
                   <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
                 </Title>
 
-                {mealDoc.ingredients.length > 0 ? (
+                {mealDoc.products.length > 0 ? (
                   <List>
                     <>
-                      {mealDoc.ingredients.map((ingredient) => (
-                        <Item ingredient={ingredient} multiplier={quantity} />
-                      ))}
+                      {mealDoc.products.map(({ product, quantity, unit }) => {
+                        const productDoc = getPopulatedDoc(product);
+
+                        return productDoc ? (
+                          <Item
+                            productDoc={productDoc}
+                            quantity={quantity}
+                            unit={unit}
+                            multiplier={quantity}
+                          />
+                        ) : (
+                          <li>
+                            <span>{_tShared('_shared.errors.population')}</span>
+                          </li>
+                        );
+                      })}
                     </>
                   </List>
                 ) : (
-                  <span>{_t('shoppingListSection.noMealIngredients')}</span>
+                  <span>{_t('shoppingListSection.noMealProducts')}</span>
                 )}
               </>
             </ListSection>
@@ -138,16 +151,24 @@ function GroupedByMealsIngredients({
           );
         })}
 
-      {additionalIngredients.length > 0 && (
+      {additionalProducts.length > 0 && (
         <ListSection>
           <>
-            <Title>{_t('_shared.additionalIngredients')}</Title>
+            <Title>{_t('_shared.additionalProducts')}</Title>
 
             <List>
               <>
-                {additionalIngredients.map((ingredient) => (
-                  <Item ingredient={ingredient} />
-                ))}
+                {additionalProducts.map(({ product, quantity, unit }) => {
+                  const productDoc = getPopulatedDoc(product);
+
+                  return productDoc ? (
+                    <Item productDoc={productDoc} quantity={quantity} unit={unit} />
+                  ) : (
+                    <li>
+                      <span>{_tShared('_shared.errors.population')}</span>
+                    </li>
+                  );
+                })}
               </>
             </List>
           </>
@@ -157,28 +178,30 @@ function GroupedByMealsIngredients({
   );
 }
 
-function AllIngredients({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  const allIngredients = getAllIngredients(shoppingListDoc);
+function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
+  // const allProducts = getAllProducts(shoppingListDoc);
 
-  return (
-    <ListSection>
-      <>
-        <Title>{_t('shoppingListSection.allIngredients')}</Title>
+  return <></>
 
-        {allIngredients.length > 0 ? (
-          <List>
-            <>
-              {allIngredients.map((ingredient) => (
-                <Item ingredient={ingredient} />
-              ))}
-            </>
-          </List>
-        ) : (
-          <span>{_t('shoppingListSection.noIngredients')}</span>
-        )}
-      </>
-    </ListSection>
-  );
+  // return (
+  //   <ListSection>
+  //     <>
+  //       <Title>{_t('shoppingListSection.allProducts')}</Title>
+
+  //       {allProducts.length > 0 ? (
+  //         <List>
+  //           <>
+  //             {allProducts.map(({ product, quantity, unit }) => (
+  //               <Item productDoc={product} quantity={quantity} unit={unit} />
+  //             ))}
+  //           </>
+  //         </List>
+  //       ) : (
+  //         <span>{_t('shoppingListSection.noProducts')}</span>
+  //       )}
+  //     </>
+  //   </ListSection>
+  // );
 }
 
 function ListSection({ children }: ComponentProps) {
@@ -194,46 +217,59 @@ function List({ children }: ComponentProps) {
 }
 
 type ListItemProps = {
-  ingredient: Ingredient;
+  productDoc: ProductDoc;
+  quantity: number;
+  unit: Unit;
   multiplier?: number;
 };
 
-function Item({ ingredient, multiplier }: ComponentProps<ListItemProps>) {
-  const { name, quantity, unit } = ingredient;
+function Item({ productDoc, quantity, unit, multiplier }: ComponentProps<ListItemProps>) {
   const finalQuantity = multiplier ? quantity * multiplier : quantity;
 
   return (
     <li>
       <label>
-        <input type="checkbox" name={name} />
-        {_tShared(`_shared.ingredients.${name}`)} - {finalQuantity} {unit}
+        <input type="checkbox" name={productDoc.name} />
+        {getProductName(productDoc.name)} - {finalQuantity} {unit}
       </label>
     </li>
   );
 }
 
-function getAllIngredients(shoppingList: ShoppingListDoc): Ingredient[] {
-  const { meals, additionalIngredients } = shoppingList.toObject();
+// function getAllProducts(
+//   shoppingList: ShoppingListDoc,
+// ): { product: ProductDoc; quantity: number; unit: Unit }[] {
+//   const { meals, additionalProducts } = shoppingList.toObject();
 
-  if (meals.length === 0 && additionalIngredients.length === 0) return [];
+//   if (meals.length === 0 && additionalProducts.length === 0) return [];
 
-  const allIngredients: Ingredient[] = [];
+//   const allProducts: { product: ProductDoc; quantity: number; unit: Unit }[] = [];
 
-  if (meals.length > 0) {
-    meals.forEach(({ meal, quantity }) => {
-      const mealDoc = getPopulatedDoc(meal);
+//   if (meals.length > 0) {
+//     meals.forEach(({ meal, quantity }) => {
+//       const mealDoc = getPopulatedDoc(meal);
 
-      if (!mealDoc) return;
+//       if (!mealDoc) return;
 
-      mealDoc.ingredients.forEach((ingredient) => {
-        allIngredients.push({ ...ingredient, quantity: ingredient.quantity * quantity });
-      });
-    });
-  }
+//       mealDoc.products.forEach(({ product, quantity: productQuantity, unit }) => {
+//         const productDoc = getPopulatedDoc(product);
 
-  if (additionalIngredients.length > 0) {
-    allIngredients.push(...additionalIngredients);
-  }
+//         if (!productDoc) return;
 
-  return getGroupedIngredients(allIngredients);
-}
+//         allProducts.push({ product: productDoc, quantity: productQuantity * quantity, unit });
+//       });
+//     });
+//   }
+
+//   if (additionalProducts.length > 0) {
+//     additionalProducts.forEach(({ product, quantity, unit }) => {
+//       const productDoc = getPopulatedDoc(product);
+
+//       if (!productDoc) return;
+
+//       allProducts.push({ product: productDoc, quantity, unit });
+//     });
+//   }
+
+//   return getGroupedProducts(allProducts);
+// }

@@ -1,27 +1,34 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import { getProductsById } from '@products/utils/getProductsById';
 import { getBodySchema } from '@utils/getBodySchema';
-import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getParsedBody } from '@utils/getParsedBody';
-import { HxResponseHeader } from '@vars';
+import { HxResponseHeader, type Unit } from '@vars';
 
 import { type MealForm as MealFormType, mealForm } from '../forms';
-import { Meal, type MealDoc } from '../models/meal';
+import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 
-export type MealBody<T> = T & { ingredients: MealDoc['ingredients'] };
+export type ProductBody = { productId: string; quantity: number; unit: Unit };
+
+export type MealBody<T> = T & {
+  products: ProductBody[];
+};
 
 export const createMeal = new Elysia().use(context).post(
   '',
   async ({ body, user, set }) => {
-    const { ingredients: ingredientsBody, ...mealBody } =
-      getParsedBody<MealBody<Omit<typeof body, 'ingredients'>>>(body);
+    const { products: productsBody, ...mealBody } =
+      getParsedBody<MealBody<Omit<typeof body, 'products'>>>(body);
+
+    const mealProducts = await getProductsById(getGroupedProducts(productsBody));
 
     const meal = new Meal({
       ...mealBody,
       author: user!.id,
-      ingredients: getGroupedIngredients(ingredientsBody),
+      products: mealProducts,
     });
 
     try {

@@ -1,9 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { MealFieldset } from '@meals/components/MealFieldset';
 
-import { MealFieldset } from '../components/MealFieldset';
-import { getMealOptions } from '../utils/getMealOptions';
+import { getMealOptions } from '../../meals/utils/getMealOptions';
 
 export const getMealFieldset = new Elysia().use(context).get('/meal-fieldset', async ({ user }) => {
   const mealOptions = await getMealOptions(user!);

@@ -1,13 +1,13 @@
 import { icons } from 'feather-icons';
 
 import { Button } from '@components/Button';
-import { IngredientFieldset } from '@components/IngredientFieldset';
 import { Input } from '@components/inputs/Input';
-import { type SelectOption } from '@components/inputs/Select';
 import { Textarea } from '@components/inputs/Textarea';
+import { ProductFieldset } from '@products/components/ProductFieldset';
+import { getProductOptions } from '@products/utils/getProductOptions';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { getIngredientOptions } from '@utils/getIngredientOptions';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type MealForm, type MealFormErrors, mealForm } from '../forms';
 import { type MealDoc } from '../models/meal';
@@ -16,41 +16,50 @@ const _t = $t('meals');
 const _tShared = $t('_shared');
 
 type MealFormProps = {
-  meal?: MealDoc;
+  mealDoc?: MealDoc;
   errors?: MealFormErrors;
 };
 
-export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
-  const ingredientOptions: SelectOption[] = getIngredientOptions();
-  const [method, endpoint] = meal ? ['PATCH', `/api/meals/${meal.id}`] : ['POST', '/api/meals'];
+export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps>) {
+  const productOptions = await getProductOptions();
+  const [method, endpoint] = mealDoc ? ['PATCH', `/api/meals/${mealDoc.id}`] : ['POST', '/api/meals'];
 
   return (
     <form id="meal-form" onsubmit={`submitMealForm(event, '${method}', '${endpoint}', this)`}>
-      <Input control={mealForm.name} value={meal?.name} error={errors?.name} />
+      <Input control={mealForm.name} value={mealDoc?.name} error={errors?.name} />
 
       <Textarea
         control={mealForm.description}
-        value={meal?.description}
+        value={mealDoc?.description}
         rows="5"
         error={errors?.description}
       />
 
-      <span class="mb-2 block">{_t('mealForm.ingredients')}:</span>
+      <span class="mb-2 block">{_t('mealForm.products')}:</span>
 
-      <ul id="ingredients">
-        {meal ? (
-          meal.ingredients.map((ingredient) => (
-            <li>
-              <IngredientFieldset
-                controls={mealForm.ingredients}
-                ingredientOptions={ingredientOptions}
-                ingredient={ingredient}
-              />
-            </li>
-          ))
+      <ul id="products">
+        {mealDoc ? (
+          mealDoc.products.map(({ product, quantity, unit }) => {
+            const productDoc = getPopulatedDoc(product);
+
+            return (
+              <li>
+                {productDoc ? (
+                  <ProductFieldset
+                    productOptions={productOptions}
+                    productDoc={productDoc}
+                    quantity={quantity}
+                    unit={unit}
+                  />
+                ) : (
+                  <span>{_tShared('_shared.errors.population')}</span>
+                )}
+              </li>
+            );
+          })
         ) : (
           <li>
-            <IngredientFieldset controls={mealForm.ingredients} ingredientOptions={ingredientOptions} />
+            <ProductFieldset productOptions={productOptions} />
           </li>
         )}
       </ul>
@@ -58,8 +67,8 @@ export function MealForm({ meal, errors }: ComponentProps<MealFormProps>) {
       <Button
         type="button"
         class="mx-auto mb-5 w-auto border-none"
-        hx-get="/api/meals/ingredient-fieldset"
-        hx-target="#ingredients"
+        hx-get="/api/products/fieldset"
+        hx-target="#products"
         hx-swap="beforeend"
       >
         {icons['plus-circle'].toSvg()}

@@ -1,4 +1,3 @@
-import { ingredientsForm } from '@/modules/_shared/forms';
 import type { Form, FormErrors } from '@types';
 
 export const mealForm = {
@@ -22,7 +21,10 @@ export const mealForm = {
       message: 'Meal description must be between 3 and 100 characters long',
     },
   },
-  ingredients: ingredientsForm,
+  products: {
+    type: 'text',
+    name: 'products',
+  },
 } satisfies Form;
 
 export type MealForm = typeof mealForm;

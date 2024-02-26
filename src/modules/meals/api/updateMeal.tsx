@@ -1,8 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import { getProductsById } from '@products/utils/getProductsById';
 import { getBodySchema } from '@utils/getBodySchema';
-import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
 
@@ -14,8 +15,8 @@ import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
 export const updateMeal = new Elysia().use(context).patch(
   '/:id',
   async ({ body, user, set, params: { id } }) => {
-    const { ingredients: ingredientsBody, ...mealBody } =
-      getParsedBody<MealBody<Omit<typeof body, 'ingredients'>>>(body);
+    const { products: productsBody, ...mealBody } =
+      getParsedBody<MealBody<Omit<typeof body, 'products'>>>(body);
     const mealDoc = await Meal.findById(id).exec();
 
     if (!mealDoc) {
@@ -28,8 +29,10 @@ export const updateMeal = new Elysia().use(context).patch(
       throw new Error('You are not authorized to update this meal');
     }
 
+    const mealProducts = await getProductsById(getGroupedProducts(productsBody));
+
     try {
-      await mealDoc.updateOne({ ...mealBody, ingredients: getGroupedIngredients(ingredientsBody) });
+      await mealDoc.updateOne({ ...mealBody, products: mealProducts });
     } catch {
       set.status = 'Bad Request';
       throw new Error('Failed to update meal');

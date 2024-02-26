@@ -1,4 +1,5 @@
 TODO:
+  - składniki -> produkty
   - usuwanie zależności
   - dodać notifications
   - poprawić typowanie getBodySchema (optional type)

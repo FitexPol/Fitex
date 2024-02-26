@@ -1,8 +1,9 @@
 import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
 import { type MealDoc } from '@meals/models/meal';
-import { type Ingredient, ingredientSchema } from '@models/ingredient';
+import { type ProductDoc } from '@products/models/product';
 import { type Populated } from '@types';
+import { Unit } from '@vars';
 
 type ShoppingList = {
   _id: string;
@@ -14,7 +15,11 @@ type ShoppingList = {
     meal: Populated<MealDoc>;
     quantity: number;
   }[];
-  additionalIngredients: Ingredient[];
+  additionalProducts: {
+    product: Populated<ProductDoc>;
+    quantity: number;
+    unit: Unit;
+  }[];
 };
 
 const shoppingListSchema = new Schema<ShoppingList>({
@@ -56,8 +61,25 @@ const shoppingListSchema = new Schema<ShoppingList>({
     ],
     default: [],
   },
-  additionalIngredients: {
-    type: [ingredientSchema],
+  additionalProducts: {
+    type: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+          max: 100,
+        },
+        unit: {
+          type: String,
+          enum: Object.values(Unit),
+        },
+      },
+    ],
     default: [],
   },
 });

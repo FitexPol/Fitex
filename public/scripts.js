@@ -9,8 +9,8 @@ function submitMealForm(event, method, endpoint, form) {
 
   const values = parseFormData(new FormData(form));
 
-  if (!values.ingredients) {
-    values.ingredients = JSON.stringify([]);
+  if (!values.products) {
+    values.products = JSON.stringify([]);
   }
 
   submitForm(method, endpoint, values);
@@ -25,8 +25,8 @@ function submitShoppingListForm(event, method, endpoint, form) {
     values.meals = JSON.stringify([]);
   }
 
-  if (!values.ingredients) {
-    values.ingredients = JSON.stringify([]);
+  if (!values.additionalProducts) {
+    values.additionalProducts = JSON.stringify([]);
   }
 
   submitForm(method, endpoint, values);

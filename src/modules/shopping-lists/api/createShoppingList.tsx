@@ -1,23 +1,27 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { type MealDoc } from '@meals/models/meal';
+import { getMealsById } from '@meals/utils/getMealsById';
 import { getBodySchema } from '@utils/getBodySchema';
-import { getGroupedIngredients } from '@utils/getGroupedIngredients';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
-import { HxResponseHeader } from '@vars';
+import { HxResponseHeader, type Unit } from '@vars';
 
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
-import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
-import { getMealsByIds } from '../utils/getMealsByIds';
+import { ShoppingList } from '../models/shoppingList';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
 
 export type ShoppingListBody<T> = T & {
   meals: {
-    id: string;
+    mealId: string;
     quantity: string;
   }[];
-  ingredients: ShoppingListDoc['additionalIngredients'];
+  products: {
+    productId: string;
+    quantity: number;
+    unit: Unit
+  }[];
 };
 
 export const createShoppingList = new Elysia().use(context).post(
@@ -25,16 +29,16 @@ export const createShoppingList = new Elysia().use(context).post(
   async ({ body, user, set }) => {
     const {
       meals: mealsBody,
-      ingredients: ingredientsBody,
+      products: productsBody,
       ...shoppingListBody
-    } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'ingredients'>>>(body);
-    const meals: ShoppingListDoc['meals'] = await getMealsByIds(mealsBody);
+    } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'products'>>>(body);
+    const meals: { meal: MealDoc; quantity: number }[] = await getMealsById(mealsBody);
 
     const shoppingList = new ShoppingList({
       ...shoppingListBody,
       author: user!.id,
       meals,
-      additionalIngredients: getGroupedIngredients(ingredientsBody),
+      additionalProducts: [],
     });
 
     try {

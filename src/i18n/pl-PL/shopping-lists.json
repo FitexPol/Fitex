@@ -3,7 +3,7 @@
     "deletionConfirmation": "Czy na pewno chcesz usunąć tę listę zakupów? Ta operacja jest nieodwracalna.",
     "notFound": "Nie znaleziono listy zakupów",
     "meals": "Posiłki",
-    "additionalIngredients": "Składniki dodatkowe"
+    "additionalProducts": "Dodatkowe produkty"
   },
   "favoriteShoppingListsSection": {
     "title": "Twoje ulubione listy zakupów",
@@ -15,11 +15,11 @@
   },
   "shoppingListSection": {
     "permissionDenied": "Nie masz uprawnień do wyświetlenia tej listy zakupów",
-    "noMealsAndAdditionalIngredients": "Nie dodano żadnych posiłków ani składników dodatkowych",
+    "noMealsAndAdditionalProducts": "Nie dodano żadnych posiłków ani produktów dodatkowych",
     "groupByMeals": "Grupuj według posiłków",
-    "noMealIngredients": "Ten posiłek nie ma dodanych żadnych składników",
-    "allIngredients": "Wszystkie składniki",
-    "noIngredients": "Brak składników"
+    "noMealProducts": "Ten posiłek nie ma dodanych żadnych produktów",
+    "allProducts": "Wszystkie produkty",
+    "noProducts": "Brak produktów"
   },
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",
