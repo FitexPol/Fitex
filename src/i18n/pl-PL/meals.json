@@ -13,7 +13,8 @@
     "success": "Posiłek został usunięty"
   },
   "toggleFavorite": {
-    "success": "Posiłek został dodany do ulubionych"
+    "addedSuccess": "Posiłek został dodany do ulubionych",
+    "removedSuccess": "Posiłek został usunięty z ulubionych"
   },
   "updateMeal": {
     "success": "Posiłek został zaktualizowany"

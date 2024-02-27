@@ -1,5 +1,5 @@
 TODO:
-  - dodać notifications
+  - grupowanie produktów po kategorii
   - tagowanie posiłków
   - panel admina (zarządzanie produktami)
   - poprawić typowanie getBodySchema (optional type)

@@ -51,11 +51,14 @@ export const toggleFavorite = new Elysia()
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('toggleFavorite.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      _t(`toggleFavorite.${mealDoc.isFavorite ? 'addedSuccess' : 'removedSuccess'}`),
+    );
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
 
-    if (currentUrl && currentUrl.includes('/meal/')) {
+    if (currentUrl && currentUrl.includes('/meals/')) {
       return <MealSection user={user!} mealId={mealDoc.id} />;
     }
 

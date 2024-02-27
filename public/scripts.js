@@ -1,18 +1,23 @@
 const notificationPortal = document.getElementById('notification-portal');
 
 document.body.addEventListener('notification', ({ detail }) => {
-  const notificationMsg = document.createElement('span');
+  const messageNode = document.createElement('span');
+  messageNode.textContent = decodeURIComponent(detail.message);
 
-  notificationMsg.innerText = detail.message;
-  notificationPortal.classList.toggle(detail.type);
-  notificationPortal.appendChild(notificationMsg);
+  const notification = document.createElement('div');
+  notification.classList.add(detail.type);
+  notification.appendChild(messageNode);
+
+  notificationPortal.appendChild(notification);
   notificationPortal.show();
 
   setTimeout(() => {
+    notificationPortal.removeChild(notification);
+
+    if (notificationPortal.children.length > 0) return;
+
     notificationPortal.close();
-    notificationPortal.removeChild(notificationMsg);
-    notificationPortal.classList.toggle(detail.type);
-  }, 3000);
+  }, 2000);
 });
 
 function removeRow(element) {

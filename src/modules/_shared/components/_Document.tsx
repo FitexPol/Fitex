@@ -44,7 +44,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           {renderContent(layout)}
           <dialog
             id="notification-portal"
-            class="bottom-auto left-1/2 right-auto top-3 min-h-min w-auto min-w-fit -translate-x-1/2 rounded-lg px-4 py-2 text-sm text-white"
+            class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
             hx-preserve="true"
           />
           <Loader />

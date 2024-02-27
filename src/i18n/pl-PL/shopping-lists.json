@@ -15,7 +15,8 @@
     "success": "List zakupów została usunięta"
   },
   "toggleFavorite": {
-    "success": "Lista zakupów została dodana do ulubionych"
+    "addedSuccess": "Lista zakupów została dodana do ulubionych",
+    "removedSuccess": "Lista zakupów została usunięta z ulubionych"
   },
   "updateShoppingList": {
     "success": "Lista zakupów została zaktualizowana"

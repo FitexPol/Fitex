@@ -33,11 +33,15 @@
     @apply inline-block;
   }
 
-  #notification-portal.success {
+  #notification-portal .success,
+  #notification-portal .error {
+    @apply rounded-lg px-4 py-2 text-sm text-white;
+  }
+  #notification-portal .success {
     @apply bg-green-600;
   }
 
-  #notification-portal.error {
+  #notification-portal .error {
     @apply bg-red-600;
   }
 }

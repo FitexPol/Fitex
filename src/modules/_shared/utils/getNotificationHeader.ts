@@ -2,7 +2,7 @@ export function getNotificationHeader(type: 'success' | 'error', message: string
   return JSON.stringify({
     notification: {
       type,
-      message,
+      message: encodeURIComponent(message),
     },
   });
 }

@@ -51,7 +51,10 @@ export const toggleFavorite = new Elysia()
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('toggleFavorite.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      _t(`toggleFavorite.${shoppingListDoc.isFavorite ? 'addedSuccess' : 'removedSuccess'}`),
+    );
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
     const queryParams = getQueryParams(currentUrl);
