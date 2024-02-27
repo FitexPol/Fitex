@@ -55,7 +55,6 @@ const shoppingListSchema = new Schema<ShoppingList>({
           type: Number,
           required: true,
           min: 1,
-          max: 100,
         },
       },
     ],
@@ -72,7 +71,6 @@ const shoppingListSchema = new Schema<ShoppingList>({
           type: Number,
           required: true,
           min: 1,
-          max: 100,
         },
         unit: {
           type: String,

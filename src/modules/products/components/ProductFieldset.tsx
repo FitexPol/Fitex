@@ -27,7 +27,6 @@ export const form = {
     validators: {
       required: true,
       min: 1,
-      max: 100,
       message: 'Must be at least 1',
     },
   },

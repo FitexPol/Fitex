@@ -54,7 +54,6 @@ const mealSchema = new Schema<Meal>({
           type: Number,
           required: true,
           min: 1,
-          max: 100,
         },
         unit: {
           type: String,
