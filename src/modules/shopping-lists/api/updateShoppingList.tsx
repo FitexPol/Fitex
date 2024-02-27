@@ -5,7 +5,9 @@ import { getGroupedMeals } from '@meals/utils/getGroupedMeals';
 import { getMealsById } from '@meals/utils/getMealsById';
 import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { getProductsById } from '@products/utils/getProductsById';
+import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
+import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
 import { HxResponseHeader } from '@vars';
@@ -14,6 +16,9 @@ import { type ShoppingListBody } from './createShoppingList';
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
 import { ShoppingList } from '../models/shoppingList';
 import { getShoppingListFormWithErrors } from '../utils/getShoppingListFormWithErrors';
+
+const _t = $t('shoppingLists');
+const _tShared = $t('_shared');
 
 export const updateShoppingList = new Elysia().use(context).patch(
   '/:id',
@@ -27,12 +32,19 @@ export const updateShoppingList = new Elysia().use(context).patch(
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      throw new Error('Shopping list not found');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+
+      return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to update this shopping list');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.errors.permissionDenied'),
+      );
+
+      return;
     }
 
     const shoppingListMeals = await getMealsById(getGroupedMeals(mealsBody));
@@ -46,12 +58,22 @@ export const updateShoppingList = new Elysia().use(context).patch(
       });
     } catch {
       set.status = 'Bad Request';
-      throw new Error('Failed to update meal');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _tShared('_shared.errors.badRequest'),
+      );
+
+      return;
     }
 
-    set.headers = {
-      [HxResponseHeader.Location]: getPath(`/shopping-lists/${shoppingListDoc.id}`, { groupByMeals: 'on' }),
-    };
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      _t('updateShoppingList.success'),
+    );
+
+    set.headers[HxResponseHeader.Location] = getPath(`/shopping-lists/${shoppingListDoc.id}`, {
+      groupByMeals: 'on',
+    });
   },
   {
     body: getBodySchema<ShoppingListFormType>(shoppingListForm),

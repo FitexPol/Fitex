@@ -10,6 +10,7 @@ export enum HxResponseHeader {
   Location = 'HX-Location',
   Retarget = 'HX-Retarget',
   Reswap = 'HX-Reswap',
+  Trigger = 'HX-Trigger',
   TriggerAfterSwap = 'HX-Trigger-After-Swap',
 }
 

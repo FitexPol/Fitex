@@ -40,8 +40,13 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           <script src="/public/scripts.js" defer></script>
         </head>
 
-        <body id="body" hx-ext="response-targets">
+        <body hx-ext="response-targets">
           {renderContent(layout)}
+          <dialog
+            id="notification-portal"
+            class="bottom-auto left-1/2 right-auto top-3 min-h-min w-auto min-w-fit -translate-x-1/2 rounded-lg px-4 py-2 text-sm text-white"
+            hx-preserve="true"
+          />
           <Loader />
         </body>
       </html>
@@ -85,7 +90,7 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
 
 function Loader() {
   return (
-    <div id="loader" class="loader-indicator fixed bottom-4 right-4">
+    <div id="loader" class="loader-indicator fixed bottom-4 right-4" hx-preserve="true">
       <div
         class="relative inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
         role="status"

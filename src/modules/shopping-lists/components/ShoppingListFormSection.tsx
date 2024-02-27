@@ -34,7 +34,7 @@ export async function ShoppingListFormSection({
   }
 
   if (!shoppingListDoc.author._id.equals(user.id)) {
-    return <span>{_t('shoppingListFormSection.permissionDenied')}</span>;
+    return <span>{_t('_shared.errors.permissionDenied')}</span>;
   }
 
   return (

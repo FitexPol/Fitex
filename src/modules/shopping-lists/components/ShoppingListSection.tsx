@@ -38,11 +38,11 @@ export async function ShoppingListSection({
     .exec();
 
   if (!shoppingListDoc) {
-    return <span>{_t('_shared.notFound')}</span>;
+    return <span>{_t('_shared.errors.notFound')}</span>;
   }
 
   if (!shoppingListDoc.author._id.equals(user.id)) {
-    return <span>{_t('shoppingListSection.permissionDenied')}</span>;
+    return <span>{_t('_shared.errors.permissionDenied')}</span>;
   }
 
   return (

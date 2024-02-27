@@ -28,7 +28,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
   }
 
   if (!mealDoc.author._id.equals(user.id)) {
-    return <span>{_t('mealSection.permissionDenied')}</span>;
+    return <span>{_t('_shared.permissionDenied')}</span>;
   }
 
   return (

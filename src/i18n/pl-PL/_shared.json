@@ -11,6 +11,7 @@
       "creationDateDesc": "po dacie utworzenia (malejąco)"
     },
     "errors": {
+      "badRequest": "Coś poszło nie tak, spróbuje ponownie później",
       "translation": "BŁĄD: Nie udało się załadować tłumaczenia",
       "population": "BŁĄD: Nie udało się załadować danych"
     },

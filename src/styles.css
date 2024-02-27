@@ -32,4 +32,12 @@
   .htmx-request.loader-indicator {
     @apply inline-block;
   }
+
+  #notification-portal.success {
+    @apply bg-green-600;
+  }
+
+  #notification-portal.error {
+    @apply bg-red-600;
+  }
 }

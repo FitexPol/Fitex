@@ -1,4 +1,20 @@
-// custom client scripts here
+const notificationPortal = document.getElementById('notification-portal');
+
+document.body.addEventListener('notification', ({ detail }) => {
+  const notificationMsg = document.createElement('span');
+
+  notificationMsg.innerText = detail.message;
+  notificationPortal.classList.toggle(detail.type);
+  notificationPortal.appendChild(notificationMsg);
+  notificationPortal.show();
+
+  setTimeout(() => {
+    notificationPortal.close();
+    notificationPortal.removeChild(notificationMsg);
+    notificationPortal.classList.toggle(detail.type);
+  }, 3000);
+});
+
 function removeRow(element) {
   const row = element.closest('li');
   row.remove();
@@ -20,7 +36,6 @@ function submitShoppingListForm(event, method, endpoint, form) {
   event.preventDefault();
 
   const values = parseFormData(new FormData(form));
-
 
   if (!values.meals) {
     values.meals = JSON.stringify([]);

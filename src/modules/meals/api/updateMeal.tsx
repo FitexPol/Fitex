@@ -3,7 +3,9 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { getProductsById } from '@products/utils/getProductsById';
+import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
+import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
 
@@ -11,6 +13,9 @@ import { type MealBody } from './createMeal';
 import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
+
+const _t = $t('meals');
+const _tShared = $t('_shared');
 
 export const updateMeal = new Elysia().use(context).patch(
   '/:id',
@@ -21,12 +26,19 @@ export const updateMeal = new Elysia().use(context).patch(
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      throw new Error('Meal not found');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+
+      return;
     }
 
     if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to update this meal');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.errors.permissionDenied'),
+      );
+
+      return;
     }
 
     const mealProducts = await getProductsById(getGroupedProducts(productsBody));
@@ -35,12 +47,16 @@ export const updateMeal = new Elysia().use(context).patch(
       await mealDoc.updateOne({ ...mealBody, products: mealProducts });
     } catch {
       set.status = 'Bad Request';
-      throw new Error('Failed to update meal');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _tShared('_shared.errors.badRequest'),
+      );
+
+      return;
     }
 
-    set.headers = {
-      [HxResponseHeader.Location]: `/meals/${mealDoc.id}`,
-    };
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateMeal.success'));
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
     body: getBodySchema<MealFormType>(mealForm),

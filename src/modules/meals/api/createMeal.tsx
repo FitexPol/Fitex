@@ -3,13 +3,18 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { getProductsById } from '@products/utils/getProductsById';
+import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
+import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader, type Unit } from '@vars';
 
 import { type MealForm as MealFormType, mealForm } from '../forms';
 import { Meal } from '../models/meal';
 import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
+
+const _t = $t('meals');
+const _tShared = $t('_shared');
 
 export type MealBody<T> = T & {
   products: {
@@ -37,13 +42,18 @@ export const createMeal = new Elysia().use(context).post(
       await meal.save();
     } catch {
       set.status = 'Bad Request';
-      throw new Error('Failed to create meal');
+
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _tShared('_shared.errors.badRequest'),
+      );
+
+      return;
     }
 
     set.status = 'Created';
-    set.headers = {
-      [HxResponseHeader.Location]: `/meals/${meal.id}`,
-    };
+    set.headers[HxResponseHeader.Location] = `/meals/${meal.id}`;
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('createMeal.success'));
   },
   {
     body: getBodySchema<MealFormType>(mealForm),

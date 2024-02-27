@@ -1,19 +1,32 @@
 {
   "_shared": {
     "deletionConfirmation": "Czy na pewno chcesz usunąć ten posiłek? Ta operacja jest nieodwracalna.",
-    "notFound": "Nie znaleziono posiłku"
+    "errors": {
+      "notFound": "Nie znaleziono posiłku",
+      "permissionDenied": "Nie masz dostępu do tego posiłku"
+    }
+  },
+  "createMeal": {
+    "success": "Posiłek został utworzony"
+  },
+  "deleteMeal": {
+    "success": "Posiłek został usunięty"
+  },
+  "toggleFavorite": {
+    "success": "Posiłek został dodany do ulubionych"
+  },
+  "updateMeal": {
+    "success": "Posiłek został zaktualizowany"
   },
   "favoriteMealsSection": {
     "title": "Twoje ulubione posiłki",
     "noResults": "Nie masz jeszcze ulubionych posiłków"
   },
   "mealFormSection": {
-    "title": "Stwórz nowy posiłek",
-    "permissionDenied": "Nie masz uprawnień do edytowania tego posiłku"
+    "title": "Stwórz nowy posiłek"
   },
   "mealSection": {
-    "noProducts": "Nie dodano żadnych produktów",
-    "permissionDenied": "Nie masz uprawnień do wyświetlenia tego posiłku"
+    "noProducts": "Nie dodano żadnych produktów"
   },
   "mealsSection": {
     "title": "Twoje posiłki",

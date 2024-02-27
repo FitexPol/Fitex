@@ -3,6 +3,7 @@ import { Elysia, type ValidationError } from 'elysia';
 import { context } from '@/context';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
+import { HxResponseHeader } from '@vars';
 
 import { SignUpForm } from '../components/SignUpForm';
 import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms';
@@ -48,7 +49,7 @@ export const signUp = new Elysia().use(context).post(
     });
 
     set.status = 'Created';
-    set.headers = { 'Hx-Location': '/' };
+    set.headers[HxResponseHeader.Location] = '/';
   },
   {
     body: getBodySchema<SignUpFormType>(signUpForm),

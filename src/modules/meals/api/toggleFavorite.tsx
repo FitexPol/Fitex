@@ -1,14 +1,19 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { $t } from '@utils/$t';
+import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
-import { HxRequestHeader } from '@vars';
+import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { FavoriteMealsSection } from '../components/FavoriteMealsSection';
 import { MealSection } from '../components/MealSection';
 import { MealsSection } from '../components/MealsSection';
 import { Meal } from '../models/meal';
+
+const _t = $t('meals');
+const _tShared = $t('_shared');
 
 export const toggleFavorite = new Elysia()
   .use(context)
@@ -17,16 +22,36 @@ export const toggleFavorite = new Elysia()
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      throw new Error('Meal not found');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+
+      return;
     }
 
     if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to update this meal');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.errors.permissionDenied'),
+      );
+
+      return;
     }
 
     mealDoc.isFavorite = !mealDoc.isFavorite;
-    await mealDoc.save();
+
+    try {
+      await mealDoc.save();
+    } catch {
+      set.status = 'Bad Request';
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _tShared('_shared.errors.badRequest'),
+      );
+
+      return;
+    }
+
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('toggleFavorite.success'));
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
 

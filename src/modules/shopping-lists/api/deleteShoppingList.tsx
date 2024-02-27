@@ -1,6 +1,8 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { $t } from '@utils/$t';
+import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
@@ -9,6 +11,9 @@ import { FavoriteShoppingListsSection } from '../components/FavoriteShoppingList
 import { ShoppingListsSection } from '../components/ShoppingListsSection';
 import { ShoppingList } from '../models/shoppingList';
 
+const _t = $t('shoppingLists');
+const _tShared = $t('_shared');
+
 export const deleteShoppingList = new Elysia()
   .use(context)
   .delete('/:id', async ({ user, set, params: { id }, request }) => {
@@ -16,27 +21,39 @@ export const deleteShoppingList = new Elysia()
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      throw new Error('Shopping list not found');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+
+      return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      throw new Error('You are not authorized to delete this shopping list');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.errors.permissionDenied'),
+      );
+
+      return;
     }
 
     try {
       await shoppingListDoc.deleteOne();
     } catch {
       set.status = 'Bad Request';
-      throw new Error('Failed to delete meal');
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _tShared('_shared.errors.badRequest'),
+      );
+
+      return;
     }
+
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('deleteMeal.success'));
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
 
     if (currentUrl && currentUrl.includes('/shopping-lists/')) {
-      set.headers = {
-        [HxResponseHeader.Location]: '/shopping-lists',
-      };
+      set.headers[HxResponseHeader.Location] = '/shopping-lists';
 
       return;
     }
