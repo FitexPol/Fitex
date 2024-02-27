@@ -26,16 +26,22 @@ export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps
 
   return (
     <form id="meal-form" onsubmit={`submitMealForm(event, '${method}', '${endpoint}', this)`}>
-      <Input control={mealForm.name} value={mealDoc?.name} error={errors?.name} />
+      <Input
+        control={mealForm.name}
+        value={mealDoc?.name}
+        label={_tShared('_shared.forms.name')}
+        error={errors?.name}
+      />
 
       <Textarea
         control={mealForm.description}
         value={mealDoc?.description}
+        label={_tShared('_shared.forms.description')}
         rows="5"
         error={errors?.description}
       />
 
-      <span class="mb-2 block">{_t('mealForm.products')}:</span>
+      <span class="mb-3 block">{_t('mealForm.products')}:</span>
 
       <ul id="products">
         {mealDoc ? (

@@ -12,7 +12,6 @@ export const productSchema = new Schema<Product>({
   },
   category: {
     type: String,
-    required: true,
   },
 });
 

@@ -23,7 +23,7 @@ export function Select({
 }: ComponentProps<SelectProps>) {
   return (
     <label class={`${$tm(className)}`}>
-      {!!label && <span class="mb-1 block">{label}</span>}
+      {!!label && <span class="mb-1 ml-2 block text-sm">{label}</span>}
       <select name={control.name} class="h-[3.1rem]">
         {options?.map(({ value: optionValue, label }) => (
           <option value={optionValue} selected={optionValue === value}>

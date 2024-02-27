@@ -1,4 +1,4 @@
-type EnvKey = 'API_PREFIX' | 'DB_USER' | 'DB_PASSWORD' | 'INGREDIENTS_API';
+type EnvKey = 'DB_USER' | 'DB_PASSWORD' | 'DB_NAME' | 'DB_URL';
 
 export function getEnvSecure(envKey: EnvKey): string {
   const env = process.env[envKey];

@@ -27,7 +27,7 @@ export function Input({
 
   return (
     <label class={`${$tm('relative mb-0 pb-2', className)}`}>
-      {!!label && <span class="mb-1 block">{label}</span>}
+      {!!label && <span class="mb-1 ml-2 block text-sm">{label}</span>}
       <input
         {...inputAttributes}
         placeholder={getPlaceholder(placeholder)}

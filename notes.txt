@@ -1,5 +1,6 @@
 TODO:
-  - usuwanie zależności
   - dodać notifications
+  - tagowanie posiłków
+  - panel admina (zarządzanie produktami)
   - poprawić typowanie getBodySchema (optional type)
   - tagowanie posiłków

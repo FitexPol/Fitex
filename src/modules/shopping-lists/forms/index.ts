@@ -4,7 +4,6 @@ export const shoppingListForm = {
   name: {
     type: 'text',
     name: 'name',
-    placeholder: '_shared._shared.forms.name',
     validators: {
       required: true,
       minLength: 3,

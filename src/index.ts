@@ -12,18 +12,13 @@ import { pages } from './pages';
 const app = new Elysia().use(swagger()).use(staticPlugin()).use(html()).use(pages).use(api);
 
 try {
-  await mongoose.connect(
-    `mongodb+srv://${getEnvSecure('DB_USER')}:${getEnvSecure(
-      'DB_PASSWORD',
-    )}@cluster0.vx4xlsk.mongodb.net/fitex?retryWrites=true&w=majority`,
-    {
-      serverApi: {
-        version: '1',
-        strict: true,
-        deprecationErrors: true,
-      },
+  await mongoose.connect(getEnvSecure('DB_URL'), {
+    serverApi: {
+      version: '1',
+      strict: true,
+      deprecationErrors: true,
     },
-  );
+  });
 
   app.listen(3000);
   console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);

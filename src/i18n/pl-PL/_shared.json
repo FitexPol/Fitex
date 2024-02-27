@@ -17,6 +17,7 @@
     "forms": {
       "name": "Nazwa",
       "description": "Opis",
+      "quantity": "Ilość",
       "submit": "Zapisz"
     }
   },

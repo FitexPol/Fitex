@@ -39,9 +39,14 @@ export async function ShoppingListForm({
       id="shopping-list-form"
       onsubmit={`submitShoppingListForm(event, '${method}', '${endpoint}', this)`}
     >
-      <Input control={shoppingListForm.name} value={shoppingListDoc?.name} error={errors?.name} />
+      <Input
+        control={shoppingListForm.name}
+        value={shoppingListDoc?.name}
+        label={_tShared('_shared.forms.name')}
+        error={errors?.name}
+      />
 
-      <span class="mb-2 block">{_t('_shared.meals')}:</span>
+      <span class="mb-3 block">{_t('_shared.meals')}:</span>
 
       <ul id="meals">
         {shoppingListDoc ? (
@@ -75,7 +80,7 @@ export async function ShoppingListForm({
         {icons['plus-circle'].toSvg()}
       </Button>
 
-      <span class="mb-2 block">{_t('_shared.products')}:</span>
+      <span class="mb-3 block">{_t('_shared.products')}:</span>
 
       <ul id="products">
         {shoppingListDoc ? (

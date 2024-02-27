@@ -1,12 +1,6 @@
 {
-  "_shared": {
-    "units": {
-      "g": "g",
-      "kg": "kg",
-      "ml": "ml",
-      "l": "l",
-      "unit": "unit"
-    }
+  "productFieldset": {
+    "unit": "Jednostka"
   },
   "getProductName": {
     "ackee": "Ackee",
