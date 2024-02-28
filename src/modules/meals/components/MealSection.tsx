@@ -3,7 +3,6 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
-import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -56,8 +55,8 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
                   <li>
                     {productDoc ? (
                       <label>
-                        <input type="checkbox" name={productDoc.name} />
-                        {getProductName(productDoc.name)} - {quantity} {unit}
+                        <input type="checkbox" name={productDoc.name['pl-PL']} />
+                        {productDoc.name['pl-PL']} - {quantity} {unit}
                       </label>
                     ) : (
                       <span>{_tShared('_shared.errors.population')}</span>

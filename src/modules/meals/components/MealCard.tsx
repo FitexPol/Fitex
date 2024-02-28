@@ -3,7 +3,6 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
-import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -48,7 +47,7 @@ export function MealCard({ mealDoc }: ComponentProps<MealCard>) {
                   return (
                     <li class="flex justify-between text-xs">
                       <span>
-                        {productDoc ? getProductName(productDoc.name) : _tShared(`_shared.errors.population`)}
+                        {productDoc ? productDoc.name['pl-PL'] : _tShared(`_shared.errors.population`)}
                       </span>
                       <span>
                         {quantity} {unit}

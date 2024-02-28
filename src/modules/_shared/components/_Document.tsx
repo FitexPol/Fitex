@@ -38,7 +38,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           <meta name="color-scheme" content="light dark" />
 
           <link href="/public/styles.css" rel="stylesheet" />
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css" />
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
           <script src="/public/scripts.js" defer></script>
         </head>
 

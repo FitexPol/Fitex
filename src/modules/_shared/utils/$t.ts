@@ -2,10 +2,12 @@ import pl from '@/i18n/pl-PL';
 
 export enum Lang {
   Pl = 'pl-PL',
+  En = 'en-US',
 }
 
 const translations = {
   [Lang.Pl]: pl,
+  [Lang.En]: pl, // <- temporary
 };
 
 export type TranslationModule = keyof typeof pl;

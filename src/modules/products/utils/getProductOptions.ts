@@ -1,13 +1,13 @@
 import { type SelectOption } from '@components/inputs/Select';
+import { Lang } from '@utils/$t';
 
-import { getProductName } from './getProductName';
 import { Product } from '../models/product';
 
-export async function getProductOptions(): Promise<SelectOption[]> {
-  const productDocs = await Product.find().sort({ name: 1 });
+export async function getProductOptions(lang: Lang = Lang.Pl): Promise<SelectOption[]> {
+  const productDocs = await Product.find().sort({ [`name.${lang}`]: 1 });
 
   return productDocs.map(({ id, name }) => ({
     value: id,
-    label: getProductName(name),
+    label: name[lang],
   }));
 }

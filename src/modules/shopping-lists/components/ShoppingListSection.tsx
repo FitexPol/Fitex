@@ -5,7 +5,6 @@ import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
 import { type ProductDoc } from '@products/models/product';
-import { getProductName } from '@products/utils/getProductName';
 import { type ComponentProps, type JWTUser } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -262,8 +261,8 @@ function Item({ productDoc, quantity, unit, multiplier }: ComponentProps<ListIte
   return (
     <li>
       <label>
-        <input type="checkbox" name={productDoc.name} />
-        {getProductName(productDoc.name)} - {finalQuantity} {unit}
+        <input type="checkbox" name={productDoc.name['pl-PL']} />
+        {productDoc.name['pl-PL']} - {finalQuantity} {unit}
       </label>
     </li>
   );

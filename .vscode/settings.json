@@ -12,7 +12,8 @@
     "maxlength",
     "htmx",
     "upsert",
-    "Retarget",
-    "Reswap"
+    "retarget",
+    "radio",
+    "fieldset"
   ]
 }

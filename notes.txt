@@ -1,6 +1,5 @@
 TODO:
   - grupowanie produktów po kategorii
   - tagowanie posiłków
+  - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)
   - panel admina (zarządzanie produktami)
-  - poprawić typowanie getBodySchema (optional type)
-  - tagowanie posiłków
