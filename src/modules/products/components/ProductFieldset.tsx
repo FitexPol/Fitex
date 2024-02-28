@@ -59,20 +59,20 @@ export function ProductFieldset({
   unit,
 }: ComponentProps<ProductFieldsetProps>) {
   return (
-    <fieldset class="mb-0 grid grid-cols-12 gap-x-1">
+    <fieldset class="grid !grid-cols-12 gap-x-1 border-b border-solid border-b-pico-muted pb-6 md:mb-0 md:border-none md:pb-0">
       <Select
         control={form.product}
         value={productDoc?.id}
         label={_tShared('_shared.forms.name')}
         options={productOptions}
-        class="col-span-6"
+        class="col-span-12 md:col-span-6"
       />
 
       <Input
         control={form.quantity}
         value={quantity?.toString() ?? '1'}
         label={_tShared('_shared.forms.quantity')}
-        class="col-span-2"
+        class="col-span-6 md:col-span-2"
       />
 
       <Select
@@ -80,10 +80,10 @@ export function ProductFieldset({
         value={unit}
         options={unitOptions}
         label={_t('productFieldset.unit')}
-        class="col-span-3"
+        class="col-span-6 md:col-span-3"
       />
 
-      <Button class="pico-reset !m-auto h-fit w-fit" onclick="removeRow(this)">
+      <Button class="pico-reset col-span-12 !m-auto h-fit w-fit md:col-span-1" onclick="removeRow(this)">
         {icons.trash.toSvg()}
       </Button>
     </fieldset>

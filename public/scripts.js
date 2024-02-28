@@ -20,6 +20,11 @@ document.body.addEventListener('notification', ({ detail }) => {
   }, 2000);
 });
 
+function toggleMenu() {
+  const menu = document.getElementById('menu');
+  menu.classList.toggle('hidden');
+}
+
 function removeRow(element) {
   const row = element.closest('li');
   row.remove();

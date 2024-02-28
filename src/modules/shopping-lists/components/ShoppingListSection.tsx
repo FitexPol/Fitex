@@ -242,7 +242,7 @@ function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: Shop
 }
 
 function Title({ children }: ComponentProps) {
-  return <h3 class="mb-1 text-lg">{children}:</h3>;
+  return <h3 class="mb-1 mt-2 text-lg">{children}:</h3>;
 }
 
 function List({ children }: ComponentProps) {

@@ -40,23 +40,23 @@ type MealFieldsetProps = {
 
 export function MealFieldset({ mealOptions, mealDoc, quantity }: ComponentProps<MealFieldsetProps>) {
   return (
-    <fieldset class="mb-0 grid grid-cols-12 gap-x-1">
+    <fieldset class="grid !grid-cols-12 gap-x-1 border-b border-solid border-b-pico-muted pb-6 md:mb-0 md:border-none md:pb-0">
       <Select
         control={form.name}
         value={mealDoc?.id}
         label={_tShared('_shared.forms.name')}
         options={mealOptions}
-        class="col-span-8"
+        class="col-span-12 md:col-span-8"
       />
 
       <Input
         control={form.quantity}
         value={quantity?.toString() ?? '1'}
         label={_tShared('_shared.forms.quantity')}
-        class="col-span-3"
+        class="col-span-12 md:col-span-3"
       />
 
-      <Button class="pico-reset !m-auto h-fit w-fit" onclick="removeRow(this)">
+      <Button class="pico-reset col-span-12 !m-auto h-fit w-fit md:col-span-1" onclick="removeRow(this)">
         {icons.trash.toSvg({ class: 'm-auto' })}
       </Button>
     </fieldset>

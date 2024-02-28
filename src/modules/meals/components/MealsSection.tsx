@@ -45,13 +45,13 @@ export async function MealsSection({
 
   return (
     <section id="meals-section">
-      <div class="mb-6 flex justify-between">
+      <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row lg:items-center">
         <div class="flex items-center gap-2">
           <h1 class="mb-0 text-xl">{_t('mealsSection.title')}</h1>
           <Link href="/meals/form">{icons['plus-circle'].toSvg()}</Link>
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex flex-col gap-2 lg:flex-row">
           <Dropdown label={`${_tShared('_shared.itemsPerPage')}: ${itemsPerPage}`}>
             <>
               {itemsPerPageOptions.map(({ label, query }) => (

@@ -6,12 +6,19 @@ type DropdownProps = {
   icon?: JSX.Element;
 };
 
-export function Dropdown({ children, label, icon }: ComponentProps<DropdownProps>): JSX.Element {
+export function Dropdown({
+  children,
+  label,
+  icon,
+  class: className,
+}: ComponentProps<DropdownProps>): JSX.Element {
   return (
-    <details class="dropdown mb-0">
-      <summary class="flex items-center gap-2">
-        {!!icon && icon}
-        {label}
+    <details class={$tm('dropdown mb-0', className)}>
+      <summary class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          {!!icon && icon}
+          {label}
+        </div>
       </summary>
 
       <ul>{children}</ul>

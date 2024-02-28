@@ -2,7 +2,7 @@ import { type ComponentProps } from '../types';
 import { $tm } from '../utils/$tm';
 
 export function Card({ class: className, children }: ComponentProps) {
-  return <article class={$tm('my-0', className)}>{children}</article>;
+  return <article class={$tm('my-0 flex flex-col', className)}>{children}</article>;
 }
 
 type HeaderProps = {

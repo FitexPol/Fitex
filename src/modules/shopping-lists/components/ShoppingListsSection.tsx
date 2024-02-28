@@ -46,13 +46,13 @@ export async function ShoppingListsSection({
 
   return (
     <section id="shopping-lists-section">
-      <div class="mb-6 flex justify-between">
+      <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row lg:items-center">
         <div class="flex items-center gap-2">
           <h1 class="mb-0 text-xl">{_t('shoppingListsSection.title')}</h1>
           <Link href="/shopping-lists/form">{icons['plus-circle'].toSvg()}</Link>
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex w-full flex-col gap-2 sm:w-auto lg:flex-row">
           <Dropdown label={`${_tShared('_shared.itemsPerPage')}: ${itemsPerPage}`}>
             <>
               {itemsPerPageOptions.map(({ label, query }) => (

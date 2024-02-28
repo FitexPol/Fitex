@@ -6,6 +6,7 @@ import { Button } from './Button';
 import { Dropdown } from './Dropdown';
 import { Link } from './Link';
 import { $t } from '../utils/$t';
+import { $tm } from '../utils/$tm';
 
 const _t = $t('_shared');
 
@@ -63,7 +64,7 @@ const navigation = [
 function Layout({ children, username }: ComponentProps<{ username: string }>) {
   return (
     <div class="container">
-      <nav>
+      <nav class="sticky top-0 z-10 border-b border-b-pico-muted bg-pico-background sm:static">
         <ul>
           <li>
             <strong>
@@ -72,27 +73,48 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
           </li>
         </ul>
 
-        <ul>
+        <ul class="sm:hidden">
+          <li>
+            <button class="pico-reset" onclick="toggleMenu()">
+              {icons.menu.toSvg()}
+            </button>
+          </li>
+        </ul>
+
+        <ul
+          id="menu"
+          class="absolute left-0 top-14 hidden w-full flex-col border-b-2 border-b-pico-muted bg-pico-background pb-4 sm:static sm:flex sm:w-[inherit] sm:flex-row sm:border-0 sm:bg-transparent sm:pb-[inherit]"
+        >
           {navigation.map(({ href, name }) => (
-            <li>
-              <Link href={href}>{name}</Link>
+            <li class="w-full py-2 sm:w-auto sm:py-0">
+              <Link href={href} class="m-0 w-full text-center">
+                {name}
+              </Link>
             </li>
           ))}
 
-          <li>
-            <Dropdown label={username} icon={icons.user.toSvg()}>
+          <li class="mt-2 w-full border-y border-pico-muted py-2 sm:mt-[inherit] sm:w-[inherit] sm:border-none sm:py-[inherit]">
+            <Dropdown label={username} icon={icons.user.toSvg()} class="!hidden sm:!inline">
               <Dropdown.Item>
-                <Button hx-get="/api/auth/logout" class="pico-reset w-full">
-                  {_t('_document.logout')}
-                </Button>
+                <LogoutButton />
               </Dropdown.Item>
             </Dropdown>
+
+            <LogoutButton class="sm:hidden" />
           </li>
         </ul>
       </nav>
 
       <main class="pt-8">{children}</main>
     </div>
+  );
+}
+
+function LogoutButton({ class: className }: ComponentProps) {
+  return (
+    <Button hx-get="/api/auth/logout" class={$tm('pico-reset w-full', className)}>
+      {_t('_document.logout')}
+    </Button>
   );
 }
 

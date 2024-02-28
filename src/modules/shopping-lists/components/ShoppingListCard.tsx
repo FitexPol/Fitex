@@ -40,7 +40,7 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
 
         <Link
           href={getPath(`/shopping-lists/${shoppingListDoc.id}`, { groupByMeals: 'on' })}
-          class="contrast"
+          class="contrast flex-grow"
         >
           <>
             {shoppingListDoc.meals.length > 0 && (
