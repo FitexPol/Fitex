@@ -21,50 +21,32 @@ type MealCard = {
 
 export function MealCard({ mealDoc }: ComponentProps<MealCard>) {
   return (
-    <Card class="group relative m-0 h-full max-h-72 p-5 pt-10">
+    <Card class="group relative h-full">
       <>
-        <div class="invisible absolute left-0 top-0 flex gap-2 px-2 py-2 group-hover:visible">
-          <Link href={getPath('/meals/form', { mealId: mealDoc.id })}>{icons.edit.toSvg()}</Link>
-
+        <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{mealDoc.name}</h3>}>
           <Button
-            class="w-auto border-none px-0"
-            hx-delete={`/api/meals/${mealDoc.id}`}
+            class={$tm(
+              'pico-reset absolute right-4 top-3.5',
+              mealDoc.isFavorite ? 'visible' : 'invisible group-hover:visible',
+            )}
+            hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
             hx-target="closest section"
             hx-swap="outerHTML"
-            hx-confirm={_t('_shared.deletionConfirmation')}
             hx-indicator="#loader"
           >
-            {icons.trash.toSvg()}
+            {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
           </Button>
-        </div>
+        </Card.Header>
 
-        <Button
-          class={$tm(
-            'absolute right-2 top-2 mr-auto w-auto border-none px-0',
-            mealDoc.isFavorite ? 'visible' : 'invisible group-hover:visible',
-          )}
-          hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
-          hx-target="closest section"
-          hx-swap="outerHTML"
-          hx-indicator="#loader"
-        >
-          {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
-        </Button>
-
-        <Link
-          href={`/meals/${mealDoc.id}`}
-          class="flex h-full flex-col items-stretch gap-y-2 overflow-y-auto border-none text-start"
-        >
+        <Link href={`/meals/${mealDoc.id}`} class="contrast">
           <>
-            <h2 class="text-lg font-medium">{mealDoc.name}</h2>
-
             {mealDoc.products.length > 0 && (
-              <ul class="mt-auto">
+              <ul>
                 {mealDoc.products.map(({ product, quantity, unit }) => {
                   const productDoc = getPopulatedDoc(product);
 
                   return (
-                    <li class="flex justify-between text-xs font-light">
+                    <li class="flex justify-between text-xs">
                       <span>
                         {productDoc ? getProductName(productDoc.name) : _tShared(`_shared.errors.population`)}
                       </span>
@@ -78,6 +60,23 @@ export function MealCard({ mealDoc }: ComponentProps<MealCard>) {
             )}
           </>
         </Link>
+
+        <Card.Footer class="flex justify-end gap-2">
+          <>
+            <Button
+              class="pico-reset !text-inherit"
+              hx-delete={`/api/meals/${mealDoc.id}`}
+              hx-target="closest section"
+              hx-swap="outerHTML"
+              hx-confirm={_t('_shared.deletionConfirmation')}
+              hx-indicator="#loader"
+            >
+              {icons.trash.toSvg()}
+            </Button>
+
+            <Link href={getPath('/meals/form', { mealId: mealDoc.id })}>{icons.edit.toSvg()}</Link>
+          </>
+        </Card.Footer>
       </>
     </Card>
   );

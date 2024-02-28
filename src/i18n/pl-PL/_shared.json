@@ -24,7 +24,6 @@
   },
   "_document": {
     "navigation": {
-      "home": "Strona główna",
       "shoppingLists": "Listy zakupów",
       "meals": "Posiłki"
     },

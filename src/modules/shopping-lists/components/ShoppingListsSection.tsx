@@ -48,7 +48,7 @@ export async function ShoppingListsSection({
     <section id="shopping-lists-section">
       <div class="mb-6 flex justify-between">
         <div class="flex items-center gap-2">
-          <h1>{_t('shoppingListsSection.title')}</h1>
+          <h1 class="mb-0 text-xl">{_t('shoppingListsSection.title')}</h1>
           <Link href="/shopping-lists/form">{icons['plus-circle'].toSvg()}</Link>
         </div>
 

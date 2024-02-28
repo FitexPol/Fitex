@@ -41,7 +41,7 @@ export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps
         error={errors?.description}
       />
 
-      <span class="mb-3 block">{_t('mealForm.products')}:</span>
+      <span class="mb-4 block text-lg font-medium">{_t('mealForm.products')}:</span>
 
       <ul id="products">
         {mealDoc ? (
@@ -72,7 +72,7 @@ export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps
 
       <Button
         type="button"
-        class="mx-auto mb-5 w-auto border-none"
+        class="pico-reset !mx-auto !mb-8 block"
         hx-get="/api/products/fieldset"
         hx-target="#products"
         hx-swap="beforeend"
@@ -80,9 +80,7 @@ export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps
         {icons['plus-circle'].toSvg()}
       </Button>
 
-      <Button type="submit" class="contrast">
-        {_tShared('_shared.forms.submit')}
-      </Button>
+      <Button type="submit">{_tShared('_shared.forms.submit')}</Button>
     </form>
   );
 }

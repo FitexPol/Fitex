@@ -18,7 +18,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
   function renderContent(layout: DocumentProps['layout']) {
     switch (layout) {
       case 'none':
-        return <main class="max-h-screen">{children}</main>;
+        return <main class="flex min-h-screen items-center justify-center">{children}</main>;
       default:
         return <Layout username={user ? user.username : ''}>{children}</Layout>;
     }
@@ -27,16 +27,17 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
   return (
     <>
       {'<!DOCTYPE html>'}
-      <html lang="en">
+      <html lang="pl-PL">
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>Fitex</title>
           <script src="https://unpkg.com/htmx.org@1.9.10"></script>
           <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1.5.10/css/pico.min.css" />
+          <meta name="color-scheme" content="light dark" />
 
           <link href="/public/styles.css" rel="stylesheet" />
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css" />
           <script src="/public/scripts.js" defer></script>
         </head>
 
@@ -55,7 +56,6 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 }
 
 const navigation = [
-  { name: _t('_document.navigation.home'), href: '/' },
   { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
   { name: _t('_document.navigation.meals'), href: '/meals' },
 ];
@@ -63,25 +63,33 @@ const navigation = [
 function Layout({ children, username }: ComponentProps<{ username: string }>) {
   return (
     <div class="container">
-      <div class="flex items-center justify-between">
-        <nav>
-          <ul>
-            {navigation.map(({ href, name }) => (
-              <li>
-                <Link href={href}>{name}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+      <nav>
+        <ul>
+          <li>
+            <strong>
+              <Link href="/">Fitex</Link>
+            </strong>
+          </li>
+        </ul>
 
-        <Dropdown label={username} icon={icons.user.toSvg()}>
-          <Dropdown.Item>
-            <Button hx-get="/api/auth/logout" class="border-none">
-              {_t('_document.logout')}
-            </Button>
-          </Dropdown.Item>
-        </Dropdown>
-      </div>
+        <ul>
+          {navigation.map(({ href, name }) => (
+            <li>
+              <Link href={href}>{name}</Link>
+            </li>
+          ))}
+
+          <li>
+            <Dropdown label={username} icon={icons.user.toSvg()}>
+              <Dropdown.Item>
+                <Button hx-get="/api/auth/logout" class="pico-reset w-full">
+                  {_t('_document.logout')}
+                </Button>
+              </Dropdown.Item>
+            </Dropdown>
+          </li>
+        </ul>
+      </nav>
 
       <main class="pt-8">{children}</main>
     </div>

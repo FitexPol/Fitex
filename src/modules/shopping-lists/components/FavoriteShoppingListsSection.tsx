@@ -21,11 +21,7 @@ export async function FavoriteShoppingListsSection({ user }: ComponentProps<Meal
 
   return (
     <section id="favorite-meals-section">
-      <div class="mb-6 flex justify-between">
-        <div class="flex items-center gap-2">
-          <h2>{_t('favoriteShoppingListsSection.title')}</h2>
-        </div>
-      </div>
+      <h2 class="text-xl">{_t('favoriteShoppingListsSection.title')}</h2>
 
       <Tiles count={shoppingListDocs.length} noResultsMessage={_t('favoriteShoppingListsSection.noResults')}>
         <>

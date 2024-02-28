@@ -46,7 +46,7 @@ export async function ShoppingListForm({
         error={errors?.name}
       />
 
-      <span class="mb-3 block">{_t('_shared.meals')}:</span>
+      <span class="mb-4 block text-lg font-medium">{_t('_shared.meals')}:</span>
 
       <ul id="meals">
         {shoppingListDoc ? (
@@ -72,7 +72,7 @@ export async function ShoppingListForm({
 
       <Button
         type="button"
-        class="mx-auto mb-5 w-auto border-none"
+        class="pico-reset !mx-auto !mb-8 block"
         hx-get="/api/meals/fieldset"
         hx-target="#meals"
         hx-swap="beforeend"
@@ -80,7 +80,7 @@ export async function ShoppingListForm({
         {icons['plus-circle'].toSvg()}
       </Button>
 
-      <span class="mb-3 block">{_t('_shared.products')}:</span>
+      <span class="mb-4 block text-lg font-medium">{_t('_shared.products')}:</span>
 
       <ul id="products">
         {shoppingListDoc ? (
@@ -111,7 +111,7 @@ export async function ShoppingListForm({
 
       <Button
         type="button"
-        class="mx-auto mb-5 w-auto border-none"
+        class="pico-reset !mx-auto !mb-8 block"
         hx-get="/api/products/fieldset"
         hx-target="#products"
         hx-swap="beforeend"
@@ -119,9 +119,7 @@ export async function ShoppingListForm({
         {icons['plus-circle'].toSvg()}
       </Button>
 
-      <Button type="submit" class="contrast">
-        {_tShared('_shared.forms.submit')}
-      </Button>
+      <Button type="submit">{_tShared('_shared.forms.submit')}</Button>
     </form>
   );
 }

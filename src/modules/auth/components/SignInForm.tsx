@@ -17,9 +17,7 @@ export function SignInForm({ errors }: ComponentProps<SignInFormProps>) {
       <Input control={signInForm.username} error={errors?.username} />
       <Input control={signInForm.password} error={errors?.password} />
 
-      <Button type="submit" class="contrast">
-        {_t('signInForm.submit')}
-      </Button>
+      <Button type="submit">{_t('signInForm.submit')}</Button>
     </form>
   );
 }

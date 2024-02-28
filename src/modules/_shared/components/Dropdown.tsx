@@ -8,15 +8,13 @@ type DropdownProps = {
 
 export function Dropdown({ children, label, icon }: ComponentProps<DropdownProps>): JSX.Element {
   return (
-    <details role="list" class="mb-0">
-      <summary aria-haspopup="listbox" class="flex items-center gap-2 border-none">
+    <details class="dropdown mb-0">
+      <summary class="flex items-center gap-2">
         {!!icon && icon}
         {label}
       </summary>
 
-      <ul role="listbox" class="!left-auto w-fit">
-        {children}
-      </ul>
+      <ul>{children}</ul>
     </details>
   );
 }
@@ -26,13 +24,7 @@ type ItemProps = {
 };
 
 function Item({ active, children }: ComponentProps<ItemProps>): JSX.Element {
-  return (
-    <li
-      class={$tm('text-white', active && 'pointer-events-none bg-[var(--dropdown-hover-background-color)]')}
-    >
-      {children}
-    </li>
-  );
+  return <li class={$tm(active && 'pointer-events-none bg-pico-muted')}>{children}</li>;
 }
 
 Dropdown.Item = Item;

@@ -1,6 +1,6 @@
 import { html } from '@elysiajs/html';
-import staticPlugin from '@elysiajs/static';
-import swagger from '@elysiajs/swagger';
+import { staticPlugin } from '@elysiajs/static';
+import { swagger } from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
 import mongoose from 'mongoose';
 

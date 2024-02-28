@@ -59,7 +59,7 @@ export function ProductFieldset({
   unit,
 }: ComponentProps<ProductFieldsetProps>) {
   return (
-    <fieldset class="grid grid-cols-12 gap-x-1">
+    <fieldset class="mb-0 grid grid-cols-12 gap-x-1">
       <Select
         control={form.product}
         value={productDoc?.id}
@@ -83,8 +83,8 @@ export function ProductFieldset({
         class="col-span-3"
       />
 
-      <Button class="col-span-1 mt-5 h-[3.2rem] border-none" onclick="removeRow(this)">
-        {icons.trash.toSvg({ class: 'm-auto' })}
+      <Button class="pico-reset !m-auto h-fit w-fit" onclick="removeRow(this)">
+        {icons.trash.toSvg()}
       </Button>
     </fieldset>
   );

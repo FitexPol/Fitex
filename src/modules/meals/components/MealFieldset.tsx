@@ -40,7 +40,7 @@ type MealFieldsetProps = {
 
 export function MealFieldset({ mealOptions, mealDoc, quantity }: ComponentProps<MealFieldsetProps>) {
   return (
-    <fieldset class="grid grid-cols-12 gap-x-1">
+    <fieldset class="mb-0 grid grid-cols-12 gap-x-1">
       <Select
         control={form.name}
         value={mealDoc?.id}
@@ -56,7 +56,7 @@ export function MealFieldset({ mealOptions, mealDoc, quantity }: ComponentProps<
         class="col-span-3"
       />
 
-      <Button class="col-span-1 mt-5 h-[3.2rem] border-none" onclick="removeRow(this)">
+      <Button class="pico-reset !m-auto h-fit w-fit" onclick="removeRow(this)">
         {icons.trash.toSvg({ class: 'm-auto' })}
       </Button>
     </fieldset>

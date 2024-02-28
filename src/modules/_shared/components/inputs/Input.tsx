@@ -1,6 +1,5 @@
 import type { ComponentProps, FormControl, NumberValidators } from '@types';
 
-import { $tm } from '../../utils/$tm';
 import { getPlaceholder } from '../../utils/getPlaceholder';
 import { getTextValidators } from '../../utils/getTextValidators';
 
@@ -8,43 +7,23 @@ type InputProps = {
   control: FormControl;
   value?: string;
   label?: string;
-  datalist?: {
-    id: string;
-    options: string[];
-  };
   error?: string;
 };
 
-export function Input({
-  control,
-  value = '',
-  label,
-  datalist,
-  error,
-  class: className,
-}: ComponentProps<InputProps>) {
+export function Input({ control, value = '', label, error, class: className }: ComponentProps<InputProps>) {
   const { placeholder, ...inputAttributes }: JSX.HtmlInputTag = getInputAttributes(control);
 
   return (
-    <label class={`${$tm('relative mb-0 pb-2', className)}`}>
+    <label class={className}>
       {!!label && <span class="mb-1 ml-2 block text-sm">{label}</span>}
       <input
         {...inputAttributes}
         placeholder={getPlaceholder(placeholder)}
         value={value}
-        list={datalist && datalist.id}
-        class={$tm(error && 'border-red-600')}
+        aria-invalid={error && 'true'}
         safe
       />
-      {error && <span class="absolute bottom-1.5 left-0 px-4 text-xs text-red-600">{error}</span>}
-
-      {!!datalist && (
-        <datalist id={datalist.id}>
-          {datalist.options.map((option) => (
-            <option value={option} />
-          ))}
-        </datalist>
-      )}
+      {error && <small>{error}</small>}
     </label>
   );
 }

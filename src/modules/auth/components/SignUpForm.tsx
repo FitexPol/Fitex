@@ -18,9 +18,7 @@ export function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
       <Input control={signUpForm.password} error={errors?.password} />
       <Input control={signUpForm.repeatedPassword} error={errors?.repeatedPassword} />
 
-      <Button type="submit" class="contrast">
-        {_t('signUpForm.submit')}
-      </Button>
+      <Button type="submit">{_t('signUpForm.submit')}</Button>
     </form>
   );
 }

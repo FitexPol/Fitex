@@ -49,17 +49,17 @@ export async function ShoppingListSection({
     <section id="shopping-list-section">
       <Card class="relative">
         <>
-          <Button
-            class="visible absolute right-4 top-4 mr-auto w-auto border-none px-0"
-            hx-patch={`/api/shopping-lists/${shoppingListDoc.id}/toggle-favorite`}
-            hx-target="#shopping-list-section"
-            hx-swap="outerHTML"
-            hx-indicator="#loader"
-          >
-            {icons.star.toSvg({ class: $tm(shoppingListDoc.isFavorite && 'fill-current') })}
-          </Button>
-
-          <Card.Header title={shoppingListDoc.name} />
+          <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{shoppingListDoc.name}</h1>}>
+            <Button
+              class="pico-reset absolute right-4 top-4"
+              hx-patch={`/api/shopping-lists/${shoppingListDoc.id}/toggle-favorite`}
+              hx-target="#shopping-list-section"
+              hx-swap="outerHTML"
+              hx-indicator="#loader"
+            >
+              {icons.star.toSvg({ class: $tm(shoppingListDoc.isFavorite && 'fill-current') })}
+            </Button>
+          </Card.Header>
 
           {shoppingListDoc.meals.length === 0 && shoppingListDoc.products.length === 0 ? (
             <span>{_t('shoppingListSection.noMealsAndProducts')}</span>
@@ -69,8 +69,9 @@ export async function ShoppingListSection({
                 href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {
                   groupByMeals: groupByMealsQuery ? '' : 'on',
                 })}
+                class="contrast mb-4 inline-block"
               >
-                <Switch control={{ name: 'groupByMeals' }} class="mb-4" checked={!!groupByMealsQuery}>
+                <Switch control={{ name: 'groupByMeals' }} checked={!!groupByMealsQuery}>
                   <span class="mr-2">{_t('shoppingListSection.groupByMeals')}</span>
                 </Switch>
               </Link>
@@ -85,22 +86,21 @@ export async function ShoppingListSection({
 
           <Card.Footer class="flex justify-end gap-2">
             <>
-              <Link
-                href={getPath('/shopping-lists/form', { shoppingListId: shoppingListDoc.id })}
-                role="button"
-                class="contrast"
-              >
-                {_tShared('_shared.edit')}
-              </Link>
-
               <Button
-                class="secondary w-auto py-2"
+                class="!mb-0 outline"
                 hx-delete={`/api/shopping-lists/${shoppingListDoc.id}`}
                 hx-confirm={_t('_shared.deletionConfirmation')}
                 hx-indicator="#loader"
               >
                 {_tShared('_shared.delete')}
               </Button>
+
+              <Link
+                href={getPath('/shopping-lists/form', { shoppingListId: shoppingListDoc.id })}
+                role="button"
+              >
+                {_tShared('_shared.edit')}
+              </Link>
             </>
           </Card.Footer>
         </>
@@ -119,65 +119,61 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
           const mealDoc = getPopulatedDoc(meal);
 
           return mealDoc ? (
-            <ListSection>
-              <>
-                <Title>
-                  <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
-                </Title>
+            <>
+              <Title>
+                <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
+              </Title>
 
-                {mealDoc.products.length > 0 ? (
-                  <List>
-                    <>
-                      {mealDoc.products.map(({ product, quantity: productQuantity, unit }) => {
-                        const productDoc = getPopulatedDoc(product);
+              {mealDoc.products.length > 0 ? (
+                <List>
+                  <>
+                    {mealDoc.products.map(({ product, quantity: productQuantity, unit }) => {
+                      const productDoc = getPopulatedDoc(product);
 
-                        return productDoc ? (
-                          <Item
-                            productDoc={productDoc}
-                            quantity={productQuantity}
-                            unit={unit}
-                            multiplier={quantity}
-                          />
-                        ) : (
-                          <li>
-                            <span>{_tShared('_shared.errors.population')}</span>
-                          </li>
-                        );
-                      })}
-                    </>
-                  </List>
-                ) : (
-                  <span>{_t('shoppingListSection.noMealProducts')}</span>
-                )}
-              </>
-            </ListSection>
+                      return productDoc ? (
+                        <Item
+                          productDoc={productDoc}
+                          quantity={productQuantity}
+                          unit={unit}
+                          multiplier={quantity}
+                        />
+                      ) : (
+                        <li>
+                          <span>{_tShared('_shared.errors.population')}</span>
+                        </li>
+                      );
+                    })}
+                  </>
+                </List>
+              ) : (
+                <span>{_t('shoppingListSection.noMealProducts')}</span>
+              )}
+            </>
           ) : (
             <span class="mb-5 block">{_tShared('_shared.errors.population')}</span>
           );
         })}
 
       {products.length > 0 && (
-        <ListSection>
-          <>
-            <Title>{_t('_shared.products')}</Title>
+        <>
+          <Title>{_t('_shared.products')}</Title>
 
-            <List>
-              <>
-                {products.map(({ product, quantity, unit }) => {
-                  const productDoc = getPopulatedDoc(product);
+          <List>
+            <>
+              {products.map(({ product, quantity, unit }) => {
+                const productDoc = getPopulatedDoc(product);
 
-                  return productDoc ? (
-                    <Item productDoc={productDoc} quantity={quantity} unit={unit} />
-                  ) : (
-                    <li>
-                      <span>{_tShared('_shared.errors.population')}</span>
-                    </li>
-                  );
-                })}
-              </>
-            </List>
-          </>
-        </ListSection>
+                return productDoc ? (
+                  <Item productDoc={productDoc} quantity={quantity} unit={unit} />
+                ) : (
+                  <li>
+                    <span>{_tShared('_shared.errors.population')}</span>
+                  </li>
+                );
+              })}
+            </>
+          </List>
+        </>
       )}
     </>
   );
@@ -227,36 +223,30 @@ function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: Shop
   const groupedProductsArray = Object.entries(groupedProducts).map((entry) => entry[1]);
 
   return (
-    <ListSection>
-      <>
-        <Title>{_t('shoppingListSection.allProducts')}</Title>
+    <>
+      <Title>{_t('shoppingListSection.allProducts')}</Title>
 
-        {groupedProductsArray.length > 0 ? (
-          <List>
-            <>
-              {groupedProductsArray.map(({ productDoc, quantity, unit }) => (
-                <Item productDoc={productDoc} quantity={quantity} unit={unit} />
-              ))}
-            </>
-          </List>
-        ) : (
-          <span>{_t('shoppingListSection.noProducts')}</span>
-        )}
-      </>
-    </ListSection>
+      {groupedProductsArray.length > 0 ? (
+        <List>
+          <>
+            {groupedProductsArray.map(({ productDoc, quantity, unit }) => (
+              <Item productDoc={productDoc} quantity={quantity} unit={unit} />
+            ))}
+          </>
+        </List>
+      ) : (
+        <span>{_t('shoppingListSection.noProducts')}</span>
+      )}
+    </>
   );
 }
 
-function ListSection({ children }: ComponentProps) {
-  return <div class="mt-4 first-of-type:mt-0">{children}</div>;
-}
-
 function Title({ children }: ComponentProps) {
-  return <h3 class="mb-1">{children}:</h3>;
+  return <h3 class="mb-1 text-lg">{children}:</h3>;
 }
 
 function List({ children }: ComponentProps) {
-  return <ul class="w-fit">{children}</ul>;
+  return <ul>{children}</ul>;
 }
 
 type ListItemProps = {

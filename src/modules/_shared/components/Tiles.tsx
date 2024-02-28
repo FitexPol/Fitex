@@ -7,7 +7,7 @@ type TilesProps = {
 
 export function Tiles({ count, noResultsMessage, children }: ComponentProps<TilesProps>) {
   return count > 0 ? (
-    <ul class="grid grid-cols-4 gap-2 xl:grid-cols-5">{children}</ul>
+    <ul class="!xl:grid-cols-5 grid !grid-cols-4 gap-2">{children}</ul>
   ) : (
     <span>{noResultsMessage}</span>
   );

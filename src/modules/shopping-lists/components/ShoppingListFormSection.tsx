@@ -53,7 +53,7 @@ function Section({ title, children }: ComponentProps<SectionProps>) {
     <section id="shopping-list-form-section">
       <Card>
         <>
-          <Card.Header title={title} />
+          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
           {children}
         </>
       </Card>

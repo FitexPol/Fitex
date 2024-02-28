@@ -35,20 +35,20 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
     <section id="meal-section">
       <Card class="relative">
         <>
-          <Button
-            class="visible absolute right-4 top-4 mr-auto w-auto border-none px-0"
-            hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
-            hx-target="#meal-section"
-            hx-swap="outerHTML"
-            hx-indicator="#loader"
-          >
-            {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
-          </Button>
-
-          <Card.Header title={mealDoc.name} />
+          <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{mealDoc.name}</h1>}>
+            <Button
+              class="pico-reset absolute right-4 top-4"
+              hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
+              hx-target="#meal-section"
+              hx-swap="outerHTML"
+              hx-indicator="#loader"
+            >
+              {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
+            </Button>
+          </Card.Header>
 
           {mealDoc.products.length > 0 ? (
-            <ul class="w-fit">
+            <ul>
               {mealDoc.products.map(({ product, quantity, unit }) => {
                 const productDoc = getPopulatedDoc(product);
 
@@ -70,22 +70,22 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
             <span>{_t('mealSection.noProducts')}</span>
           )}
 
-          <p class="mt-10">{mealDoc.description}</p>
+          {mealDoc.description && <p>{mealDoc.description}</p>}
 
           <Card.Footer class="flex justify-end gap-2">
             <>
-              <Link href={getPath('/meals/form', { mealId: mealDoc.id })} role="button" class="contrast">
-                {_tShared('_shared.edit')}
-              </Link>
-
               <Button
-                class="secondary w-auto py-2"
+                class="!mb-0 outline"
                 hx-delete={`/api/meals/${mealDoc.id}`}
                 hx-confirm={_t('_shared.deletionConfirmation')}
                 hx-indicator="#loader"
               >
                 {_tShared('_shared.delete')}
               </Button>
+
+              <Link href={getPath('/meals/form', { mealId: mealDoc.id })} role="button">
+                {_tShared('_shared.edit')}
+              </Link>
             </>
           </Card.Footer>
         </>

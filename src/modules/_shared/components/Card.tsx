@@ -6,20 +6,20 @@ export function Card({ class: className, children }: ComponentProps) {
 }
 
 type HeaderProps = {
-  title: string;
+  title: JSX.Element;
 };
 
 function Header({ title, class: className, children }: ComponentProps<HeaderProps>) {
   return (
-    <header class={$tm(className)}>
-      <h1>{title}</h1>
+    <header class={className}>
+      {title}
       {children}
     </header>
   );
 }
 
 function Footer({ class: className, children }: ComponentProps) {
-  return <footer class={$tm(className)}>{children}</footer>;
+  return <footer class={className}>{children}</footer>;
 }
 
 Card.Header = Header;

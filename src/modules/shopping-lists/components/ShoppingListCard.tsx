@@ -21,45 +21,28 @@ type ShoppingListCardProps = {
 
 export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingListCardProps>) {
   return (
-    <Card class="group relative m-0 h-full max-h-72 p-5 pt-10">
+    <Card class="group relative h-full">
       <>
-        <div class="invisible absolute left-0 top-0 flex gap-2 px-2 py-2 group-hover:visible">
-          <Link href={getPath('/shopping-lists/form', { shoppingListId: shoppingListDoc.id })}>
-            {icons.edit.toSvg()}
-          </Link>
-
+        <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{shoppingListDoc.name}</h3>}>
           <Button
-            class="w-auto border-none px-0"
-            hx-delete={`/api/shopping-lists/${shoppingListDoc.id}`}
+            class={$tm(
+              'pico-reset absolute right-4 top-3.5',
+              shoppingListDoc.isFavorite ? 'visible' : 'invisible group-hover:visible',
+            )}
+            hx-patch={`/api/shopping-lists/${shoppingListDoc.id}/toggle-favorite`}
             hx-target="closest section"
             hx-swap="outerHTML"
-            hx-confirm={_t('_shared.deletionConfirmation')}
             hx-indicator="#loader"
           >
-            {icons.trash.toSvg()}
+            {icons.star.toSvg({ class: $tm(shoppingListDoc.isFavorite && 'fill-current') })}
           </Button>
-        </div>
-
-        <Button
-          class={$tm(
-            'absolute right-2 top-2 mr-auto w-auto border-none px-0',
-            shoppingListDoc.isFavorite ? 'visible' : 'invisible group-hover:visible',
-          )}
-          hx-patch={`/api/shopping-lists/${shoppingListDoc.id}/toggle-favorite`}
-          hx-target="closest section"
-          hx-swap="outerHTML"
-          hx-indicator="#loader"
-        >
-          {icons.star.toSvg({ class: $tm(shoppingListDoc.isFavorite && 'fill-current') })}
-        </Button>
+        </Card.Header>
 
         <Link
           href={getPath(`/shopping-lists/${shoppingListDoc.id}`, { groupByMeals: 'on' })}
-          class="flex h-full flex-col items-stretch gap-y-2 overflow-y-auto border-none text-start"
+          class="contrast"
         >
           <>
-            <h2 class="mb-auto text-lg font-medium">{shoppingListDoc.name}</h2>
-
             {shoppingListDoc.meals.length > 0 && (
               <List title={_t('_shared.meals')}>
                 <>
@@ -105,6 +88,25 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
             )}
           </>
         </Link>
+
+        <Card.Footer class="flex justify-end gap-2">
+          <>
+            <Button
+              class="pico-reset !ml-0 !mr-0 !text-inherit"
+              hx-delete={`/api/shopping-lists/${shoppingListDoc.id}`}
+              hx-target="closest section"
+              hx-swap="outerHTML"
+              hx-confirm={_t('_shared.deletionConfirmation')}
+              hx-indicator="#loader"
+            >
+              {icons.trash.toSvg()}
+            </Button>
+
+            <Link href={getPath('/shopping-lists/form', { shoppingListId: shoppingListDoc.id })}>
+              {icons.edit.toSvg()}
+            </Link>
+          </>
+        </Card.Footer>
       </>
     </Card>
   );
@@ -117,12 +119,12 @@ type ListProps = {
 function List({ title, children }: ComponentProps<ListProps>) {
   return (
     <div>
-      <h3 class="mb-1 text-sm">{title}:</h3>
-      <ul class="mt-auto pl-4">{children}</ul>
+      <h4 class="mb-2 text-sm">{title}:</h4>
+      <ul>{children}</ul>
     </div>
   );
 }
 
 function ListItem({ children }: ComponentProps) {
-  return <li class="flex justify-between text-xs font-light">{children}</li>;
+  return <li class="flex justify-between text-xs">{children}</li>;
 }
