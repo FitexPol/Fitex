@@ -1,4 +1,5 @@
 TODO:
+  - poprawa zagnieżdżonych formów
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)
