@@ -1,11 +1,12 @@
 import { icons } from 'feather-icons';
 
+import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
 import { type ProductDoc } from '@products/models/product';
-import { type ComponentProps, type JWTUser } from '@types';
+import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';

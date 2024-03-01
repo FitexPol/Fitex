@@ -1,8 +1,6 @@
-import { Card } from '@components/Card';
-import { Link } from '@components/Link';
+import { type Tab, Tabs } from '@components/Tabs';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
 import { SignInForm } from './SignInForm';
@@ -11,7 +9,6 @@ import { SignUpForm } from './SignUpForm';
 const _t = $t('auth');
 
 type FormType = 'signIn' | 'signUp';
-type Tab = { href: string; label: string };
 
 const tabs = new Map<FormType, Tab>([
   [
@@ -19,6 +16,7 @@ const tabs = new Map<FormType, Tab>([
     {
       href: '/auth',
       label: _t('authSection.signIn'),
+      component: <SignInForm />,
     },
   ],
   [
@@ -26,6 +24,7 @@ const tabs = new Map<FormType, Tab>([
     {
       href: getPath('/auth', { type: 'signUp' }),
       label: _t('authSection.signUp'),
+      component: <SignUpForm />,
     },
   ],
 ]);
@@ -35,34 +34,16 @@ type AuthSectionProps = {
 };
 
 export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
-  const formType: FormType = getFormType(typeQuery);
+  const activeTab: FormType = getActiveForm(typeQuery);
 
   return (
     <div class="container">
-      <Card class="relative">
-        <>
-          <div class="absolute left-0 top-0 flex -translate-y-full">
-            {Array.from(tabs.entries()).map(([type, { href, label }]) => (
-              <Link
-                href={href}
-                class={$tm(
-                  'rounded-t-lg px-4 py-2',
-                  formType === type && 'pointer-events-none bg-pico-card-background',
-                )}
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-
-          {formType === 'signUp' ? <SignUpForm /> : <SignInForm />}
-        </>
-      </Card>
+      <Tabs tabs={tabs} activeTab={activeTab} />
     </div>
   );
 }
 
-function getFormType(queryParam: string): FormType {
+function getActiveForm(queryParam: string): FormType {
   switch (queryParam) {
     case 'signUp':
       return 'signUp';

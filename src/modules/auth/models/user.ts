@@ -1,8 +1,22 @@
 import { type HydratedDocument, Schema, model } from 'mongoose';
 
+export type JWTUser = {
+  id: string;
+  username: string;
+  roles: Role[];
+  hasRole: (...roles: Role[]) => boolean;
+};
+
+export enum Role {
+  SuperAdmin = 'SUPER_ADMIN',
+  Admin = 'ADMIN',
+  User = 'USER',
+}
+
 type User = {
   username: string;
   password: string;
+  roles: Role[];
 };
 
 const userSchema = new Schema<User>({
@@ -16,6 +30,11 @@ const userSchema = new Schema<User>({
   password: {
     type: String,
     required: true,
+  },
+  roles: {
+    type: [String],
+    enum: Object.values(Role),
+    default: [Role.User],
   },
 });
 

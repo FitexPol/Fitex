@@ -1,10 +1,11 @@
 import { icons } from 'feather-icons';
 
+import { type JWTUser } from '@auth/models/user';
 import { Dropdown } from '@components/Dropdown';
 import { Link } from '@components/Link';
 import { Pagination } from '@components/Pagination';
 import { Tiles } from '@components/Tiles';
-import { type ComponentProps, type JWTUser, type SortOption } from '@types';
+import type { ComponentProps, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';

@@ -4,7 +4,6 @@ export const signInForm = {
   username: {
     type: 'text',
     name: 'username',
-    placeholder: 'auth.forms.username',
     validators: {
       required: true,
       minLength: 3,
@@ -15,7 +14,6 @@ export const signInForm = {
   password: {
     type: 'password',
     name: 'password',
-    placeholder: 'auth.forms.password',
     validators: {
       required: true,
       minLength: 6,
@@ -33,7 +31,6 @@ export const signUpForm = {
   repeatedPassword: {
     type: 'password',
     name: 'repeatedPassword',
-    placeholder: 'auth.forms.repeatedPassword',
     validators: {
       required: true,
       message: 'This field is required',
@@ -43,3 +40,13 @@ export const signUpForm = {
 
 export type SignUpForm = typeof signUpForm;
 export type SignUpFormErrors = FormErrors<SignUpForm>;
+
+export const userForm = {
+  roles: {
+    type: 'text',
+    name: 'roles',
+  },
+} satisfies Form;
+
+export type UserForm = typeof userForm;
+export type UserFormErrors = FormErrors<UserForm>;

@@ -1,6 +1,7 @@
 import { icons } from 'feather-icons';
 
-import type { ComponentProps, JWTUser } from '@types';
+import { type JWTUser, Role } from '@auth/models/user';
+import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
@@ -12,7 +13,7 @@ const _t = $t('_shared');
 
 type DocumentProps = {
   layout?: 'default' | 'none';
-  user: JWTUser | null;
+  user?: JWTUser;
 };
 
 export function Document({ layout = 'default', user, children }: ComponentProps<DocumentProps>) {
@@ -21,7 +22,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
       case 'none':
         return <main class="flex min-h-screen items-center justify-center">{children}</main>;
       default:
-        return <Layout username={user ? user.username : ''}>{children}</Layout>;
+        return <Layout user={user}>{children}</Layout>;
     }
   }
 
@@ -49,6 +50,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
             class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
             hx-preserve="true"
           />
+          <dialog id="modal-portal" hx-preserve="true" />
           <Loader />
         </body>
       </html>
@@ -56,12 +58,21 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
   );
 }
 
-const navigation = [
-  { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
-  { name: _t('_document.navigation.meals'), href: '/meals' },
-];
+type LayoutProps = {
+  user?: JWTUser;
+};
 
-function Layout({ children, username }: ComponentProps<{ username: string }>) {
+function Layout({ children, user }: ComponentProps<LayoutProps>) {
+  const navigation: { name: string; href: string; isHidden?: boolean }[] = [
+    { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
+    { name: _t('_document.navigation.meals'), href: '/meals' },
+    {
+      name: _t('_document.navigation.adminPanel'),
+      href: '/admin-panel',
+      isHidden: !user?.hasRole(Role.SuperAdmin, Role.Admin),
+    },
+  ];
+
   return (
     <div class="container">
       <nav class="sticky top-0 z-10 border-b border-b-pico-muted bg-pico-background sm:static">
@@ -85,19 +96,23 @@ function Layout({ children, username }: ComponentProps<{ username: string }>) {
           id="menu"
           class="absolute left-0 top-14 hidden w-full flex-col border-b-2 border-b-pico-muted bg-pico-background pb-4 sm:static sm:flex sm:w-[inherit] sm:flex-row sm:border-0 sm:bg-transparent sm:pb-[inherit]"
         >
-          {navigation.map(({ href, name }) => (
-            <li class="w-full py-2 sm:w-auto sm:py-0">
-              <Link href={href} class="m-0 w-full text-center">
-                {name}
-              </Link>
-            </li>
-          ))}
+          {navigation
+            .filter(({ isHidden }) => !isHidden)
+            .map(({ href, name }) => (
+              <li class="w-full py-2 sm:w-auto sm:py-0">
+                <Link href={href} class="m-0 w-full text-center">
+                  {name}
+                </Link>
+              </li>
+            ))}
 
           <li class="mt-2 w-full border-y border-pico-muted py-2 sm:mt-[inherit] sm:w-[inherit] sm:border-none sm:py-[inherit]">
-            <Dropdown label={username} icon={icons.user.toSvg()} class="!hidden sm:!inline">
-              <Dropdown.Item>
-                <LogoutButton />
-              </Dropdown.Item>
+            <Dropdown label={user?.username ?? ''} icon={icons.user.toSvg()} class="!hidden sm:!inline">
+              <>
+                <Dropdown.Item>
+                  <LogoutButton />
+                </Dropdown.Item>
+              </>
             </Dropdown>
 
             <LogoutButton class="sm:hidden" />

@@ -89,7 +89,7 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
         <Card.Footer class="flex justify-end gap-2">
           <>
             <Button
-              class="pico-reset !ml-0 !mr-0 !text-inherit"
+              class="pico-reset !text-inherit"
               hx-delete={`/api/shopping-lists/${shoppingListDoc.id}`}
               hx-target="closest section"
               hx-swap="outerHTML"

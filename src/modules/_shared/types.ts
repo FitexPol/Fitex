@@ -10,11 +10,6 @@ type Children = {
 
 export type ComponentProps<Props = object> = Props & Class & Children;
 
-export type JWTUser = {
-  id: string;
-  username: string;
-};
-
 export type Populated<T> = PopulatedDoc<Document<Types.ObjectId> & T>;
 
 export type SortOption<T> = {

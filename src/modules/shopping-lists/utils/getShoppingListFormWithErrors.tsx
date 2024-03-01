@@ -1,6 +1,6 @@
 import { type ValidationError } from 'elysia';
 
-import { type JWTUser } from '@types';
+import { type JWTUser } from '@auth/models/user';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 
 import { ShoppingListForm } from '../components/ShoppingListForm';

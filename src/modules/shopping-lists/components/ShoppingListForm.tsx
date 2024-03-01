@@ -1,12 +1,13 @@
 import { icons } from 'feather-icons';
 
+import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { type SelectOption } from '@components/inputs/Select';
 import { MealFieldset } from '@meals/components/MealFieldset';
 import { ProductFieldset } from '@products/components/ProductFieldset';
 import { getProductOptions } from '@products/utils/getProductOptions';
-import { type ComponentProps, type JWTUser } from '@types';
+import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 

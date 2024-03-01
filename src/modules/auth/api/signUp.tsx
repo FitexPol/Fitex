@@ -1,6 +1,7 @@
 import { Elysia, type ValidationError } from 'elysia';
 
 import { context } from '@/context';
+import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
@@ -9,13 +10,15 @@ import { SignUpForm } from '../components/SignUpForm';
 import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms';
 import { User } from '../models/user';
 
+const _t = $t('auth');
+
 export const signUp = new Elysia().use(context).post(
   '/sign-up',
   async ({ body, jwt, set, cookie: { auth } }) => {
     if (body.password !== body.repeatedPassword) {
       set.status = 'Bad Request';
 
-      return <SignUpForm errors={{ repeatedPassword: 'Provided passwords are not the same' }} />;
+      return <SignUpForm errors={{ repeatedPassword: _t('signUp.errors.wrongRepeatedPassword') }} />;
     }
 
     const existingUser = await User.exists({ username: body.username });
@@ -23,7 +26,7 @@ export const signUp = new Elysia().use(context).post(
     if (existingUser) {
       set.status = 'Bad Request';
 
-      return <SignUpForm errors={{ username: 'Username is already taken' }} />;
+      return <SignUpForm errors={{ username: _t('signUp.errors.userExists') }} />;
     }
 
     const hash = await Bun.password.hash(body.password);
@@ -38,6 +41,7 @@ export const signUp = new Elysia().use(context).post(
     const token = await jwt.sign({
       id: userDoc.id,
       username: body.username,
+      roles: userDoc.roles.join(','),
     });
 
     auth.set({

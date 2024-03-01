@@ -1,5 +1,5 @@
+import { type JWTUser } from '@auth/models/user';
 import { type SelectOption } from '@components/inputs/Select';
-import { type JWTUser } from '@types';
 
 import { Meal } from '../models/meal';
 

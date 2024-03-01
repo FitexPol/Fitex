@@ -14,8 +14,8 @@ type SignInFormProps = {
 export function SignInForm({ errors }: ComponentProps<SignInFormProps>) {
   return (
     <form hx-post="/api/auth/sign-in" hx-swap="outerHTML" hx-target-4xx="this">
-      <Input control={signInForm.username} error={errors?.username} />
-      <Input control={signInForm.password} error={errors?.password} />
+      <Input control={signInForm.username} label={_t('_shared.username')} error={errors?.username} />
+      <Input control={signInForm.password} label={_t('_shared.password')} error={errors?.password} />
 
       <Button type="submit">{_t('signInForm.submit')}</Button>
     </form>

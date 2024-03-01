@@ -4,7 +4,9 @@ import { Lang } from '@utils/$t';
 import { Product } from '../models/product';
 
 export async function getProductOptions(lang: Lang = Lang.Pl): Promise<SelectOption[]> {
-  const productDocs = await Product.find().sort({ [`name.${lang}`]: 1 });
+  const productDocs = await Product.find()
+    .sort({ [`name.${lang}`]: 1 })
+    .exec();
 
   return productDocs.map(({ id, name }) => ({
     value: id,

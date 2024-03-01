@@ -1,4 +1,7 @@
 {
+  "products": {
+    "deletionConfirmation": "Czy na pewno chcesz usunąć ten produkt?"
+  },
   "productFieldset": {
     "unit": "Jednostka"
   }

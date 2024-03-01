@@ -37,6 +37,7 @@
       "@components/*": ["./src/modules/_shared/components/*"],
       "@models/*": ["./src/modules/_shared/models/*"],
       "@utils/*": ["./src/modules/_shared/utils/*"],
+      "@admin-panel/*": ["./src/modules/admin-panel/*"],
       "@auth/*": ["./src/modules/auth/*"],
       "@home/*": ["./src/modules/home/*"],
       "@meals/*": ["./src/modules/meals/*"],

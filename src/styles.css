@@ -27,10 +27,10 @@
     @apply rounded-lg px-4 py-2 text-sm text-white;
   }
   #notification-portal .success {
-    @apply bg-green-600;
+    @apply bg-pico-success;
   }
 
   #notification-portal .error {
-    @apply bg-red-600;
+    @apply bg-pico-error;
   }
 }

@@ -1,5 +1,6 @@
+import { type JWTUser } from '@auth/models/user';
 import { Tiles } from '@components/Tiles';
-import { type ComponentProps, type JWTUser } from '@types';
+import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { ShoppingListCard } from './ShoppingListCard';

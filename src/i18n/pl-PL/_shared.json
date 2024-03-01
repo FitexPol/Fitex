@@ -4,6 +4,7 @@
     "sort": "Sortuj",
     "edit": "Edytuj",
     "delete": "Usuń",
+    "actions": "Akcje",
     "sortLabels": {
       "nameAsc": "po nazwie (rosnąco)",
       "nameDesc": "po nazwie (malejąco)",
@@ -25,7 +26,8 @@
   "_document": {
     "navigation": {
       "shoppingLists": "Listy zakupów",
-      "meals": "Posiłki"
+      "meals": "Posiłki",
+      "adminPanel": "Panel admina"
     },
     "logout": "Wyloguj"
   }

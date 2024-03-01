@@ -1,6 +1,7 @@
 import { Elysia, type ValidationError } from 'elysia';
 
 import { context } from '@/context';
+import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
@@ -9,15 +10,17 @@ import { SignInForm } from '../components/SignInForm';
 import { type SignInFormErrors, type SignInForm as SignInFormType, signInForm } from '../forms';
 import { User } from '../models/user';
 
+const _t = $t('auth');
+
 export const signIn = new Elysia().use(context).post(
   '/sign-in',
   async ({ body, jwt, set, cookie: { auth } }) => {
     const userDoc = await User.findOne({ username: body.username }).exec();
 
     if (!userDoc) {
-      set.status = 'Bad Request';
+      set.status = 'Not Found';
 
-      return <SignInForm errors={{ username: 'User with provided username does not exist' }} />;
+      return <SignInForm errors={{ username: _t('_shared.errors.notFound') }} />;
     }
 
     const isPasswordCorrect = await Bun.password.verify(body.password, userDoc.password);
@@ -25,12 +28,13 @@ export const signIn = new Elysia().use(context).post(
     if (!isPasswordCorrect) {
       set.status = 'Bad Request';
 
-      return <SignInForm errors={{ password: 'Provided password is incorrect' }} />;
+      return <SignInForm errors={{ password: _t('signIn.errors.wrongPassword') }} />;
     }
 
     const token = await jwt.sign({
       id: userDoc.id,
       username: userDoc.username,
+      roles: userDoc.roles.join(','),
     });
 
     auth.set({
