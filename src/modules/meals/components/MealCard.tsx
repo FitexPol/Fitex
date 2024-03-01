@@ -37,7 +37,7 @@ export function MealCard({ mealDoc }: ComponentProps<MealCard>) {
           </Button>
         </Card.Header>
 
-        <Link href={`/meals/${mealDoc.id}`} class="contrast">
+        <Link href={`/meals/${mealDoc.id}`} class="contrast flex-grow">
           <>
             {mealDoc.products.length > 0 && (
               <ul>

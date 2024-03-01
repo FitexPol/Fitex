@@ -21,6 +21,16 @@
       "description": "Opis",
       "quantity": "Ilość",
       "submit": "Zapisz"
+    },
+    "productCategories": {
+      "vegetables": "Warzywa",
+      "fruits": "Owoce",
+      "dairy": "Nabiał",
+      "meat": "Mięso",
+      "fish": "Ryby",
+      "bread": "Pieczywo",
+      "sweets": "Słodycze",
+      "drinks": "Napoje"
     }
   },
   "_document": {

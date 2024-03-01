@@ -1,5 +1,25 @@
 import { Elysia } from 'elysia';
 
-import { getProductFieldset } from './getProductFieldset';
+import { context } from '@/context';
+import { Role } from '@auth/models/user';
 
-export const productsApi = new Elysia().group('/products', (app) => app.use(getProductFieldset));
+import { createProduct } from './createProduct';
+import { deleteProduct } from './deleteProduct';
+import { getProductFieldset } from './getProductFieldset';
+import { getProductModal } from './getProductModal';
+import { updateProduct } from './updateProduct';
+
+export const productsApi = new Elysia().use(context).group('/products', (app) =>
+  app.use(getProductFieldset).guard(
+    {
+      beforeHandle: ({ user, set }) => {
+        if (!user!.hasRole(Role.Admin, Role.SuperAdmin)) {
+          set.redirect = '/';
+
+          return 'Unauthorized';
+        }
+      },
+    },
+    (app) => app.use(getProductModal).use(createProduct).use(updateProduct).use(deleteProduct),
+  ),
+);

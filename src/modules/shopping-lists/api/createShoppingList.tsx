@@ -43,7 +43,7 @@ export const createShoppingList = new Elysia().use(context).post(
     const shoppingListMeals = await getMealsById(getGroupedMeals(mealsBody));
     const shoppingListProducts = await getProductsById(getGroupedProducts(productsBody));
 
-    const shoppingList = new ShoppingList({
+    const shoppingListDoc = new ShoppingList({
       ...shoppingListBody,
       author: user!.id,
       meals: shoppingListMeals,
@@ -51,7 +51,7 @@ export const createShoppingList = new Elysia().use(context).post(
     });
 
     try {
-      await shoppingList.save();
+      await shoppingListDoc.save();
     } catch {
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
@@ -66,7 +66,7 @@ export const createShoppingList = new Elysia().use(context).post(
       'success',
       _t('createShoppingList.success'),
     );
-    set.headers[HxResponseHeader.Location] = getPath(`/shopping-lists/${shoppingList.id}`, {
+    set.headers[HxResponseHeader.Location] = getPath(`/shopping-lists/${shoppingListDoc.id}`, {
       groupByMeals: 'on',
     });
   },

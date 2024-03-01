@@ -1,5 +1,31 @@
 {
+  "_shared": {
+    "pl": "PL",
+    "en": "EN",
+    "category": "Kategoria",
+    "errors": {
+      "notFound": "Nie znaleziono produktu"
+    }
+  },
+  "createProduct": {
+    "success": "Produkt został utworzony"
+  },
+  "deleteProduct": {
+    "success": "Produkt został usunięty"
+  },
+  "updateProduct": {
+    "success": "Produkt został zaktualizowany"
+  },
+  "productFormSection": {
+    "title": "Stwórz nowy produkt"
+  },
   "products": {
+    "filters": {
+      "pl": "Filtruj po nazwie pl",
+      "en": "Filtruj po nazwie en",
+      "category": "Filtruj po kategorii"
+    },
+    "createProduct": "Dodaj nowy",
     "deletionConfirmation": "Czy na pewno chcesz usunąć ten produkt?"
   },
   "productFieldset": {

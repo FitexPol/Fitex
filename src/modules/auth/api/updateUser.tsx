@@ -5,10 +5,9 @@ import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
-import { HxEvent, HxResponseHeader } from '@vars';
+import { HxResponseHeader } from '@vars';
 
 import { UserForm } from '../components/UserForm';
-import { Users } from '../components/Users';
 import { type UserFormErrors, type UserForm as UserFormType, userForm } from '../forms';
 import { User } from '../models/user';
 
@@ -39,9 +38,8 @@ export const updateUser = new Elysia().use(context).patch(
       return;
     }
 
-    set.headers[HxResponseHeader.TriggerAfterSwap] = HxEvent.CloseModal;
-
-    return <Users />;
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateUser.success'));
+    set.headers[HxResponseHeader.Location] = '/admin-panel/users';
   },
   {
     body: getBodySchema<UserFormType>(userForm),

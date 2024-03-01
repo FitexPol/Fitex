@@ -16,12 +16,7 @@ type UserFormProps = {
 
 export async function UserForm({ userDoc, errors }: ComponentProps<UserFormProps>) {
   return (
-    <form
-      hx-patch={`/api/auth/users/${userDoc?.id}`}
-      hx-swap="outerHTML"
-      hx-target-4xx="this"
-      hx-target="#users-table"
-    >
+    <form hx-patch={`/api/auth/users/${userDoc?.id}`} hx-target="closest section" hx-swap="outerHTML">
       <Select
         control={userForm.roles}
         options={Object.values(Role).map((value) => ({

@@ -25,7 +25,10 @@ export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps
   const [method, endpoint] = mealDoc ? ['PATCH', `/api/meals/${mealDoc.id}`] : ['POST', '/api/meals'];
 
   return (
-    <form id="meal-form" onsubmit={`submitMealForm(event, '${method}', '${endpoint}', this)`}>
+    <form
+      id="meal-form"
+      onsubmit={`submitMealForm(event, '${method}', '${endpoint}', this)`}
+    >
       <Input
         control={mealForm.name}
         value={mealDoc?.name}

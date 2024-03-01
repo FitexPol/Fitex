@@ -32,14 +32,14 @@ export const createMeal = new Elysia().use(context).post(
 
     const mealProducts = await getProductsById(getGroupedProducts(productsBody));
 
-    const meal = new Meal({
+    const mealDoc = new Meal({
       ...mealBody,
       author: user!.id,
       products: mealProducts,
     });
 
     try {
-      await meal.save();
+      await mealDoc.save();
     } catch {
       set.status = 'Bad Request';
 
@@ -52,7 +52,7 @@ export const createMeal = new Elysia().use(context).post(
     }
 
     set.status = 'Created';
-    set.headers[HxResponseHeader.Location] = `/meals/${meal.id}`;
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('createMeal.success'));
   },
   {

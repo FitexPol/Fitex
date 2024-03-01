@@ -6,7 +6,19 @@ import { Role } from '@auth/models/user';
 import { Document } from '@components/_Document';
 import { Tabs } from '@components/Tabs';
 
-export const usersPage = new Elysia().use(context).guard(
+import { userFormPage } from './form';
+
+const usersPage = new Elysia().use(context).get('', ({ user }) => {
+  return (
+    <Document user={user}>
+      <section class="mt-8">
+        <Tabs tabs={getTabs(user!)} activeTab="users" />
+      </section>
+    </Document>
+  );
+});
+
+export const userPages = new Elysia().use(context).guard(
   {
     beforeHandle: ({ user, set }) => {
       if (!user!.hasRole(Role.SuperAdmin)) {
@@ -16,14 +28,5 @@ export const usersPage = new Elysia().use(context).guard(
       }
     },
   },
-  (app) =>
-    app.get('/users', ({ user }) => {
-      return (
-        <Document user={user}>
-          <section class="mt-8">
-            <Tabs tabs={getTabs(user!)} activeTab="users" />
-          </section>
-        </Document>
-      );
-    }),
+  (app) => app.group('/users', (app) => app.use(usersPage).use(userFormPage)),
 );

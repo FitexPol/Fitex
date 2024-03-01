@@ -21,6 +21,8 @@ export type Product = {
 
 const nameSchema = {
   type: String,
+  minLength: 3,
+  maxlength: 50,
   default: '',
 };
 

@@ -24,7 +24,7 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
   const mealDoc = await Meal.findById(mealId).populate('products.product').exec();
 
   if (!mealDoc) {
-    return <span>{_t('_shared.notFound')}</span>;
+    return <span>{_t('_shared.errors.notFound')}</span>;
   }
 
   if (!mealDoc.author._id.equals(user.id)) {

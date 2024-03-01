@@ -31,7 +31,7 @@ export async function ShoppingListFormSection({
     .exec();
 
   if (!shoppingListDoc) {
-    return <span>{_t('_shared.notFound')}</span>;
+    return <span>{_t('_shared.errors.notFound')}</span>;
   }
 
   if (!shoppingListDoc.author._id.equals(user.id)) {
