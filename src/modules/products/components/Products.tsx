@@ -91,7 +91,7 @@ export async function Products({
 
       <fieldset class="mb-6 mt-4 grid !gap-y-0 md:mb-0 md:grid-cols-2">
         <Input
-          control={{ name: 'name.pl-PL', type: 'search', placeholder: 'products.products.filters.pl' }}
+          control={{ name: 'name.pl-PL', type: 'search', placeholder: 'products._shared.filters.pl' }}
           value={plNameQuery}
           hx-get="/api/products"
           hx-trigger="input changed delay:500ms, search"

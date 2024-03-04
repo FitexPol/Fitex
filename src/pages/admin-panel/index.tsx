@@ -3,6 +3,7 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { Role } from '@auth/models/user';
 
+import { categoryPages } from './categories';
 import { productPages } from './products';
 import { userPages } from './users';
 
@@ -20,5 +21,8 @@ export const adminPanelPages = new Elysia().use(context).guard(
       }
     },
   },
-  (app) => app.group('/admin-panel', (app) => app.use(adminPanelPage).use(productPages).use(userPages)),
+  (app) =>
+    app.group('/admin-panel', (app) =>
+      app.use(adminPanelPage).use(productPages).use(categoryPages).use(userPages),
+    ),
 );

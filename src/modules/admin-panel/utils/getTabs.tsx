@@ -1,6 +1,7 @@
 import { Users } from '@auth/components/Users';
 import { type JWTUser, Role } from '@auth/models/user';
 import { type Tab } from '@components/Tabs';
+import { Categories } from '@products/components/Categories';
 import { Products } from '@products/components/Products';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
@@ -8,7 +9,7 @@ import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 const _t = $t('adminPanel');
 
 export function getTabs(user: JWTUser, query: Record<string, string | undefined>) {
-  const tabs = new Map<'products' | 'users', Tab>([
+  const tabs = new Map<'products' | 'categories' | 'users', Tab>([
     [
       'products',
       {
@@ -18,6 +19,21 @@ export function getTabs(user: JWTUser, query: Record<string, string | undefined>
           <Products
             plNameQuery={getQueryParamSecure(query['name.pl-PL'])}
             categoryQuery={getQueryParamSecure(query.category)}
+            sortQuery={getQueryParamSecure(query.sort)}
+            itemsPerPageQuery={getQueryParamSecure(query.itemsPerPage)}
+            pageQuery={getQueryParamSecure(query.page)}
+          />
+        ),
+      },
+    ],
+    [
+      'categories',
+      {
+        href: '/admin-panel/categories',
+        label: _t('getTabs.categories'),
+        component: (
+          <Categories
+            plNameQuery={getQueryParamSecure(query['name.pl-PL'])}
             sortQuery={getQueryParamSecure(query.sort)}
             itemsPerPageQuery={getQueryParamSecure(query.itemsPerPage)}
             pageQuery={getQueryParamSecure(query.page)}

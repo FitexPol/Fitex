@@ -1,6 +1,7 @@
 {
   "getTabs": {
     "products": "Produkty",
+    "categories": "Kategorie",
     "users": "Użytkownicy"
   }
 }

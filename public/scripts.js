@@ -48,6 +48,14 @@ function removeRow(element) {
   row.remove();
 }
 
+function submitCategoryForm(event, method, endpoint, form) {
+  event.preventDefault();
+
+  const values = parseFormData(new FormData(form));
+
+  submitForm(method, endpoint, values);
+}
+
 function submitProductForm(event, method, endpoint, form) {
   event.preventDefault();
 

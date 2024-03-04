@@ -4,23 +4,41 @@
     "category": "Kategoria",
     "errors": {
       "notFound": "Nie znaleziono produktu"
+    },
+    "filters": {
+      "pl": "Filtruj po nazwie"
     }
+  },
+  "createCategory": {
+    "success": "Kategoria została utworzona"
   },
   "createProduct": {
     "success": "Produkt został utworzony"
   },
+  "deleteCategory": {
+    "success": "Kategoria została usunięta"
+  },
   "deleteProduct": {
     "success": "Produkt został usunięty"
   },
+  "updateCategory": {
+    "success": "Kategoria została zaktualizowana"
+  },
   "updateProduct": {
     "success": "Produkt został zaktualizowany"
+  },
+  "categories": {
+    "createCategory": "Dodaj nową",
+    "deletionConfirmation": "Czy na pewno chcesz usunąć tę kategorię?"
+  },
+  "categoryFormSection": {
+    "title": "Stwórz nową kategorię"
   },
   "productFormSection": {
     "title": "Stwórz nowy produkt"
   },
   "products": {
     "filters": {
-      "pl": "Filtruj po nazwie",
       "category": "Filtruj po kategorii"
     },
     "createProduct": "Dodaj nowy",
