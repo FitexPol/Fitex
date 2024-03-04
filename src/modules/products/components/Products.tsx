@@ -14,7 +14,7 @@ import { getPath } from '@utils/getPath';
 import { getSkipValue } from '@utils/getSkipValue';
 import { itemsPerPageOptions } from '@vars';
 
-import { Product } from '../models/product';
+import { Category, Product } from '../models/product';
 
 const _t = $t('products');
 const _tShared = $t('_shared');
@@ -61,7 +61,7 @@ export async function Products({
 
   return (
     <div id="products">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col justify-between gap-y-4 sm:flex-row sm:items-center">
         <Link href="/admin-panel/products/form">
           <>
             {_t('products.createProduct')}
@@ -89,19 +89,48 @@ export async function Products({
         </Dropdown>
       </div>
 
-      <fieldset class="mb-0 mt-4 grid !grid-cols-2">
+      <fieldset class="mb-6 mt-4 grid !gap-y-0 md:mb-0 md:grid-cols-2">
         <Input
           control={{ name: 'name.pl-PL', type: 'search', placeholder: 'products.products.filters.pl' }}
           value={plNameQuery}
           hx-get="/api/products"
           hx-trigger="input changed delay:500ms, search"
         />
-        <Input
-          control={{ name: 'category', type: 'search', placeholder: 'products.products.filters.category' }}
-          value={categoryQuery}
-          hx-get="/api/products"
-          hx-trigger="input changed delay:500ms, search"
-        />
+
+        <Dropdown
+          label={`${_t('products.filters.category')}: ${categoryQuery ? _tShared(`_shared.productCategories.${categoryQuery}`) : _tShared(`_shared.all`)}`}
+        >
+          <>
+            <Dropdown.Item active={!categoryQuery}>
+              <Link
+                href={getPath('/admin-panel/products', {
+                  itemsPerPage: itemsPerPageQuery,
+                  sort: sortQuery,
+                  ['name.pl-PL']: plNameQuery,
+                })}
+              >
+                {_tShared(`_shared.all`)}
+              </Link>
+            </Dropdown.Item>
+
+            {Object.values(Category)
+              .filter((value) => value)
+              .map((value) => (
+                <Dropdown.Item active={value === categoryQuery}>
+                  <Link
+                    href={getPath('/admin-panel/products', {
+                      itemsPerPage: itemsPerPageQuery,
+                      sort: sortQuery,
+                      ['name.pl-PL']: plNameQuery,
+                      category: value,
+                    })}
+                  >
+                    {_tShared(`_shared.productCategories.${value}`)}
+                  </Link>
+                </Dropdown.Item>
+              ))}
+          </>
+        </Dropdown>
       </fieldset>
 
       <Table>

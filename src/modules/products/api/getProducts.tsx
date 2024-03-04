@@ -12,7 +12,7 @@ export const getProducts = new Elysia().get('', ({ request, query, set }) => {
   set.headers[HxResponseHeader.Location] = getPath('/admin-panel/products', {
     sort: getQueryParamSecure(queryParams.sort),
     itemsPerPage: getQueryParamSecure(queryParams.itemsPerPage),
+    category: getQueryParamSecure(queryParams.category),
     'name.pl-PL': getQueryParamSecure(query['name.pl-PL'] ?? queryParams['name.pl-PL']),
-    category: getQueryParamSecure(query.category ?? queryParams.category),
   });
 });

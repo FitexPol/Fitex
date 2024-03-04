@@ -13,7 +13,7 @@ import { getPath } from '@utils/getPath';
 import { getSkipValue } from '@utils/getSkipValue';
 import { itemsPerPageOptions } from '@vars';
 
-import { User, type UserDoc } from '../models/user';
+import { Role, User, type UserDoc } from '../models/user';
 
 const _t = $t('auth');
 const _tShared = $t('_shared');
@@ -60,7 +60,7 @@ export async function Users({
 
   return (
     <div id="users">
-      <div class="flex items-center justify-end">
+      <div class="flex flex-col justify-between gap-y-4 sm:flex-row sm:justify-end">
         <Dropdown label={`${_tShared('_shared.itemsPerPage')}: ${itemsPerPage}`}>
           <>
             {itemsPerPageOptions.map(({ label, query }) => (
@@ -81,7 +81,7 @@ export async function Users({
         </Dropdown>
       </div>
 
-      <fieldset class="mb-0 mt-4 grid !grid-cols-2">
+      <fieldset class="mb-6 mt-4 grid !gap-y-0 md:mb-0 md:grid-cols-2">
         <Input
           control={{ name: 'username', type: 'search', placeholder: 'auth.users.filters.username' }}
           value={usernameQuery}
@@ -89,12 +89,36 @@ export async function Users({
           hx-trigger="input changed delay:500ms, search"
         />
 
-        <Input
-          control={{ name: 'roles', type: 'search', placeholder: 'auth.users.filters.roles' }}
-          value={rolesQuery}
-          hx-get="/api/auth/users"
-          hx-trigger="input changed delay:500ms, search"
-        />
+        <Dropdown label={`${_t('users.filters.roles')}: ${rolesQuery || _tShared(`_shared.all`)}`}>
+          <>
+            <Dropdown.Item active={!rolesQuery}>
+              <Link
+                href={getPath('/admin-panel/users', {
+                  itemsPerPage: itemsPerPageQuery,
+                  sort: sortQuery,
+                  username: usernameQuery,
+                })}
+              >
+                {_tShared(`_shared.all`)}
+              </Link>
+            </Dropdown.Item>
+
+            {Object.values(Role).map((value) => (
+              <Dropdown.Item active={value === rolesQuery}>
+                <Link
+                  href={getPath('/admin-panel/users', {
+                    itemsPerPage: itemsPerPageQuery,
+                    sort: sortQuery,
+                    username: usernameQuery,
+                    roles: value,
+                  })}
+                >
+                  {value}
+                </Link>
+              </Dropdown.Item>
+            ))}
+          </>
+        </Dropdown>
       </fieldset>
 
       <Table>

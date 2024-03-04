@@ -13,7 +13,7 @@ export const getUsers = new Elysia().use(context).get('', ({ request, query, set
   set.headers[HxResponseHeader.Location] = getPath('/admin-panel/users', {
     sort: getQueryParamSecure(queryParams.sort),
     itemsPerPage: getQueryParamSecure(queryParams.itemsPerPage),
+    roles: getQueryParamSecure(queryParams.roles),
     username: getQueryParamSecure(query.username ?? queryParams.username),
-    roles: getQueryParamSecure(query.roles ?? queryParams.roles),
   });
 });
