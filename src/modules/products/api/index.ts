@@ -6,7 +6,7 @@ import { Role } from '@auth/models/user';
 import { createProduct } from './createProduct';
 import { deleteProduct } from './deleteProduct';
 import { getProductFieldset } from './getProductFieldset';
-import { getProductModal } from './getProductModal';
+import { getProducts } from './getProducts';
 import { updateProduct } from './updateProduct';
 
 export const productsApi = new Elysia().use(context).group('/products', (app) =>
@@ -20,6 +20,6 @@ export const productsApi = new Elysia().use(context).group('/products', (app) =>
         }
       },
     },
-    (app) => app.use(getProductModal).use(createProduct).use(updateProduct).use(deleteProduct),
+    (app) => app.use(getProducts).use(createProduct).use(updateProduct).use(deleteProduct),
   ),
 );

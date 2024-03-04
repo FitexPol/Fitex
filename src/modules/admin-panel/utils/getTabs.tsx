@@ -16,6 +16,9 @@ export function getTabs(user: JWTUser, query: Record<string, string | undefined>
         label: _t('getTabs.products'),
         component: (
           <Products
+            plNameQuery={getQueryParamSecure(query['name.pl-PL'])}
+            categoryQuery={getQueryParamSecure(query.category)}
+            sortQuery={getQueryParamSecure(query.sort)}
             itemsPerPageQuery={getQueryParamSecure(query.itemsPerPage)}
             pageQuery={getQueryParamSecure(query.page)}
           />
@@ -28,7 +31,15 @@ export function getTabs(user: JWTUser, query: Record<string, string | undefined>
     tabs.set('users', {
       href: '/admin-panel/users',
       label: _t('getTabs.users'),
-      component: <Users />,
+      component: (
+        <Users
+          usernameQuery={getQueryParamSecure(query.username)}
+          rolesQuery={getQueryParamSecure(query.roles)}
+          sortQuery={getQueryParamSecure(query.sort)}
+          itemsPerPageQuery={getQueryParamSecure(query.itemsPerPage)}
+          pageQuery={getQueryParamSecure(query.page)}
+        />
+      ),
     });
   }
 

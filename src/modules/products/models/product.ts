@@ -19,17 +19,18 @@ export type Product = {
   category: Category;
 };
 
-const nameSchema = {
-  type: String,
-  minLength: 3,
-  maxlength: 50,
-  default: '',
-};
-
 export const productSchema = new Schema<Product>({
   name: {
-    ['pl-PL']: nameSchema,
-    ['en-US']: nameSchema,
+    ['pl-PL']: {
+      type: String,
+      minLength: 3,
+      maxlength: 50,
+    },
+    ['en-US']: {
+      type: String,
+      maxlength: 50,
+      default: '',
+    },
   },
   category: {
     type: String,

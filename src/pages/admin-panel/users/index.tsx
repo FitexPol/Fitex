@@ -8,11 +8,11 @@ import { Tabs } from '@components/Tabs';
 
 import { userFormPage } from './form';
 
-const usersPage = new Elysia().use(context).get('', ({ user }) => {
+const usersPage = new Elysia().use(context).get('', ({ user, query }) => {
   return (
     <Document user={user}>
       <section class="mt-8">
-        <Tabs tabs={getTabs(user!)} activeTab="users" />
+        <Tabs tabs={getTabs(user!, query)} activeTab="users" />
       </section>
     </Document>
   );

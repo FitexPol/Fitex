@@ -29,13 +29,6 @@ export async function ProductForm({ productDoc, errors }: ComponentProps<Product
         error={errors?.['pl-PL']}
       />
 
-      <Input
-        control={productForm['en-US']}
-        value={productDoc?.name['en-US']}
-        label={_t('_shared.en')}
-        error={errors?.['en-US']}
-      />
-
       <Select
         control={productForm.category}
         options={Object.values(Category).map((value) => ({

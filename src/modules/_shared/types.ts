@@ -51,7 +51,11 @@ export type PasswordControl = Omit<TextControl, 'type'> & {
   type: 'password';
 };
 
-export type FormControl = (TextControl | NumberControl | EmailControl | PasswordControl) & {
+export type SearchControl = Omit<TextControl, 'type'> & {
+  type: 'search';
+};
+
+export type FormControl = (TextControl | NumberControl | EmailControl | PasswordControl | SearchControl) & {
   name: string;
   placeholder?: string;
 };

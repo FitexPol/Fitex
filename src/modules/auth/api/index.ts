@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 
-import { getUserModal } from './getUserModal';
+import { getUsers } from './getUsers';
 import { logout } from './logout';
 import { signIn } from './signIn';
 import { signUp } from './signUp';
@@ -22,6 +22,6 @@ export const authApi = new Elysia().group('/auth', (app) =>
           }
         },
       },
-      (app) => app.group('/users', (app) => app.use(getUserModal).use(updateUser)),
+      (app) => app.group('/users', (app) => app.use(getUsers).use(updateUser)),
     ),
 );

@@ -1,7 +1,6 @@
 {
   "_shared": {
-    "pl": "PL",
-    "en": "EN",
+    "pl": "Nazwa",
     "category": "Kategoria",
     "errors": {
       "notFound": "Nie znaleziono produktu"
@@ -21,8 +20,7 @@
   },
   "products": {
     "filters": {
-      "pl": "Filtruj po nazwie pl",
-      "en": "Filtruj po nazwie en",
+      "pl": "Filtruj po nazwie",
       "category": "Filtruj po kategorii"
     },
     "createProduct": "Dodaj nowy",

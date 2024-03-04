@@ -11,16 +11,6 @@ export const productForm = {
       message: 'Polska nazwa produktu musi zawierać od 3 do 20 znaków',
     },
   },
-  ['en-US']: {
-    type: 'text',
-    name: 'en-US',
-    validators: {
-      required: true,
-      minLength: 3,
-      maxLength: 50,
-      message: 'Angielska nazwa produktu musi zawierać od 6 do 20 znaków',
-    },
-  },
   category: {
     type: 'text',
     name: 'category',

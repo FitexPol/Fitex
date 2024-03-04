@@ -3,20 +3,28 @@ import type { ComponentProps, FormControl, NumberValidators } from '@types';
 import { getPlaceholder } from '../../utils/getPlaceholder';
 import { getTextValidators } from '../../utils/getTextValidators';
 
-type InputProps = {
+type InputProps = HtmxAttributes & {
   control: FormControl;
   value?: string;
   label?: string;
   error?: string;
 };
 
-export function Input({ control, value = '', label, error, class: className }: ComponentProps<InputProps>) {
+export function Input({
+  control,
+  value = '',
+  label,
+  error,
+  class: className,
+  ...hxAttributes
+}: ComponentProps<InputProps>) {
   const { placeholder, ...inputAttributes }: JSX.HtmlInputTag = getInputAttributes(control);
 
   return (
     <label class={className}>
       {!!label && <span class="mb-1 ml-2 block text-sm">{label}</span>}
       <input
+        {...hxAttributes}
         {...inputAttributes}
         placeholder={getPlaceholder(placeholder)}
         value={value}
