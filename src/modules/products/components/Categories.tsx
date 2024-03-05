@@ -1,4 +1,5 @@
 import { icons } from 'feather-icons';
+import { type FilterQuery } from 'mongoose';
 
 import { Button } from '@components/Button';
 import { Dropdown } from '@components/Dropdown';
@@ -40,14 +41,15 @@ export async function Categories({
   const { label: sortLabel, value: sortValue }: CategoriesSortOption = getSortOption(sortQuery);
   const itemsPerPage: number = getItemsPerPageOption(itemsPerPageQuery);
   const page = getPage(pageQuery);
+  const filters: FilterQuery<typeof Category> = {};
 
-  const totalCategoryDocs = await Category.countDocuments({
-    'name.pl-PL': { $regex: new RegExp(plNameQuery, 'i') },
-  });
+  if (plNameQuery) {
+    filters['name.pl-PL'] = { $regex: new RegExp(plNameQuery, 'i') };
+  }
 
-  const categoryDocs = await Category.find({
-    'name.pl-PL': { $regex: new RegExp(plNameQuery, 'i') },
-  })
+  const totalCategoryDocs = await Category.countDocuments(filters);
+
+  const categoryDocs = await Category.find(filters)
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)

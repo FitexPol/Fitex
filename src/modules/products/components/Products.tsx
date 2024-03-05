@@ -47,7 +47,7 @@ export async function Products({
   const itemsPerPage: number = getItemsPerPageOption(itemsPerPageQuery);
   const page = getPage(pageQuery);
   const categoryOptions: SelectOption[] = await getCategoryOptions();
-  const filters: FilterQuery<Product> = {};
+  const filters: FilterQuery<typeof Product> = {};
 
   if (plNameQuery) {
     filters['name.pl-PL'] = { $regex: new RegExp(plNameQuery, 'i') };

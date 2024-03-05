@@ -1,4 +1,5 @@
 import { icons } from 'feather-icons';
+import { type FilterQuery } from 'mongoose';
 
 import { Dropdown } from '@components/Dropdown';
 import { Input } from '@components/inputs/Input';
@@ -41,16 +42,19 @@ export async function Users({
   const { label: sortLabel, value: sortValue }: UsersSortOption = getSortOption(sortQuery);
   const itemsPerPage: number = getItemsPerPageOption(itemsPerPageQuery);
   const page = getPage(pageQuery);
+  const filters: FilterQuery<typeof User> = {};
 
-  const totalUserDocs = await User.countDocuments({
-    username: { $regex: new RegExp(usernameQuery, 'i') },
-    roles: { $regex: new RegExp(rolesQuery, 'i') },
-  });
+  if (usernameQuery) {
+    filters['username'] = { $regex: new RegExp(usernameQuery, 'i') };
+  }
 
-  const userDocs = await User.find({
-    username: { $regex: new RegExp(usernameQuery, 'i') },
-    roles: { $regex: new RegExp(rolesQuery, 'i') },
-  })
+  if (rolesQuery) {
+    filters['roles'] = rolesQuery;
+  }
+
+  const totalUserDocs = await User.countDocuments(filters);
+
+  const userDocs = await User.find(filters)
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
