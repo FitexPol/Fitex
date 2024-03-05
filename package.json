@@ -16,7 +16,7 @@
     "format:fix": "prettier --write ./src",
     "docker:start": "bun run docker:build && bun run docker:run",
     "docker:build": "docker build --pull -t fitex:prod .",
-    "docker:run": "docker run -d -p 8080:8080 fitex:prod",
+    "docker:run": "docker run -d -p 3000:3000 fitex:prod",
     "docker:stop": "docker stop $(bun run docker:ps)",
     "docker:rm": "docker rm $(bun run docker:ps)",
     "docker:ps": "docker ps -a -q -f ancestor=fitex:prod",

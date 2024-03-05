@@ -33,5 +33,5 @@ COPY --from=prerelease /usr/src/app .
 
 # run the app
 USER bun
-EXPOSE 8080/tcp
+EXPOSE 3000/tcp
 ENTRYPOINT [ "bun", "run", "start" ]
