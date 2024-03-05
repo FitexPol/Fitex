@@ -6,7 +6,7 @@ import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
 import { type ProductDoc } from '@products/models/product';
-import { type ComponentProps } from '@types';
+import type { ComponentProps, Populated } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
@@ -32,9 +32,16 @@ export async function ShoppingListSection({
   const shoppingListDoc = await ShoppingList.findById(shoppingListId)
     .populate({
       path: 'meals.meal',
-      populate: { path: 'products.product' },
+      populate: {
+        path: 'products.product',
+        populate: { path: 'category' },
+      },
     })
     .populate('products.product')
+    .populate({
+      path: 'products.product',
+      populate: { path: 'category' },
+    })
     .exec();
 
   if (!shoppingListDoc) {
@@ -69,7 +76,7 @@ export async function ShoppingListSection({
                 href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {
                   groupByMeals: groupByMealsQuery ? '' : 'on',
                 })}
-                class="contrast mb-4 inline-block"
+                class="contrast mb-4 self-start"
               >
                 <Switch control={{ name: 'groupByMeals' }} checked={!!groupByMealsQuery}>
                   <span class="mr-2">{_t('shoppingListSection.groupByMeals')}</span>
@@ -181,7 +188,7 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
 
 function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
   const { meals, products } = shoppingListDoc;
-  const allProducts: { productDoc: ProductDoc; quantity: number; unit: Unit }[] = [];
+  const map = new Map<string, Record<string, { productDoc: ProductDoc; quantity: number; unit: Unit }>>();
 
   if (meals.length > 0) {
     meals.forEach(({ meal, quantity }) => {
@@ -189,51 +196,53 @@ function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: Shop
 
       if (!mealDoc) return;
 
-      mealDoc.products.forEach(({ product, quantity: productQuantity, unit }) => {
-        const productDoc = getPopulatedDoc(product);
-
-        if (!productDoc) return;
-
-        allProducts.push({ productDoc, quantity: productQuantity * quantity, unit });
-      });
+      mapProducts(mealDoc.products, quantity);
     });
   }
 
-  if (products.length > 0) {
-    products.forEach(({ product, quantity, unit }) => {
+  if (products.length > 0) mapProducts(products);
+
+  function mapProducts(
+    products: { product: Populated<ProductDoc>; quantity: number; unit: Unit }[],
+    multiplier = 1,
+  ) {
+    products.forEach(({ product, quantity: productQuantity, unit }) => {
       const productDoc = getPopulatedDoc(product);
 
       if (!productDoc) return;
 
-      allProducts.push({ productDoc, quantity, unit });
+      const categoryDoc = getPopulatedDoc(productDoc.category);
+      const mapKey = categoryDoc ? categoryDoc.name['pl-PL'] : 'NO_CATEGORY';
+
+      if (!map.has(mapKey)) map.set(mapKey, {});
+
+      const products = map.get(mapKey)!;
+      const productKey = `${productDoc.id}.${unit}`;
+
+      products[productKey]
+        ? (products[productKey].quantity += productQuantity * multiplier)
+        : (products[productKey] = { productDoc, quantity: productQuantity * multiplier, unit });
     });
   }
 
-  const groupedProducts = allProducts.reduce(
-    (acc, { productDoc, quantity, unit }) => {
-      const key = `${productDoc.id}.${unit}`;
-
-      acc[key] ? (acc[key].quantity += quantity) : (acc[key] = { productDoc, quantity, unit });
-
-      return acc;
-    },
-    {} as Record<string, { productDoc: ProductDoc; quantity: number; unit: Unit }>,
-  );
-
-  const groupedProductsArray = Object.entries(groupedProducts).map((entry) => entry[1]);
-
   return (
     <>
-      <Title>{_t('shoppingListSection.allProducts')}</Title>
+      {map.size > 0 ? (
+        Array.from(map).map(([category, products]) => {
+          return (
+            <>
+              <Title>{category}</Title>
 
-      {groupedProductsArray.length > 0 ? (
-        <List>
-          <>
-            {groupedProductsArray.map(({ productDoc, quantity, unit }) => (
-              <Item productDoc={productDoc} quantity={quantity} unit={unit} />
-            ))}
-          </>
-        </List>
+              <List>
+                <>
+                  {Object.values(products).map(({ productDoc, quantity, unit }) => (
+                    <Item productDoc={productDoc} quantity={quantity} unit={unit} />
+                  ))}
+                </>
+              </List>
+            </>
+          );
+        })
       ) : (
         <span>{_t('shoppingListSection.noProducts')}</span>
       )}
