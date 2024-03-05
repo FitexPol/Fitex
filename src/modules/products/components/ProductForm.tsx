@@ -1,11 +1,13 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
-import { Select } from '@components/inputs/Select';
+import { Select, type SelectOption } from '@components/inputs/Select';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type ProductFormErrors, productForm } from '../forms';
-import { Category, type ProductDoc } from '../models/product';
+import { type ProductDoc } from '../models/product';
+import { getCategoryOptions } from '../utils/getCategoryOptions';
 
 const _t = $t('products');
 const _tShared = $t('_shared');
@@ -16,6 +18,9 @@ type ProductFormProps = {
 };
 
 export async function ProductForm({ productDoc, errors }: ComponentProps<ProductFormProps>) {
+  const categoryOptions: SelectOption[] = await getCategoryOptions();
+  const categoryDoc = getPopulatedDoc(productDoc?.category);
+
   const [method, endpoint] = productDoc
     ? ['PATCH', `/api/products/${productDoc.id}`]
     : ['POST', '/api/products'];
@@ -31,11 +36,8 @@ export async function ProductForm({ productDoc, errors }: ComponentProps<Product
 
       <Select
         control={productForm.category}
-        options={Object.values(Category).map((value) => ({
-          label: value ? _tShared(`_shared.productCategories.${value}`) : value,
-          value,
-        }))}
-        value={productDoc?.category}
+        options={categoryOptions}
+        value={categoryDoc?.id}
         label={_t('_shared.category')}
         error={errors?.category}
       />

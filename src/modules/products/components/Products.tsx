@@ -1,8 +1,10 @@
 import { icons } from 'feather-icons';
+import { type FilterQuery } from 'mongoose';
 
 import { Button } from '@components/Button';
 import { Dropdown } from '@components/Dropdown';
 import { Input } from '@components/inputs/Input';
+import { type SelectOption } from '@components/inputs/Select';
 import { Link } from '@components/Link';
 import { Pagination } from '@components/Pagination';
 import { Table } from '@components/Table';
@@ -11,10 +13,12 @@ import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
 import { getPath } from '@utils/getPath';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 import { getSkipValue } from '@utils/getSkipValue';
 import { itemsPerPageOptions } from '@vars';
 
-import { Category, Product } from '../models/product';
+import { Product } from '../models/product';
+import { getCategoryOptions } from '../utils/getCategoryOptions';
 
 const _t = $t('products');
 const _tShared = $t('_shared');
@@ -22,8 +26,6 @@ const _tShared = $t('_shared');
 enum SortQuery {
   NamePlAsc = 'name.pl-PL-asc',
   NamePlDesc = 'name.pl-PL-desc',
-  CategoryAsc = 'category-asc',
-  CategoryDesc = 'category-desc',
 }
 
 type ProductProps = {
@@ -44,19 +46,24 @@ export async function Products({
   const { label: sortLabel, value: sortValue }: ProductsSortOption = getSortOption(sortQuery);
   const itemsPerPage: number = getItemsPerPageOption(itemsPerPageQuery);
   const page = getPage(pageQuery);
+  const categoryOptions: SelectOption[] = await getCategoryOptions();
+  const filters: FilterQuery<Product> = {};
 
-  const totalProductDocs = await Product.countDocuments({
-    'name.pl-PL': { $regex: new RegExp(plNameQuery, 'i') },
-    category: { $regex: new RegExp(categoryQuery, 'i') },
-  });
+  if (plNameQuery) {
+    filters['name.pl-PL'] = { $regex: new RegExp(plNameQuery, 'i') };
+  }
 
-  const productDocs = await Product.find({
-    'name.pl-PL': { $regex: new RegExp(plNameQuery, 'i') },
-    category: { $regex: new RegExp(categoryQuery, 'i') },
-  })
+  if (categoryQuery) {
+    filters['category'] = categoryQuery;
+  }
+
+  const totalProductDocs = await Product.countDocuments(filters);
+
+  const productDocs = await Product.find(filters)
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
+    .populate('category')
     .exec();
 
   return (
@@ -98,7 +105,7 @@ export async function Products({
         />
 
         <Dropdown
-          label={`${_t('products.filters.category')}: ${categoryQuery ? _tShared(`_shared.productCategories.${categoryQuery}`) : _tShared(`_shared.all`)}`}
+          label={`${_t('products.filters.category')}: ${categoryQuery ? categoryOptions.find(({ value }) => value === categoryQuery)?.label : _tShared(`_shared.all`)}`}
         >
           <>
             <Dropdown.Item active={!categoryQuery}>
@@ -113,22 +120,20 @@ export async function Products({
               </Link>
             </Dropdown.Item>
 
-            {Object.values(Category)
-              .filter((value) => value)
-              .map((value) => (
-                <Dropdown.Item active={value === categoryQuery}>
-                  <Link
-                    href={getPath('/admin-panel/products', {
-                      itemsPerPage: itemsPerPageQuery,
-                      sort: sortQuery,
-                      ['name.pl-PL']: plNameQuery,
-                      category: value,
-                    })}
-                  >
-                    {_tShared(`_shared.productCategories.${value}`)}
-                  </Link>
-                </Dropdown.Item>
-              ))}
+            {categoryOptions.map(({ value, label }) => (
+              <Dropdown.Item active={value === categoryQuery}>
+                <Link
+                  href={getPath('/admin-panel/products', {
+                    itemsPerPage: itemsPerPageQuery,
+                    sort: sortQuery,
+                    ['name.pl-PL']: plNameQuery,
+                    category: value,
+                  })}
+                >
+                  {label}
+                </Link>
+              </Dropdown.Item>
+            ))}
           </>
         </Dropdown>
       </fieldset>
@@ -155,59 +160,43 @@ export async function Products({
                 </Link>
               </Table.Header.Item>
 
-              <Table.Header.Item>
-                <Link
-                  href={getPath('/admin-panel/products', {
-                    sort:
-                      sortLabel === SortQuery.CategoryAsc ? SortQuery.CategoryDesc : SortQuery.CategoryAsc,
-                    itemsPerPage: itemsPerPageQuery,
-                    ['name.pl-PL']: plNameQuery,
-                    category: categoryQuery,
-                  })}
-                  class="inline-flex items-center gap-1"
-                >
-                  <>
-                    {_t('_shared.category')}
-                    {sortLabel === SortQuery.CategoryAsc && icons['arrow-up'].toSvg()}
-                    {sortLabel === SortQuery.CategoryDesc && icons['arrow-down'].toSvg()}
-                  </>
-                </Link>
-              </Table.Header.Item>
-
+              <Table.Header.Item>{_t('_shared.category')}</Table.Header.Item>
               <Table.Header.Item>{_tShared('_shared.actions')}</Table.Header.Item>
             </>
           </Table.Header>
 
           <Table.Body>
             <>
-              {productDocs.map(({ id, name, category }) => (
-                <Table.Body.Row firstItem={name['pl-PL']}>
-                  <>
-                    <Table.Body.Row.Cell>
-                      {category ? _tShared(`_shared.productCategories.${category}`) : category}
-                    </Table.Body.Row.Cell>
+              {productDocs.map(({ id, name, category }) => {
+                const categoryDoc = getPopulatedDoc(category);
 
-                    <Table.Body.Row.Cell>
-                      <div class="flex gap-4">
-                        <Button
-                          class="pico-reset !text-inherit"
-                          hx-delete={`/api/products/${id}`}
-                          hx-target="#products"
-                          hx-swap="outerHTML"
-                          hx-confirm={_t('products.deletionConfirmation')}
-                          hx-indicator="#loader"
-                        >
-                          {icons.trash.toSvg()}
-                        </Button>
+                return (
+                  <Table.Body.Row firstItem={name['pl-PL']}>
+                    <>
+                      <Table.Body.Row.Cell>{categoryDoc?.name['pl-PL']}</Table.Body.Row.Cell>
 
-                        <Link href={getPath('/admin-panel/products/form', { productId: id })}>
-                          {icons.edit.toSvg()}
-                        </Link>
-                      </div>
-                    </Table.Body.Row.Cell>
-                  </>
-                </Table.Body.Row>
-              ))}
+                      <Table.Body.Row.Cell>
+                        <div class="flex gap-4">
+                          <Button
+                            class="pico-reset !text-inherit"
+                            hx-delete={`/api/products/${id}`}
+                            hx-target="#products"
+                            hx-swap="outerHTML"
+                            hx-confirm={_t('products.deletionConfirmation')}
+                            hx-indicator="#loader"
+                          >
+                            {icons.trash.toSvg()}
+                          </Button>
+
+                          <Link href={getPath('/admin-panel/products/form', { productId: id })}>
+                            {icons.edit.toSvg()}
+                          </Link>
+                        </div>
+                      </Table.Body.Row.Cell>
+                    </>
+                  </Table.Body.Row>
+                );
+              })}
             </>
           </Table.Body>
         </>
@@ -229,7 +218,7 @@ export async function Products({
   );
 }
 
-type SortValues = Partial<Record<'name.pl-PL' | 'category', -1 | 1>>;
+type SortValues = Partial<Record<'name.pl-PL', -1 | 1>>;
 type ProductsSortOption = SortOption<SortValues>;
 
 function getSortOption(queryParam: string): ProductsSortOption {
@@ -238,16 +227,6 @@ function getSortOption(queryParam: string): ProductsSortOption {
       return {
         label: SortQuery.NamePlDesc,
         value: { 'name.pl-PL': -1 },
-      };
-    case SortQuery.CategoryAsc:
-      return {
-        label: SortQuery.CategoryAsc,
-        value: { category: 1 },
-      };
-    case SortQuery.CategoryDesc:
-      return {
-        label: SortQuery.CategoryDesc,
-        value: { category: -1 },
       };
     default:
       return {

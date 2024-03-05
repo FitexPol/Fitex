@@ -23,7 +23,7 @@ export async function CategoryFormSection({ categoryId }: ComponentProps<Categor
   const categoryDoc = await Category.findById(categoryId).exec();
 
   if (!categoryDoc) {
-    return <span>{_t('_shared.errors.notFound')}</span>;
+    return <span>{_t('_shared.categories.errors.notFound')}</span>;
   }
 
   return (

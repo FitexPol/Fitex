@@ -23,7 +23,7 @@ export async function ProductFormSection({ productId }: ComponentProps<ProductFo
   const productDoc = await Product.findById(productId).exec();
 
   if (!productDoc) {
-    return <span>{_t('_shared.errors.notFound')}</span>;
+    return <span>{_t('_shared.products.errors.notFound')}</span>;
   }
 
   return (

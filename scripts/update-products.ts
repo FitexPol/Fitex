@@ -12,7 +12,7 @@ try {
     },
   });
 
-  await Product.updateMany({}, { $set: { 'name.en-US': '' } });
+  await Product.updateMany({}, { $set: { category: null } });
 
   mongoose.connection.close();
 } catch (e) {

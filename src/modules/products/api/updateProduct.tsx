@@ -20,7 +20,10 @@ export const updateProduct = new Elysia().use(context).patch(
 
     if (!productDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.products.errors.notFound'),
+      );
 
       return;
     }

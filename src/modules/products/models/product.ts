@@ -1,22 +1,13 @@
-import { type HydratedDocument, Schema, model } from 'mongoose';
+import { type HydratedDocument, Schema, Types, model } from 'mongoose';
 
+import { type Populated } from '@types';
 import { type Lang } from '@utils/$t';
 
-export enum Category {
-  Vegetables = 'vegetables',
-  Fruits = 'fruits',
-  Dairy = 'dairy',
-  Meat = 'meat',
-  Fish = 'fish',
-  Bread = 'bread',
-  Sweets = 'sweets',
-  Drinks = 'drinks',
-  Other = '',
-}
+import { type CategoryDoc } from './category';
 
 export type Product = {
   name: Record<Lang, string>;
-  category: Category;
+  category: Populated<CategoryDoc>;
 };
 
 export const productSchema = new Schema<Product>({
@@ -33,9 +24,8 @@ export const productSchema = new Schema<Product>({
     },
   },
   category: {
-    type: String,
-    enum: Object.values(Category),
-    default: Category.Other,
+    type: Types.ObjectId,
+    ref: 'Category',
   },
 });
 

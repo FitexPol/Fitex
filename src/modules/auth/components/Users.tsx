@@ -21,8 +21,6 @@ const _tShared = $t('_shared');
 enum SortQuery {
   usernameAsc = 'username-asc',
   usernameDesc = 'username-desc',
-  RolesAsc = 'roles-asc',
-  RolesDesc = 'roles-desc',
 }
 
 type UsersProps = {
@@ -144,24 +142,7 @@ export async function Users({
                 </Link>
               </Table.Header.Item>
 
-              <Table.Header.Item>
-                <Link
-                  href={getPath('/admin-panel/users', {
-                    sort: sortLabel === SortQuery.RolesAsc ? SortQuery.RolesDesc : SortQuery.RolesAsc,
-                    itemsPerPage: itemsPerPageQuery,
-                    username: usernameQuery,
-                    roles: rolesQuery,
-                  })}
-                  class="inline-flex items-center gap-1"
-                >
-                  <>
-                    {_t('_shared.roles')}
-                    {sortLabel === SortQuery.RolesAsc && icons['arrow-up'].toSvg()}
-                    {sortLabel === SortQuery.RolesDesc && icons['arrow-down'].toSvg()}
-                  </>
-                </Link>
-              </Table.Header.Item>
-
+              <Table.Header.Item>{_t('_shared.roles')}</Table.Header.Item>
               <Table.Header.Item>{_tShared('_shared.actions')}</Table.Header.Item>
             </>
           </Table.Header>
@@ -215,16 +196,6 @@ function getSortOption(queryParam: string): UsersSortOption {
       return {
         label: SortQuery.usernameDesc,
         value: { username: -1 },
-      };
-    case SortQuery.RolesAsc:
-      return {
-        label: SortQuery.RolesAsc,
-        value: { roles: 1 },
-      };
-    case SortQuery.RolesDesc:
-      return {
-        label: SortQuery.RolesDesc,
-        value: { roles: -1 },
       };
     default:
       return {

@@ -2,8 +2,15 @@
   "_shared": {
     "pl": "Nazwa",
     "category": "Kategoria",
-    "errors": {
-      "notFound": "Nie znaleziono produktu"
+    "products": {
+      "errors": {
+        "notFound": "Nie znaleziono produktu"
+      }
+    },
+    "categories": {
+      "errors": {
+        "notFound": "Nie znaleziono kategorii"
+      }
     },
     "filters": {
       "pl": "Filtruj po nazwie"

@@ -20,7 +20,10 @@ export const updateCategory = new Elysia().use(context).patch(
 
     if (!categoryDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.categories.errors.notFound'),
+      );
 
       return;
     }

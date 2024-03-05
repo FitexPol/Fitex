@@ -21,7 +21,10 @@ export const deleteCategory = new Elysia()
 
     if (!categoryDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.categories.errors.notFound'),
+      );
 
       return;
     }
