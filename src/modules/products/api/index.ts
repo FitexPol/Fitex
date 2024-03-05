@@ -7,7 +7,7 @@ import { createCategory } from './createCategory';
 import { createProduct } from './createProduct';
 import { deleteCategory } from './deleteCategory';
 import { deleteProduct } from './deleteProduct';
-import { getCategories } from './getCategoriest';
+import { getCategories } from './getCategories';
 import { getProductFieldset } from './getProductFieldset';
 import { getProducts } from './getProducts';
 import { updateCategory } from './updateCategory';
