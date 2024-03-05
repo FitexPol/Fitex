@@ -1,4 +1,4 @@
-import { type HydratedDocument, Schema, Types, model } from 'mongoose';
+import { type HydratedDocument, Schema, model } from 'mongoose';
 
 import { type Populated } from '@types';
 import { type Lang } from '@utils/$t';
@@ -24,7 +24,7 @@ export const productSchema = new Schema<Product>({
     },
   },
   category: {
-    type: Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Category',
   },
 });
