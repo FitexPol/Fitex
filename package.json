@@ -13,7 +13,14 @@
     "lint": "eslint ./src & bun run tslint",
     "lint:fix": "eslint --fix ./src & bun run tslint",
     "format": "prettier --check ./src",
-    "format:fix": "prettier --write ./src"
+    "format:fix": "prettier --write ./src",
+    "docker:start": "bun run docker:build && docker run -d -p 3000:3000 fitex:prod",
+    "docker:build": "docker build --pull -t fitex:prod .",
+    "docker:run": "docker run -d -p 3000:3000 fitex:prod",
+    "docker:stop": "docker stop $(bun run docker:ps)",
+    "docker:rm": "docker rm $(bun run docker:ps)",
+    "docker:ps": "docker ps -a -q -f ancestor=fitex:prod",
+    "docker:ps:v": "docker ps -a -f ancestor=fitex:prod"
   },
   "dependencies": {
     "@elysiajs/html": "^0.8.0",

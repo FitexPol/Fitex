@@ -1,11 +1,18 @@
-.devcontainer
-.github
-.vscode
 node_modules
 Dockerfile*
 docker-compose*
 .dockerignore
 .git
 .gitignore
-LICENSE
 README.md
+LICENSE
+.vscode
+Makefile
+helm-charts
+# .env
+.editorconfig
+.idea
+coverage*
+
+.devcontainer
+.github
