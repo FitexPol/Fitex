@@ -9,7 +9,16 @@ import { getEnvSecure } from '@utils/getEnvSecure';
 import { api } from './modules';
 import { pages } from './pages';
 
-const app = new Elysia().use(swagger()).use(staticPlugin()).use(html()).use(pages).use(api);
+const app = new Elysia()
+  .use(swagger())
+  .use(staticPlugin())
+  .use(html())
+  .use(pages)
+  .use(api)
+  // TODO: Remove this when the issue with html plugin is fixed
+  .mapResponse(({ set }) => {
+    set.headers['Content-type'] = 'text/html; charset=utf-8';
+  });
 
 try {
   await mongoose.connect(getEnvSecure('DB_URL'), {
