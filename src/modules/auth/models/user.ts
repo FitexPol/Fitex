@@ -1,4 +1,4 @@
-import { type HydratedDocument, Schema, model } from 'mongoose';
+import { type HydratedDocument, type InferSchemaType, Schema, model } from 'mongoose';
 
 export type JWTUser = {
   id: string;
