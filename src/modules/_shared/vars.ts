@@ -1,6 +1,9 @@
 import { $t } from './utils/$t';
+import { getEnvSecure } from './utils/getEnvSecure';
 
 const _tShared = $t('_shared');
+
+export const mongoUri = `mongodb+srv://${getEnvSecure('DB_USER')}:${getEnvSecure('DB_PASSWORD')}@cluster0.vx4xlsk.mongodb.net/${getEnvSecure('DB_NAME')}?retryWrites=true&w=majority`;
 
 export enum HxRequestHeader {
   CurrentUrl = 'HX-Current-Url',

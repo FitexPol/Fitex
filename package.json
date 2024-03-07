@@ -10,7 +10,7 @@
     "start": "bun ./dist/index.js",
     "tw": "tailwindcss -i ./src/styles.css -o ./public/styles.css --watch --minify",
     "tslint": "tsc --noEmit",
-    "lint": "eslint ./src",
+    "lint": "eslint ./src & bun run tslint",
     "lint:fix": "eslint --fix ./src & bun run tslint",
     "format": "prettier --check ./src",
     "format:fix": "prettier --write ./src",

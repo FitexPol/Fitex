@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 import { Product } from '@products/models/product';
-import { getEnvSecure } from '@utils/getEnvSecure';
+import { mongoUri } from '@vars';
 
 try {
-  await mongoose.connect(getEnvSecure('DB_URL'), {
+  await mongoose.connect(mongoUri, {
     serverApi: {
       version: '1',
       strict: true,

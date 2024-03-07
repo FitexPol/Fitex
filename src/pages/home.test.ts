@@ -7,24 +7,21 @@ import mongoose from 'mongoose';
 
 import { signIn } from '@auth/api/signIn';
 import { Role, User } from '@auth/models/user';
-import { getEnvSecure } from '@utils/getEnvSecure';
+import { mongoUri } from '@vars';
 
 import { homePage } from './home';
 
 const testApp = new Elysia()
   .use(html())
   .group('/api/auth', (app) => app.use(signIn))
-  .use(homePage)
-  .mapResponse(({ set }) => {
-    set.headers['Content-type'] = 'text/html; charset=utf-8';
-  });
+  .use(homePage);
 
 describe('Home page', () => {
   let authToken: string;
 
   beforeAll(async () => {
     try {
-      await mongoose.connect(getEnvSecure('DB_URL'));
+      await mongoose.connect(mongoUri);
     } catch (e) {
       console.log(e);
       return;
