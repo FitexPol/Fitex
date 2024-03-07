@@ -8,7 +8,6 @@ import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { Meal } from '../models/meal';
 
@@ -21,7 +20,7 @@ type MealSectionProps = {
 };
 
 export async function MealSection({ user, mealId }: ComponentProps<MealSectionProps>) {
-  const mealDoc = await Meal.findById(mealId).populate('products.product').exec();
+  const mealDoc = await Meal.findById(mealId).exec();
 
   if (!mealDoc) {
     return <span>{_t('_shared.errors.notFound')}</span>;
@@ -49,22 +48,14 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
           {mealDoc.products.length > 0 ? (
             <ul>
-              {mealDoc.products.map(({ product, quantity, unit }) => {
-                const productDoc = getPopulatedDoc(product);
-
-                return (
-                  <li>
-                    {productDoc ? (
-                      <label>
-                        <input type="checkbox" name={productDoc.name['pl-PL']} />
-                        {productDoc.name['pl-PL']} - {quantity} {unit}
-                      </label>
-                    ) : (
-                      <span>{_tShared('_shared.errors.population')}</span>
-                    )}
-                  </li>
-                );
-              })}
+              {mealDoc.products.map(({ name, quantity, unit }) => (
+                <li>
+                  <label>
+                    <input type="checkbox" name={name} />
+                    {name} - {quantity} {unit}
+                  </label>
+                </li>
+              ))}
             </ul>
           ) : (
             <span>{_t('mealSection.noProducts')}</span>

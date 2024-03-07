@@ -3,11 +3,9 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Textarea } from '@components/inputs/Textarea';
-import { ProductFieldset } from '@products/components/ProductFieldset';
-import { getProductOptions } from '@products/utils/getProductOptions';
+import { ProductFieldset } from '@components/ProductFieldset';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type MealForm, type MealFormErrors, mealForm } from '../forms';
 import { type MealDoc } from '../models/meal';
@@ -21,7 +19,6 @@ type MealFormProps = {
 };
 
 export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps>) {
-  const productOptions = await getProductOptions();
   const [method, endpoint] = mealDoc ? ['PATCH', `/api/meals/${mealDoc.id}`] : ['POST', '/api/meals'];
 
   return (
@@ -45,27 +42,14 @@ export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps
 
       <ul id="products">
         {mealDoc ? (
-          mealDoc.products.map(({ product, quantity, unit }) => {
-            const productDoc = getPopulatedDoc(product);
-
-            return (
-              <li>
-                {productDoc ? (
-                  <ProductFieldset
-                    productOptions={productOptions}
-                    productDoc={productDoc}
-                    quantity={quantity}
-                    unit={unit}
-                  />
-                ) : (
-                  <span>{_tShared('_shared.errors.population')}</span>
-                )}
-              </li>
-            );
-          })
+          mealDoc.products.map((product) => (
+            <li>
+              <ProductFieldset productOptions={[]} product={product} />
+            </li>
+          ))
         ) : (
           <li>
-            <ProductFieldset productOptions={productOptions} />
+            <ProductFieldset productOptions={[]} />
           </li>
         )}
       </ul>

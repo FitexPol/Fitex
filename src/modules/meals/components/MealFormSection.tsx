@@ -22,7 +22,7 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
     );
   }
 
-  const mealDoc = await Meal.findById(mealId).populate('products.product').exec();
+  const mealDoc = await Meal.findById(mealId).exec();
 
   if (!mealDoc) {
     return <span>{_t('_shared.errors.notFound')}</span>;

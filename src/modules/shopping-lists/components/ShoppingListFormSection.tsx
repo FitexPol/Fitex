@@ -25,10 +25,7 @@ export async function ShoppingListFormSection({
     );
   }
 
-  const shoppingListDoc = await ShoppingList.findById(shoppingListId)
-    .populate('meals.meal')
-    .populate('products.product')
-    .exec();
+  const shoppingListDoc = await ShoppingList.findById(shoppingListId).populate('meals.meal').exec();
 
   if (!shoppingListDoc) {
     return <span>{_t('_shared.errors.notFound')}</span>;

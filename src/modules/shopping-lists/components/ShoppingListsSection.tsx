@@ -42,7 +42,6 @@ export async function ShoppingListsSection({
     .limit(itemsPerPage)
     .sort(sortValue)
     .populate('meals.meal')
-    .populate('products.product')
     .exec();
 
   return (

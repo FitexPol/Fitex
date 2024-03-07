@@ -22,20 +22,24 @@ export function $t(module: TranslationModule, lang: Lang = Lang.Pl): (keys: stri
 
     let translation = '';
 
-    keysArray.reduce((acc, key) => {
-      const t = acc[key as keyof typeof acc];
+    keysArray.reduce(
+      (acc, key) => {
+        const t = acc[key as keyof typeof acc] as Record<string, unknown> | string;
 
-      if (!t) {
-        translation = $t('_shared')('_shared.errors.translation');
-        return {} as typeof tModule;
-      }
+        if (!t) {
+          translation = $t('_shared')('_shared.errors.translation');
+          return {};
+        }
 
-      if (typeof t === 'string') {
+        if (typeof t === 'object') {
+          return t;
+        }
+
         translation = t;
-      }
-
-      return t;
-    }, tModule);
+        return {};
+      },
+      tModule as Record<string, unknown> | string,
+    );
 
     return translation;
   };

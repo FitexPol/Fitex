@@ -41,7 +41,6 @@
       "@auth/*": ["./src/modules/auth/*"],
       "@home/*": ["./src/modules/home/*"],
       "@meals/*": ["./src/modules/meals/*"],
-      "@products/*": ["./src/modules/products/*"],
       "@shopping-lists/*": ["./src/modules/shopping-lists/*"],
     },
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

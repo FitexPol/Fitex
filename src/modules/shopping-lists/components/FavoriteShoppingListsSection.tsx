@@ -17,7 +17,6 @@ export async function FavoriteShoppingListsSection({ user }: ComponentProps<Meal
     .limit(15)
     .sort({ creationDate: -1 })
     .populate('meals.meal')
-    .populate('products.product')
     .exec();
 
   return (

@@ -4,9 +4,8 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { type SelectOption } from '@components/inputs/Select';
+import { ProductFieldset } from '@components/ProductFieldset';
 import { MealFieldset } from '@meals/components/MealFieldset';
-import { ProductFieldset } from '@products/components/ProductFieldset';
-import { getProductOptions } from '@products/utils/getProductOptions';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
@@ -30,7 +29,6 @@ export async function ShoppingListForm({
   errors,
 }: ComponentProps<ShoppingListFormProps>) {
   const mealOptions: SelectOption[] = await getMealOptions(user);
-  const productOptions = await getProductOptions();
   const [method, endpoint] = shoppingListDoc
     ? ['PATCH', `/api/shopping-lists/${shoppingListDoc.id}`]
     : ['POST', '/api/shopping-lists'];
@@ -85,27 +83,14 @@ export async function ShoppingListForm({
 
       <ul id="products">
         {shoppingListDoc ? (
-          shoppingListDoc.products.map(({ product, quantity, unit }) => {
-            const productDoc = getPopulatedDoc(product);
-
-            return (
-              <li>
-                {productDoc ? (
-                  <ProductFieldset
-                    productOptions={productOptions}
-                    productDoc={productDoc}
-                    quantity={quantity}
-                    unit={unit}
-                  />
-                ) : (
-                  <span>{_tShared('_shared.errors.population')}</span>
-                )}
-              </li>
-            );
-          })
+          shoppingListDoc.products.map((product) => (
+            <li>
+              <ProductFieldset productOptions={[]} product={product} />
+            </li>
+          ))
         ) : (
           <li>
-            <ProductFieldset productOptions={productOptions} />
+            <ProductFieldset productOptions={[]} />
           </li>
         )}
       </ul>

@@ -3,10 +3,9 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getGroupedMeals } from '@meals/utils/getGroupedMeals';
 import { getMealsById } from '@meals/utils/getMealsById';
-import { getGroupedProducts } from '@products/utils/getGroupedProducts';
-import { getProductsById } from '@products/utils/getProductsById';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
+import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
@@ -48,13 +47,12 @@ export const updateShoppingList = new Elysia().use(context).patch(
     }
 
     const shoppingListMeals = await getMealsById(getGroupedMeals(mealsBody));
-    const shoppingListProducts = await getProductsById(getGroupedProducts(productsBody));
 
     try {
       await shoppingListDoc.updateOne({
         ...shoppingListBody,
         meals: shoppingListMeals,
-        products: shoppingListProducts,
+        products: getGroupedProducts(productsBody),
       });
     } catch {
       set.status = 'Bad Request';

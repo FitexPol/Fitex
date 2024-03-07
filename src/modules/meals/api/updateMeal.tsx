@@ -1,10 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { getGroupedProducts } from '@products/utils/getGroupedProducts';
-import { getProductsById } from '@products/utils/getProductsById';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
+import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
@@ -41,10 +40,11 @@ export const updateMeal = new Elysia().use(context).patch(
       return;
     }
 
-    const mealProducts = await getProductsById(getGroupedProducts(productsBody));
-
     try {
-      await mealDoc.updateOne({ ...mealBody, products: mealProducts });
+      await mealDoc.updateOne({
+        ...mealBody,
+        products: getGroupedProducts(productsBody),
+      });
     } catch {
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(

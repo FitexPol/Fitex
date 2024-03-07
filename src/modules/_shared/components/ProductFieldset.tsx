@@ -3,19 +3,16 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Select, type SelectOption } from '@components/inputs/Select';
-import { type ComponentProps, type Form } from '@types';
+import type { ComponentProps, Form, Product } from '@types';
 import { $t } from '@utils/$t';
 import { Unit } from '@vars';
 
-import { type ProductDoc } from '../models/product';
-
-const _t = $t('products');
 const _tShared = $t('_shared');
 
 export const form = {
   product: {
     type: 'text',
-    name: 'products[].productId',
+    name: 'products[].name',
     validators: {
       required: true,
       message: 'Product is required',
@@ -47,39 +44,39 @@ const unitOptions: SelectOption[] = Object.values(Unit).map((unit) => ({
 
 type ProductFieldsetProps = {
   productOptions: SelectOption[];
-  productDoc?: ProductDoc;
-  quantity?: number;
-  unit?: string;
+  product?: Product;
 };
 
-export function ProductFieldset({
-  productOptions,
-  productDoc,
-  quantity,
-  unit,
-}: ComponentProps<ProductFieldsetProps>) {
+export function ProductFieldset({ product }: ComponentProps<ProductFieldsetProps>) {
   return (
     <fieldset class="grid !grid-cols-12 gap-x-1 border-b border-solid border-b-pico-muted pb-6 md:mb-0 md:border-none md:pb-0">
-      <Select
+      {/* <Select
         control={form.product}
         value={productDoc?.id}
         label={_tShared('_shared.forms.name')}
         options={productOptions}
         class="col-span-12 md:col-span-6"
+      /> */}
+
+      <Input
+        control={form.product}
+        value={product?.name}
+        label={_tShared('productFieldset.name')}
+        class="col-span-12 md:col-span-6"
       />
 
       <Input
         control={form.quantity}
-        value={quantity?.toString() ?? '1'}
-        label={_tShared('_shared.forms.quantity')}
+        value={product?.quantity.toString() ?? '1'}
+        label={_tShared('productFieldset.quantity')}
         class="col-span-6 md:col-span-2"
       />
 
       <Select
         control={form.unit}
-        value={unit}
+        value={product?.unit}
         options={unitOptions}
-        label={_t('productFieldset.unit')}
+        label={_tShared('productFieldset.unit')}
         class="col-span-6 md:col-span-3"
       />
 

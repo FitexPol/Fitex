@@ -41,7 +41,6 @@ export async function MealsSection({
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
-    .populate('products.product')
     .exec();
 
   return (

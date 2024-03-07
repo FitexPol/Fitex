@@ -1,4 +1,6 @@
-import { type Document, type PopulatedDoc, type Types } from 'mongoose';
+import type { Document, PopulatedDoc, Types } from 'mongoose';
+
+import { type Unit } from './vars';
 
 type Class = {
   class?: string;
@@ -15,6 +17,12 @@ export type Populated<T> = PopulatedDoc<Document<Types.ObjectId> & T>;
 export type SortOption<T> = {
   label: string;
   value: T;
+};
+
+export type Product = {
+  name: string;
+  quantity: number;
+  unit: Unit;
 };
 
 type Validator = {

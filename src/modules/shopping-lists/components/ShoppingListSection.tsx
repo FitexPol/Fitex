@@ -5,13 +5,12 @@ import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
-import { type ProductDoc } from '@products/models/product';
-import type { ComponentProps, Populated } from '@types';
+import type { ComponentProps, Product } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
+import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
-import { type Unit } from '@vars';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
@@ -29,20 +28,7 @@ export async function ShoppingListSection({
   shoppingListId,
   groupByMealsQuery,
 }: ComponentProps<ShoppingListSectionProps>) {
-  const shoppingListDoc = await ShoppingList.findById(shoppingListId)
-    .populate({
-      path: 'meals.meal',
-      populate: {
-        path: 'products.product',
-        populate: { path: 'category' },
-      },
-    })
-    .populate('products.product')
-    .populate({
-      path: 'products.product',
-      populate: { path: 'category' },
-    })
-    .exec();
+  const shoppingListDoc = await ShoppingList.findById(shoppingListId).populate('meals.meal').exec();
 
   if (!shoppingListDoc) {
     return <span>{_t('_shared.errors.notFound')}</span>;
@@ -134,22 +120,9 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
               {mealDoc.products.length > 0 ? (
                 <List>
                   <>
-                    {mealDoc.products.map(({ product, quantity: productQuantity, unit }) => {
-                      const productDoc = getPopulatedDoc(product);
-
-                      return productDoc ? (
-                        <Item
-                          productDoc={productDoc}
-                          quantity={productQuantity}
-                          unit={unit}
-                          multiplier={quantity}
-                        />
-                      ) : (
-                        <li>
-                          <span>{_tShared('_shared.errors.population')}</span>
-                        </li>
-                      );
-                    })}
+                    {mealDoc.products.map((product) => (
+                      <Item product={product} multiplier={quantity} />
+                    ))}
                   </>
                 </List>
               ) : (
@@ -167,17 +140,9 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
 
           <List>
             <>
-              {products.map(({ product, quantity, unit }) => {
-                const productDoc = getPopulatedDoc(product);
-
-                return productDoc ? (
-                  <Item productDoc={productDoc} quantity={quantity} unit={unit} />
-                ) : (
-                  <li>
-                    <span>{_tShared('_shared.errors.population')}</span>
-                  </li>
-                );
-              })}
+              {products.map((product) => (
+                <Item product={product} />
+              ))}
             </>
           </List>
         </>
@@ -188,61 +153,44 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
 
 function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
   const { meals, products } = shoppingListDoc;
-  const map = new Map<string, Record<string, { productDoc: ProductDoc; quantity: number; unit: Unit }>>();
+  const productsArray: Product[] = [];
 
   if (meals.length > 0) {
-    meals.forEach(({ meal, quantity }) => {
+    meals.forEach(({ meal, quantity: mealQuantity }) => {
       const mealDoc = getPopulatedDoc(meal);
 
       if (!mealDoc) return;
 
-      mapProducts(mealDoc.products, quantity);
+      mealDoc.products.forEach((product) => {
+        productsArray.push({
+          name: product.name,
+          quantity: product.quantity * mealQuantity,
+          unit: product.unit,
+        });
+      });
     });
   }
 
-  if (products.length > 0) mapProducts(products);
-
-  function mapProducts(
-    products: { product: Populated<ProductDoc>; quantity: number; unit: Unit }[],
-    multiplier = 1,
-  ) {
-    products.forEach(({ product, quantity: productQuantity, unit }) => {
-      const productDoc = getPopulatedDoc(product);
-
-      if (!productDoc) return;
-
-      const categoryDoc = getPopulatedDoc(productDoc.category);
-      const mapKey = categoryDoc ? categoryDoc.name['pl-PL'] : 'NO_CATEGORY';
-
-      if (!map.has(mapKey)) map.set(mapKey, {});
-
-      const products = map.get(mapKey)!;
-      const productKey = `${productDoc.id}.${unit}`;
-
-      products[productKey]
-        ? (products[productKey].quantity += productQuantity * multiplier)
-        : (products[productKey] = { productDoc, quantity: productQuantity * multiplier, unit });
-    });
+  if (products.length > 0) {
+    productsArray.push(...products);
   }
+
+  const allProducts = getGroupedProducts(productsArray);
 
   return (
     <>
-      {map.size > 0 ? (
-        Array.from(map).map(([category, products]) => {
-          return (
-            <>
-              <Title>{category}</Title>
+      {allProducts.length > 0 ? (
+        <>
+          <Title>{_t('shoppingListSection.allProducts')}</Title>
 
-              <List>
-                <>
-                  {Object.values(products).map(({ productDoc, quantity, unit }) => (
-                    <Item productDoc={productDoc} quantity={quantity} unit={unit} />
-                  ))}
-                </>
-              </List>
+          <List>
+            <>
+              {allProducts.map((product) => (
+                <Item product={product} />
+              ))}
             </>
-          );
-        })
+          </List>
+        </>
       ) : (
         <span>{_t('shoppingListSection.noProducts')}</span>
       )}
@@ -259,20 +207,18 @@ function List({ children }: ComponentProps) {
 }
 
 type ListItemProps = {
-  productDoc: ProductDoc;
-  quantity: number;
-  unit: Unit;
+  product: Product;
   multiplier?: number;
 };
 
-function Item({ productDoc, quantity, unit, multiplier }: ComponentProps<ListItemProps>) {
-  const finalQuantity = multiplier ? quantity * multiplier : quantity;
+function Item({ product, multiplier }: ComponentProps<ListItemProps>) {
+  const finalQuantity = multiplier ? product.quantity * multiplier : product.quantity;
 
   return (
     <li>
       <label>
-        <input type="checkbox" name={productDoc.name['pl-PL']} />
-        {productDoc.name['pl-PL']} - {finalQuantity} {unit}
+        <input type="checkbox" name={product.name} />
+        {product.name} - {finalQuantity} {product.unit}
       </label>
     </li>
   );

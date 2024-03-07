@@ -38,7 +38,7 @@ describe('Home page', () => {
       const user = new User({
         username,
         password: hash,
-        roles: [Role.SuperAdmin],
+        roles: [Role.Admin],
       });
 
       userDoc = await user.save();

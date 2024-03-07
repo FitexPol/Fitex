@@ -31,5 +31,10 @@
       "adminPanel": "Panel Admina"
     },
     "logout": "Wyloguj"
+  },
+  "productFieldset": {
+    "name": "Nazwa",
+    "quantity": "Ilość",
+    "unit": "Jednostka"
   }
 }

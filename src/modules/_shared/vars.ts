@@ -54,3 +54,20 @@ export enum Unit {
   Ml = 'ml',
   L = 'l',
 }
+
+export const productSchema = {
+  name: {
+    type: String,
+    required: true,
+    maxLength: 50,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  unit: {
+    type: String,
+    enum: Object.values(Unit),
+  },
+};
