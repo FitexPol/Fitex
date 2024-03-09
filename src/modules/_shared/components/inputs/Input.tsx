@@ -1,4 +1,4 @@
-import type { ComponentProps, FormControl, NumberValidators } from '@types';
+import type { ComponentProps, Datalist, FormControl, NumberValidators } from '@types';
 
 import { getPlaceholder } from '../../utils/getPlaceholder';
 import { getTextValidators } from '../../utils/getTextValidators';
@@ -7,6 +7,9 @@ type InputProps = HtmxAttributes & {
   control: FormControl;
   value?: string;
   label?: string;
+  datalist?: Datalist;
+  step?: string;
+  isDisabled?: boolean;
   error?: string;
 };
 
@@ -14,6 +17,9 @@ export function Input({
   control,
   value = '',
   label,
+  datalist,
+  step,
+  isDisabled,
   error,
   class: className,
   ...hxAttributes
@@ -28,10 +34,21 @@ export function Input({
         {...inputAttributes}
         placeholder={getPlaceholder(placeholder)}
         value={value}
+        list={datalist?.id}
+        step={step}
+        disabled={isDisabled}
         aria-invalid={error && 'true'}
         safe
       />
       {error && <small>{error}</small>}
+
+      {datalist && (
+        <datalist id={datalist.id}>
+          {datalist.options.map((option) => (
+            <option value={option} />
+          ))}
+        </datalist>
+      )}
     </label>
   );
 }

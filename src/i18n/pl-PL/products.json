@@ -1,0 +1,11 @@
+{
+  "productNameForm": {
+    "label": "Dodaj produkt",
+    "placeholder": "Wpisz nazwę produktu i zatwierdź enterem lub przyciskiem po prawej stronie"
+  },
+  "productForm": {
+    "name": "Nazwa",
+    "quantity": "Ilość",
+    "unit": "Jednostka"
+  }
+}

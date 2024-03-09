@@ -1,7 +1,5 @@
 import type { Document, PopulatedDoc, Types } from 'mongoose';
 
-import { type Unit } from './vars';
-
 type Class = {
   class?: string;
 };
@@ -19,10 +17,9 @@ export type SortOption<T> = {
   value: T;
 };
 
-export type Product = {
-  name: string;
-  quantity: number;
-  unit: Unit;
+export type Datalist = {
+  id: string;
+  options: string[];
 };
 
 type Validator = {

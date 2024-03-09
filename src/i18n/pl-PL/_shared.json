@@ -6,6 +6,7 @@
     "delete": "Usuń",
     "actions": "Akcje",
     "all": "Wszystkie",
+    "products": "Produkty",
     "sortLabels": {
       "nameAsc": "po nazwie (rosnąco)",
       "nameDesc": "po nazwie (malejąco)",
@@ -31,10 +32,5 @@
       "adminPanel": "Panel Admina"
     },
     "logout": "Wyloguj"
-  },
-  "productFieldset": {
-    "name": "Nazwa",
-    "quantity": "Ilość",
-    "unit": "Jednostka"
   }
 }

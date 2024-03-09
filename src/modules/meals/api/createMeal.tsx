@@ -1,10 +1,10 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { type Product } from '@types';
+import type { Product } from '@products/models/product';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
-import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
@@ -51,9 +51,9 @@ export const createMeal = new Elysia().use(context).post(
   },
   {
     body: getBodySchema<MealFormType>(mealForm),
-    error({ code, error }) {
+    error({ code, error, user }) {
       if (code === 'VALIDATION') {
-        return getMealFormWithErrors(error);
+        return getMealFormWithErrors(error, user!);
       }
     },
   },

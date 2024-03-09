@@ -1,4 +1,4 @@
-import { type Product } from '@types';
+import { type Product } from '../models/product';
 
 export function getGroupedProducts(items: Product[]): typeof items {
   if (items.length === 0) return [];

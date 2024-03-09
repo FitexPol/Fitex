@@ -1,9 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
-import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
@@ -45,7 +45,8 @@ export const updateMeal = new Elysia().use(context).patch(
         ...mealBody,
         products: getGroupedProducts(productsBody),
       });
-    } catch {
+    } catch (e) {
+      console.log(e);
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
@@ -60,9 +61,9 @@ export const updateMeal = new Elysia().use(context).patch(
   },
   {
     body: getBodySchema<MealFormType>(mealForm),
-    error({ code, error }) {
+    error({ code, error, user }) {
       if (code === 'VALIDATION') {
-        return getMealFormWithErrors(error);
+        return getMealFormWithErrors(error, user!);
       }
     },
   },

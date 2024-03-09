@@ -1,8 +1,8 @@
 import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
 import { type MealDoc } from '@meals/models/meal';
-import type { Populated, Product } from '@types';
-import { productSchema } from '@vars';
+import { type Product, productSchema } from '@products/models/product';
+import type { Populated } from '@types';
 
 type ShoppingList = {
   _id: string;

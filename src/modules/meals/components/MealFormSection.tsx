@@ -17,7 +17,7 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
   if (!mealId) {
     return (
       <Section title={_t('mealFormSection.title')}>
-        <MealForm />
+        <MealForm user={user} />
       </Section>
     );
   }
@@ -34,7 +34,7 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
 
   return (
     <Section title={mealDoc.name}>
-      <MealForm mealDoc={mealDoc} />
+      <MealForm user={user} mealDoc={mealDoc} />
     </Section>
   );
 }

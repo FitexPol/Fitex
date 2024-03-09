@@ -5,10 +5,11 @@ import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
-import type { ComponentProps, Product } from '@types';
+import type { Product } from '@products/models/product';
+import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
-import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
@@ -37,6 +38,8 @@ export async function ShoppingListSection({
   if (!shoppingListDoc.author._id.equals(user.id)) {
     return <span>{_t('_shared.errors.permissionDenied')}</span>;
   }
+
+  console.log(shoppingListDoc);
 
   return (
     <section id="shopping-list-section">

@@ -1,70 +1,60 @@
-import { icons } from 'feather-icons';
-
+import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Textarea } from '@components/inputs/Textarea';
-import { ProductFieldset } from '@components/ProductFieldset';
-import { type ComponentProps } from '@types';
+import { ProductFieldset } from '@products/components/ProductFieldset';
+import { ProductNameForm } from '@products/components/ProductNameForm';
+import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type MealForm, type MealFormErrors, mealForm } from '../forms';
 import { type MealDoc } from '../models/meal';
 
-const _t = $t('meals');
 const _tShared = $t('_shared');
 
 type MealFormProps = {
+  user: JWTUser;
   mealDoc?: MealDoc;
   errors?: MealFormErrors;
 };
 
-export async function MealForm({ mealDoc, errors }: ComponentProps<MealFormProps>) {
+export function MealForm({ user, mealDoc, errors }: ComponentProps<MealFormProps>) {
   const [method, endpoint] = mealDoc ? ['PATCH', `/api/meals/${mealDoc.id}`] : ['POST', '/api/meals'];
 
   return (
-    <form id="meal-form" onsubmit={`submitMealForm(event, '${method}', '${endpoint}', this)`}>
-      <Input
-        control={mealForm.name}
-        value={mealDoc?.name}
-        label={_tShared('_shared.forms.name')}
-        error={errors?.name}
-      />
+    <>
+      <form id="meal-details-form" onsubmit="event.preventDefault()">
+        <Input
+          control={mealForm.name}
+          value={mealDoc?.name}
+          label={_tShared('_shared.forms.name')}
+          error={errors?.name}
+        />
 
-      <Textarea
-        control={mealForm.description}
-        value={mealDoc?.description}
-        label={_tShared('_shared.forms.description')}
-        rows="5"
-        error={errors?.description}
-      />
+        <Textarea
+          control={mealForm.description}
+          value={mealDoc?.description}
+          label={_tShared('_shared.forms.description')}
+          rows="5"
+          error={errors?.description}
+        />
+      </form>
 
-      <span class="mb-4 block text-lg font-medium">{_t('mealForm.products')}:</span>
+      <span class="mb-4 block text-lg font-medium">{_tShared('_shared.products')}:</span>
+
+      <ProductNameForm user={user} />
 
       <ul id="products">
-        {mealDoc ? (
-          mealDoc.products.map((product) => (
-            <li>
-              <ProductFieldset productOptions={[]} product={product} />
-            </li>
-          ))
-        ) : (
+        {mealDoc?.products.map((product) => (
           <li>
-            <ProductFieldset productOptions={[]} />
+            <ProductFieldset product={product} />
           </li>
-        )}
+        ))}
       </ul>
 
-      <Button
-        type="button"
-        class="pico-reset !mx-auto !mb-8 block"
-        hx-get="/api/products/fieldset"
-        hx-target="#products"
-        hx-swap="beforeend"
-      >
-        {icons['plus-circle'].toSvg()}
+      <Button onclick={`submitMealForm(event, '${method}', '${endpoint}')`}>
+        {_tShared('_shared.forms.submit')}
       </Button>
-
-      <Button type="submit">{_tShared('_shared.forms.submit')}</Button>
-    </form>
+    </>
   );
 }
