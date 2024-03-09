@@ -69,7 +69,7 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
     {
       name: _t('_document.navigation.adminPanel'),
       href: '/admin-panel',
-      isHidden: !user?.hasRole(Role.SuperAdmin, Role.Admin),
+      isHidden: !user?.hasRole(Role.Admin),
     },
   ];
 

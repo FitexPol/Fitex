@@ -12,6 +12,11 @@
   "deleteMeal": {
     "success": "Posiłek został usunięty"
   },
+  "getMealFieldset": {
+    "errors": {
+      "mealId": "Nie wybrano posiłku"
+    }
+  },
   "toggleFavorite": {
     "addedSuccess": "Posiłek został dodany do ulubionych",
     "removedSuccess": "Posiłek został usunięty z ulubionych"
@@ -26,14 +31,15 @@
   "mealFormSection": {
     "title": "Stwórz nowy posiłek"
   },
+  "mealNameForm": {
+    "label": "Dodaj posiłek",
+    "placeholder": "Wybierz nazwę posiłku i zatwierdź przyciskiem po prawej stronie"
+  },
   "mealSection": {
     "noProducts": "Nie dodano żadnych produktów"
   },
   "mealsSection": {
     "title": "Twoje posiłki",
     "noResults": "Nie masz jeszcze żadnych posiłków"
-  },
-  "mealForm": {
-    "products": "Produkty"
   }
 }

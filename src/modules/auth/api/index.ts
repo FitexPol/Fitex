@@ -15,7 +15,7 @@ export const authApi = new Elysia().group('/auth', (app) =>
     .guard(
       {
         beforeHandle: ({ user, set }) => {
-          if (!user!.hasRole(Role.SuperAdmin)) {
+          if (!user!.hasRole(Role.Admin)) {
             set.redirect = '/';
 
             return 'Unauthorized';

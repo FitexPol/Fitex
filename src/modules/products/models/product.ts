@@ -1,33 +1,32 @@
-import { type HydratedDocument, Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 
-import { type Populated } from '@types';
-import { type Lang } from '@utils/$t';
-
-import { type CategoryDoc } from './category';
+export enum Unit {
+  Unit = '',
+  G = 'g',
+  Kg = 'kg',
+  Ml = 'ml',
+  L = 'l',
+}
 
 export type Product = {
-  name: Record<Lang, string>;
-  category: Populated<CategoryDoc>;
+  name: string;
+  quantity: number;
+  unit: Unit;
 };
 
 export const productSchema = new Schema<Product>({
   name: {
-    ['pl-PL']: {
-      type: String,
-      minLength: 3,
-      maxlength: 50,
-    },
-    ['en-US']: {
-      type: String,
-      maxlength: 50,
-      default: '',
-    },
+    type: String,
+    required: true,
+    maxLength: 50,
   },
-  category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  unit: {
+    type: String,
+    enum: Object.values(Unit),
   },
 });
-
-export const Product = model('Product', productSchema);
-export type ProductDoc = HydratedDocument<Product>;

@@ -12,9 +12,7 @@ export function Button({
   class: className,
   ...props
 }: ComponentProps<ButtonProps>) {
-  return type === 'submit' ? (
-    <input type={type} value={children as string} class={className} {...props} />
-  ) : (
+  return (
     <button type={type} class={className} onclick={onclick} {...props}>
       {children}
     </button>
