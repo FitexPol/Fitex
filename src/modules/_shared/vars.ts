@@ -46,11 +46,3 @@ export const itemsPerPageOptions = Object.values(ItemsPerPage).map((value) => ({
   label: value,
   query: value,
 }));
-
-export enum Unit {
-  Unit = '',
-  G = 'g',
-  Kg = 'kg',
-  Ml = 'ml',
-  L = 'l',
-}

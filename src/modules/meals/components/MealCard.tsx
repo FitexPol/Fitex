@@ -7,12 +7,10 @@ import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type MealDoc } from '../models/meal';
 
 const _t = $t('meals');
-const _tShared = $t('_shared');
 
 type MealCard = {
   mealDoc: MealDoc;
@@ -41,20 +39,14 @@ export function MealCard({ mealDoc }: ComponentProps<MealCard>) {
           <>
             {mealDoc.products.length > 0 && (
               <ul>
-                {mealDoc.products.map(({ product, quantity, unit }) => {
-                  const productDoc = getPopulatedDoc(product);
-
-                  return (
-                    <li class="flex justify-between text-xs">
-                      <span>
-                        {productDoc ? productDoc.name['pl-PL'] : _tShared(`_shared.errors.population`)}
-                      </span>
-                      <span>
-                        {quantity} {unit}
-                      </span>
-                    </li>
-                  );
-                })}
+                {mealDoc.products.map(({ name, quantity, unit }) => (
+                  <li class="flex justify-between text-xs">
+                    <span>{name}</span>
+                    <span>
+                      {quantity} {unit}
+                    </span>
+                  </li>
+                ))}
               </ul>
             )}
           </>

@@ -64,22 +64,16 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
             {shoppingListDoc.products.length > 0 && (
               <List title={_t('_shared.products')}>
                 <>
-                  {shoppingListDoc.products.map(({ product, quantity, unit }) => {
-                    const productDoc = getPopulatedDoc(product);
-
-                    return (
-                      <ListItem>
-                        <>
-                          <span>
-                            {productDoc ? productDoc.name['pl-PL'] : _tShared('_shared.errors.population')}
-                          </span>
-                          <span>
-                            {quantity} {unit}
-                          </span>
-                        </>
-                      </ListItem>
-                    );
-                  })}
+                  {shoppingListDoc.products.map(({ name, quantity, unit }) => (
+                    <ListItem>
+                      <>
+                        <span>{name}</span>
+                        <span>
+                          {quantity} {unit}
+                        </span>
+                      </>
+                    </ListItem>
+                  ))}
                 </>
               </List>
             )}

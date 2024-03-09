@@ -17,12 +17,12 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
   if (!mealId) {
     return (
       <Section title={_t('mealFormSection.title')}>
-        <MealForm />
+        <MealForm user={user} />
       </Section>
     );
   }
 
-  const mealDoc = await Meal.findById(mealId).populate('products.product').exec();
+  const mealDoc = await Meal.findById(mealId).exec();
 
   if (!mealDoc) {
     return <span>{_t('_shared.errors.notFound')}</span>;
@@ -34,7 +34,7 @@ export async function MealFormSection({ user, mealId }: ComponentProps<MealFormS
 
   return (
     <Section title={mealDoc.name}>
-      <MealForm mealDoc={mealDoc} />
+      <MealForm user={user} mealDoc={mealDoc} />
     </Section>
   );
 }

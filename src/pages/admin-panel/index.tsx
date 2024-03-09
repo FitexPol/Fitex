@@ -3,27 +3,23 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { Role } from '@auth/models/user';
 
-import { categoryPages } from './categories';
-import { productPages } from './products';
 import { userPages } from './users';
 
 const adminPanelPage = new Elysia().get('', ({ set }) => {
-  set.redirect = '/admin-panel/products';
+  set.redirect = '/admin-panel/users';
 });
 
 export const adminPanelPages = new Elysia().use(context).group('/admin-panel', (app) =>
-  app
-    .guard(
-      {
-        beforeHandle: ({ user, set }) => {
-          if (!user!.hasRole(Role.Admin, Role.SuperAdmin)) {
-            set.redirect = '/';
+  app.guard(
+    {
+      beforeHandle: ({ user, set }) => {
+        if (!user!.hasRole(Role.Admin)) {
+          set.redirect = '/';
 
-            return 'Unauthorized';
-          }
-        },
+          return 'Unauthorized';
+        }
       },
-      (app) => app.use(adminPanelPage).use(productPages).use(categoryPages),
-    )
-    .use(userPages),
+    },
+    (app) => app.use(adminPanelPage).use(userPages),
+  ),
 );

@@ -16,7 +16,6 @@ export async function FavoriteMealsSection({ user }: ComponentProps<MealsSection
   const mealDocs = await Meal.find({ author: user.id, isFavorite: true })
     .limit(15)
     .sort({ creationDate: -1 })
-    .populate('products.product')
     .exec();
 
   return (

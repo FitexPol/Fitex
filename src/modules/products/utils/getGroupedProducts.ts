@@ -1,24 +1,21 @@
-import { type Unit } from '@vars';
+import { type Product } from '../models/product';
 
-type GroupedProduct = {
-  productId: string;
-  quantity: number;
-  unit: Unit;
-};
-
-export function getGroupedProducts(items: GroupedProduct[]): typeof items {
+export function getGroupedProducts(items: Product[]): typeof items {
   if (items.length === 0) return [];
 
   const groupedProducts = items.reduce(
-    (acc, { productId, quantity, unit }) => {
-      const key = `${productId}.${unit}`;
+    (acc, { name, quantity, unit }) => {
+      const nameCopy = name;
+      nameCopy.toLocaleLowerCase().trim();
 
-      acc[key] ? (acc[key].quantity += quantity) : (acc[key] = { productId, quantity, unit });
+      const key = `${nameCopy}.${unit}`;
+
+      acc[key] ? (acc[key].quantity += quantity) : (acc[key] = { name, quantity, unit });
 
       return acc;
     },
-    {} as Record<string, GroupedProduct>,
+    {} as Record<string, Product>,
   );
 
-  return Object.entries(groupedProducts).map((entry) => entry[1]);
+  return Object.values(groupedProducts);
 }

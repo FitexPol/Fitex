@@ -3,14 +3,14 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { getGroupedMeals } from '@meals/utils/getGroupedMeals';
 import { getMealsById } from '@meals/utils/getMealsById';
+import type { Product } from '@products/models/product';
 import { getGroupedProducts } from '@products/utils/getGroupedProducts';
-import { getProductsById } from '@products/utils/getProductsById';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getParsedBody } from '@utils/getParsedBody';
 import { getPath } from '@utils/getPath';
-import { HxResponseHeader, type Unit } from '@vars';
+import { HxResponseHeader } from '@vars';
 
 import { type ShoppingListForm as ShoppingListFormType, shoppingListForm } from '../forms';
 import { ShoppingList } from '../models/shoppingList';
@@ -24,11 +24,7 @@ export type ShoppingListBody<T> = T & {
     mealId: string;
     quantity: number;
   }[];
-  products: {
-    productId: string;
-    quantity: number;
-    unit: Unit;
-  }[];
+  products: Product[];
 };
 
 export const createShoppingList = new Elysia().use(context).post(
@@ -41,13 +37,12 @@ export const createShoppingList = new Elysia().use(context).post(
     } = getParsedBody<ShoppingListBody<Omit<typeof body, 'meals' | 'products'>>>(body);
 
     const shoppingListMeals = await getMealsById(getGroupedMeals(mealsBody));
-    const shoppingListProducts = await getProductsById(getGroupedProducts(productsBody));
 
     const shoppingListDoc = new ShoppingList({
       ...shoppingListBody,
       author: user!.id,
       meals: shoppingListMeals,
-      products: shoppingListProducts,
+      products: getGroupedProducts(productsBody),
     });
 
     try {

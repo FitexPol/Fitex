@@ -1,8 +1,6 @@
 import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
-import { type ProductDoc } from '@products/models/product';
-import { type Populated } from '@types';
-import { Unit } from '@vars';
+import { type Product, productSchema } from '@products/models/product';
 
 type Meal = {
   author: Types.ObjectId;
@@ -10,11 +8,7 @@ type Meal = {
   description: string;
   isFavorite: boolean;
   creationDate: Date;
-  products: {
-    product: Populated<ProductDoc>;
-    quantity: number;
-    unit: Unit;
-  }[];
+  products: Product[];
 };
 
 const mealSchema = new Schema<Meal>({
@@ -44,23 +38,7 @@ const mealSchema = new Schema<Meal>({
     default: Date.now,
   },
   products: {
-    type: [
-      {
-        product: {
-          type: Schema.Types.ObjectId,
-          ref: 'Product',
-        },
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
-        unit: {
-          type: String,
-          enum: Object.values(Unit),
-        },
-      },
-    ],
+    type: [productSchema],
     default: [],
   },
 });
