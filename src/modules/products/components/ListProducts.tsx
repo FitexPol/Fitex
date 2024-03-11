@@ -1,5 +1,6 @@
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
+import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
 import { type Product } from '../models/product';
 
@@ -8,9 +9,10 @@ const _tShared = $t('_shared');
 
 type ListProductsProps = {
   products: Product[];
+  multiplier?: number;
 };
 
-export function ListProducts({ products, children }: ComponentProps<ListProductsProps>) {
+export function ListProducts({ products, multiplier = 1, children }: ComponentProps<ListProductsProps>) {
   return (
     <>
       {children}
@@ -21,7 +23,7 @@ export function ListProducts({ products, children }: ComponentProps<ListProducts
             <li>
               <label>
                 <input type="checkbox" name={name} />
-                {name} - {quantity} {unit}
+                {name} - {getRoundedQuantity(quantity * multiplier)} {unit}
               </label>
             </li>
           ))}

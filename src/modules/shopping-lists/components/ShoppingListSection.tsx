@@ -80,7 +80,7 @@ export async function ShoppingListSection({
                             <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x${quantity}:`}</Link>
                           </h2>
 
-                          <ListProducts products={mealDoc.products} />
+                          <ListProducts products={mealDoc.products} multiplier={quantity} />
                         </>
                       ) : (
                         <span class="mb-5 block">{_tShared('_shared.errors.population')}</span>
