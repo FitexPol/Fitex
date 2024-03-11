@@ -23,7 +23,7 @@ export function MealForm({ user, mealDoc, errors }: ComponentProps<MealFormProps
 
   return (
     <>
-      <form id="meal-details-form" onsubmit="event.preventDefault()">
+      <form id="meal-details-form" onsubmit={`submitMealForm(event, '${method}', '${endpoint}')`}>
         <Input
           control={mealForm.name}
           value={mealDoc?.name}
@@ -52,7 +52,7 @@ export function MealForm({ user, mealDoc, errors }: ComponentProps<MealFormProps
         ))}
       </ul>
 
-      <Button onclick={`submitMealForm(event, '${method}', '${endpoint}')`}>
+      <Button type="submit" form="meal-details-form">
         {_tShared('_shared.forms.submit')}
       </Button>
     </>
