@@ -5,15 +5,14 @@ import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
-import type { Product } from '@products/models/product';
+import { ListProducts } from '@products/components/ListProducts';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
-import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
-import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
+import { ShoppingList } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
 
 const _t = $t('shoppingLists');
@@ -68,9 +67,40 @@ export async function ShoppingListSection({
           </Link>
 
           {groupByMealsQuery ? (
-            <GroupedByMealsProducts shoppingListDoc={shoppingListDoc} />
+            <>
+              {shoppingListDoc.meals.length > 0 &&
+                shoppingListDoc.meals.map(({ meal, quantity }) => {
+                  const mealDoc = getPopulatedDoc(meal);
+
+                  return (
+                    <div class="border-b-solid border-b border-b-pico-muted">
+                      {mealDoc ? (
+                        <>
+                          <h2 class="mb-1 mt-2 text-lg">
+                            <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
+                          </h2>
+
+                          <ListProducts products={mealDoc.products} />
+                        </>
+                      ) : (
+                        <span class="mb-5 block">{_tShared('_shared.errors.population')}</span>
+                      )}
+                    </div>
+                  );
+                })}
+
+              <ListProducts products={shoppingListDoc.products}>
+                <ListProducts.Title>
+                  {shoppingListDoc.meals.length > 0
+                    ? _t('_shared.otherProducts')
+                    : _tShared('_shared.products')}
+                </ListProducts.Title>
+              </ListProducts>
+            </>
           ) : (
-            <AllProducts shoppingListDoc={shoppingListDoc} />
+            <ListProducts products={getProductsSum(shoppingListDoc)}>
+              <ListProducts.Title />
+            </ListProducts>
           )}
 
           <Card.Footer class="flex justify-end gap-2">
@@ -95,106 +125,5 @@ export async function ShoppingListSection({
         </>
       </Card>
     </section>
-  );
-}
-
-function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  const { meals, products } = shoppingListDoc;
-
-  return (
-    <>
-      {meals.length > 0 &&
-        meals.map(({ meal, quantity }) => {
-          const mealDoc = getPopulatedDoc(meal);
-
-          return mealDoc ? (
-            <>
-              <Title>
-                <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
-              </Title>
-
-              {mealDoc.products.length > 0 ? (
-                <List>
-                  <>
-                    {mealDoc.products.map((product) => (
-                      <Item product={product} multiplier={quantity} />
-                    ))}
-                  </>
-                </List>
-              ) : (
-                <span>{_t('shoppingListSection.noMealProducts')}</span>
-              )}
-            </>
-          ) : (
-            <span class="mb-5 block">{_tShared('_shared.errors.population')}</span>
-          );
-        })}
-
-      {products.length > 0 ? (
-        <>
-          <Title>{meals.length > 0 ? _t('_shared.otherProducts') : _t('_shared.products')}</Title>
-
-          <List>
-            <>
-              {products.map((product) => (
-                <Item product={product} />
-              ))}
-            </>
-          </List>
-        </>
-      ) : (
-        <span class="mb-5 block">{_t('_shared.noProducts')}</span>
-      )}
-    </>
-  );
-}
-
-function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  const allProducts = getProductsSum(shoppingListDoc);
-
-  return (
-    <>
-      {allProducts.length > 0 ? (
-        <>
-          <Title>{_t('_shared.products')}</Title>
-
-          <List>
-            <>
-              {allProducts.map((product) => (
-                <Item product={product} />
-              ))}
-            </>
-          </List>
-        </>
-      ) : (
-        <span>{_t('_shared.noProducts')}</span>
-      )}
-    </>
-  );
-}
-
-function Title({ children }: ComponentProps) {
-  return <h3 class="mb-1 mt-2 text-lg">{children}:</h3>;
-}
-
-function List({ children }: ComponentProps) {
-  return <ul>{children}</ul>;
-}
-
-type ListItemProps = {
-  product: Product;
-  multiplier?: number;
-};
-
-function Item({ product, multiplier }: ComponentProps<ListItemProps>) {
-  const finalQuantity = multiplier ? product.quantity * multiplier : product.quantity;
-
-  return (
-    <li>
-      <label>
-        <input type="checkbox" name={product.name} />
-        {product.name} - {getRoundedQuantity(finalQuantity)} {product.unit}
-      </label>
-    </li>
   );
 }

@@ -55,14 +55,14 @@ export function ProductFieldset({ product }: ComponentProps<ProductFieldsetProps
         <Input
           control={form.name}
           value={product.name}
-          label={_t('productForm.name')}
+          label={_t('productFieldset.name')}
           class="col-span-12 md:col-span-6"
         />
 
         <Input
           control={form.quantity}
           value={product.quantity.toString() ?? '1'}
-          label={_t('productForm.quantity')}
+          label={_t('productFieldset.quantity')}
           step=".1"
           class="col-span-6 md:col-span-2"
         />
@@ -71,7 +71,7 @@ export function ProductFieldset({ product }: ComponentProps<ProductFieldsetProps
           control={form.unit}
           value={product.unit}
           options={unitOptions}
-          label={_t('productForm.unit')}
+          label={_t('productFieldset.unit')}
           class="col-span-6 md:col-span-3"
         />
 

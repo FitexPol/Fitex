@@ -1,9 +1,12 @@
 {
+  "_shared": {
+    "noProducts": "Brak dodanych produktów"
+  },
   "productNameForm": {
     "label": "Dodaj produkt",
     "placeholder": "Wpisz nazwę produktu i zatwierdź enterem lub przyciskiem po prawej stronie"
   },
-  "productForm": {
+  "productFieldset": {
     "name": "Nazwa",
     "quantity": "Ilość",
     "unit": "Jednostka"

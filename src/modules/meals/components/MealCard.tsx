@@ -3,6 +3,7 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
+import { CardProducts } from '@products/components/CardProducts';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -36,20 +37,7 @@ export function MealCard({ mealDoc }: ComponentProps<MealCard>) {
         </Card.Header>
 
         <Link href={`/meals/${mealDoc.id}`} class="contrast flex-grow">
-          <>
-            {mealDoc.products.length > 0 && (
-              <ul>
-                {mealDoc.products.map(({ name, quantity, unit }) => (
-                  <li class="flex justify-between text-xs">
-                    <span>{name}</span>
-                    <span>
-                      {quantity} {unit}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
+          <CardProducts products={mealDoc.products} />
         </Link>
 
         <Card.Footer class="flex justify-end gap-2">
