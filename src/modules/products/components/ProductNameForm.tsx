@@ -41,7 +41,7 @@ export async function ProductNameForm({ user }: ComponentProps<ProductNameFormPr
       class="grid !grid-cols-12"
       hx-get="/api/products/fieldset"
       hx-target="#products"
-      hx-swap="beforeend"
+      hx-swap="afterbegin"
       hx-on--after-request="this.reset()"
       hx-indicator="#loader"
     >

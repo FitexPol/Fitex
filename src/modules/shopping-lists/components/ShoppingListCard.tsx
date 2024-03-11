@@ -8,17 +8,30 @@ import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
+import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
 import { type ShoppingListDoc } from '../models/shoppingList';
+import { getProductsSum } from '../utils/getProductsSum';
 
 const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
 
 type ShoppingListCardProps = {
   shoppingListDoc: ShoppingListDoc;
 };
 
 export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingListCardProps>) {
+  const allProducts = getProductsSum(shoppingListDoc);
+
+  const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
+    const mealDoc = getPopulatedDoc(meal);
+
+    if (!mealDoc) return acc;
+
+    const text = quantity > 1 ? `${mealDoc.name} (x${quantity})` : mealDoc.name;
+
+    return acc.length > 0 ? `${acc}, ${text}` : text;
+  }, '');
+
   return (
     <Card class="group relative h-full">
       <>
@@ -42,40 +55,25 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
           class="contrast flex-grow"
         >
           <>
-            {shoppingListDoc.meals.length > 0 && (
-              <List title={_t('_shared.meals')}>
-                <>
-                  {shoppingListDoc.meals.map(({ meal, quantity }) => {
-                    const mealDoc = getPopulatedDoc(meal);
+            <h4 class="mb-2 text-sm">{_t('_shared.products')}:</h4>
 
-                    return (
-                      <ListItem>
-                        <>
-                          <span>{mealDoc?.name ?? _tShared('_shared.errors.population')}</span>
-                          <span>x {quantity}</span>
-                        </>
-                      </ListItem>
-                    );
-                  })}
-                </>
-              </List>
-            )}
+            <ul>
+              {allProducts.length > 0 ? (
+                allProducts.map((product) => (
+                  <li class="flex justify-between text-xs">
+                    <span>{product.name}</span>
+                    <span>{getRoundedQuantity(product.quantity)}</span>
+                  </li>
+                ))
+              ) : (
+                <span>{_t('_shared.noProducts')}</span>
+              )}
+            </ul>
 
-            {shoppingListDoc.products.length > 0 && (
-              <List title={_t('_shared.products')}>
-                <>
-                  {shoppingListDoc.products.map(({ name, quantity, unit }) => (
-                    <ListItem>
-                      <>
-                        <span>{name}</span>
-                        <span>
-                          {quantity} {unit}
-                        </span>
-                      </>
-                    </ListItem>
-                  ))}
-                </>
-              </List>
+            {meals && (
+              <small class="text-xs">
+                * {_t('shoppingListCard.includedMeals')}: {meals}
+              </small>
             )}
           </>
         </Link>
@@ -101,21 +99,4 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
       </>
     </Card>
   );
-}
-
-type ListProps = {
-  title: string;
-};
-
-function List({ title, children }: ComponentProps<ListProps>) {
-  return (
-    <div>
-      <h4 class="mb-2 text-sm">{title}:</h4>
-      <ul>{children}</ul>
-    </div>
-  );
-}
-
-function ListItem({ children }: ComponentProps) {
-  return <li class="flex justify-between text-xs">{children}</li>;
 }
