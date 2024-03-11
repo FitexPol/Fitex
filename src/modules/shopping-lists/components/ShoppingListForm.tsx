@@ -28,7 +28,10 @@ export function ShoppingListForm({ user, shoppingListDoc, errors }: ComponentPro
 
   return (
     <>
-      <form id="shopping-list-details-form" onsubmit="event.preventDefault()">
+      <form
+        id="shopping-list-details-form"
+        onsubmit={`submitShoppingListForm(event, '${method}', '${endpoint}')`}
+      >
         <Input
           control={shoppingListForm.name}
           value={shoppingListDoc?.name}
@@ -69,7 +72,7 @@ export function ShoppingListForm({ user, shoppingListDoc, errors }: ComponentPro
         })}
       </ul>
 
-      <Button onclick={`submitShoppingListForm(event, '${method}', '${endpoint}')`}>
+      <Button type="submit" form="shopping-list-details-form">
         {_tShared('_shared.forms.submit')}
       </Button>
     </>
