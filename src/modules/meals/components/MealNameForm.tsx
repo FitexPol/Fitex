@@ -34,7 +34,7 @@ export async function MealNameForm({ user }: ComponentProps<MealNameFormProps>) 
       class="grid !grid-cols-12"
       hx-get="/api/meals/fieldset"
       hx-target="#meals"
-      hx-swap="beforeend"
+      hx-swap="afterbegin"
       hx-on--after-request="this.reset()"
       hx-indicator="#loader"
     >
