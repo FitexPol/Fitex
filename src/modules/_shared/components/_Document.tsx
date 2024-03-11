@@ -85,6 +85,7 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
         </ul>
 
         <ul class="sm:hidden">
+          <li>{user?.username ?? ''}</li>
           <li>
             <button class="pico-reset" onclick="toggleMenu()">
               {icons.menu.toSvg()}
