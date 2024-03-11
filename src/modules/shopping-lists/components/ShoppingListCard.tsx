@@ -3,12 +3,12 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
+import { CardProducts } from '@products/components/CardProducts';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
-import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
 import { type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
@@ -20,7 +20,7 @@ type ShoppingListCardProps = {
 };
 
 export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingListCardProps>) {
-  const allProducts = getProductsSum(shoppingListDoc);
+  const products = getProductsSum(shoppingListDoc);
 
   const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
     const mealDoc = getPopulatedDoc(meal);
@@ -55,22 +55,7 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
           class="contrast flex-grow"
         >
           <>
-            <h4 class="mb-2 text-sm">{_t('_shared.products')}:</h4>
-
-            <ul>
-              {allProducts.length > 0 ? (
-                allProducts.map((product) => (
-                  <li class="flex justify-between text-xs">
-                    <span>{product.name}</span>
-                    <span>
-                      {getRoundedQuantity(product.quantity)} {product.unit}
-                    </span>
-                  </li>
-                ))
-              ) : (
-                <span>{_t('_shared.noProducts')}</span>
-              )}
-            </ul>
+            <CardProducts products={products} />
 
             {meals && (
               <small class="text-xs">

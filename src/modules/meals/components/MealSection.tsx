@@ -4,6 +4,7 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
+import { ListProducts } from '@products/components/ListProducts';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -46,20 +47,9 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
             </Button>
           </Card.Header>
 
-          {mealDoc.products.length > 0 ? (
-            <ul>
-              {mealDoc.products.map(({ name, quantity, unit }) => (
-                <li>
-                  <label>
-                    <input type="checkbox" name={name} />
-                    {name} - {quantity} {unit}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <span>{_t('mealSection.noProducts')}</span>
-          )}
+          <ListProducts products={mealDoc.products}>
+            <ListProducts.Title />
+          </ListProducts>
 
           {mealDoc.description && <p>{mealDoc.description}</p>}
 

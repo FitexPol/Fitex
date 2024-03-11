@@ -4,7 +4,6 @@
     "meals": "Posiłki",
     "products": "Produkty",
     "otherProducts": "Pozostałe produkty",
-    "noProducts": "Brak produktów",
     "errors": {
       "notFound": "Nie znaleziono listy zakupów",
       "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
@@ -28,7 +27,7 @@
     "noResults": "Nie masz jeszcze ulubionych list zakupów"
   },
   "shoppingListCard": {
-    "includedMeals": "Ujęte posiłki"
+    "includedMeals": "Zawarte posiłki"
   },
   "shoppingListFormSection": {
     "title": "Stwórz listę zakupów"
