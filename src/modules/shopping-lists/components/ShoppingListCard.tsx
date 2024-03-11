@@ -62,7 +62,9 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
                 allProducts.map((product) => (
                   <li class="flex justify-between text-xs">
                     <span>{product.name}</span>
-                    <span>{getRoundedQuantity(product.quantity)}</span>
+                    <span>
+                      {getRoundedQuantity(product.quantity)} {product.unit}
+                    </span>
                   </li>
                 ))
               ) : (
