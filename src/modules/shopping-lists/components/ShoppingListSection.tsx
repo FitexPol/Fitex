@@ -6,14 +6,15 @@ import { Card } from '@components/Card';
 import { Switch } from '@components/inputs/Switch';
 import { Link } from '@components/Link';
 import type { Product } from '@products/models/product';
-import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
+import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
+import { getProductsSum } from '../utils/getProductsSum';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
@@ -39,8 +40,6 @@ export async function ShoppingListSection({
     return <span>{_t('_shared.errors.permissionDenied')}</span>;
   }
 
-  console.log(shoppingListDoc);
-
   return (
     <section id="shopping-list-section">
       <Card class="relative">
@@ -57,27 +56,21 @@ export async function ShoppingListSection({
             </Button>
           </Card.Header>
 
-          {shoppingListDoc.meals.length === 0 && shoppingListDoc.products.length === 0 ? (
-            <span>{_t('shoppingListSection.noMealsAndProducts')}</span>
-          ) : (
-            <>
-              <Link
-                href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {
-                  groupByMeals: groupByMealsQuery ? '' : 'on',
-                })}
-                class="contrast mb-4 self-start"
-              >
-                <Switch control={{ name: 'groupByMeals' }} checked={!!groupByMealsQuery}>
-                  <span class="mr-2">{_t('shoppingListSection.groupByMeals')}</span>
-                </Switch>
-              </Link>
+          <Link
+            href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {
+              groupByMeals: groupByMealsQuery ? '' : 'on',
+            })}
+            class="contrast mb-4 self-start"
+          >
+            <Switch control={{ name: 'groupByMeals' }} checked={!!groupByMealsQuery}>
+              <span class="mr-2">{_t('shoppingListSection.groupByMeals')}</span>
+            </Switch>
+          </Link>
 
-              {groupByMealsQuery ? (
-                <GroupedByMealsProducts shoppingListDoc={shoppingListDoc} />
-              ) : (
-                <AllProducts shoppingListDoc={shoppingListDoc} />
-              )}
-            </>
+          {groupByMealsQuery ? (
+            <GroupedByMealsProducts shoppingListDoc={shoppingListDoc} />
+          ) : (
+            <AllProducts shoppingListDoc={shoppingListDoc} />
           )}
 
           <Card.Footer class="flex justify-end gap-2">
@@ -137,9 +130,9 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
           );
         })}
 
-      {products.length > 0 && (
+      {products.length > 0 ? (
         <>
-          <Title>{_t('_shared.products')}</Title>
+          <Title>{meals.length > 0 ? _t('_shared.otherProducts') : _t('_shared.products')}</Title>
 
           <List>
             <>
@@ -149,42 +142,21 @@ function GroupedByMealsProducts({ shoppingListDoc }: ComponentProps<{ shoppingLi
             </>
           </List>
         </>
+      ) : (
+        <span class="mb-5 block">{_t('_shared.noProducts')}</span>
       )}
     </>
   );
 }
 
 function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: ShoppingListDoc }>) {
-  const { meals, products } = shoppingListDoc;
-  const productsArray: Product[] = [];
-
-  if (meals.length > 0) {
-    meals.forEach(({ meal, quantity: mealQuantity }) => {
-      const mealDoc = getPopulatedDoc(meal);
-
-      if (!mealDoc) return;
-
-      mealDoc.products.forEach((product) => {
-        productsArray.push({
-          name: product.name,
-          quantity: product.quantity * mealQuantity,
-          unit: product.unit,
-        });
-      });
-    });
-  }
-
-  if (products.length > 0) {
-    productsArray.push(...products);
-  }
-
-  const allProducts = getGroupedProducts(productsArray);
+  const allProducts = getProductsSum(shoppingListDoc);
 
   return (
     <>
       {allProducts.length > 0 ? (
         <>
-          <Title>{_t('shoppingListSection.allProducts')}</Title>
+          <Title>{_t('_shared.products')}</Title>
 
           <List>
             <>
@@ -195,7 +167,7 @@ function AllProducts({ shoppingListDoc }: ComponentProps<{ shoppingListDoc: Shop
           </List>
         </>
       ) : (
-        <span>{_t('shoppingListSection.noProducts')}</span>
+        <span>{_t('_shared.noProducts')}</span>
       )}
     </>
   );
@@ -221,7 +193,7 @@ function Item({ product, multiplier }: ComponentProps<ListItemProps>) {
     <li>
       <label>
         <input type="checkbox" name={product.name} />
-        {product.name} - {finalQuantity} {product.unit}
+        {product.name} - {getRoundedQuantity(finalQuantity)} {product.unit}
       </label>
     </li>
   );

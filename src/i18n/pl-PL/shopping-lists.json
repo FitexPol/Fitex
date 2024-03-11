@@ -2,7 +2,9 @@
   "_shared": {
     "deletionConfirmation": "Czy na pewno chcesz usunąć tę listę zakupów? Ta operacja jest nieodwracalna.",
     "meals": "Posiłki",
-    "products": "Dodatkowe produkty",
+    "products": "Produkty",
+    "otherProducts": "Pozostałe produkty",
+    "noProducts": "Brak produktów",
     "errors": {
       "notFound": "Nie znaleziono listy zakupów",
       "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
@@ -25,15 +27,15 @@
     "title": "Twoje ulubione listy zakupów",
     "noResults": "Nie masz jeszcze ulubionych list zakupów"
   },
+  "shoppingListCard": {
+    "includedMeals": "Ujęte posiłki"
+  },
   "shoppingListFormSection": {
     "title": "Stwórz listę zakupów"
   },
   "shoppingListSection": {
-    "noMealsAndProducts": "Nie dodano żadnych posiłków ani produktów dodatkowych",
     "groupByMeals": "Grupuj według posiłków",
-    "noMealProducts": "Ten posiłek nie ma dodanych żadnych produktów",
-    "allProducts": "Wszystkie produkty",
-    "noProducts": "Brak produktów"
+    "noMealProducts": "Ten posiłek nie ma dodanych żadnych produktów"
   },
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",

@@ -46,7 +46,6 @@ export const updateMeal = new Elysia().use(context).patch(
         products: getGroupedProducts(productsBody),
       });
     } catch (e) {
-      console.log(e);
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
