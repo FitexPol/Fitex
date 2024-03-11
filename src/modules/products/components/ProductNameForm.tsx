@@ -49,10 +49,10 @@ export async function ProductNameForm({ user }: ComponentProps<ProductNameFormPr
         control={form.product}
         label={_t('productNameForm.label')}
         datalist={productsDatalist}
-        class="col-span-11"
+        class="col-span-10 sm:col-span-11"
       />
 
-      <Button type="submit" class="pico-reset col-span-1 !m-auto h-fit !w-fit">
+      <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
         {icons['plus-circle'].toSvg()}
       </Button>
     </form>
