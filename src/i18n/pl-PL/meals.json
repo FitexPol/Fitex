@@ -35,9 +35,6 @@
     "label": "Dodaj posiłek",
     "placeholder": "Wybierz nazwę posiłku i zatwierdź przyciskiem po prawej stronie"
   },
-  "mealSection": {
-    "noProducts": "Nie dodano żadnych produktów"
-  },
   "mealsSection": {
     "title": "Twoje posiłki",
     "noResults": "Nie masz jeszcze żadnych posiłków"
