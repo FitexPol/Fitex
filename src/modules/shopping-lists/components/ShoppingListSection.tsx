@@ -77,7 +77,7 @@ export async function ShoppingListSection({
                       {mealDoc ? (
                         <>
                           <h2 class="mb-1 mt-2 text-lg">
-                            <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x ${quantity}`}</Link>
+                            <Link href={`/meals/${mealDoc.id}`}>{`${mealDoc.name} x${quantity}:`}</Link>
                           </h2>
 
                           <ListProducts products={mealDoc.products} />
