@@ -6,7 +6,7 @@ import { MealsSection } from '@meals/components/MealsSection';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { mealPages as singleMealPages } from './[id]';
-import { basicInformationFormPage } from './basic-information-form';
+import { basicInformationFormPage } from './basicInformationForm';
 
 const mealsPage = new Elysia().use(context).get('', async ({ user, query }) => {
   return (

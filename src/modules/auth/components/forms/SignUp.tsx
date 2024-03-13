@@ -3,15 +3,15 @@ import { Input } from '@components/inputs/Input';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type SignUpFormErrors, signUpForm } from '../forms';
+import { type SignUpFormErrors, signUpForm } from '../../forms/signUp';
 
 const _t = $t('auth');
 
-type SignUpFormProps = {
+type SignUpProps = {
   errors?: SignUpFormErrors;
 };
 
-export function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
+export function SignUp({ errors }: ComponentProps<SignUpProps>) {
   return (
     <form hx-post="/api/auth/sign-up" hx-swap="outerHTML" hx-target-4xx="this">
       <Input control={signUpForm.username} label={_t('_shared.username')} error={errors?.username} />

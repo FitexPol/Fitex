@@ -6,8 +6,8 @@ import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
-import { SignInForm } from '../components/SignInForm';
-import { type SignInFormErrors, type SignInForm as SignInFormType, signInForm } from '../forms';
+import { SignIn } from '../components/forms/SignIn';
+import { type SignInForm, type SignInFormErrors, signInForm } from '../forms/signIn';
 import { User } from '../models/user';
 
 const _t = $t('auth');
@@ -20,7 +20,7 @@ export const signIn = new Elysia().use(context).post(
     if (!userDoc) {
       set.status = 'Not Found';
 
-      return <SignInForm errors={{ username: _t('_shared.errors.notFound') }} />;
+      return <SignIn errors={{ username: _t('_shared.errors.notFound') }} />;
     }
 
     const isPasswordCorrect = await Bun.password.verify(body.password, userDoc.password);
@@ -28,13 +28,12 @@ export const signIn = new Elysia().use(context).post(
     if (!isPasswordCorrect) {
       set.status = 'Bad Request';
 
-      return <SignInForm errors={{ password: _t('signIn.errors.wrongPassword') }} />;
+      return <SignIn errors={{ password: _t('signIn.errors.wrongPassword') }} />;
     }
 
     const token = await jwt.sign({
       id: userDoc.id,
       username: userDoc.username,
-      roles: userDoc.roles.join(','),
     });
 
     auth.set({
@@ -49,7 +48,7 @@ export const signIn = new Elysia().use(context).post(
     set.headers[HxResponseHeader.Location] = '/';
   },
   {
-    body: getBodySchema<SignInFormType>(signInForm),
+    body: getBodySchema<SignInForm>(signInForm),
     error({ code, error }) {
       if (code === 'VALIDATION') return getSignInFormWithErrors(error);
     },
@@ -57,7 +56,7 @@ export const signIn = new Elysia().use(context).post(
 );
 
 function getSignInFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
-  const errors: SignInFormErrors = getBodySchemaErrors<SignInFormType>(error, signInForm);
+  const errors: SignInFormErrors = getBodySchemaErrors<SignInForm>(error, signInForm);
 
-  return <SignInForm errors={errors} />;
+  return <SignIn errors={errors} />;
 }

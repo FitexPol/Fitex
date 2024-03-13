@@ -5,7 +5,7 @@ import { Card } from '@components/Card';
 import { Link } from '@components/Link';
 import { AddProduct } from '@products/components/forms/AddProduct';
 import { ProductsTable } from '@products/components/ProductsTable';
-import { type ComponentProps } from '@types';
+import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 

@@ -1,6 +1,6 @@
 import { icons } from 'feather-icons';
 
-import { type JWTUser, Role } from '@auth/models/user';
+import { type JWTUser } from '@auth/models/user';
 import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
@@ -67,11 +67,6 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
   const navigation: { name: string; href: string; isHidden?: boolean }[] = [
     { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
     { name: _t('_document.navigation.meals'), href: '/meals' },
-    {
-      name: _t('_document.navigation.adminPanel'),
-      href: '/admin-panel',
-      isHidden: !user?.hasRole(Role.Admin),
-    },
   ];
 
   return (

@@ -1,7 +1,7 @@
 import { jwt } from '@elysiajs/jwt';
 import { Elysia } from 'elysia';
 
-import type { JWTUser, Role } from '@auth/models/user';
+import { type JWTUser } from '@auth/models/user';
 
 export const context = new Elysia()
   .use(
@@ -16,11 +16,7 @@ export const context = new Elysia()
 
     const jwtUser: JWTUser = {
       id: user.id as string,
-      username: user.username as string,
-      roles: (user.roles as string).split(',') as Role[],
-      hasRole: function (...roles: Role[]) {
-        return roles.some((role) => this.roles.includes(role));
-      },
+      username: user.username as string
     };
 
     return {

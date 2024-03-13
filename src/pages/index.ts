@@ -2,9 +2,7 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 
-import { adminPanelPages } from './admin-panel';
 import { authPage } from './auth';
-import { homePage } from './home';
 import { mealPages } from './meals';
 import { shoppingListPages } from './shopping-lists';
 
@@ -21,5 +19,11 @@ export const pages = new Elysia()
         }
       },
     },
-    (app) => app.use(homePage).use(shoppingListPages).use(mealPages).use(adminPanelPages),
+    (app) =>
+      app
+        .use(shoppingListPages)
+        .use(mealPages)
+        .get('/', ({ set }) => {
+          set.redirect = '/shopping-lists';
+        }),
   );

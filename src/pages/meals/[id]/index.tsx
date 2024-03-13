@@ -4,7 +4,7 @@ import { context } from '@/context';
 import { Document } from '@components/_Document';
 
 import { mealEditPage } from './edit';
-import { productFormPage } from './product-form';
+import { productFormPage } from './productForm';
 
 const mealPage = new Elysia().use(context).get('', async ({ user }) => {
   return <Document user={user}>Meal</Document>;

@@ -6,7 +6,7 @@ import { ShoppingListsSection } from '@shopping-lists/components/ShoppingListsSe
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { shoppingListPages as singleShoppingListPages } from './[id]';
-import { basicInformationFormPage } from './basic-information-form';
+import { basicInformationFormPage } from './basicInformationForm';
 
 const shoppingListsPage = new Elysia().use(context).get('', async ({ user, query }) => {
   return (
