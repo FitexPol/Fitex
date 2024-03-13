@@ -14,7 +14,7 @@ export const adminPanelPages = new Elysia().use(context).group('/admin-panel', (
     {
       beforeHandle: ({ user, set }) => {
         if (!user!.hasRole(Role.Admin)) {
-          set.redirect = '/';
+          set.redirect = '/shopping-lists';
 
           return 'Unauthorized';
         }

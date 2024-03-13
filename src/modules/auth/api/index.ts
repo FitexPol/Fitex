@@ -16,7 +16,7 @@ export const authApi = new Elysia().group('/auth', (app) =>
       {
         beforeHandle: ({ user, set }) => {
           if (!user!.hasRole(Role.Admin)) {
-            set.redirect = '/';
+            set.redirect = '/shopping-lists';
 
             return 'Unauthorized';
           }

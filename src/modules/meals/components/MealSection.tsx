@@ -1,5 +1,3 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
@@ -7,7 +5,6 @@ import { Link } from '@components/Link';
 import { ListProducts } from '@products/components/ListProducts';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 
 import { Meal } from '../models/meal';
@@ -33,19 +30,9 @@ export async function MealSection({ user, mealId }: ComponentProps<MealSectionPr
 
   return (
     <section id="meal-section">
-      <Card class="relative">
+      <Card>
         <>
-          <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{mealDoc.name}</h1>}>
-            <Button
-              class="pico-reset absolute right-4 top-4"
-              hx-patch={`/api/meals/${mealDoc.id}/toggle-favorite`}
-              hx-target="#meal-section"
-              hx-swap="outerHTML"
-              hx-indicator="#loader"
-            >
-              {icons.star.toSvg({ class: $tm(mealDoc.isFavorite && 'fill-current') })}
-            </Button>
-          </Card.Header>
+          <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{mealDoc.name}</h1>} />
 
           <ListProducts products={mealDoc.products}>
             <ListProducts.Title />

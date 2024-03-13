@@ -7,7 +7,6 @@ import { getQueryParams } from '@utils/getQueryParams';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
-import { FavoriteShoppingListsSection } from '../components/FavoriteShoppingListsSection';
 import { ShoppingListsSection } from '../components/ShoppingListsSection';
 import { ShoppingList } from '../models/shoppingList';
 
@@ -58,18 +57,14 @@ export const deleteShoppingList = new Elysia()
       return;
     }
 
-    if (currentUrl && currentUrl.includes('/shopping-lists')) {
-      const queryParams = getQueryParams(currentUrl);
+    const queryParams = getQueryParams(currentUrl);
 
-      return (
-        <ShoppingListsSection
-          user={user!}
-          sortQuery={getQueryParamSecure(queryParams.sort)}
-          itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
-          pageQuery={getQueryParamSecure(queryParams.page)}
-        />
-      );
-    }
-
-    return <FavoriteShoppingListsSection user={user!} />;
+    return (
+      <ShoppingListsSection
+        user={user!}
+        sortQuery={getQueryParamSecure(queryParams.sort)}
+        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
+        pageQuery={getQueryParamSecure(queryParams.page)}
+      />
+    );
   });

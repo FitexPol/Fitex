@@ -16,17 +16,34 @@ import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationF
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
-export const createShoppingList = new Elysia().use(context).post(
+export const updateBasicInformation = new Elysia().use(context).patch(
   '',
-  async ({ body, user, set }) => {
-    const shoppingListDoc = new ShoppingList({
-      name: body.name,
-      author: user!.id,
-    });
+  async ({ params: { id }, set, user, body }) => {
+    const shoppingListDoc = await ShoppingList.findById(id).exec();
+
+    if (!shoppingListDoc) {
+      set.status = 'Not Found';
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+
+      return;
+    }
+
+    if (!shoppingListDoc.author._id.equals(user!.id)) {
+      set.status = 'Forbidden';
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+        'error',
+        _t('_shared.errors.permissionDenied'),
+      );
+
+      return;
+    }
 
     try {
-      await shoppingListDoc.save();
+      await shoppingListDoc.updateOne({
+        name: body.name,
+      });
     } catch {
+      set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
         _tShared('_shared.errors.badRequest'),
@@ -35,11 +52,11 @@ export const createShoppingList = new Elysia().use(context).post(
       return;
     }
 
-    set.status = 'Created';
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      _t('createShoppingList.success'),
+      _t('updateBasicInformation.success'),
     );
+
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
   },
   {

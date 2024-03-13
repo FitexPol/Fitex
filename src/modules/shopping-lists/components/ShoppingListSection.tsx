@@ -1,5 +1,3 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Card } from '@components/Card';
@@ -8,7 +6,6 @@ import { Link } from '@components/Link';
 import { ListProducts } from '@products/components/ListProducts';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
@@ -43,17 +40,7 @@ export async function ShoppingListSection({
     <section id="shopping-list-section">
       <Card class="relative">
         <>
-          <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{shoppingListDoc.name}</h1>}>
-            <Button
-              class="pico-reset absolute right-4 top-4"
-              hx-patch={`/api/shopping-lists/${shoppingListDoc.id}/toggle-favorite`}
-              hx-target="#shopping-list-section"
-              hx-swap="outerHTML"
-              hx-indicator="#loader"
-            >
-              {icons.star.toSvg({ class: $tm(shoppingListDoc.isFavorite && 'fill-current') })}
-            </Button>
-          </Card.Header>
+          <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{shoppingListDoc.name}</h1>} />
 
           <Link
             href={getPath(`/shopping-lists/${shoppingListDoc.id}`, {

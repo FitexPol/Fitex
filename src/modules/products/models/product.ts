@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { type HydratedDocument, Schema, model } from 'mongoose';
 
 export enum Unit {
   Unit = '',
@@ -23,10 +23,14 @@ export const productSchema = new Schema<Product>({
   quantity: {
     type: Number,
     required: true,
-    min: 1,
+    min: 0.1,
+    default: 1,
   },
   unit: {
     type: String,
     enum: Object.values(Unit),
   },
 });
+
+export const Product = model('Product', productSchema);
+export type ProductDoc = HydratedDocument<Product>;

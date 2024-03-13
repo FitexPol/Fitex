@@ -5,8 +5,8 @@ import { Document } from '@components/_Document';
 import { ShoppingListsSection } from '@shopping-lists/components/ShoppingListsSection';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
-import { shoppingListPage } from './[id]';
-import { shoppingListFormPage } from './form';
+import { shoppingListPages as singleShoppingListPages } from './[id]';
+import { basicInformationFormPage } from './basic-information-form';
 
 const shoppingListsPage = new Elysia().use(context).get('', async ({ user, query }) => {
   return (
@@ -22,5 +22,5 @@ const shoppingListsPage = new Elysia().use(context).get('', async ({ user, query
 });
 
 export const shoppingListPages = new Elysia().group('/shopping-lists', (app) =>
-  app.use(shoppingListsPage).use(shoppingListPage).use(shoppingListFormPage),
+  app.use(shoppingListsPage).use(basicInformationFormPage).use(singleShoppingListPages),
 );

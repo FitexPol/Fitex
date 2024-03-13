@@ -1,9 +1,10 @@
+import { ProductFieldset } from '@products/components/ProductFieldset';
+import { ProductNameForm } from '@products/components/ProductNameForm';
+
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Textarea } from '@components/inputs/Textarea';
-import { ProductFieldset } from '@products/components/ProductFieldset';
-import { ProductNameForm } from '@products/components/ProductNameForm';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 

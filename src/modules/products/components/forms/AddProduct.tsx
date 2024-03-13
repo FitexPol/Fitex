@@ -4,28 +4,20 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Meal } from '@meals/models/meal';
-import type { ComponentProps, Datalist, Form } from '@types';
+import type { ComponentProps, Datalist } from '@types';
 import { $t } from '@utils/$t';
+import { $tm } from '@utils/$tm';
+
+import { addProductForm } from '../../forms/add-product';
 
 const _t = $t('products');
 
-export const form = {
-  product: {
-    type: 'text',
-    name: 'name',
-    placeholder: 'products.productNameForm.placeholder',
-    validators: {
-      required: true,
-      message: 'Product name is required',
-    },
-  },
-} satisfies Form;
-
-type ProductNameFormProps = {
+type AddProductProps = {
   user: JWTUser;
+  endpoint: string;
 };
 
-export async function ProductNameForm({ user }: ComponentProps<ProductNameFormProps>) {
+export async function AddProduct({ user, endpoint, class: className }: ComponentProps<AddProductProps>) {
   const meals = await Meal.find({ author: user.id });
 
   const productsDatalist: Datalist = {
@@ -38,16 +30,16 @@ export async function ProductNameForm({ user }: ComponentProps<ProductNameFormPr
 
   return (
     <form
-      class="grid !grid-cols-12"
-      hx-get="/api/products/fieldset"
+      class={$tm('grid !grid-cols-12', className)}
+      hx-post={endpoint}
       hx-target="#products"
-      hx-swap="afterbegin"
+      hx-swap="outerHTML"
       hx-on--after-request="this.reset()"
       hx-indicator="#loader"
     >
       <Input
-        control={form.product}
-        label={_t('productNameForm.label')}
+        control={addProductForm.name}
+        label={_t('addProduct.label')}
         datalist={productsDatalist}
         class="col-span-10 sm:col-span-11"
       />

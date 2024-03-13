@@ -1,14 +1,14 @@
 {
   "_shared": {
-    "noProducts": "Nie dodano żadnych produktów"
+    "noProducts": "Nie dodano żadnych produktów",
+    "unit": "Jednostka"
   },
-  "productNameForm": {
+  "addProduct": {
     "label": "Dodaj produkt",
     "placeholder": "Wpisz nazwę produktu i zatwierdź enterem lub przyciskiem po prawej stronie"
   },
-  "productFieldset": {
-    "name": "Nazwa",
-    "quantity": "Ilość",
-    "unit": "Jednostka"
+  "productsTable": {
+    "deletionConfirmation": "Czy na pewno chcesz usunąć ten produkt?",
+    "actions": "Akcje"
   }
 }

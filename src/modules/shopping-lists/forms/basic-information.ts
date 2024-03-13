@@ -1,6 +1,6 @@
 import type { Form, FormErrors } from '@types';
 
-export const shoppingListForm = {
+export const basicInformationForm = {
   name: {
     type: 'text',
     name: 'name',
@@ -10,16 +10,8 @@ export const shoppingListForm = {
       maxLength: 50,
       message: 'Shopping list name must be between 3 and 20 characters long',
     },
-  },
-  meals: {
-    type: 'text',
-    name: 'meals',
-  },
-  products: {
-    type: 'text',
-    name: 'products',
-  },
+  }
 } satisfies Form;
 
-export type ShoppingListForm = typeof shoppingListForm;
-export type ShoppingListFormErrors = FormErrors<ShoppingListForm>;
+export type BasicInformationForm = typeof basicInformationForm;
+export type BasicInformationFormErrors = FormErrors<BasicInformationForm>;

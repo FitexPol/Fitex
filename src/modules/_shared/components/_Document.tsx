@@ -40,7 +40,6 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
           <link href="/public/styles.css" rel="stylesheet" />
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-          <script src="/public/scripts.js" defer></script>
         </head>
 
         <body hx-ext="response-targets">
@@ -52,6 +51,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           />
           <dialog id="modal-portal" hx-preserve="true" />
           <Loader />
+          <script src="/public/scripts.js"></script>
         </body>
       </html>
     </>

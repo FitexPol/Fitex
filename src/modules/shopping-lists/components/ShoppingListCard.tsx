@@ -6,7 +6,6 @@ import { Link } from '@components/Link';
 import { CardProducts } from '@products/components/CardProducts';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
@@ -35,20 +34,7 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
   return (
     <Card class="group relative h-full">
       <>
-        <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{shoppingListDoc.name}</h3>}>
-          <Button
-            class={$tm(
-              'pico-reset absolute right-4 top-3.5',
-              shoppingListDoc.isFavorite ? 'visible' : 'invisible group-hover:visible',
-            )}
-            hx-patch={`/api/shopping-lists/${shoppingListDoc.id}/toggle-favorite`}
-            hx-target="closest section"
-            hx-swap="outerHTML"
-            hx-indicator="#loader"
-          >
-            {icons.star.toSvg({ class: $tm(shoppingListDoc.isFavorite && 'fill-current') })}
-          </Button>
-        </Card.Header>
+        <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{shoppingListDoc.name}</h3>} />
 
         <Link
           href={getPath(`/shopping-lists/${shoppingListDoc.id}`, { groupByMeals: 'on' })}
@@ -78,9 +64,7 @@ export function ShoppingListCard({ shoppingListDoc }: ComponentProps<ShoppingLis
               {icons.trash.toSvg()}
             </Button>
 
-            <Link href={getPath('/shopping-lists/form', { shoppingListId: shoppingListDoc.id })}>
-              {icons.edit.toSvg()}
-            </Link>
+            <Link href={`/shopping-lists/${shoppingListDoc.id}/edit`}>{icons.edit.toSvg()}</Link>
           </>
         </Card.Footer>
       </>

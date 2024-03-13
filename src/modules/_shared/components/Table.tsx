@@ -1,9 +1,13 @@
 import { type ComponentProps } from '../types';
 import { $tm } from '../utils/$tm';
 
-export function Table({ children, class: className }: ComponentProps) {
+type TableProps = {
+  id?: string;
+};
+
+export function Table({ id, children, class: className }: ComponentProps<TableProps>) {
   return (
-    <div class={$tm('w-full overflow-x-auto', className)}>
+    <div id={id} class={$tm('w-full overflow-x-auto', className)}>
       <table>{children}</table>
     </div>
   );

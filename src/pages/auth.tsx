@@ -9,7 +9,7 @@ export const authPage = new Elysia().use(context).guard(
   {
     beforeHandle: ({ user, set }) => {
       if (user) {
-        set.redirect = '/';
+        set.redirect = '/shopping-lists';
 
         return 'User already logged in';
       }

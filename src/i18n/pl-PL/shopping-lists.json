@@ -9,25 +9,35 @@
       "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
     }
   },
+  "addProduct": {
+    "errors": {
+      "productAlreadyExists": "Ten produkt został już dodany"
+    },
+    "success": "Produkt został dodany do listy"
+  },
   "createShoppingList": {
     "success": "Lista zakupów została utworzona"
+  },
+  "deleteProduct": {
+    "success": "Produkt został usunięty"
   },
   "deleteMeal": {
     "success": "List zakupów została usunięta"
   },
-  "toggleFavorite": {
-    "addedSuccess": "Lista zakupów została dodana do ulubionych",
-    "removedSuccess": "Lista zakupów została usunięta z ulubionych"
+  "updateBasicInformation": {
+    "success": "Informacje zostały zaktualizowane"
+  },
+  "updateProduct": {
+    "success": "Produkt został zaktualizowany"
   },
   "updateShoppingList": {
     "success": "Lista zakupów została zaktualizowana"
   },
-  "favoriteShoppingListsSection": {
-    "title": "Twoje ulubione listy zakupów",
-    "noResults": "Nie masz jeszcze ulubionych list zakupów"
-  },
   "shoppingListCard": {
     "includedMeals": "Zawarte posiłki"
+  },
+  "shoppingListEditSection": {
+    "title": "Edytuj listę zakupów"
   },
   "shoppingListFormSection": {
     "title": "Stwórz listę zakupów"

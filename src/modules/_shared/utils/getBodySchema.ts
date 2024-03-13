@@ -1,34 +1,20 @@
 import { t } from 'elysia';
 
-import type { Form, NumberValidators, TextValidators } from '../types';
+import type { Form, TextValidators } from '../types';
 
 type SchemaTextField = ReturnType<typeof t.String> | ReturnType<typeof t.RegExp>;
-type SchemaNumberField = ReturnType<typeof t.Number>;
 
 type SchemaObject<T extends Form> = {
-  [K in keyof T]: T[K] extends { type: 'number' } ? SchemaNumberField : SchemaTextField;
+  [K in keyof T]: SchemaTextField;
 };
 
 type Schema<T extends Form> = ReturnType<typeof t.Object<SchemaObject<T>>>;
 
 export function getBodySchema<T extends Form>(form: Form): Schema<T> {
   const schemaObject: SchemaObject<T> = Object.entries(form).reduce((acc, [key, control]) => {
-    let schemaField: SchemaNumberField | SchemaTextField;
+    if (Array.isArray(control) || control.type === 'number') return { ...acc, [key]: t.String() };
 
-    if (Array.isArray(control)) {
-      schemaField = t.String();
-      return { ...acc, [key]: schemaField };
-    }
-
-    switch (control.type) {
-      case 'number':
-        schemaField = getSchemaNumberField(control.validators);
-        break;
-      default:
-        schemaField = getSchemaTextField(control.validators);
-    }
-
-    return { ...acc, [key]: schemaField };
+    return { ...acc, [key]: getSchemaTextField(control.validators) };
   }, {} as SchemaObject<T>);
 
   return t.Object(schemaObject);
@@ -45,15 +31,5 @@ function getSchemaTextField(validators?: TextValidators): SchemaTextField {
     minLength: validators.minLength,
     maxLength: validators.maxLength,
     error,
-  });
-}
-
-function getSchemaNumberField(validators?: NumberValidators): SchemaNumberField {
-  if (!validators) return t.Number();
-
-  return t.Number({
-    minimum: validators.min,
-    maximum: validators.max,
-    error: validators.message,
   });
 }
