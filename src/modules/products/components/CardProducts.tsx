@@ -21,7 +21,7 @@ export function CardProducts({ products }: ComponentProps<CardProductsProps>) {
           {products.map(({ name, quantity, unit }) => (
             <li class="flex justify-between text-xs">
               <span>{name}</span>
-              
+
               {quantity && (
                 <span>
                   {getRoundedQuantity(quantity)} {unit}

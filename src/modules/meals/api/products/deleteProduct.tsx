@@ -6,24 +6,24 @@ import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { Meal } from '../../models/meal';
 
-const _t = $t('shoppingLists');
+const _t = $t('meals');
 const _tShared = $t('_shared');
 
 export const deleteProduct = new Elysia()
   .use(context)
-  .delete(':productId', async ({ params: { id: shoppingListId, productId }, set, user }) => {
-    const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
+  .delete(':productId', async ({ params: { id: mealId, productId }, set, user }) => {
+    const mealDoc = await Meal.findById(mealId).exec();
 
-    if (!shoppingListDoc) {
+    if (!mealDoc) {
       set.status = 'Not Found';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
 
       return;
     }
 
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
+    if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
@@ -33,12 +33,10 @@ export const deleteProduct = new Elysia()
       return;
     }
 
-    shoppingListDoc.products = shoppingListDoc.products.filter(
-      (productDoc) => !productDoc._id.equals(productId),
-    );
+    mealDoc.products = mealDoc.products.filter((productDoc) => !productDoc._id.equals(productId));
 
     try {
-      await shoppingListDoc.save();
+      await mealDoc.save();
     } catch {
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
@@ -53,10 +51,10 @@ export const deleteProduct = new Elysia()
 
     return (
       <ProductsTable
-        products={shoppingListDoc.products}
+        products={mealDoc.products}
         actionPaths={{
-          edit: `/shopping-lists/${shoppingListId}/product-form`,
-          delete: `/api/shopping-lists/${shoppingListId}/products`,
+          edit: `/meals/${mealId}/product-form`,
+          delete: `/api/meals/${mealId}/products`,
         }}
       />
     );

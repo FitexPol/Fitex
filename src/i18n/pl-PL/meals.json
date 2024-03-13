@@ -6,27 +6,29 @@
       "permissionDenied": "Nie masz dostępu do tego posiłku"
     }
   },
+  "addProduct": {
+    "errors": {
+      "productAlreadyExists": "Ten produkt został już dodany"
+    },
+    "success": "Produkt został dodany do posiłku"
+  },
+  "deleteProduct": {
+    "success": "Produkt został usunięty"
+  },
+  "updateProduct": {
+    "success": "Produkt został zaktualizowany"
+  },
   "createMeal": {
     "success": "Posiłek został utworzony"
   },
   "deleteMeal": {
     "success": "Posiłek został usunięty"
   },
-  "getMealFieldset": {
-    "errors": {
-      "mealId": "Nie wybrano posiłku"
-    }
+  "updateBasicInformation": {
+    "success": "Informacje zostały zaktualizowane"
   },
-  "toggleFavorite": {
-    "addedSuccess": "Posiłek został dodany do ulubionych",
-    "removedSuccess": "Posiłek został usunięty z ulubionych"
-  },
-  "updateMeal": {
-    "success": "Posiłek został zaktualizowany"
-  },
-  "favoriteMealsSection": {
-    "title": "Twoje ulubione posiłki",
-    "noResults": "Nie masz jeszcze ulubionych posiłków"
+  "mealEditSection": {
+    "title": "Edytuj posiłek"
   },
   "mealFormSection": {
     "title": "Stwórz nowy posiłek"

@@ -8,7 +8,15 @@ export const basicInformationForm = {
       required: true,
       minLength: 3,
       maxLength: 50,
-      message: 'Shopping list name must be between 3 and 20 characters long',
+      message: 'Meal name must be between 3 and 20 characters long',
+    },
+  },
+  description: {
+    type: 'text',
+    name: 'description',
+    validators: {
+      maxLength: 100,
+      message: 'Meal description must be between 3 and 100 characters long',
     },
   },
 } satisfies Form;

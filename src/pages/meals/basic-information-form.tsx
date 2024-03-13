@@ -2,30 +2,30 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { BasicInformation } from '@shopping-lists/components/forms/BasicInformation';
-import { ShoppingListFormSection } from '@shopping-lists/components/ShoppingListFormSection';
-import { ShoppingList } from '@shopping-lists/models/shoppingList';
+import { BasicInformation } from '@meals/components/forms/BasicInformation';
+import { MealFormSection } from '@meals/components/MealFormSection';
+import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
-const _t = $t('shoppingLists');
+const _t = $t('meals');
 
 export const basicInformationFormPage = new Elysia()
   .use(context)
   .get('/basic-information-form', async ({ user, query }) => {
-    if (!query.shoppingListId) {
+    if (!query.mealId) {
       return (
         <Document user={user}>
-          <ShoppingListFormSection>
+          <MealFormSection>
             <BasicInformation />
-          </ShoppingListFormSection>
+          </MealFormSection>
         </Document>
       );
     }
 
-    const shoppingListDoc = await ShoppingList.findById(getQueryParamSecure(query.shoppingListId)).exec();
+    const mealDoc = await Meal.findById(getQueryParamSecure(query.mealId)).exec();
 
-    if (!shoppingListDoc) {
+    if (!mealDoc) {
       return (
         <Document user={user}>
           <span>{_t('_shared.errors.notFound')}</span>
@@ -33,7 +33,7 @@ export const basicInformationFormPage = new Elysia()
       );
     }
 
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
+    if (!mealDoc.author._id.equals(user!.id)) {
       return (
         <Document user={user}>
           <span>{_t('_shared.errors.permissionDenied')}</span>
@@ -43,9 +43,9 @@ export const basicInformationFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <ShoppingListFormSection shoppingListDoc={shoppingListDoc}>
-          <BasicInformation shoppingListDoc={shoppingListDoc} />
-        </ShoppingListFormSection>
+        <MealFormSection mealDoc={mealDoc}>
+          <BasicInformation mealDoc={mealDoc} />
+        </MealFormSection>
       </Document>
     );
   });

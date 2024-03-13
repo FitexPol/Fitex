@@ -15,23 +15,20 @@
     },
     "success": "Produkt został dodany do listy"
   },
-  "createShoppingList": {
-    "success": "Lista zakupów została utworzona"
-  },
   "deleteProduct": {
     "success": "Produkt został usunięty"
+  },
+  "updateProduct": {
+    "success": "Produkt został zaktualizowany"
+  },
+  "createShoppingList": {
+    "success": "Lista zakupów została utworzona"
   },
   "deleteMeal": {
     "success": "List zakupów została usunięta"
   },
   "updateBasicInformation": {
     "success": "Informacje zostały zaktualizowane"
-  },
-  "updateProduct": {
-    "success": "Produkt został zaktualizowany"
-  },
-  "updateShoppingList": {
-    "success": "Lista zakupów została zaktualizowana"
   },
   "shoppingListCard": {
     "includedMeals": "Zawarte posiłki"

@@ -1,26 +1,21 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { getGroupedProducts } from '@products/utils/getGroupedProducts';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
-import { getParsedBody } from '@utils/getParsedBody';
 import { HxResponseHeader } from '@vars';
 
-import { type MealBody } from './createMeal';
-import { type MealForm as MealFormType, mealForm } from '../forms';
+import { type BasicInformationForm, basicInformationForm } from '../forms/basic-information';
 import { Meal } from '../models/meal';
-import { getMealFormWithErrors } from '../utils/getMealFormWithErrors';
+import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
 
 const _t = $t('meals');
 const _tShared = $t('_shared');
 
-export const updateMeal = new Elysia().use(context).patch(
-  '/:id',
-  async ({ body, user, set, params: { id } }) => {
-    const { products: productsBody, ...mealBody } =
-      getParsedBody<MealBody<Omit<typeof body, 'products'>>>(body);
+export const updateBasicInformation = new Elysia().use(context).patch(
+  '',
+  async ({ params: { id }, set, user, body }) => {
     const mealDoc = await Meal.findById(id).exec();
 
     if (!mealDoc) {
@@ -42,10 +37,10 @@ export const updateMeal = new Elysia().use(context).patch(
 
     try {
       await mealDoc.updateOne({
-        ...mealBody,
-        products: getGroupedProducts(productsBody),
+        name: body.name,
+        description: body.description,
       });
-    } catch (e) {
+    } catch {
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
@@ -55,14 +50,18 @@ export const updateMeal = new Elysia().use(context).patch(
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateMeal.success'));
-    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      _t('updateBasicInformation.success'),
+    );
+
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
   },
   {
-    body: getBodySchema<MealFormType>(mealForm),
-    error({ code, error, user }) {
+    body: getBodySchema<BasicInformationForm>(basicInformationForm),
+    error({ code, error }) {
       if (code === 'VALIDATION') {
-        return getMealFormWithErrors(error, user!);
+        return getBasicInformationFormWithErrors(error);
       }
     },
   },

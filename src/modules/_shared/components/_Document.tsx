@@ -40,10 +40,12 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
           <link href="/public/styles.css" rel="stylesheet" />
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+          <script src="/public/scripts.js" defer />
         </head>
 
         <body hx-ext="response-targets">
           {renderContent(layout)}
+
           <dialog
             id="notification-portal"
             class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
@@ -51,7 +53,6 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           />
           <dialog id="modal-portal" hx-preserve="true" />
           <Loader />
-          <script src="/public/scripts.js"></script>
         </body>
       </html>
     </>

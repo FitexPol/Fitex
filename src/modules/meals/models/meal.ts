@@ -1,6 +1,6 @@
 import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
-import { type Product, productSchema } from '@products/models/product';
+import { type ProductDoc, productSchema } from '@products/models/product';
 
 type Meal = {
   author: Types.ObjectId;
@@ -8,7 +8,7 @@ type Meal = {
   description: string;
   isFavorite: boolean;
   creationDate: Date;
-  products: Product[];
+  products: ProductDoc[];
 };
 
 const mealSchema = new Schema<Meal>({

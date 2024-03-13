@@ -6,10 +6,7 @@ import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import {
-  type BasicInformationForm as BasicInformationFormType,
-  basicInformationForm,
-} from '../forms/basic-information';
+import { type BasicInformationForm, basicInformationForm } from '../forms/basic-information';
 import { ShoppingList } from '../models/shoppingList';
 import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
 
@@ -43,7 +40,7 @@ export const createShoppingList = new Elysia().use(context).post(
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
   },
   {
-    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
+    body: getBodySchema<BasicInformationForm>(basicInformationForm),
     error({ code, error }) {
       if (code === 'VALIDATION') {
         return getBasicInformationFormWithErrors(error);

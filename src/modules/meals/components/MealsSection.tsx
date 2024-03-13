@@ -48,7 +48,7 @@ export async function MealsSection({
       <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row lg:items-center">
         <div class="flex items-center gap-2">
           <h1 class="mb-0 text-xl">{_t('mealsSection.title')}</h1>
-          <Link href="/meals/form">{icons['plus-circle'].toSvg()}</Link>
+          <Link href="/meals/basic-information-form">{icons['plus-circle'].toSvg()}</Link>
         </div>
 
         <div class="flex flex-col gap-2 lg:flex-row">

@@ -8,24 +8,24 @@ import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { Meal } from '../../models/meal';
 
-const _t = $t('shoppingLists');
+const _t = $t('meals');
 const _tShared = $t('_shared');
 
 export const updateProduct = new Elysia().use(context).patch(
   ':productId',
-  async ({ params: { id: shoppingListId, productId }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
+  async ({ params: { id: mealId, productId }, set, user, body }) => {
+    const mealDoc = await Meal.findById(mealId).exec();
 
-    if (!shoppingListDoc) {
+    if (!mealDoc) {
       set.status = 'Not Found';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
 
       return;
     }
 
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
+    if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
@@ -35,7 +35,7 @@ export const updateProduct = new Elysia().use(context).patch(
       return;
     }
 
-    const productDoc = shoppingListDoc.products.find((productDoc) => productDoc._id.equals(productId));
+    const productDoc = mealDoc.products.find((productDoc) => productDoc._id.equals(productId));
 
     if (!productDoc) {
       set.status = 'Not Found';
@@ -49,7 +49,7 @@ export const updateProduct = new Elysia().use(context).patch(
     productDoc.unit = body.unit as Unit;
 
     try {
-      await shoppingListDoc.save();
+      await mealDoc.save();
     } catch {
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
@@ -61,7 +61,7 @@ export const updateProduct = new Elysia().use(context).patch(
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateProduct.success'));
-    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
   },
   {
     body: getBodySchema<UpdateProductForm>(updateProductForm),

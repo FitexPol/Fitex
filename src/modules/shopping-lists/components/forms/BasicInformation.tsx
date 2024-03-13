@@ -8,12 +8,12 @@ import { type ShoppingListDoc } from '../../models/shoppingList';
 
 const _tShared = $t('_shared');
 
-type BasicInformationFormProps = {
+type BasicInformationProps = {
   shoppingListDoc?: ShoppingListDoc;
   errors?: BasicInformationFormErrors;
 };
 
-export function BasicInformationForm({ shoppingListDoc, errors }: ComponentProps<BasicInformationFormProps>) {
+export function BasicInformation({ shoppingListDoc, errors }: ComponentProps<BasicInformationProps>) {
   const hxAttributes: HtmxAttributes = shoppingListDoc
     ? {
         'hx-patch': `/api/shopping-lists/${shoppingListDoc.id}`,
