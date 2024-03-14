@@ -22,7 +22,7 @@ export function MealEditSection({ user, mealDoc }: ComponentProps<MealEditSectio
         { label: 'Nazwa', value: mealDoc.name },
         { label: 'Opis', value: mealDoc.description },
       ]}
-      productsDatalist={{ id: 'products-datalist', options: [] }}
+      user={user}
     />
   );
 }

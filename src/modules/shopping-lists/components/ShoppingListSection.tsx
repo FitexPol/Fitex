@@ -8,5 +8,5 @@ type ShoppingListSectionProps = {
 };
 
 export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<ShoppingListSectionProps>) {
-  return <CardSection entity={shoppingListDoc} />;
+  return <CardSection entity={shoppingListDoc} basePath="shopping-lists" />;
 }

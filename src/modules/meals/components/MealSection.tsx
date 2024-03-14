@@ -8,5 +8,9 @@ type MealSectionProps = {
 };
 
 export async function MealSection({ mealDoc }: ComponentProps<MealSectionProps>) {
-  return <CardSection entity={mealDoc}>{mealDoc.description && <p>{mealDoc.description}</p>}</CardSection>;
+  return (
+    <CardSection entity={mealDoc} basePath="meals">
+      {mealDoc.description && <p>{mealDoc.description}</p>}
+    </CardSection>
+  );
 }

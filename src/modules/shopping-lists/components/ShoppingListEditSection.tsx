@@ -22,7 +22,7 @@ export async function ShoppingListEditSection({
       basePath="shopping-lists"
       entity={shoppingListDoc}
       basicInformation={[{ label: 'Nazwa', value: shoppingListDoc.name }]}
-      productsDatalist={{ id: 'products-datalist', options: [] }}
+      user={user}
     />
   );
 }

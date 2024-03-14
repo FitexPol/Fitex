@@ -1,17 +1,25 @@
-import type { ComponentProps, Entity } from '../../types';
+import { icons } from 'feather-icons';
+
+import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getRoundedQuantity } from '../../utils/getRoundedQuantity';
 import { Card } from '../Card';
+import { Link } from '../Link';
 
 const _tShared = $t('_shared');
 
 type CardSectionProps<T extends Entity> = {
   entity: T;
+  basePath: BasePath;
 };
 
-export function CardSection<T extends Entity>({ entity, children }: ComponentProps<CardSectionProps<T>>) {
+export function CardSection<T extends Entity>({
+  entity,
+  basePath,
+  children,
+}: ComponentProps<CardSectionProps<T>>) {
   return (
-    <section>
+    <section class="mb-10">
       <Card>
         <>
           <Card.Header title={<h1 class="mb-0 pr-7 text-2xl">{entity.name}</h1>} />
@@ -36,6 +44,13 @@ export function CardSection<T extends Entity>({ entity, children }: ComponentPro
           {children}
         </>
       </Card>
+
+      <Link
+        href={`/${basePath}/${entity.id}/edit`}
+        class="fixed bottom-5 right-5 rounded-full bg-pico-primary p-3 shadow-md"
+      >
+        {icons['edit-2'].toSvg({ class: 'w-7 h-7 stroke-white' })}
+      </Link>
     </section>
   );
 }

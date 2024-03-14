@@ -1,5 +1,5 @@
 TODO:
-  - posprzątać tłumaczenia
+  - posprzątać tłumaczenia (usunąc placeholder z formów)
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)

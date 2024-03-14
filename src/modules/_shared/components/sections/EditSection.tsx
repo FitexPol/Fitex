@@ -1,7 +1,11 @@
 import { icons } from 'feather-icons';
 
+import { Meal } from '@/modules/meals/models/meal';
+import { ShoppingList } from '@/modules/shopping-lists/models/shoppingList';
+import { type JWTUser } from '@auth/models/user';
+
 import { addProductForm } from '../../forms/add-product';
-import type { BasePath, ComponentProps, Datalist, Entity } from '../../types';
+import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
 import { Button } from '../Button';
@@ -17,19 +21,35 @@ type EditSectionProps<T extends Entity> = {
   basePath: BasePath;
   entity: T;
   basicInformation: { label: string; value: string }[];
-  productsDatalist: Datalist;
+  user: JWTUser;
 };
 
-export function EditSection<T extends Entity>({
+export async function EditSection<T extends Entity>({
   title,
   basePath,
   entity,
   basicInformation,
-  productsDatalist,
+  user,
   children,
 }: ComponentProps<EditSectionProps<T>>) {
+  const productNames: Record<string, string> = {};
+  const shoppingListDocs = await ShoppingList.find({ author: user.id });
+  const mealDocs = await Meal.find({ author: user.id });
+
+  shoppingListDocs.forEach(({ products }) => {
+    products.forEach(({ name }) => {
+      productNames[name] = name;
+    });
+  });
+
+  mealDocs.forEach(({ products }) => {
+    products.forEach(({ name }) => {
+      productNames[name] = name;
+    });
+  });
+
   return (
-    <section>
+    <section class="mb-10">
       <Card>
         <>
           <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
@@ -64,7 +84,7 @@ export function EditSection<T extends Entity>({
                 <Input
                   control={addProductForm.name}
                   label={_tShared('editSection.addProduct.label')}
-                  datalist={productsDatalist}
+                  datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
                   class="col-span-10 sm:col-span-11"
                 />
 
@@ -79,6 +99,13 @@ export function EditSection<T extends Entity>({
           {children}
         </>
       </Card>
+
+      <Link
+        href={`/${basePath}/${entity.id}`}
+        class="fixed bottom-5 right-5 rounded-full bg-pico-primary p-3 shadow-md"
+      >
+        {icons['clipboard'].toSvg({ class: 'w-7 h-7 stroke-white' })}
+      </Link>
     </section>
   );
 }
