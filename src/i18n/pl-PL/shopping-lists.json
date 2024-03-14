@@ -36,9 +36,6 @@
   "shoppingListEditSection": {
     "title": "Edytuj listę zakupów"
   },
-  "shoppingListFormSection": {
-    "title": "Stwórz listę zakupów"
-  },
   "shoppingListSection": {
     "groupByMeals": "Grupuj według posiłków",
     "noMealProducts": "Ten posiłek nie ma dodanych żadnych produktów"
@@ -46,5 +43,8 @@
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",
     "noResults": "Nie masz jeszcze żadnych list zakupów"
+  },
+  "basicInformationFormPage": {
+    "title": "Stwórz listę zakupów"
   }
 }

@@ -5,7 +5,6 @@ import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getQueryParams } from '@utils/getQueryParams';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { MealsSection } from '../components/MealsSection';
@@ -63,14 +62,5 @@ export const deleteMeal = new Elysia()
       return;
     }
 
-    const queryParams = getQueryParams(currentUrl);
-
-    return (
-      <MealsSection
-        user={user!}
-        sortQuery={getQueryParamSecure(queryParams.sort)}
-        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
-        pageQuery={getQueryParamSecure(queryParams.page)}
-      />
-    );
+    return <MealsSection user={user!} query={getQueryParams(currentUrl)} />;
   });

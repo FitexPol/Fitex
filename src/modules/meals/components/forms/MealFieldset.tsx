@@ -6,7 +6,7 @@ import { Select } from '@components/inputs/Select';
 import { type ComponentProps, type Form } from '@types';
 import { $t } from '@utils/$t';
 
-import { type MealDoc } from '../models/meal';
+import { type MealDoc } from '../../models/meal';
 
 const _tShared = $t('_shared');
 

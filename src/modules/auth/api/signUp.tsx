@@ -6,8 +6,8 @@ import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
-import { SignUp } from '../components/forms/SignUp';
-import { type SignUpForm, type SignUpFormErrors, signUpForm } from '../forms/signUp';
+import { SignUpForm } from '../components/forms/SignUpForm';
+import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms/signUp';
 import { User } from '../models/user';
 
 const _t = $t('auth');
@@ -18,7 +18,7 @@ export const signUp = new Elysia().use(context).post(
     if (body.password !== body.repeatedPassword) {
       set.status = 'Bad Request';
 
-      return <SignUp errors={{ repeatedPassword: _t('signUp.errors.wrongRepeatedPassword') }} />;
+      return <SignUpForm errors={{ repeatedPassword: _t('signUp.errors.wrongRepeatedPassword') }} />;
     }
 
     const existingUser = await User.exists({ username: body.username });
@@ -26,7 +26,7 @@ export const signUp = new Elysia().use(context).post(
     if (existingUser) {
       set.status = 'Bad Request';
 
-      return <SignUp errors={{ username: _t('signUp.errors.userExists') }} />;
+      return <SignUpForm errors={{ username: _t('signUp.errors.userExists') }} />;
     }
 
     const hash = await Bun.password.hash(body.password);
@@ -55,7 +55,7 @@ export const signUp = new Elysia().use(context).post(
     set.headers[HxResponseHeader.Location] = '/';
   },
   {
-    body: getBodySchema<SignUpForm>(signUpForm),
+    body: getBodySchema<SignUpFormType>(signUpForm),
     error({ code, error }) {
       if (code === 'VALIDATION') return getSignUpFormWithErrors(error);
     },
@@ -63,7 +63,7 @@ export const signUp = new Elysia().use(context).post(
 );
 
 function getSignUpFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
-  const errors: SignUpFormErrors = getBodySchemaErrors<SignUpForm>(error, signUpForm);
+  const errors: SignUpFormErrors = getBodySchemaErrors<SignUpFormType>(error, signUpForm);
 
-  return <SignUp errors={errors} />;
+  return <SignUpForm errors={errors} />;
 }

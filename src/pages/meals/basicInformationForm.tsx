@@ -2,8 +2,8 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { BasicInformation } from '@meals/components/forms/BasicInformation';
-import { MealFormSection } from '@meals/components/MealFormSection';
+import { FormSection } from '@components/sections/FormSection';
+import { BasicInformationForm } from '@meals/components/forms/BasicInformationForm';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
@@ -16,9 +16,9 @@ export const basicInformationFormPage = new Elysia()
     if (!query.mealId) {
       return (
         <Document user={user}>
-          <MealFormSection>
-            <BasicInformation />
-          </MealFormSection>
+          <FormSection title={_t('basicInformationFormPage.title')}>
+            <BasicInformationForm />
+          </FormSection>
         </Document>
       );
     }
@@ -43,9 +43,9 @@ export const basicInformationFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <MealFormSection mealDoc={mealDoc}>
-          <BasicInformation mealDoc={mealDoc} />
-        </MealFormSection>
+        <FormSection title={mealDoc.name}>
+          <BasicInformationForm mealDoc={mealDoc} />
+        </FormSection>
       </Document>
     );
   });

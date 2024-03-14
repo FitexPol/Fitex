@@ -6,7 +6,7 @@ import { Select } from '@components/inputs/Select';
 import type { ComponentProps, Form } from '@types';
 import { $t } from '@utils/$t';
 
-import { getMealOptions } from '../utils/getMealOptions';
+import { getMealOptions } from '../../utils/getMealOptions';
 
 const _t = $t('meals');
 

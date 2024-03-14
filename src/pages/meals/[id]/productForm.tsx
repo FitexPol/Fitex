@@ -2,9 +2,9 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { MealFormSection } from '@meals/components/MealFormSection';
+import { FormSection } from '@components/sections/FormSection';
 import { Meal } from '@meals/models/meal';
-import { UpdateProduct } from '@products/components/forms/UpdateProduct';
+import { UpdateProductForm } from '@products/components/forms/UpdateProductForm';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
@@ -38,16 +38,16 @@ export const productFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <MealFormSection mealDoc={mealDoc}>
+        <FormSection title={mealDoc.name}>
           {productDoc ? (
-            <UpdateProduct
+            <UpdateProductForm
               productDoc={productDoc}
               endpoint={getPath(`/api/meals/${id}/products/${productDoc.id}`)}
             />
           ) : (
             <span>{_t('_shared.errors.notFound')}</span>
           )}
-        </MealFormSection>
+        </FormSection>
       </Document>
     );
   });

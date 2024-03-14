@@ -16,7 +16,7 @@ export const context = new Elysia()
 
     const jwtUser: JWTUser = {
       id: user.id as string,
-      username: user.username as string
+      username: user.username as string,
     };
 
     return {

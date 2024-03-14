@@ -21,6 +21,8 @@ export type Datalist = {
   options: string[];
 };
 
+export type Query = Record<string, string | undefined>;
+
 type Validator = {
   message: string;
   required?: boolean;

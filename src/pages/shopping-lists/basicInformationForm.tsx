@@ -2,8 +2,8 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { BasicInformation } from '@shopping-lists/components/forms/BasicInformation';
-import { ShoppingListFormSection } from '@shopping-lists/components/ShoppingListFormSection';
+import { FormSection } from '@components/sections/FormSection';
+import { BasicInformationForm } from '@shopping-lists/components/forms/BasicInformationForm';
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
@@ -16,9 +16,9 @@ export const basicInformationFormPage = new Elysia()
     if (!query.shoppingListId) {
       return (
         <Document user={user}>
-          <ShoppingListFormSection>
-            <BasicInformation />
-          </ShoppingListFormSection>
+          <FormSection title={_t('basicInformationFormPage.title')}>
+            <BasicInformationForm />
+          </FormSection>
         </Document>
       );
     }
@@ -43,9 +43,9 @@ export const basicInformationFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <ShoppingListFormSection shoppingListDoc={shoppingListDoc}>
-          <BasicInformation shoppingListDoc={shoppingListDoc} />
-        </ShoppingListFormSection>
+        <FormSection title={shoppingListDoc.name}>
+          <BasicInformationForm shoppingListDoc={shoppingListDoc} />
+        </FormSection>
       </Document>
     );
   });

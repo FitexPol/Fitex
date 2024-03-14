@@ -30,9 +30,6 @@
   "mealEditSection": {
     "title": "Edytuj posiłek"
   },
-  "mealFormSection": {
-    "title": "Stwórz nowy posiłek"
-  },
   "mealNameForm": {
     "label": "Dodaj posiłek",
     "placeholder": "Wybierz nazwę posiłku i zatwierdź przyciskiem po prawej stronie"
@@ -40,5 +37,8 @@
   "mealsSection": {
     "title": "Twoje posiłki",
     "noResults": "Nie masz jeszcze żadnych posiłków"
+  },
+  "basicInformationFormPage": {
+    "title": "Stwórz nowy posiłek"
   }
 }

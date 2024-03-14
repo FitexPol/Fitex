@@ -12,12 +12,16 @@ import { addProductForm } from '../../forms/add-product';
 
 const _t = $t('products');
 
-type AddProductProps = {
+type AddProductFormProps = {
   user: JWTUser;
   endpoint: string;
 };
 
-export async function AddProduct({ user, endpoint, class: className }: ComponentProps<AddProductProps>) {
+export async function AddProductForm({
+  user,
+  endpoint,
+  class: className,
+}: ComponentProps<AddProductFormProps>) {
   const meals = await Meal.find({ author: user.id });
 
   const productsDatalist: Datalist = {

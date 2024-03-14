@@ -6,8 +6,8 @@ import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
-import { SignIn } from '../components/forms/SignIn';
-import { type SignInForm, type SignInFormErrors, signInForm } from '../forms/signIn';
+import { SignInForm } from '../components/forms/SignInForm';
+import { type SignInFormErrors, type SignInForm as SignInFormType, signInForm } from '../forms/signIn';
 import { User } from '../models/user';
 
 const _t = $t('auth');
@@ -20,7 +20,7 @@ export const signIn = new Elysia().use(context).post(
     if (!userDoc) {
       set.status = 'Not Found';
 
-      return <SignIn errors={{ username: _t('_shared.errors.notFound') }} />;
+      return <SignInForm errors={{ username: _t('_shared.errors.notFound') }} />;
     }
 
     const isPasswordCorrect = await Bun.password.verify(body.password, userDoc.password);
@@ -28,7 +28,7 @@ export const signIn = new Elysia().use(context).post(
     if (!isPasswordCorrect) {
       set.status = 'Bad Request';
 
-      return <SignIn errors={{ password: _t('signIn.errors.wrongPassword') }} />;
+      return <SignInForm errors={{ password: _t('signIn.errors.wrongPassword') }} />;
     }
 
     const token = await jwt.sign({
@@ -48,7 +48,7 @@ export const signIn = new Elysia().use(context).post(
     set.headers[HxResponseHeader.Location] = '/';
   },
   {
-    body: getBodySchema<SignInForm>(signInForm),
+    body: getBodySchema<SignInFormType>(signInForm),
     error({ code, error }) {
       if (code === 'VALIDATION') return getSignInFormWithErrors(error);
     },
@@ -56,7 +56,7 @@ export const signIn = new Elysia().use(context).post(
 );
 
 function getSignInFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
-  const errors: SignInFormErrors = getBodySchemaErrors<SignInForm>(error, signInForm);
+  const errors: SignInFormErrors = getBodySchemaErrors<SignInFormType>(error, signInForm);
 
-  return <SignIn errors={errors} />;
+  return <SignInForm errors={errors} />;
 }

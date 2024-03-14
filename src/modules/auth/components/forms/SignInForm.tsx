@@ -7,11 +7,11 @@ import { type SignInFormErrors, signInForm } from '../../forms/signIn';
 
 const _t = $t('auth');
 
-type SignInProps = {
+type SignInFormProps = {
   errors?: SignInFormErrors;
 };
 
-export function SignIn({ errors }: ComponentProps<SignInProps>) {
+export function SignInForm({ errors }: ComponentProps<SignInFormProps>) {
   return (
     <form hx-post="/api/auth/sign-in" hx-swap="outerHTML" hx-target-4xx="this">
       <Input control={signInForm.username} label={_t('_shared.username')} error={errors?.username} />

@@ -2,8 +2,8 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { UpdateProduct } from '@products/components/forms/UpdateProduct';
-import { ShoppingListFormSection } from '@shopping-lists/components/ShoppingListFormSection';
+import { FormSection } from '@components/sections/FormSection';
+import { UpdateProductForm } from '@products/components/forms/UpdateProductForm';
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
@@ -38,16 +38,16 @@ export const productFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <ShoppingListFormSection shoppingListDoc={shoppingListDoc}>
+        <FormSection title={shoppingListDoc.name}>
           {productDoc ? (
-            <UpdateProduct
+            <UpdateProductForm
               productDoc={productDoc}
               endpoint={getPath(`/api/shopping-lists/${id}/products/${productDoc.id}`)}
             />
           ) : (
             <span>{_t('_shared.errors.notFound')}</span>
           )}
-        </ShoppingListFormSection>
+        </FormSection>
       </Document>
     );
   });

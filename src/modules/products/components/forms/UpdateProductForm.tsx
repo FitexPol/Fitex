@@ -11,13 +11,13 @@ import { Unit } from '../../models/product';
 const _t = $t('products');
 const _tShared = $t('_shared');
 
-type UpdateProductProps = {
+type UpdateProductFormProps = {
   productDoc: ProductDoc;
   endpoint: string;
   errors?: UpdateProductFormErrors;
 };
 
-export function UpdateProduct({ productDoc, endpoint, errors }: ComponentProps<UpdateProductProps>) {
+export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentProps<UpdateProductFormProps>) {
   return (
     <form hx-patch={endpoint}>
       <Input

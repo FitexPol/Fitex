@@ -1,40 +1,33 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
-import { Dropdown } from '@components/Dropdown';
-import { Link } from '@components/Link';
-import { Pagination } from '@components/Pagination';
-import { Tiles } from '@components/Tiles';
-import type { ComponentProps, SortOption } from '@types';
+import { CardsSection } from '@components/sections/CardsSection';
+import type { ComponentProps, Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
-import { getPath } from '@utils/getPath';
+import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getSkipValue } from '@utils/getSkipValue';
-import { SortQuery, itemsPerPageOptions, sortOptions } from '@vars';
+import { SortQuery, sortOptions } from '@vars';
 
 import { ShoppingListCard } from './ShoppingListCard';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
 
 type ShoppingListsSectionProps = {
   user: JWTUser;
-  sortQuery: string;
-  itemsPerPageQuery: string;
-  pageQuery: string;
+  query: Query;
 };
 
-export async function ShoppingListsSection({
-  user,
-  sortQuery,
-  itemsPerPageQuery,
-  pageQuery,
-}: ComponentProps<ShoppingListsSectionProps>) {
-  const { label: sortLabel, value: sortValue }: ShoppingListsSortOption = getSortOption(sortQuery);
-  const itemsPerPage: number = getItemsPerPageOption(itemsPerPageQuery);
-  const page = getPage(pageQuery);
+export async function ShoppingListsSection({ user, query: q }: ComponentProps<ShoppingListsSectionProps>) {
+  const query = {
+    sort: getQueryParamSecure(q.sort),
+    itemsPerPage: getQueryParamSecure(q.itemsPerPage),
+    page: getQueryParamSecure(q.page),
+  };
+
+  const { label: sortLabel, value: sortValue }: ShoppingListsSortOption = getSortOption(query.sort);
+  const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
+  const page = getPage(query.page);
   const totalShoppingListDocs = await ShoppingList.countDocuments({ author: user.id });
 
   const shoppingListDocs = await ShoppingList.find({ author: user.id })
@@ -45,64 +38,30 @@ export async function ShoppingListsSection({
     .exec();
 
   return (
-    <section id="shopping-lists-section">
-      <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row lg:items-center">
-        <div class="flex items-center gap-2">
-          <h1 class="mb-0 text-xl">{_t('shoppingListsSection.title')}</h1>
-          <Link href="/shopping-lists/basic-information-form">{icons['plus-circle'].toSvg()}</Link>
-        </div>
-
-        <div class="flex w-full flex-col gap-2 sm:w-auto lg:flex-row">
-          <Dropdown label={`${_tShared('_shared.itemsPerPage')}: ${itemsPerPage}`}>
+    <CardsSection
+      title={_t('shoppingListsSection.title')}
+      basePath="shopping-lists"
+      query={query}
+      activeFilters={{ itemsPerPage, page }}
+      activeSortLabel={sortLabel}
+      totalCount={totalShoppingListDocs}
+    >
+      <>
+        {shoppingListDocs.length > 0 ? (
+          <CardsSection.Cards>
             <>
-              {itemsPerPageOptions.map(({ label, query }) => (
-                <Dropdown.Item active={query === itemsPerPage.toString()}>
-                  <Link href={getPath('/shopping-lists', { itemsPerPage: query, sort: sortQuery })}>
-                    {label}
-                  </Link>
-                </Dropdown.Item>
+              {shoppingListDocs.map((shoppingListDoc) => (
+                <CardsSection.Cards.Item>
+                  <ShoppingListCard shoppingListDoc={shoppingListDoc} />
+                </CardsSection.Cards.Item>
               ))}
             </>
-          </Dropdown>
-
-          <Dropdown label={`${_tShared('_shared.sort')}: ${sortLabel}`}>
-            <>
-              {sortOptions.map(({ label, query }) => (
-                <Dropdown.Item active={label === sortLabel}>
-                  <Link
-                    href={getPath('/shopping-lists', {
-                      itemsPerPage: itemsPerPageQuery,
-                      sort: query,
-                    })}
-                    class="capitalize"
-                  >
-                    {label}
-                  </Link>
-                </Dropdown.Item>
-              ))}
-            </>
-          </Dropdown>
-        </div>
-      </div>
-
-      <Tiles count={shoppingListDocs.length} noResultsMessage={_t('shoppingListsSection.noResults')}>
-        <>
-          {shoppingListDocs.map((shoppingListDoc) => (
-            <Tiles.Item>
-              <ShoppingListCard shoppingListDoc={shoppingListDoc} />
-            </Tiles.Item>
-          ))}
-        </>
-      </Tiles>
-
-      <Pagination
-        itemsPerPage={itemsPerPage}
-        page={page}
-        totalCount={totalShoppingListDocs}
-        path="/shopping-lists"
-        currentQuery={{ sort: sortQuery, itemsPerPage: itemsPerPageQuery }}
-      />
-    </section>
+          </CardsSection.Cards>
+        ) : (
+          <span>{_t('shoppingListsSection.noResults')}</span>
+        )}
+      </>
+    </CardsSection>
   );
 }
 

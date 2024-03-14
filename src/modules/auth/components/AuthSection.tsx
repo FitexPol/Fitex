@@ -3,8 +3,8 @@ import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
-import { SignIn } from './forms/SignIn';
-import { SignUp } from './forms/SignUp';
+import { SignInForm } from './forms/SignInForm';
+import { SignUpForm } from './forms/SignUpForm';
 
 const _t = $t('auth');
 
@@ -16,7 +16,7 @@ const tabs = new Map<FormType, Tab>([
     {
       href: '/auth',
       label: _t('authSection.signIn'),
-      component: <SignIn />,
+      component: <SignInForm />,
     },
   ],
   [
@@ -24,7 +24,7 @@ const tabs = new Map<FormType, Tab>([
     {
       href: getPath('/auth', { type: 'signUp' }),
       label: _t('authSection.signUp'),
-      component: <SignUp />,
+      component: <SignUpForm />,
     },
   ],
 ]);

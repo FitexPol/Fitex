@@ -4,7 +4,6 @@ import { context } from '@/context';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getQueryParams } from '@utils/getQueryParams';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { ShoppingListsSection } from '../components/ShoppingListsSection';
@@ -57,14 +56,5 @@ export const deleteShoppingList = new Elysia()
       return;
     }
 
-    const queryParams = getQueryParams(currentUrl);
-
-    return (
-      <ShoppingListsSection
-        user={user!}
-        sortQuery={getQueryParamSecure(queryParams.sort)}
-        itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
-        pageQuery={getQueryParamSecure(queryParams.page)}
-      />
-    );
+    return <ShoppingListsSection user={user!} query={getQueryParams(currentUrl)} />;
   });

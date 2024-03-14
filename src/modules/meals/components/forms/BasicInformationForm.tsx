@@ -9,12 +9,12 @@ import { type MealDoc } from '../../models/meal';
 
 const _tShared = $t('_shared');
 
-type BasicInformationProps = {
+type BasicInformationFormProps = {
   mealDoc?: MealDoc;
   errors?: BasicInformationFormErrors;
 };
 
-export function BasicInformation({ mealDoc, errors }: ComponentProps<BasicInformationProps>) {
+export function BasicInformationForm({ mealDoc, errors }: ComponentProps<BasicInformationFormProps>) {
   const hxAttributes: HtmxAttributes = mealDoc
     ? {
         'hx-patch': `/api/meals/${mealDoc.id}`,
