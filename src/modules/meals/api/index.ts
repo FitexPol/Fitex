@@ -2,10 +2,12 @@ import { Elysia } from 'elysia';
 
 import { createMeal } from './createMeal';
 import { deleteMeal } from './deleteMeal';
-import { getMealFieldset } from './getMealFieldset';
-import { toggleFavorite } from './toggleFavorite';
-import { updateMeal } from './updateMeal';
+import { productsApi } from './products';
+import { updateBasicInformation } from './updateBasicInformation';
 
 export const mealsApi = new Elysia().group('/meals', (app) =>
-  app.use(createMeal).use(updateMeal).use(deleteMeal).use(toggleFavorite).use(getMealFieldset),
+  app
+    .use(createMeal)
+    .use(deleteMeal)
+    .group('/:id', (app) => app.use(updateBasicInformation).use(productsApi)),
 );

@@ -1,20 +1,18 @@
 import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
 import { type MealDoc } from '@meals/models/meal';
-import { type Product, productSchema } from '@products/models/product';
+import { type ProductDoc, productSchema } from '@models/product';
 import type { Populated } from '@types';
 
 type ShoppingList = {
-  _id: string;
   author: Types.ObjectId;
   name: string;
-  isFavorite: boolean;
   creationDate: Date;
   meals: {
     meal: Populated<MealDoc>;
     quantity: number;
   }[];
-  products: Product[];
+  products: ProductDoc[];
 };
 
 const shoppingListSchema = new Schema<ShoppingList>({
@@ -28,11 +26,6 @@ const shoppingListSchema = new Schema<ShoppingList>({
     required: true,
     minLength: 3,
     maxlength: 50,
-  },
-  isFavorite: {
-    type: Boolean,
-    required: true,
-    default: false,
   },
   creationDate: {
     type: Date,

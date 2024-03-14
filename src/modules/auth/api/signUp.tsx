@@ -6,8 +6,8 @@ import { getBodySchema } from '@utils/getBodySchema';
 import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
-import { SignUpForm } from '../components/SignUpForm';
-import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms';
+import { SignUpForm } from '../components/forms/SignUpForm';
+import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms/signUp';
 import { User } from '../models/user';
 
 const _t = $t('auth');
@@ -41,7 +41,6 @@ export const signUp = new Elysia().use(context).post(
     const token = await jwt.sign({
       id: userDoc.id,
       username: body.username,
-      roles: userDoc.roles.join(','),
     });
 
     auth.set({

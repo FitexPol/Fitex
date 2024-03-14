@@ -1,5 +1,7 @@
 TODO:
-  - poprawa zagnieżdżonych formów
+  - posprzątać tłumaczenia (usunąc placeholder z formów)
+  - poprawic nazwy plików
+  - sprawdzic nieuzywane funkcje
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)

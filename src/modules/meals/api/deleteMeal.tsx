@@ -5,10 +5,8 @@ import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { getQueryParams } from '@utils/getQueryParams';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
-import { FavoriteMealsSection } from '../components/FavoriteMealsSection';
 import { MealsSection } from '../components/MealsSection';
 import { Meal } from '../models/meal';
 
@@ -64,18 +62,5 @@ export const deleteMeal = new Elysia()
       return;
     }
 
-    if (currentUrl && currentUrl.includes('/meals')) {
-      const queryParams = getQueryParams(currentUrl);
-
-      return (
-        <MealsSection
-          user={user!}
-          sortQuery={getQueryParamSecure(queryParams.sort)}
-          itemsPerPageQuery={getQueryParamSecure(queryParams.itemsPerPage)}
-          pageQuery={getQueryParamSecure(queryParams.page)}
-        />
-      );
-    }
-
-    return <FavoriteMealsSection user={user!} />;
+    return <MealsSection user={user!} query={getQueryParams(currentUrl)} />;
   });

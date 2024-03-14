@@ -1,43 +1,47 @@
 {
   "_shared": {
-    "deletionConfirmation": "Czy na pewno chcesz usunąć tę listę zakupów? Ta operacja jest nieodwracalna.",
     "meals": "Posiłki",
-    "products": "Produkty",
-    "otherProducts": "Pozostałe produkty",
+    "includedMeals": "Zawarte posiłki",
     "errors": {
       "notFound": "Nie znaleziono listy zakupów",
       "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
     }
   },
-  "createShoppingList": {
-    "success": "Lista zakupów została utworzona"
+  "addMeal": {
+    "success": "Posiłek został dodany",
+    "errors": {
+      "noMealId": "Wybierz posiłek",
+      "mealAlreadyExists": "Ten posiłek został już dodany"
+    }
   },
   "deleteMeal": {
     "success": "List zakupów została usunięta"
   },
-  "toggleFavorite": {
-    "addedSuccess": "Lista zakupów została dodana do ulubionych",
-    "removedSuccess": "Lista zakupów została usunięta z ulubionych"
+  "updateMeal": {
+    "success": "Posiłek został zaktualizowany"
   },
-  "updateShoppingList": {
-    "success": "Lista zakupów została zaktualizowana"
+  "createShoppingList": {
+    "success": "Lista zakupów została utworzona"
   },
-  "favoriteShoppingListsSection": {
-    "title": "Twoje ulubione listy zakupów",
-    "noResults": "Nie masz jeszcze ulubionych list zakupów"
+  "updateBasicInformation": {
+    "success": "Informacje zostały zaktualizowane"
   },
-  "shoppingListCard": {
-    "includedMeals": "Zawarte posiłki"
-  },
-  "shoppingListFormSection": {
-    "title": "Stwórz listę zakupów"
+  "shoppingListEditSection": {
+    "title": "Edytuj listę zakupów",
+    "meals": "Posiłki",
+    "addMeal": {
+      "label": "Dodaj posiłek",
+      "placeholder": "Wybierz nazwę posiłku i zatwierdź przyciskiem po prawej stronie"
+    }
   },
   "shoppingListSection": {
     "groupByMeals": "Grupuj według posiłków",
     "noMealProducts": "Ten posiłek nie ma dodanych żadnych produktów"
   },
   "shoppingListsSection": {
-    "title": "Twoje listy zakupów",
-    "noResults": "Nie masz jeszcze żadnych list zakupów"
+    "title": "Twoje listy zakupów"
+  },
+  "basicInformationFormPage": {
+    "title": "Stwórz listę zakupów"
   }
 }

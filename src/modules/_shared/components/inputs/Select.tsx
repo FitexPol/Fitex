@@ -25,7 +25,7 @@ export function Select({
 }: ComponentProps<SelectProps>) {
   return (
     <label class={className}>
-      {!!label && <span class="mb-1 ml-2 block text-sm">{label}</span>}
+      {!!label && <span class="mb-1 block text-sm">{label}</span>}
       <select name={control.name} disabled={isDisabled}>
         {control.placeholder && (
           <option value="" disabled selected>

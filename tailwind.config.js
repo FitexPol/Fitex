@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'pico-primary': 'var(--pico-primary-background)',
         'pico-background': 'var(--pico-background-color)',
         'pico-card-background': 'var(--pico-card-background-color)',
         'pico-muted': 'var(--pico-muted-border-color)',

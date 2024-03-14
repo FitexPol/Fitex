@@ -1,6 +1,6 @@
 import { icons } from 'feather-icons';
 
-import { type JWTUser, Role } from '@auth/models/user';
+import { type JWTUser } from '@auth/models/user';
 import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
@@ -40,11 +40,12 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
           <link href="/public/styles.css" rel="stylesheet" />
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-          <script src="/public/scripts.js" defer></script>
+          <script src="/public/scripts.js" defer />
         </head>
 
         <body hx-ext="response-targets">
           {renderContent(layout)}
+
           <dialog
             id="notification-portal"
             class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
@@ -66,11 +67,6 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
   const navigation: { name: string; href: string; isHidden?: boolean }[] = [
     { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
     { name: _t('_document.navigation.meals'), href: '/meals' },
-    {
-      name: _t('_document.navigation.adminPanel'),
-      href: '/admin-panel',
-      isHidden: !user?.hasRole(Role.Admin),
-    },
   ];
 
   return (
@@ -136,7 +132,7 @@ function LogoutButton({ class: className }: ComponentProps) {
 
 function Loader() {
   return (
-    <div id="loader" class="loader-indicator fixed bottom-4 right-4" hx-preserve="true">
+    <div id="loader" class="loader-indicator fixed bottom-5 left-5" hx-preserve="true">
       <div
         class="relative inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
         role="status"
