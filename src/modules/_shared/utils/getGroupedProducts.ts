@@ -1,20 +1,20 @@
-import { type Product } from '../models/product';
+import { type ProductDoc } from '../models/product';
 
-export function getGroupedProducts(items: Product[]): typeof items {
+export function getGroupedProducts(items: ProductDoc[]): typeof items {
   if (items.length === 0) return [];
 
   const groupedProducts = items.reduce(
-    (acc, { name, quantity, unit }) => {
-      const nameCopy = name;
+    (acc, productDoc) => {
+      const nameCopy = productDoc.name;
       nameCopy.toLocaleLowerCase().trim();
 
-      const key = `${nameCopy}.${unit}`;
+      const key = `${nameCopy}.${productDoc.unit}`;
 
-      acc[key] ? (acc[key].quantity += quantity) : (acc[key] = { name, quantity, unit });
+      acc[key] ? (acc[key].quantity += productDoc.quantity) : (acc[key] = productDoc);
 
       return acc;
     },
-    {} as Record<string, Product>,
+    {} as Record<string, ProductDoc>,
   );
 
   return Object.values(groupedProducts);

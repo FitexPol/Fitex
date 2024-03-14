@@ -17,10 +17,6 @@
   "mealEditSection": {
     "title": "Edytuj posiłek"
   },
-  "mealNameForm": {
-    "label": "Dodaj posiłek",
-    "placeholder": "Wybierz nazwę posiłku i zatwierdź przyciskiem po prawej stronie"
-  },
   "mealsSection": {
     "title": "Twoje posiłki"
   },

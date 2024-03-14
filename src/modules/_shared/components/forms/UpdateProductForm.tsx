@@ -24,7 +24,6 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
         value={productDoc.name}
         label={_tShared('_shared.forms.name')}
         error={errors?.name}
-        class="col-span-12 md:col-span-6"
       />
 
       <Input
@@ -33,7 +32,6 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
         label={_tShared('_shared.forms.quantity')}
         step=".1"
         error={errors?.quantity}
-        class="col-span-6 md:col-span-2"
       />
 
       <Select
@@ -45,7 +43,6 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
         }))}
         label={_tShared('_shared.unit')}
         error={errors?.unit}
-        class="col-span-6 md:col-span-3"
       />
 
       <Button type="submit">{_tShared('_shared.forms.submit')}</Button>

@@ -10,6 +10,7 @@ import { getSkipValue } from '@utils/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
+import { getProductsSum } from '../utils/getProductsSum';
 
 const _t = $t('shoppingLists');
 
@@ -60,10 +61,15 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
           }, '');
 
           return (
-            <CardsSection.Item entity={shoppingListDoc} basePath={basePath}>
+            <CardsSection.Item
+              entityId={shoppingListDoc.id}
+              entityName={shoppingListDoc.name}
+              basePath={basePath}
+              products={getProductsSum(shoppingListDoc)}
+            >
               {meals && (
                 <small class="text-xs">
-                  * {_t('shoppingListsSection.includedMeals')}: {meals}
+                  * {_t('_shared.includedMeals')}: {meals}
                 </small>
               )}
             </CardsSection.Item>

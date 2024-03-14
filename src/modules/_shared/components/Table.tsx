@@ -29,7 +29,7 @@ function Body({ children }: ComponentProps) {
   return <tbody>{children}</tbody>;
 }
 
-function BodyRow({ firstItem, children }: ComponentProps<{ firstItem: string }>) {
+function BodyRow({ firstItem, children }: ComponentProps<{ firstItem: JSX.Element }>) {
   return (
     <tr>
       <th scope="row">{firstItem}</th>

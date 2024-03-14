@@ -1,23 +1,30 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { ProductsTable } from '@components/ProductsTable';
-import { type AddProductForm, addProductForm } from '@forms/add-product';
-import { Product } from '@models/product';
+import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
+import { MealsTable } from '../../components/MealsTable';
+import { type AddMealForm, addMealForm } from '../../forms/add-meal';
 import { ShoppingList } from '../../models/shoppingList';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
-export const addProduct = new Elysia().use(context).post(
+export const addMeal = new Elysia().use(context).post(
   '',
   async ({ params: { id }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(id).exec();
+    if (!body.mealId) {
+      set.status = 'Bad Request';
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('addMeal.errors.noMealId'));
+
+      return;
+    }
+
+    const shoppingListDoc = await ShoppingList.findById(id).populate('meals.meal').exec();
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
@@ -36,18 +43,18 @@ export const addProduct = new Elysia().use(context).post(
       return;
     }
 
-    if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name)) {
+    if (shoppingListDoc.meals.some(({ meal }) => meal!._id.equals(body.mealId))) {
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _tShared('_shared.addProduct.errors.productAlreadyExists'),
+        _t('addMeal.errors.mealAlreadyExists'),
       );
 
       return;
     }
 
-    const productDoc = new Product({ name: body.name });
-    shoppingListDoc.products.push(productDoc);
+    const mealDoc = await Meal.findById(body.mealId).exec();
+    shoppingListDoc.meals.push({ meal: mealDoc!, quantity: 1 });
 
     try {
       await shoppingListDoc.save();
@@ -61,14 +68,11 @@ export const addProduct = new Elysia().use(context).post(
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      _tShared('_shared.addProduct.success'),
-    );
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('addMeal.success'));
 
-    return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
+    return <MealsTable shoppingListDoc={shoppingListDoc} />;
   },
   {
-    body: getBodySchema<AddProductForm>(addProductForm),
+    body: getBodySchema<AddMealForm>(addMealForm),
   },
 );

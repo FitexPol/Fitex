@@ -48,7 +48,12 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
     >
       <>
         {mealDocs.map((mealDoc) => (
-          <CardsSection.Item entity={mealDoc} basePath={basePath} />
+          <CardsSection.Item
+            entityId={mealDoc.id}
+            entityName={mealDoc.name}
+            basePath={basePath}
+            products={mealDoc.products}
+          />
         ))}
       </>
     </CardsSection>

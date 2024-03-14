@@ -7,6 +7,7 @@ import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 
 import { shoppingListEditPage } from './edit';
+import { mealFormPage } from './mealForm';
 import { productFormPage } from './productForm';
 
 const _t = $t('shoppingLists');
@@ -38,5 +39,5 @@ const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id
 });
 
 export const shoppingListPages = new Elysia().group('/:id', (app) =>
-  app.use(shoppingListPage).use(shoppingListEditPage).use(productFormPage),
+  app.use(shoppingListPage).use(shoppingListEditPage).use(productFormPage).use(mealFormPage),
 );

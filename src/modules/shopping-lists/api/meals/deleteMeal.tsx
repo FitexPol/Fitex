@@ -1,23 +1,20 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { ProductsTable } from '@components/ProductsTable';
-import { type AddProductForm, addProductForm } from '@forms/add-product';
-import { Product } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
+import { MealsTable } from '../../components/MealsTable';
 import { ShoppingList } from '../../models/shoppingList';
 
 const _t = $t('shoppingLists');
 const _tShared = $t('_shared');
 
-export const addProduct = new Elysia().use(context).post(
-  '',
-  async ({ params: { id }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(id).exec();
+export const deleteMeal = new Elysia()
+  .use(context)
+  .delete(':mealId', async ({ params: { id: shoppingListId, mealId }, set, user }) => {
+    const shoppingListDoc = await ShoppingList.findById(shoppingListId).populate('meals.meal').exec();
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
@@ -36,18 +33,7 @@ export const addProduct = new Elysia().use(context).post(
       return;
     }
 
-    if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name)) {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.addProduct.errors.productAlreadyExists'),
-      );
-
-      return;
-    }
-
-    const productDoc = new Product({ name: body.name });
-    shoppingListDoc.products.push(productDoc);
+    shoppingListDoc.meals = shoppingListDoc.meals.filter(({ meal }) => !meal!._id.equals(mealId));
 
     try {
       await shoppingListDoc.save();
@@ -63,12 +49,8 @@ export const addProduct = new Elysia().use(context).post(
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      _tShared('_shared.addProduct.success'),
+      _tShared('_shared.deleteProduct.success'),
     );
 
-    return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
-  },
-  {
-    body: getBodySchema<AddProductForm>(addProductForm),
-  },
-);
+    return <MealsTable shoppingListDoc={shoppingListDoc} />;
+  });
