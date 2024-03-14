@@ -1,36 +1,33 @@
 import { icons } from 'feather-icons';
 
-import { type JWTUser } from '@auth/models/user';
-import { AddProductForm } from '@products/components/forms/AddProductForm';
-import { ProductsTable } from '@products/components/ProductsTable';
-import { type ProductDoc } from '@products/models/product';
-
-import type { BasePath, ComponentProps } from '../../types';
+import { addProductForm } from '../../forms/add-product';
+import type { BasePath, ComponentProps, Datalist, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
+import { Button } from '../Button';
 import { Card } from '../Card';
+import { Input } from '../inputs/Input';
 import { Link } from '../Link';
+import { ProductsTable } from '../ProductsTable';
 
 const _tShared = $t('_shared');
 
-type EditSectionProps = {
+type EditSectionProps<T extends Entity> = {
   title: string;
   basePath: BasePath;
-  entityId: string;
+  entity: T;
   basicInformation: { label: string; value: string }[];
-  user: JWTUser;
-  products: ProductDoc[];
+  productsDatalist: Datalist;
 };
 
-export function EditSection({
+export function EditSection<T extends Entity>({
   title,
   basePath,
-  entityId,
+  entity,
   basicInformation,
-  user,
-  products,
+  productsDatalist,
   children,
-}: ComponentProps<EditSectionProps>) {
+}: ComponentProps<EditSectionProps<T>>) {
   return (
     <section>
       <Card>
@@ -40,7 +37,7 @@ export function EditSection({
           <Group
             title={_tShared('_shared.basicInformation')}
             customElement={
-              <Link href={getPath(`/${basePath}/basic-information-form`, { id: entityId })}>
+              <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
                 {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
               </Link>
             }
@@ -56,15 +53,27 @@ export function EditSection({
 
           <Group title={_tShared('_shared.products')}>
             <>
-              <AddProductForm user={user} endpoint={`/api/${basePath}/${entityId}/products`} class="mt-2" />
+              <form
+                class="mt-2 grid !grid-cols-12"
+                hx-post={`/api/${basePath}/${entity.id}/products`}
+                hx-target="#products"
+                hx-swap="outerHTML"
+                hx-on--after-request="this.reset()"
+                hx-indicator="#loader"
+              >
+                <Input
+                  control={addProductForm.name}
+                  label={_tShared('editSection.addProduct.label')}
+                  datalist={productsDatalist}
+                  class="col-span-10 sm:col-span-11"
+                />
 
-              <ProductsTable
-                products={products}
-                actionPaths={{
-                  edit: `/${basePath}/${entityId}/product-form`,
-                  delete: `/api/${basePath}/${entityId}/products`,
-                }}
-              />
+                <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
+                  {icons['plus-circle'].toSvg()}
+                </Button>
+              </form>
+
+              <ProductsTable entity={entity} basePath={basePath} />
             </>
           </Group>
           {children}

@@ -8,7 +8,6 @@ import { type UpdateProductFormErrors, updateProductForm } from '../../forms/upd
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
 
-const _t = $t('products');
 const _tShared = $t('_shared');
 
 type UpdateProductFormProps = {
@@ -44,7 +43,7 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
           value: unit,
           label: unit,
         }))}
-        label={_t('_shared.unit')}
+        label={_tShared('_shared.unit')}
         error={errors?.unit}
         class="col-span-6 md:col-span-3"
       />

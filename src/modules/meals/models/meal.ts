@@ -1,6 +1,6 @@
 import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
-import { type ProductDoc, productSchema } from '@products/models/product';
+import { type ProductDoc, productSchema } from '@models/product';
 
 type Meal = {
   author: Types.ObjectId;

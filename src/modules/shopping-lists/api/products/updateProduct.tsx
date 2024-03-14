@@ -1,8 +1,8 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { type UpdateProductForm, updateProductForm } from '@products/forms/update-product';
-import { type Unit } from '@products/models/product';
+import { type UpdateProductForm, updateProductForm } from '@forms/update-product';
+import { type Unit } from '@models/product';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';

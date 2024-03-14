@@ -1,11 +1,10 @@
 import { icons } from 'feather-icons';
 
-import { CardProducts } from '@products/components/CardProducts';
-
 import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
+import { getRoundedQuantity } from '../../utils/getRoundedQuantity';
 import { itemsPerPageOptions, sortOptions } from '../../vars';
 import { Button } from '../Button';
 import { Card } from '../Card';
@@ -169,7 +168,26 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
 
           <Link href={getPath(`/${basePath}/${entity.id}`)} class="contrast flex-grow">
             <>
-              <CardProducts products={entity.products} />
+              <h4 class="mb-2 text-sm">{_tShared('_shared.products')}:</h4>
+
+              {entity.products.length > 0 ? (
+                <ul class="max-h-40 overflow-y-auto">
+                  {entity.products.map(({ name, quantity, unit }) => (
+                    <li class="flex justify-between text-xs">
+                      <span>{name}</span>
+
+                      {quantity && (
+                        <span>
+                          {getRoundedQuantity(quantity)} {unit}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span class="text-xs">{_tShared('_shared.noProducts')}</span>
+              )}
+
               {children}
             </>
           </Link>

@@ -17,13 +17,12 @@ export function MealEditSection({ user, mealDoc }: ComponentProps<MealEditSectio
     <EditSection
       title={_t('mealEditSection.title')}
       basePath="meals"
-      entityId={mealDoc.id}
+      entity={mealDoc}
       basicInformation={[
         { label: 'Nazwa', value: mealDoc.name },
         { label: 'Opis', value: mealDoc.description },
       ]}
-      user={user}
-      products={mealDoc.products}
+      productsDatalist={{ id: 'products-datalist', options: [] }}
     />
   );
 }

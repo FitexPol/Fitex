@@ -1,6 +1,6 @@
 import type { Document, HydratedDocument, PopulatedDoc, Types } from 'mongoose';
 
-import { type ProductDoc } from '../products/models/product';
+import { type ProductDoc } from './models/product';
 
 type Class = {
   class?: string;

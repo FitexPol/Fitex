@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { ProductsTable } from '@products/components/ProductsTable';
+import { ProductsTable } from '@components/ProductsTable';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
@@ -52,13 +52,5 @@ export const deleteProduct = new Elysia()
       _tShared('_shared.deleteProduct.success'),
     );
 
-    return (
-      <ProductsTable
-        products={mealDoc.products}
-        actionPaths={{
-          edit: `/meals/${mealId}/product-form`,
-          delete: `/api/meals/${mealId}/products`,
-        }}
-      />
-    );
+    return <ProductsTable entity={mealDoc} basePath="meals" />;
   });

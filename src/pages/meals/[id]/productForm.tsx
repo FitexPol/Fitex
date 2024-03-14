@@ -2,9 +2,9 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
+import { UpdateProductForm } from '@components/forms/UpdateProductForm';
 import { FormSection } from '@components/sections/FormSection';
 import { Meal } from '@meals/models/meal';
-import { UpdateProductForm } from '@products/components/forms/UpdateProductForm';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';

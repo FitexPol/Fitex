@@ -1,5 +1,5 @@
-import { type Product } from '@products/models/product';
-import { getGroupedProducts } from '@products/utils/getGroupedProducts';
+import { type Product } from '@models/product';
+import { getGroupedProducts } from '@utils/getGroupedProducts';
 import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type ShoppingListDoc } from '../models/shoppingList';

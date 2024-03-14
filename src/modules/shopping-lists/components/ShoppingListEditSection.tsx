@@ -20,10 +20,9 @@ export async function ShoppingListEditSection({
     <EditSection
       title={_t('shoppingListEditSection.title')}
       basePath="shopping-lists"
-      entityId={shoppingListDoc.id}
+      entity={shoppingListDoc}
       basicInformation={[{ label: 'Nazwa', value: shoppingListDoc.name }]}
-      user={user}
-      products={shoppingListDoc.products}
+      productsDatalist={{ id: 'products-datalist', options: [] }}
     />
   );
 }

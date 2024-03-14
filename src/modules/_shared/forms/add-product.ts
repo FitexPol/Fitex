@@ -4,7 +4,7 @@ export const addProductForm = {
   name: {
     type: 'text',
     name: 'name',
-    placeholder: 'products.addProduct.placeholder',
+    placeholder: '_shared.addProduct.placeholder',
     validators: {
       required: true,
       message: 'Product name is required',

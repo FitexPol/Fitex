@@ -9,6 +9,8 @@
     "basicInformation": "Podstawowe informacje",
     "products": "Produkty",
     "noResults": "Brak wyników",
+    "noProducts": "Nie dodano żadnych produktów",
+    "unit": "Jednostka",
     "deletionConfirmation": "Jesteś pewny? Ta operacja jest nieodwracalna.",
     "sortLabels": {
       "nameAsc": "po nazwie (rosnąco)",
@@ -47,5 +49,11 @@
       "adminPanel": "Panel Admina"
     },
     "logout": "Wyloguj"
+  },
+  "editSection": {
+    "addProduct": {
+      "label": "Dodaj produkt",
+      "placeholder": "Wpisz nazwę produktu i zatwierdź enterem lub przyciskiem po prawej stronie"
+    }
   }
 }

@@ -3,24 +3,18 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Link } from '@components/Link';
 import { Table } from '@components/Table';
-import { type ComponentProps } from '@types';
+import type { BasePath, ComponentProps, Entity } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
-import { type ProductDoc } from '../models/product';
-
-const _t = $t('products');
 const _tShared = $t('_shared');
 
-type ProductsTableProps = {
-  products: ProductDoc[];
-  actionPaths: {
-    edit: string;
-    delete: string;
-  };
+type ProductsTableProps<T extends Entity> = {
+  entity: T;
+  basePath: BasePath;
 };
 
-export function ProductsTable({ products, actionPaths }: ComponentProps<ProductsTableProps>) {
+export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentProps<ProductsTableProps<T>>) {
   return (
     <Table id="products">
       <>
@@ -28,14 +22,14 @@ export function ProductsTable({ products, actionPaths }: ComponentProps<Products
           <>
             <Table.Header.Item>{_tShared('_shared.forms.name')}</Table.Header.Item>
             <Table.Header.Item>{_tShared('_shared.forms.quantity')}</Table.Header.Item>
-            <Table.Header.Item>{_t('_shared.unit')}</Table.Header.Item>
-            <Table.Header.Item>{_t('productsTable.actions')}</Table.Header.Item>
+            <Table.Header.Item>{_tShared('_shared.unit')}</Table.Header.Item>
+            <Table.Header.Item>{_tShared('_shared.actions')}</Table.Header.Item>
           </>
         </Table.Header>
 
         <Table.Body>
           <>
-            {products.map((product) => (
+            {entity.products.map((product) => (
               <Table.Body.Row firstItem={product.name}>
                 <>
                   <Table.Body.Row.Cell>
@@ -47,7 +41,7 @@ export function ProductsTable({ products, actionPaths }: ComponentProps<Products
                   <Table.Body.Row.Cell>
                     <div class="flex items-center gap-2">
                       <Link
-                        href={getPath(actionPaths.edit, {
+                        href={getPath(`/${basePath}/${entity.id}/product-form`, {
                           productId: product.id,
                         })}
                       >
@@ -56,10 +50,10 @@ export function ProductsTable({ products, actionPaths }: ComponentProps<Products
 
                       <Button
                         class="pico-reset !text-inherit"
-                        hx-delete={`${actionPaths.delete}/${product.id}`}
+                        hx-delete={`/api/${basePath}/${entity.id}/products/${product.id}`}
                         hx-target="#products"
                         hx-swap="outerHTML"
-                        hx-confirm={_t('productsTable.deletionConfirmation')}
+                        hx-confirm={_tShared('_shared.deletionConfirmation')}
                         hx-indicator="#loader"
                       >
                         {icons.trash.toSvg()}

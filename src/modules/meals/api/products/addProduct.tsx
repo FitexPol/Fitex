@@ -1,9 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { ProductsTable } from '@products/components/ProductsTable';
-import { type AddProductForm, addProductForm } from '@products/forms/add-product';
-import { Product } from '@products/models/product';
+import { ProductsTable } from '@components/ProductsTable';
+import { type AddProductForm, addProductForm } from '@forms/add-product';
+import { Product } from '@models/product';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/getBodySchema';
 import { getNotificationHeader } from '@utils/getNotificationHeader';
@@ -66,15 +66,7 @@ export const addProduct = new Elysia().use(context).post(
       _tShared('_shared.addProduct.success'),
     );
 
-    return (
-      <ProductsTable
-        products={mealDoc.products}
-        actionPaths={{
-          edit: `/meals/${id}/product-form`,
-          delete: `/api/meals/${id}/products`,
-        }}
-      />
-    );
+    return <ProductsTable entity={mealDoc} basePath="meals" />;
   },
   {
     body: getBodySchema<AddProductForm>(addProductForm),
