@@ -1,10 +1,8 @@
 import { icons } from 'feather-icons';
-import { type HydratedDocument } from 'mongoose';
 
 import { CardProducts } from '@products/components/CardProducts';
-import { type ProductDoc } from '@products/models/product';
 
-import type { BasePath, ComponentProps } from '../../types';
+import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
@@ -157,8 +155,6 @@ function getFilteredItems(totalPages: number, page: number): number[] {
   return [1, -1, page - 1, page, page + 1, -1, totalPages];
 }
 
-type Entity = HydratedDocument<{ name: string; products: ProductDoc[] }>;
-
 type ItemProps<T extends Entity> = {
   entity: T;
   basePath: BasePath;
@@ -171,10 +167,7 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
         <>
           <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{entity.name}</h3>} />
 
-          <Link
-            href={getPath(`/${basePath}/${entity.id}`, { groupByMeals: 'on' })}
-            class="contrast flex-grow"
-          >
+          <Link href={getPath(`/${basePath}/${entity.id}`)} class="contrast flex-grow">
             <>
               <CardProducts products={entity.products} />
               {children}

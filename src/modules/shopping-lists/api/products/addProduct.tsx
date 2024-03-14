@@ -61,7 +61,10 @@ export const addProduct = new Elysia().use(context).post(
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _tShared('_shared.addProduct.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      _tShared('_shared.addProduct.success'),
+    );
 
     return (
       <ProductsTable

@@ -1,4 +1,6 @@
-import type { Document, PopulatedDoc, Types } from 'mongoose';
+import type { Document, HydratedDocument, PopulatedDoc, Types } from 'mongoose';
+
+import { type ProductDoc } from '../products/models/product';
 
 type Class = {
   class?: string;
@@ -10,6 +12,7 @@ type Children = {
 
 export type ComponentProps<Props = object> = Props & Class & Children;
 export type Populated<T> = PopulatedDoc<Document<Types.ObjectId> & T>;
+export type Entity = HydratedDocument<{ name: string; products: ProductDoc[] }>;
 
 export type SortOption<T> = {
   label: string;
