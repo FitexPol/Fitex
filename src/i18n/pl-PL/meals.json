@@ -1,22 +1,9 @@
 {
   "_shared": {
-    "deletionConfirmation": "Czy na pewno chcesz usunąć ten posiłek? Ta operacja jest nieodwracalna.",
     "errors": {
       "notFound": "Nie znaleziono posiłku",
       "permissionDenied": "Nie masz dostępu do tego posiłku"
     }
-  },
-  "addProduct": {
-    "errors": {
-      "productAlreadyExists": "Ten produkt został już dodany"
-    },
-    "success": "Produkt został dodany do posiłku"
-  },
-  "deleteProduct": {
-    "success": "Produkt został usunięty"
-  },
-  "updateProduct": {
-    "success": "Produkt został zaktualizowany"
   },
   "createMeal": {
     "success": "Posiłek został utworzony"
@@ -35,8 +22,7 @@
     "placeholder": "Wybierz nazwę posiłku i zatwierdź przyciskiem po prawej stronie"
   },
   "mealsSection": {
-    "title": "Twoje posiłki",
-    "noResults": "Nie masz jeszcze żadnych posiłków"
+    "title": "Twoje posiłki"
   },
   "basicInformationFormPage": {
     "title": "Stwórz nowy posiłek"

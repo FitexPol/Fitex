@@ -49,7 +49,7 @@ export const deleteProduct = new Elysia()
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('deleteProduct.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _tShared('_shared.deleteProduct.success'));
 
     return (
       <ProductsTable

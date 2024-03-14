@@ -1,25 +1,10 @@
 {
   "_shared": {
-    "deletionConfirmation": "Czy na pewno chcesz usunąć tę listę zakupów? Ta operacja jest nieodwracalna.",
     "meals": "Posiłki",
-    "products": "Produkty",
-    "otherProducts": "Pozostałe produkty",
     "errors": {
       "notFound": "Nie znaleziono listy zakupów",
       "permissionDenied": "Nie masz uprawnień do edytowania tej listy zakupów"
     }
-  },
-  "addProduct": {
-    "errors": {
-      "productAlreadyExists": "Ten produkt został już dodany"
-    },
-    "success": "Produkt został dodany do listy"
-  },
-  "deleteProduct": {
-    "success": "Produkt został usunięty"
-  },
-  "updateProduct": {
-    "success": "Produkt został zaktualizowany"
   },
   "createShoppingList": {
     "success": "Lista zakupów została utworzona"
@@ -30,9 +15,6 @@
   "updateBasicInformation": {
     "success": "Informacje zostały zaktualizowane"
   },
-  "shoppingListCard": {
-    "includedMeals": "Zawarte posiłki"
-  },
   "shoppingListEditSection": {
     "title": "Edytuj listę zakupów"
   },
@@ -42,7 +24,7 @@
   },
   "shoppingListsSection": {
     "title": "Twoje listy zakupów",
-    "noResults": "Nie masz jeszcze żadnych list zakupów"
+    "includedMeals": "Zawarte posiłki"
   },
   "basicInformationFormPage": {
     "title": "Stwórz listę zakupów"

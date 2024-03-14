@@ -8,7 +8,6 @@ import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getSkipValue } from '@utils/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
-import { MealCard } from './MealCard';
 import { Meal, type MealDoc } from '../models/meal';
 
 const _t = $t('meals');
@@ -25,6 +24,7 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
     page: getQueryParamSecure(q.page),
   };
 
+  const basePath = 'meals';
   const { label: sortLabel, value: sortValue }: MealsSortOption = getSortOption(query.sort);
   const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
   const page = getPage(query.page);
@@ -40,26 +40,16 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
   return (
     <CardsSection
       title={_t('mealsSection.title')}
-      basePath="meals"
+      basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}
       activeSortLabel={sortLabel}
       totalCount={totalMealDocs}
     >
       <>
-        {mealDocs.length > 0 ? (
-          <CardsSection.Cards>
-            <>
-              {mealDocs.map((mealDoc) => (
-                <CardsSection.Cards.Item>
-                  <MealCard mealDoc={mealDoc} />
-                </CardsSection.Cards.Item>
-              ))}
-            </>
-          </CardsSection.Cards>
-        ) : (
-          <span>{_t('mealsSection.noResults')}</span>
-        )}
+        {mealDocs.map((mealDoc) => (
+          <CardsSection.Item entity={mealDoc} basePath={basePath} />
+        ))}
       </>
     </CardsSection>
   );

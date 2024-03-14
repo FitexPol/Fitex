@@ -40,7 +40,7 @@ export const addProduct = new Elysia().use(context).post(
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _t('addProduct.errors.productAlreadyExists'),
+        _tShared('_shared.addProduct.errors.productAlreadyExists'),
       );
 
       return;
@@ -61,7 +61,7 @@ export const addProduct = new Elysia().use(context).post(
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('addProduct.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _tShared('_shared.addProduct.success'));
 
     return (
       <ProductsTable

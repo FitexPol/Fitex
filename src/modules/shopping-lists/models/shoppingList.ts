@@ -5,7 +5,6 @@ import { type ProductDoc, productSchema } from '@products/models/product';
 import type { Populated } from '@types';
 
 type ShoppingList = {
-  _id: string;
   author: Types.ObjectId;
   name: string;
   creationDate: Date;

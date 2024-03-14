@@ -6,7 +6,10 @@
     "delete": "Usuń",
     "actions": "Akcje",
     "all": "Wszystkie",
+    "basicInformation": "Podstawowe informacje",
     "products": "Produkty",
+    "noResults": "Brak wyników",
+    "deletionConfirmation": "Jesteś pewny? Ta operacja jest nieodwracalna.",
     "sortLabels": {
       "nameAsc": "po nazwie (rosnąco)",
       "nameDesc": "po nazwie (malejąco)",
@@ -23,6 +26,18 @@
       "description": "Opis",
       "quantity": "Ilość",
       "submit": "Zapisz"
+    },
+    "addProduct": {
+      "errors": {
+        "productAlreadyExists": "Ten produkt został już dodany"
+      },
+      "success": "Produkt został dodany do listy"
+    },
+    "deleteProduct": {
+      "success": "Produkt został usunięty"
+    },
+    "updateProduct": {
+      "success": "Produkt został zaktualizowany"
     }
   },
   "_document": {

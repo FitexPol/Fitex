@@ -23,7 +23,7 @@ export function BasicInformationForm({ shoppingListDoc, errors }: ComponentProps
       };
 
   return (
-    <form id="shopping-list-details-form" {...hxAttributes}>
+    <form {...hxAttributes}>
       <Input
         control={basicInformationForm.name}
         value={shoppingListDoc?.name}

@@ -31,7 +31,7 @@ export function CardProducts({ products }: ComponentProps<CardProductsProps>) {
           ))}
         </ul>
       ) : (
-        <span>{_t('_shared.noProducts')}</span>
+        <span class="text-xs">{_t('_shared.noProducts')}</span>
       )}
     </>
   );

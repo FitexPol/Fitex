@@ -25,7 +25,7 @@ export function BasicInformationForm({ mealDoc, errors }: ComponentProps<BasicIn
 
   return (
     <>
-      <form id="meal-details-form" {...hxAttributes}>
+      <form {...hxAttributes}>
         <Input
           control={basicInformationForm.name}
           value={mealDoc?.name}

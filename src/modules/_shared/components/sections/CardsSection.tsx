@@ -1,18 +1,24 @@
 import { icons } from 'feather-icons';
+import { type HydratedDocument } from 'mongoose';
 
-import { type ComponentProps } from '../../types';
+import { CardProducts } from '@products/components/CardProducts';
+import { type ProductDoc } from '@products/models/product';
+
+import type { BasePath, ComponentProps } from '../../types';
 import { $t } from '../../utils/$t';
+import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
 import { itemsPerPageOptions, sortOptions } from '../../vars';
+import { Button } from '../Button';
+import { Card } from '../Card';
 import { Dropdown } from '../Dropdown';
 import { Link } from '../Link';
-import { Pagination } from '../Pagination';
 
 const _tShared = $t('_shared');
 
 type CardsSectionProps = {
   title: string;
-  basePath: 'meals' | 'shopping-lists';
+  basePath: BasePath;
   query: {
     sort: string;
     itemsPerPage: string;
@@ -76,7 +82,13 @@ export function CardsSection({
         </div>
       </div>
 
-      {children}
+      {totalCount > 0 ? (
+        <ul class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-4 2xl:!grid-cols-5">
+          {children}
+        </ul>
+      ) : (
+        <span>{_tShared('_shared.noResults')}</span>
+      )}
 
       <Pagination
         itemsPerPage={activeFilters.itemsPerPage}
@@ -89,17 +101,106 @@ export function CardsSection({
   );
 }
 
-function Cards({ children }: ComponentProps) {
+type PaginationProps = {
+  itemsPerPage: number;
+  page: number;
+  totalCount: number;
+  path: string;
+  currentQuery: Record<string, string>;
+};
+
+function Pagination({ itemsPerPage, page, totalCount, path, currentQuery }: ComponentProps<PaginationProps>) {
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
+
   return (
-    <ul class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-4 2xl:!grid-cols-5">
-      {children}
-    </ul>
+    <>
+      {totalPages > 1 ? (
+        <ul class="mx-auto my-7 flex w-fit gap-1">
+          {totalPages <= 5
+            ? getAllItems(totalPages).map((i) => PaginationItem(path, currentQuery, i, page))
+            : getFilteredItems(totalPages, page).map((i) =>
+                i > 0 ? PaginationItem(path, currentQuery, i, page) : <li class="mx-2">...</li>,
+              )}
+        </ul>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 
-function Item({ children }: ComponentProps) {
-  return <li>{children}</li>;
+function PaginationItem(path: string, currentQuery: Record<string, string>, i: number, page: number) {
+  return (
+    <li class="mx-1">
+      <Link
+        href={getPath(path, { ...currentQuery, page: i.toString() })}
+        class={$tm('p-1', page === i && 'pointer-events-none font-bold underline underline-offset-4')}
+      >
+        <>{i}</>
+      </Link>
+    </li>
+  );
 }
 
-Cards.Item = Item;
-CardsSection.Cards = Cards;
+function getAllItems(totalPages: number): number[] {
+  return Array.from({ length: totalPages }, (_, i) => i + 1);
+}
+
+function getFilteredItems(totalPages: number, page: number): number[] {
+  if (page === 1) return [1, 2, -1, totalPages];
+  if (page === 2) return [1, 2, 3, -1, totalPages];
+  if (page === 3) return [1, 2, 3, 4, -1, totalPages];
+  if (page === totalPages) return [1, -1, totalPages - 1, totalPages];
+  if (page === totalPages - 1) return [1, -1, totalPages - 2, totalPages - 1, totalPages];
+  if (page === totalPages - 2) return [1, -1, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+
+  return [1, -1, page - 1, page, page + 1, -1, totalPages];
+}
+
+type Entity = HydratedDocument<{ name: string; products: ProductDoc[] }>;
+
+type ItemProps<T extends Entity> = {
+  entity: T;
+  basePath: BasePath;
+};
+
+function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<ItemProps<T>>) {
+  return (
+    <li>
+      <Card class="group relative h-full">
+        <>
+          <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{entity.name}</h3>} />
+
+          <Link
+            href={getPath(`/${basePath}/${entity.id}`, { groupByMeals: 'on' })}
+            class="contrast flex-grow"
+          >
+            <>
+              <CardProducts products={entity.products} />
+              {children}
+            </>
+          </Link>
+
+          <Card.Footer class="flex justify-end gap-2">
+            <>
+              <Button
+                class="pico-reset !text-inherit"
+                hx-delete={`/api/${basePath}/${entity.id}`}
+                hx-target="closest section"
+                hx-swap="outerHTML"
+                hx-confirm={_tShared('_shared.deletionConfirmation')}
+                hx-indicator="#loader"
+              >
+                {icons.trash.toSvg()}
+              </Button>
+
+              <Link href={`/${basePath}/${entity.id}/edit`}>{icons.edit.toSvg()}</Link>
+            </>
+          </Card.Footer>
+        </>
+      </Card>
+    </li>
+  );
+}
+
+CardsSection.Item = Item;

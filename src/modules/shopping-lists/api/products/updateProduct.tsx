@@ -60,7 +60,10 @@ export const updateProduct = new Elysia().use(context).patch(
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateProduct.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      _tShared('_shared.updateProduct.success'),
+    );
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
   },
   {

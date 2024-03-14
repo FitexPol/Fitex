@@ -21,6 +21,7 @@ export type Datalist = {
   options: string[];
 };
 
+export type BasePath = 'meals' | 'shopping-lists';
 export type Query = Record<string, string | undefined>;
 
 type Validator = {

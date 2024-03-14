@@ -4,11 +4,11 @@ import type { ComponentProps, Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
 import { getPage } from '@utils/getPage';
+import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getSkipValue } from '@utils/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
-import { ShoppingListCard } from './ShoppingListCard';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
@@ -25,6 +25,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
     page: getQueryParamSecure(q.page),
   };
 
+  const basePath = 'shopping-lists';
   const { label: sortLabel, value: sortValue }: ShoppingListsSortOption = getSortOption(query.sort);
   const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
   const page = getPage(query.page);
@@ -40,26 +41,34 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
   return (
     <CardsSection
       title={_t('shoppingListsSection.title')}
-      basePath="shopping-lists"
+      basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}
       activeSortLabel={sortLabel}
       totalCount={totalShoppingListDocs}
     >
       <>
-        {shoppingListDocs.length > 0 ? (
-          <CardsSection.Cards>
-            <>
-              {shoppingListDocs.map((shoppingListDoc) => (
-                <CardsSection.Cards.Item>
-                  <ShoppingListCard shoppingListDoc={shoppingListDoc} />
-                </CardsSection.Cards.Item>
-              ))}
-            </>
-          </CardsSection.Cards>
-        ) : (
-          <span>{_t('shoppingListsSection.noResults')}</span>
-        )}
+        {shoppingListDocs.map((shoppingListDoc) => {
+          const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
+            const mealDoc = getPopulatedDoc(meal);
+
+            if (!mealDoc) return acc;
+
+            const text = quantity > 1 ? `${mealDoc.name} (x${quantity})` : mealDoc.name;
+
+            return acc.length > 0 ? `${acc}, ${text}` : text;
+          }, '');
+
+          return (
+            <CardsSection.Item entity={shoppingListDoc} basePath={basePath}>
+              {meals && (
+                <small class="text-xs">
+                  * {_t('shoppingListsSection.includedMeals')}: {meals}
+                </small>
+              )}
+            </CardsSection.Item>
+          );
+        })}
       </>
     </CardsSection>
   );
