@@ -13,7 +13,7 @@ const _t = $t('meals');
 export const basicInformationFormPage = new Elysia()
   .use(context)
   .get('/basic-information-form', async ({ user, query }) => {
-    if (!query.mealId) {
+    if (!query.id) {
       return (
         <Document user={user}>
           <FormSection title={_t('basicInformationFormPage.title')}>
@@ -23,7 +23,7 @@ export const basicInformationFormPage = new Elysia()
       );
     }
 
-    const mealDoc = await Meal.findById(getQueryParamSecure(query.mealId)).exec();
+    const mealDoc = await Meal.findById(getQueryParamSecure(query.id)).exec();
 
     if (!mealDoc) {
       return (

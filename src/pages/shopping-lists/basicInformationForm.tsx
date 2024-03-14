@@ -13,7 +13,7 @@ const _t = $t('shoppingLists');
 export const basicInformationFormPage = new Elysia()
   .use(context)
   .get('/basic-information-form', async ({ user, query }) => {
-    if (!query.shoppingListId) {
+    if (!query.id) {
       return (
         <Document user={user}>
           <FormSection title={_t('basicInformationFormPage.title')}>
@@ -23,7 +23,7 @@ export const basicInformationFormPage = new Elysia()
       );
     }
 
-    const shoppingListDoc = await ShoppingList.findById(getQueryParamSecure(query.shoppingListId)).exec();
+    const shoppingListDoc = await ShoppingList.findById(getQueryParamSecure(query.id)).exec();
 
     if (!shoppingListDoc) {
       return (

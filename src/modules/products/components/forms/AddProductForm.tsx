@@ -4,6 +4,7 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Meal } from '@meals/models/meal';
+import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import type { ComponentProps, Datalist } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
@@ -22,14 +23,25 @@ export async function AddProductForm({
   endpoint,
   class: className,
 }: ComponentProps<AddProductFormProps>) {
-  const meals = await Meal.find({ author: user.id });
+  const shoppingListDocs = await ShoppingList.find({ author: user.id });
+  const mealDocs = await Meal.find({ author: user.id });
+  const productNames: Record<string, string> = {};
+
+  shoppingListDocs.forEach(({ products }) => {
+    products.forEach(({ name }) => {
+      productNames[name] = name;
+    });
+  });
+
+  mealDocs.forEach(({ products }) => {
+    products.forEach(({ name }) => {
+      productNames[name] = name;
+    });
+  });
 
   const productsDatalist: Datalist = {
     id: 'products-datalist',
-    options: meals.reduce(
-      (acc, { products }) => [...acc, ...products.map(({ name }) => name)],
-      [] as string[],
-    ),
+    options: Object.values(productNames),
   };
 
   return (
