@@ -10,9 +10,6 @@ import { HxRequestHeader, HxResponseHeader } from '@vars';
 import { MealsSection } from '../components/MealsSection';
 import { Meal } from '../models/meal';
 
-const _t = $t('meals');
-const _tShared = $t('_shared');
-
 export const deleteMeal = new Elysia()
   .use(context)
   .delete('/:id', async ({ user, set, params: { id }, request }) => {
@@ -20,17 +17,14 @@ export const deleteMeal = new Elysia()
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
 
       return;
     }
 
     if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.permissionDenied'));
 
       return;
     }
@@ -44,15 +38,12 @@ export const deleteMeal = new Elysia()
       );
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.badRequest'));
 
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('deleteMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('deleteMeal.success'));
 
     const currentUrl = request.headers.get(HxRequestHeader.CurrentUrl);
 

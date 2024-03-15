@@ -10,8 +10,6 @@ import { getPath } from '@utils/getPath';
 
 import { type ShoppingListDoc } from '../models/shoppingList';
 
-const _tShared = $t('_shared');
-
 type MealsTableProps = {
   shoppingListDoc: ShoppingListDoc;
 };
@@ -23,9 +21,9 @@ export function MealsTable({ shoppingListDoc }: ComponentProps<MealsTableProps>)
       <>
         <Table.Header>
           <>
-            <Table.Header.Item>{_tShared('_shared.forms.name')}</Table.Header.Item>
-            <Table.Header.Item>{_tShared('_shared.forms.quantity')}</Table.Header.Item>
-            <Table.Header.Item>{_tShared('_shared.actions')}</Table.Header.Item>
+            <Table.Header.Item>{$t('name')}</Table.Header.Item>
+            <Table.Header.Item>{$t('quantity')}</Table.Header.Item>
+            <Table.Header.Item>{$t('actions')}</Table.Header.Item>
           </>
         </Table.Header>
 
@@ -56,7 +54,7 @@ export function MealsTable({ shoppingListDoc }: ComponentProps<MealsTableProps>)
                           hx-delete={`/api/shopping-lists/${shoppingListDoc.id}/meals/${meal.id}`}
                           hx-target="#meals"
                           hx-swap="outerHTML"
-                          hx-confirm={_tShared('_shared.deletionConfirmation')}
+                          hx-confirm={$t('deletionConfirmation')}
                           hx-indicator="#loader"
                         >
                           {icons.trash.toSvg()}

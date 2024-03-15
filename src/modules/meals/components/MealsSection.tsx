@@ -10,8 +10,6 @@ import { SortQuery, sortOptions } from '@vars';
 
 import { Meal, type MealDoc } from '../models/meal';
 
-const _t = $t('meals');
-
 type MealsSectionProps = {
   user: JWTUser;
   query: Query;
@@ -39,7 +37,7 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
 
   return (
     <CardsSection
-      title={_t('mealsSection.title')}
+      title={$t('mealsSection.title')}
       basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}

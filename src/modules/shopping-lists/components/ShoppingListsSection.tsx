@@ -13,8 +13,6 @@ import { SortQuery, sortOptions } from '@vars';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
 
-const _t = $t('shoppingLists');
-
 type ShoppingListsSectionProps = {
   user: JWTUser;
   query: Query;
@@ -42,7 +40,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
 
   return (
     <CardsSection
-      title={_t('shoppingListsSection.title')}
+      title={$t('shoppingListsSection.title')}
       basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}
@@ -69,7 +67,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
             >
               {meals && (
                 <small class="text-xs">
-                  * {_t('_shared.includedMeals')}: {meals}
+                  * {$t('includedMeals')}: {meals}
                 </small>
               )}
             </CardsSection.Item>

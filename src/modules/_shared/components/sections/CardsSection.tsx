@@ -12,8 +12,6 @@ import { Card } from '../Card';
 import { Dropdown } from '../Dropdown';
 import { Link } from '../Link';
 
-const _tShared = $t('_shared');
-
 type CardsSectionProps = {
   title: string;
   basePath: BasePath;
@@ -48,7 +46,7 @@ export function CardsSection({
         </div>
 
         <div class="flex flex-col gap-2 lg:flex-row">
-          <Dropdown label={`${_tShared('_shared.itemsPerPage')}: ${activeFilters.itemsPerPage}`}>
+          <Dropdown label={`${$t('itemsPerPage')}: ${activeFilters.itemsPerPage}`}>
             <>
               {itemsPerPageOptions.map(({ label, query: param }) => (
                 <Dropdown.Item active={param === activeFilters.itemsPerPage.toString()}>
@@ -60,7 +58,7 @@ export function CardsSection({
             </>
           </Dropdown>
 
-          <Dropdown label={`${_tShared('_shared.sort')}: ${activeSortLabel}`}>
+          <Dropdown label={`${$t('sort')}: ${activeSortLabel}`}>
             <>
               {sortOptions.map(({ label, query: param }) => (
                 <Dropdown.Item active={label === activeSortLabel}>
@@ -85,7 +83,7 @@ export function CardsSection({
           {children}
         </ul>
       ) : (
-        <span>{_tShared('_shared.noResults')}</span>
+        <span>{$t('noResults')}</span>
       )}
 
       <Pagination
@@ -171,7 +169,7 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
 
           <Link href={getPath(`/${basePath}/${entityId}`)} class="contrast flex-grow">
             <>
-              <h4 class="mb-2 text-sm">{_tShared('_shared.products')}:</h4>
+              <h4 class="mb-2 text-sm">{$t('products')}:</h4>
 
               {products.length > 0 ? (
                 <ul class="max-h-40 overflow-y-auto">
@@ -190,7 +188,7 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
                     ))}
                 </ul>
               ) : (
-                <span class="text-xs">{_tShared('_shared.noProducts')}</span>
+                <span class="text-xs">{$t('noProducts')}</span>
               )}
 
               {children}
@@ -204,7 +202,7 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
                 hx-delete={`/api/${basePath}/${entityId}`}
                 hx-target="closest section"
                 hx-swap="outerHTML"
-                hx-confirm={_tShared('_shared.deletionConfirmation')}
+                hx-confirm={$t('deletionConfirmation')}
                 hx-indicator="#loader"
               >
                 {icons.trash.toSvg()}

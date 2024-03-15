@@ -8,9 +8,6 @@ import { HxResponseHeader } from '@vars';
 import { MealsTable } from '../../components/MealsTable';
 import { ShoppingList } from '../../models/shoppingList';
 
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
-
 export const deleteMeal = new Elysia()
   .use(context)
   .delete(':mealId', async ({ params: { id: shoppingListId, mealId }, set, user }) => {
@@ -18,7 +15,7 @@ export const deleteMeal = new Elysia()
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
 
       return;
     }
@@ -27,7 +24,7 @@ export const deleteMeal = new Elysia()
       set.status = 'Forbidden';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _t('_shared.errors.permissionDenied'),
+        $t('errors.permissionDenied'),
       );
 
       return;
@@ -41,7 +38,7 @@ export const deleteMeal = new Elysia()
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _tShared('_shared.errors.badRequest'),
+        $t('errors.badRequest'),
       );
 
       return;
@@ -49,7 +46,7 @@ export const deleteMeal = new Elysia()
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      _tShared('_shared.deleteProduct.success'),
+      $t('deleteProduct.success'),
     );
 
     return <MealsTable shoppingListDoc={shoppingListDoc} />;

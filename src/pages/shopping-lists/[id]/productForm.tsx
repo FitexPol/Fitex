@@ -9,8 +9,6 @@ import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
-const _t = $t('shoppingLists');
-
 export const productFormPage = new Elysia()
   .use(context)
   .get('/product-form', async ({ params: { id }, user, query }) => {
@@ -19,7 +17,7 @@ export const productFormPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{_t('_shared.errors.notFound')}</span>
+          <span>{$t('errors.notFound')}</span>
         </Document>
       );
     }
@@ -27,7 +25,7 @@ export const productFormPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document user={user}>
-          <span>{_t('_shared.errors.permissionDenied')}</span>
+          <span>{$t('errors.permissionDenied')}</span>
         </Document>
       );
     }
@@ -45,7 +43,7 @@ export const productFormPage = new Elysia()
               endpoint={getPath(`/api/shopping-lists/${id}/products/${productDoc.id}`)}
             />
           ) : (
-            <span>{_t('_shared.errors.notFound')}</span>
+            <span>{$t('errors.notFound')}</span>
           )}
         </FormSection>
       </Document>

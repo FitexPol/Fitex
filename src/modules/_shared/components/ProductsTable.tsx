@@ -7,8 +7,6 @@ import type { BasePath, ComponentProps, Entity } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
-const _tShared = $t('_shared');
-
 type ProductsTableProps<T extends Entity> = {
   entity: T;
   basePath: BasePath;
@@ -20,10 +18,10 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
       <>
         <Table.Header>
           <>
-            <Table.Header.Item>{_tShared('_shared.forms.name')}</Table.Header.Item>
-            <Table.Header.Item>{_tShared('_shared.forms.quantity')}</Table.Header.Item>
-            <Table.Header.Item>{_tShared('_shared.unit')}</Table.Header.Item>
-            <Table.Header.Item>{_tShared('_shared.actions')}</Table.Header.Item>
+            <Table.Header.Item>{$t('name')}</Table.Header.Item>
+            <Table.Header.Item>{$t('quantity')}</Table.Header.Item>
+            <Table.Header.Item>{$t('unit')}</Table.Header.Item>
+            <Table.Header.Item>{$t('actions')}</Table.Header.Item>
           </>
         </Table.Header>
 
@@ -55,7 +53,7 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
                           hx-delete={`/api/${basePath}/${entity.id}/products/${product.id}`}
                           hx-target="#products"
                           hx-swap="outerHTML"
-                          hx-confirm={_tShared('_shared.deletionConfirmation')}
+                          hx-confirm={$t('deletionConfirmation')}
                           hx-indicator="#loader"
                         >
                           {icons.trash.toSvg()}

@@ -6,8 +6,6 @@ import { ShoppingListEditSection } from '@shopping-lists/components/ShoppingList
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 
-const _t = $t('shoppingLists');
-
 export const shoppingListEditPage = new Elysia()
   .use(context)
   .get('/edit', async ({ user, params: { id } }) => {
@@ -16,7 +14,7 @@ export const shoppingListEditPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{_t('_shared.errors.notFound')}</span>
+          <span>{$t('errors.notFound')}</span>
         </Document>
       );
     }
@@ -24,7 +22,7 @@ export const shoppingListEditPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document>
-          <span>{_t('_shared.errors.permissionDenied')}</span>
+          <span>{$t('errors.permissionDenied')}</span>
         </Document>
       );
     }

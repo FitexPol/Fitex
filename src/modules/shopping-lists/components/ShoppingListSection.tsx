@@ -7,8 +7,6 @@ import { $t } from '@utils/$t';
 import { type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
 
-const _t = $t('shoppingLists');
-
 type ShoppingListSectionProps = {
   shoppingListDoc: ShoppingListDoc;
 };
@@ -31,7 +29,7 @@ export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<Sh
     >
       {meals && (
         <small class="text-xs">
-          * {_t('_shared.includedMeals')}: {meals}
+          * {$t('includedMeals')}: {meals}
         </small>
       )}
     </CardSection>

@@ -1,5 +1,6 @@
 TODO:
   - posprzątać tłumaczenia (usunąc placeholder z formów)
+  - error handling
   - zaznaczanie produktów
   - grupowanie produktów po kategorii
   - tagowanie posiłków

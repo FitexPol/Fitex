@@ -12,8 +12,6 @@ import { MealsTable } from './MealsTable';
 import { addMealForm } from '../forms/addMeal';
 import { type ShoppingListDoc } from '../models/shoppingList';
 
-const _t = $t('shoppingLists');
-
 type ShoppingListEditSectionProps = {
   user: JWTUser;
   shoppingListDoc: ShoppingListDoc;
@@ -32,13 +30,13 @@ export async function ShoppingListEditSection({
 
   return (
     <EditSection
-      title={_t('shoppingListEditSection.title')}
+      title={$t('shoppingListEditSection.title')}
       basePath="shopping-lists"
       entity={shoppingListDoc}
       basicInformation={[{ label: 'Nazwa', value: shoppingListDoc.name }]}
       user={user}
     >
-      <EditSection.Group title={_t('shoppingListEditSection.meals')}>
+      <EditSection.Group title={$t('shoppingListEditSection.meals')}>
         <>
           <form
             class="mt-2 grid !grid-cols-12"
@@ -50,8 +48,8 @@ export async function ShoppingListEditSection({
           >
             <Select
               control={addMealForm.mealId}
-              label={_t('shoppingListEditSection.addMeal.label')}
-              placeholder={_t('shoppingListEditSection.addMeal.placeholder')}
+              label={$t('shoppingListEditSection.addMeal.label')}
+              placeholder={$t('shoppingListEditSection.addMeal.placeholder')}
               options={mealOptions}
               class="col-span-10 sm:col-span-11"
             />

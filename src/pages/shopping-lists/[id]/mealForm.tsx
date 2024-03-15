@@ -9,9 +9,6 @@ import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
-
 export const mealFormPage = new Elysia()
   .use(context)
   .get('/meal-form', async ({ params: { id }, user, query }) => {
@@ -20,7 +17,7 @@ export const mealFormPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{_t('_shared.errors.notFound')}</span>
+          <span>{$t('errors.notFound')}</span>
         </Document>
       );
     }
@@ -28,7 +25,7 @@ export const mealFormPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document user={user}>
-          <span>{_t('_shared.errors.permissionDenied')}</span>
+          <span>{$t('errors.permissionDenied')}</span>
         </Document>
       );
     }
@@ -44,7 +41,7 @@ export const mealFormPage = new Elysia()
         <FormSection title={shoppingListDoc.name}>
           {shoppingListMeal ? (
             !shoppingListMeal.meal || shoppingListMeal.meal instanceof Types.ObjectId ? (
-              <span>{_tShared('_shared.errors.population')}</span>
+              <span>{$t('errors.population')}</span>
             ) : (
               <UpdateMealForm
                 shoppingListId={shoppingListDoc.id}
@@ -53,7 +50,7 @@ export const mealFormPage = new Elysia()
               />
             )
           ) : (
-            <span>{_t('_shared.errors.notFound')}</span>
+            <span>{$t('errors.notFound')}</span>
           )}
         </FormSection>
       </Document>

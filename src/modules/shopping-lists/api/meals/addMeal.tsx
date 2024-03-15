@@ -11,15 +11,12 @@ import { MealsTable } from '../../components/MealsTable';
 import { type AddMealForm, addMealForm } from '../../forms/addMeal';
 import { ShoppingList } from '../../models/shoppingList';
 
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
-
 export const addMeal = new Elysia().use(context).post(
   '',
   async ({ params: { id }, set, user, body }) => {
     if (!body.mealId) {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('addMeal.errors.noMealId'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('addMeal.errors.noMealId'));
 
       return;
     }
@@ -28,17 +25,14 @@ export const addMeal = new Elysia().use(context).post(
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
 
       return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.permissionDenied'));
 
       return;
     }
@@ -47,7 +41,7 @@ export const addMeal = new Elysia().use(context).post(
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _t('addMeal.errors.mealAlreadyExists'),
+        $t('addMeal.errors.mealAlreadyExists'),
       );
 
       return;
@@ -60,15 +54,12 @@ export const addMeal = new Elysia().use(context).post(
       await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.badRequest'));
 
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('addMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('addMeal.success'));
 
     return <MealsTable shoppingListDoc={shoppingListDoc} />;
   },

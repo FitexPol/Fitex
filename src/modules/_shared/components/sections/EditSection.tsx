@@ -15,8 +15,6 @@ import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
 
-const _tShared = $t('_shared');
-
 type EditSectionProps<T extends Entity> = {
   title: string;
   basePath: BasePath;
@@ -56,7 +54,7 @@ export async function EditSection<T extends Entity>({
           <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
 
           <Group
-            title={_tShared('_shared.basicInformation')}
+            title={$t('basicInformation')}
             customElement={
               <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
                 {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
@@ -72,7 +70,7 @@ export async function EditSection<T extends Entity>({
             </ul>
           </Group>
 
-          <Group title={_tShared('_shared.products')}>
+          <Group title={$t('products')}>
             <>
               <form
                 class="mt-2 grid !grid-cols-12"
@@ -84,8 +82,8 @@ export async function EditSection<T extends Entity>({
               >
                 <Input
                   control={addProductForm.name}
-                  label={_tShared('editSection.addProduct.label')}
-                  placeholder={_tShared('editSection.addProduct.placeholder')}
+                  label={$t('addProduct.label')}
+                  placeholder={$t('addProduct.placeholder')}
                   datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
                   class="col-span-10 sm:col-span-11"
                 />

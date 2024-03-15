@@ -8,9 +8,6 @@ import { HxResponseHeader } from '@vars';
 
 import { ShoppingList } from '../../models/shoppingList';
 
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
-
 export const deleteProduct = new Elysia()
   .use(context)
   .delete(':productId', async ({ params: { id: shoppingListId, productId }, set, user }) => {
@@ -18,17 +15,14 @@ export const deleteProduct = new Elysia()
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
 
       return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.permissionDenied'));
 
       return;
     }
@@ -41,18 +35,12 @@ export const deleteProduct = new Elysia()
       await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.badRequest'));
 
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      _tShared('_shared.deleteProduct.success'),
-    );
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('deleteProduct.success'));
 
     return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
   });

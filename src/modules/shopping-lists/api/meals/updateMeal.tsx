@@ -9,9 +9,6 @@ import { HxResponseHeader } from '@vars';
 import { type UpdateMealForm, updateMealForm } from '../../forms/updateMeal';
 import { ShoppingList } from '../../models/shoppingList';
 
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
-
 export const updateMeal = new Elysia().use(context).patch(
   ':mealId',
   async ({ params: { id: shoppingListId, mealId }, set, user, body }) => {
@@ -19,17 +16,14 @@ export const updateMeal = new Elysia().use(context).patch(
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
 
       return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.permissionDenied'));
 
       return;
     }
@@ -41,7 +35,7 @@ export const updateMeal = new Elysia().use(context).patch(
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
 
       return;
     }
@@ -52,15 +46,12 @@ export const updateMeal = new Elysia().use(context).patch(
       await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.badRequest'));
 
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('updateMeal.success'));
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
   },
   {

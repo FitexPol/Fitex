@@ -10,9 +10,6 @@ import { type BasicInformationForm, basicInformationForm } from '../forms/basicI
 import { Meal } from '../models/meal';
 import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
 
-const _t = $t('meals');
-const _tShared = $t('_shared');
-
 export const createMeal = new Elysia().use(context).post(
   '',
   async ({ body, user, set }) => {
@@ -29,14 +26,14 @@ export const createMeal = new Elysia().use(context).post(
 
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _tShared('_shared.errors.badRequest'),
+        $t('errors.badRequest'),
       );
 
       return;
     }
 
     set.status = 'Created';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('createMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('createMeal.success'));
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
   },
   {
