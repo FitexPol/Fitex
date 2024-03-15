@@ -2,8 +2,8 @@ import { Elysia, type ValidationError } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
 import { SignInForm } from '../components/forms/SignInForm';

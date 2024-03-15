@@ -2,8 +2,8 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
-import { getQueryParams } from '@utils/getQueryParams';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
+import { getQueryParams } from '@utils/api/getQueryParams';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { ShoppingListsSection } from '../components/ShoppingListsSection';

@@ -1,6 +1,6 @@
 import { t } from 'elysia';
 
-import type { Form, TextValidators } from '../types';
+import type { Form, TextValidators } from '../../types';
 
 type SchemaTextField = ReturnType<typeof t.String> | ReturnType<typeof t.RegExp>;
 

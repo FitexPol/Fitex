@@ -2,11 +2,11 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { ProductsTable } from '@components/ProductsTable';
-import { type AddProductForm, addProductForm } from '@forms/add-product';
+import { type AddProductForm, addProductForm } from '@forms/addProduct';
 import { Product } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { Meal } from '../../models/meal';

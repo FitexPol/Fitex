@@ -1,10 +1,10 @@
 import { icons } from 'feather-icons';
 
-import { Meal } from '@/modules/meals/models/meal';
-import { ShoppingList } from '@/modules/shopping-lists/models/shoppingList';
 import { type JWTUser } from '@auth/models/user';
+import { Meal } from '@meals/models/meal';
+import { ShoppingList } from '@shopping-lists/models/shoppingList';
 
-import { addProductForm } from '../../forms/add-product';
+import { addProductForm } from '../../forms/addProduct';
 import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';

@@ -4,7 +4,7 @@ import { Textarea } from '@components/inputs/Textarea';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basic-information';
+import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basicInformation';
 import { type MealDoc } from '../../models/meal';
 
 const _tShared = $t('_shared');

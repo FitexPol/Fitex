@@ -3,7 +3,7 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { ProductsTable } from '@components/ProductsTable';
 import { $t } from '@utils/$t';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { Meal } from '../../models/meal';

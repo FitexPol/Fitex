@@ -3,12 +3,12 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { MealsTable } from '../../components/MealsTable';
-import { type AddMealForm, addMealForm } from '../../forms/add-meal';
+import { type AddMealForm, addMealForm } from '../../forms/addMeal';
 import { ShoppingList } from '../../models/shoppingList';
 
 const _t = $t('shoppingLists');

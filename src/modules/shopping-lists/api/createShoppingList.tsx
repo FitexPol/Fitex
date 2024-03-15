@@ -2,11 +2,11 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { type BasicInformationForm, basicInformationForm } from '../forms/basic-information';
+import { type BasicInformationForm, basicInformationForm } from '../forms/basicInformation';
 import { ShoppingList } from '../models/shoppingList';
 import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
 

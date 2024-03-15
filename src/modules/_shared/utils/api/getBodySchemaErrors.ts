@@ -1,6 +1,6 @@
 import type { ValidationError } from 'elysia';
 
-import type { Form, FormErrors } from '../types';
+import type { Form, FormErrors } from '../../types';
 
 export function getBodySchemaErrors<T extends Form>(
   error: Readonly<ValidationError>,

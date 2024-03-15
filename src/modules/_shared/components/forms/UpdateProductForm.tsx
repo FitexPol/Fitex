@@ -4,7 +4,7 @@ import { Select } from '@components/inputs/Select';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type UpdateProductFormErrors, updateProductForm } from '../../forms/update-product';
+import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
 

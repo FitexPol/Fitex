@@ -5,7 +5,7 @@ import { type MealDoc } from '@meals/models/meal';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { updateMealForm } from '../../forms/update-meal';
+import { updateMealForm } from '../../forms/updateMeal';
 
 const _tShared = $t('_shared');
 

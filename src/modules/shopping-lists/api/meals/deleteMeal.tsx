@@ -2,7 +2,7 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { MealsTable } from '../../components/MealsTable';

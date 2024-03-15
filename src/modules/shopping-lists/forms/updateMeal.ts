@@ -1,4 +1,4 @@
-import type { Form, FormErrors } from '@/modules/_shared/types';
+import type { Form, FormErrors } from '@types';
 
 export const updateMealForm = {
   mealId: {

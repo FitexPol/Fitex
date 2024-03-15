@@ -4,12 +4,12 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Select } from '@components/inputs/Select';
 import { EditSection } from '@components/sections/EditSection';
-import { getMealOptions } from '@meals/utils/getMealOptions';
+import { Meal } from '@meals/models/meal';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { MealsTable } from './MealsTable';
-import { addMealForm } from '../forms/add-meal';
+import { addMealForm } from '../forms/addMeal';
 import { type ShoppingListDoc } from '../models/shoppingList';
 
 const _t = $t('shoppingLists');
@@ -23,7 +23,12 @@ export async function ShoppingListEditSection({
   user,
   shoppingListDoc,
 }: ComponentProps<ShoppingListEditSectionProps>) {
-  const mealOptions = await getMealOptions(user);
+  const mealDocs = await Meal.find({ author: user.id }).sort({ name: 1 });
+
+  const mealOptions = mealDocs.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
 
   return (
     <EditSection

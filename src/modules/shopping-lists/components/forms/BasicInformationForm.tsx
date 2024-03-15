@@ -3,7 +3,7 @@ import { Input } from '@components/inputs/Input';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basic-information';
+import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basicInformation';
 import { type ShoppingListDoc } from '../../models/shoppingList';
 
 const _tShared = $t('_shared');
