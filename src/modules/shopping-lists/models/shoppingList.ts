@@ -2,7 +2,7 @@ import { type HydratedDocument, Schema, type Types, model } from 'mongoose';
 
 import { type MealDoc } from '@meals/models/meal';
 import { type ProductDoc, productSchema } from '@models/product';
-import type { Populated } from '@types';
+import { type Populated } from '@types';
 
 type ShoppingList = {
   author: Types.ObjectId;
@@ -38,6 +38,7 @@ const shoppingListSchema = new Schema<ShoppingList>({
         meal: {
           type: Schema.Types.ObjectId,
           ref: 'Meal',
+          required: true,
         },
         quantity: {
           type: Number,

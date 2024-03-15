@@ -1,7 +1,8 @@
+import { Types } from 'mongoose';
+
 import { CardSection } from '@components/sections/CardSection';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
 import { type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
@@ -14,11 +15,9 @@ type ShoppingListSectionProps = {
 
 export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<ShoppingListSectionProps>) {
   const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
-    const mealDoc = getPopulatedDoc(meal);
+    if (!meal || meal instanceof Types.ObjectId) return acc;
 
-    if (!mealDoc) return acc;
-
-    const text = quantity > 1 ? `${mealDoc.name} (x${quantity})` : mealDoc.name;
+    const text = quantity > 1 ? `${meal.name} (x${quantity})` : meal.name;
 
     return acc.length > 0 ? `${acc}, ${text}` : text;
   }, '');

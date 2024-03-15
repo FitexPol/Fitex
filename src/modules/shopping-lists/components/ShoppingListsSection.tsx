@@ -1,8 +1,9 @@
+import { Types } from 'mongoose';
+
 import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
 import type { ComponentProps, Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
 import { getPage } from '@utils/pagination/getPage';
@@ -50,12 +51,11 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
     >
       <>
         {shoppingListDocs.map((shoppingListDoc) => {
+          shoppingListDoc.meals;
           const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
-            const mealDoc = getPopulatedDoc(meal);
+            if (!meal || meal instanceof Types.ObjectId) return acc;
 
-            if (!mealDoc) return acc;
-
-            const text = quantity > 1 ? `${mealDoc.name} (x${quantity})` : mealDoc.name;
+            const text = quantity > 1 ? `${meal.name} (x${quantity})` : meal.name;
 
             return acc.length > 0 ? `${acc}, ${text}` : text;
           }, '');

@@ -1,19 +1,17 @@
+import { Types } from 'mongoose';
+
 import { type ProductDoc } from '@models/product';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 
-import { type ShoppingListDoc } from '../models/shoppingList';
+import type { ShoppingListDoc } from '../models/shoppingList';
 
-export function getProductsSum(shoppingListDoc: ShoppingListDoc): ProductDoc[] {
-  const { meals, products } = shoppingListDoc;
+export function getProductsSum({ meals, products }: ShoppingListDoc): ProductDoc[] {
   const allProducts: ProductDoc[] = [];
 
   if (meals.length > 0) {
     meals.forEach(({ meal, quantity: mealQuantity }) => {
-      const mealDoc = getPopulatedDoc(meal);
+      if (!meal || meal instanceof Types.ObjectId) return;
 
-      if (!mealDoc) return;
-
-      mealDoc.products.forEach((productDoc) => {
+      meal.products.forEach((productDoc) => {
         productDoc.quantity = productDoc.quantity * mealQuantity;
         allProducts.push(productDoc);
       });
