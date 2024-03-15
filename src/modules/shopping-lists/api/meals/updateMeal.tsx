@@ -34,7 +34,10 @@ export const updateMeal = new Elysia().use(context).patch(
       return;
     }
 
-    const mealDoc = shoppingListDoc.meals.find(({ meal }) => meal!._id.equals(mealId));
+    const mealDoc = shoppingListDoc.meals.find(({ meal }) => {
+      if (!meal) return false;
+      return meal._id.equals(mealId);
+    });
 
     if (!mealDoc) {
       set.status = 'Not Found';

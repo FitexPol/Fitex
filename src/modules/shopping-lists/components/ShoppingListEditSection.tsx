@@ -51,6 +51,7 @@ export async function ShoppingListEditSection({
             <Select
               control={addMealForm.mealId}
               label={_t('shoppingListEditSection.addMeal.label')}
+              placeholder={_t('shoppingListEditSection.addMeal.placeholder')}
               options={mealOptions}
               class="col-span-10 sm:col-span-11"
             />

@@ -1,12 +1,12 @@
 import type { ComponentProps, Datalist, FormControl, NumberValidators } from '@types';
 
-import { getPlaceholder } from '../../utils/getPlaceholder';
 import { getTextValidators } from '../../utils/getTextValidators';
 
 type InputProps = HtmxAttributes & {
   control: FormControl;
   value?: string;
   label?: string;
+  placeholder?: string;
   datalist?: Datalist;
   step?: string;
   isDisabled?: boolean;
@@ -17,6 +17,7 @@ export function Input({
   control,
   value = '',
   label,
+  placeholder,
   datalist,
   step,
   isDisabled,
@@ -24,7 +25,7 @@ export function Input({
   class: className,
   ...hxAttributes
 }: ComponentProps<InputProps>) {
-  const { placeholder, ...inputAttributes }: JSX.HtmlInputTag = getInputAttributes(control);
+  const inputAttributes: JSX.HtmlInputTag = getInputAttributes(control);
 
   return (
     <label class={className}>
@@ -32,7 +33,7 @@ export function Input({
       <input
         {...hxAttributes}
         {...inputAttributes}
-        placeholder={getPlaceholder(placeholder)}
+        placeholder={placeholder}
         value={value}
         list={datalist?.id}
         step={step}

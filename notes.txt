@@ -1,8 +1,6 @@
 TODO:
-  - poprawic populated documents
-  - poprawić placeholdery
-  - sortowanie produktów-zaznaczanie produktów
   - posprzątać tłumaczenia (usunąc placeholder z formów)
+  - zaznaczanie produktów
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)

@@ -29,40 +29,42 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
 
         <Table.Body>
           <>
-            {entity.products.map((product) => (
-              <Table.Body.Row firstItem={product.name}>
-                <>
-                  <Table.Body.Row.Cell>
-                    <>{product.quantity}</>
-                  </Table.Body.Row.Cell>
+            {entity.products
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((product) => (
+                <Table.Body.Row firstItem={product.name}>
+                  <>
+                    <Table.Body.Row.Cell>
+                      <>{product.quantity}</>
+                    </Table.Body.Row.Cell>
 
-                  <Table.Body.Row.Cell>{product.unit}</Table.Body.Row.Cell>
+                    <Table.Body.Row.Cell>{product.unit}</Table.Body.Row.Cell>
 
-                  <Table.Body.Row.Cell>
-                    <div class="flex items-center gap-2">
-                      <Link
-                        href={getPath(`/${basePath}/${entity.id}/product-form`, {
-                          productId: product.id,
-                        })}
-                      >
-                        {icons['edit'].toSvg()}
-                      </Link>
+                    <Table.Body.Row.Cell>
+                      <div class="flex items-center gap-2">
+                        <Link
+                          href={getPath(`/${basePath}/${entity.id}/product-form`, {
+                            productId: product.id,
+                          })}
+                        >
+                          {icons['edit'].toSvg()}
+                        </Link>
 
-                      <Button
-                        class="pico-reset !text-inherit"
-                        hx-delete={`/api/${basePath}/${entity.id}/products/${product.id}`}
-                        hx-target="#products"
-                        hx-swap="outerHTML"
-                        hx-confirm={_tShared('_shared.deletionConfirmation')}
-                        hx-indicator="#loader"
-                      >
-                        {icons.trash.toSvg()}
-                      </Button>
-                    </div>
-                  </Table.Body.Row.Cell>
-                </>
-              </Table.Body.Row>
-            ))}
+                        <Button
+                          class="pico-reset !text-inherit"
+                          hx-delete={`/api/${basePath}/${entity.id}/products/${product.id}`}
+                          hx-target="#products"
+                          hx-swap="outerHTML"
+                          hx-confirm={_tShared('_shared.deletionConfirmation')}
+                          hx-indicator="#loader"
+                        >
+                          {icons.trash.toSvg()}
+                        </Button>
+                      </div>
+                    </Table.Body.Row.Cell>
+                  </>
+                </Table.Body.Row>
+              ))}
           </>
         </Table.Body>
       </>

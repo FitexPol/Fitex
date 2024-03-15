@@ -175,17 +175,19 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
 
               {products.length > 0 ? (
                 <ul class="max-h-40 overflow-y-auto">
-                  {products.map(({ name, quantity, unit }) => (
-                    <li class="flex justify-between text-xs">
-                      <span>{name}</span>
+                  {products
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(({ name, quantity, unit }) => (
+                      <li class="flex justify-between text-xs">
+                        <span>{name}</span>
 
-                      {quantity && (
-                        <span>
-                          {getRoundedQuantity(quantity)} {unit}
-                        </span>
-                      )}
-                    </li>
-                  ))}
+                        {quantity && (
+                          <span>
+                            {getRoundedQuantity(quantity)} {unit}
+                          </span>
+                        )}
+                      </li>
+                    ))}
                 </ul>
               ) : (
                 <span class="text-xs">{_tShared('_shared.noProducts')}</span>

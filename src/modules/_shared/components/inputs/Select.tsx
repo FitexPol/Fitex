@@ -1,5 +1,4 @@
 import { type ComponentProps, type FormControl } from '../../types';
-import { getPlaceholder } from '../../utils/getPlaceholder';
 
 export type SelectOption = {
   value: string;
@@ -11,6 +10,7 @@ type SelectProps = {
   options: SelectOption[];
   value?: string;
   label?: string;
+  placeholder?: string;
   isDisabled?: boolean;
   error?: string;
 };
@@ -20,6 +20,7 @@ export function Select({
   options,
   value = '',
   label,
+  placeholder,
   isDisabled,
   class: className,
 }: ComponentProps<SelectProps>) {
@@ -27,9 +28,9 @@ export function Select({
     <label class={className}>
       {!!label && <span class="mb-1 block text-sm">{label}</span>}
       <select name={control.name} disabled={isDisabled}>
-        {control.placeholder && (
+        {placeholder && (
           <option value="" disabled selected>
-            {getPlaceholder(control.placeholder)}
+            {placeholder}
           </option>
         )}
         {options?.map(({ value: optionValue, label }) => (

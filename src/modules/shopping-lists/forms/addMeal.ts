@@ -4,7 +4,6 @@ export const addMealForm = {
   mealId: {
     type: 'text',
     name: 'mealId',
-    placeholder: 'shoppingLists.shoppingListEditSection.addMeal.placeholder',
     validators: {
       required: true,
       message: 'Meal is required',

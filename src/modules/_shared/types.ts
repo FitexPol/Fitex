@@ -67,7 +67,6 @@ export type SearchControl = Omit<TextControl, 'type'> & {
 
 export type FormControl = (TextControl | NumberControl | EmailControl | PasswordControl | SearchControl) & {
   name: string;
-  placeholder?: string;
 };
 
 export type Form = Record<string, FormControl | FormControl[]>;

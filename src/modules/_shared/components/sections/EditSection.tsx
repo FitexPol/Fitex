@@ -10,6 +10,7 @@ import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
 import { Button } from '../Button';
 import { Card } from '../Card';
+import { FloatingLink } from '../FloatingLink';
 import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
@@ -84,6 +85,7 @@ export async function EditSection<T extends Entity>({
                 <Input
                   control={addProductForm.name}
                   label={_tShared('editSection.addProduct.label')}
+                  placeholder={_tShared('editSection.addProduct.placeholder')}
                   datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
                   class="col-span-10 sm:col-span-11"
                 />
@@ -100,12 +102,7 @@ export async function EditSection<T extends Entity>({
         </>
       </Card>
 
-      <Link
-        href={`/${basePath}/${entity.id}`}
-        class="fixed bottom-5 right-5 rounded-full bg-pico-primary p-3 shadow-md"
-      >
-        {icons['clipboard'].toSvg({ class: 'w-7 h-7 stroke-white' })}
-      </Link>
+      <FloatingLink basePath={basePath} entityId={entity.id} icon="clipboard" />
     </section>
   );
 }
