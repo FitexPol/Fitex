@@ -26,7 +26,6 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
 
   return (
     <>
-      {'<!DOCTYPE html>'}
       <html lang="pl-PL">
         <head>
           <meta charset="UTF-8" />
