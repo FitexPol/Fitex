@@ -51,7 +51,18 @@ export async function EditSection<T extends Entity>({
     <section class="mb-10">
       <Card>
         <>
-          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
+          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} class="relative pr-10">
+            <Button
+              class="pico-reset absolute right-4 top-4 !text-inherit"
+              hx-delete={`/api/${basePath}/${entity.id}`}
+              hx-target="closest section"
+              hx-swap="outerHTML"
+              hx-confirm={$t('_deletionConfirmation')}
+              hx-indicator="#loader"
+            >
+              {icons.trash.toSvg()}
+            </Button>
+          </Card.Header>
 
           <Group
             title={$t('_basicInformation')}
@@ -100,7 +111,7 @@ export async function EditSection<T extends Entity>({
         </>
       </Card>
 
-      <FloatingLink basePath={basePath} entityId={entity.id} icon="clipboard" />
+      <FloatingLink href={`/${basePath}/${entity.id}`} icon="clipboard" />
     </section>
   );
 }
