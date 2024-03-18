@@ -18,10 +18,10 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
       <>
         <Table.Header>
           <>
-            <Table.Header.Item>{$t('name')}</Table.Header.Item>
-            <Table.Header.Item>{$t('quantity')}</Table.Header.Item>
-            <Table.Header.Item>{$t('unit')}</Table.Header.Item>
-            <Table.Header.Item>{$t('actions')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_name')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_quantity')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_unit')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_actions')}</Table.Header.Item>
           </>
         </Table.Header>
 
@@ -53,7 +53,7 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
                           hx-delete={`/api/${basePath}/${entity.id}/products/${product.id}`}
                           hx-target="#products"
                           hx-swap="outerHTML"
-                          hx-confirm={$t('deletionConfirmation')}
+                          hx-confirm={$t('_deletionConfirmation')}
                           hx-indicator="#loader"
                         >
                           {icons.trash.toSvg()}

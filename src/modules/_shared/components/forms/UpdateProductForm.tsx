@@ -20,14 +20,14 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
       <Input
         control={updateProductForm.name}
         value={productDoc.name}
-        label={$t('name')}
+        label={$t('_name')}
         error={errors?.name}
       />
 
       <Input
         control={updateProductForm.quantity}
         value={productDoc.quantity?.toString() ?? ''}
-        label={$t('quantity')}
+        label={$t('_quantity')}
         step=".1"
         error={errors?.quantity}
       />
@@ -39,11 +39,11 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
           value: unit,
           label: unit,
         }))}
-        label={$t('unit')}
+        label={$t('_unit')}
         error={errors?.unit}
       />
 
-      <Button type="submit">{$t('submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

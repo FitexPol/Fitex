@@ -18,7 +18,7 @@ export const signIn = new Elysia().use(context).post(
     if (!userDoc) {
       set.status = 'Not Found';
 
-      return <SignInForm errors={{ username: $t('errors.notFound') }} />;
+      return <SignInForm errors={{ username: $t('_errors.notFound') }} />;
     }
 
     const isPasswordCorrect = await Bun.password.verify(body.password, userDoc.password);
@@ -26,7 +26,7 @@ export const signIn = new Elysia().use(context).post(
     if (!isPasswordCorrect) {
       set.status = 'Bad Request';
 
-      return <SignInForm errors={{ password: $t('signIn.errors.wrongPassword') }} />;
+      return <SignInForm errors={{ password: $t('auth.signIn.errors.wrongPassword') }} />;
     }
 
     const token = await jwt.sign({

@@ -41,7 +41,7 @@ export function CardSection({
                 ))}
             </ul>
           ) : (
-            <span>{$t('noProducts')}</span>
+            <span>{$t('products.noProducts')}</span>
           )}
 
           {children}

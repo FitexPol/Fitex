@@ -46,7 +46,7 @@ export function CardsSection({
         </div>
 
         <div class="flex flex-col gap-2 lg:flex-row">
-          <Dropdown label={`${$t('itemsPerPage')}: ${activeFilters.itemsPerPage}`}>
+          <Dropdown label={`${$t('_itemsPerPage')}: ${activeFilters.itemsPerPage}`}>
             <>
               {itemsPerPageOptions.map(({ label, query: param }) => (
                 <Dropdown.Item active={param === activeFilters.itemsPerPage.toString()}>
@@ -58,7 +58,7 @@ export function CardsSection({
             </>
           </Dropdown>
 
-          <Dropdown label={`${$t('sort')}: ${activeSortLabel}`}>
+          <Dropdown label={`${$t('_sort')}: ${activeSortLabel}`}>
             <>
               {sortOptions.map(({ label, query: param }) => (
                 <Dropdown.Item active={label === activeSortLabel}>
@@ -83,7 +83,7 @@ export function CardsSection({
           {children}
         </ul>
       ) : (
-        <span>{$t('noResults')}</span>
+        <span>{$t('_noResults')}</span>
       )}
 
       <Pagination
@@ -188,7 +188,7 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
                     ))}
                 </ul>
               ) : (
-                <span class="text-xs">{$t('noProducts')}</span>
+                <span class="text-xs">{$t('products.noProducts')}</span>
               )}
 
               {children}
@@ -202,7 +202,7 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
                 hx-delete={`/api/${basePath}/${entityId}`}
                 hx-target="closest section"
                 hx-swap="outerHTML"
-                hx-confirm={$t('deletionConfirmation')}
+                hx-confirm={$t('_deletionConfirmation')}
                 hx-indicator="#loader"
               >
                 {icons.trash.toSvg()}

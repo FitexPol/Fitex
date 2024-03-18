@@ -19,18 +19,18 @@ export function UpdateMealForm({ shoppingListId, mealDoc, quantity }: ComponentP
       <Select
         control={updateMealForm.mealId}
         value={mealDoc.id}
-        label={$t('name')}
+        label={$t('_name')}
         options={[{ label: mealDoc.name, value: mealDoc.id }]}
       />
 
       <Input
         control={updateMealForm.quantity}
         value={quantity?.toString() ?? '1'}
-        label={$t('quantity')}
+        label={$t('_quantity')}
         step=".1"
       />
 
-      <Button type="submit">{$t('submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

@@ -24,16 +24,13 @@ export const createMeal = new Elysia().use(context).post(
     } catch {
       set.status = 'Bad Request';
 
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        $t('errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
     set.status = 'Created';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('createMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('meals.createMeal.success'));
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
   },
   {

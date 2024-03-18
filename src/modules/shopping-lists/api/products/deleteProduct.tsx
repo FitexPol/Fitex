@@ -15,14 +15,14 @@ export const deleteProduct = new Elysia()
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.permissionDenied'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
 
       return;
     }
@@ -35,12 +35,15 @@ export const deleteProduct = new Elysia()
       await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.badRequest'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('deleteProduct.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      $t('products.deleteProduct.success'),
+    );
 
     return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
   });

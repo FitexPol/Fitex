@@ -14,7 +14,7 @@ export const basicInformationFormPage = new Elysia()
     if (!query.id) {
       return (
         <Document user={user}>
-          <FormSection title={$t('basicInformationFormPage.title')}>
+          <FormSection title={$t('_basicInformation')}>
             <BasicInformationForm />
           </FormSection>
         </Document>
@@ -26,7 +26,7 @@ export const basicInformationFormPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{$t('errors.notFound')}</span>
+          <span>{$t('_errors.notFound')}</span>
         </Document>
       );
     }
@@ -34,7 +34,7 @@ export const basicInformationFormPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document user={user}>
-          <span>{$t('errors.permissionDenied')}</span>
+          <span>{$t('_errors.permissionDenied')}</span>
         </Document>
       );
     }

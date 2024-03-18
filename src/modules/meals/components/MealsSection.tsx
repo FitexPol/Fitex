@@ -37,7 +37,7 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
 
   return (
     <CardsSection
-      title={$t('mealsSection.title')}
+      title={$t('meals.mealsSection.title')}
       basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}

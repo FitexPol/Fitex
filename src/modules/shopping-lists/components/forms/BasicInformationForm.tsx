@@ -25,11 +25,11 @@ export function BasicInformationForm({ shoppingListDoc, errors }: ComponentProps
       <Input
         control={basicInformationForm.name}
         value={shoppingListDoc?.name}
-        label={$t('name')}
+        label={$t('_name')}
         error={errors?.name}
       />
 
-      <Button type="submit">{$t('submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

@@ -13,7 +13,7 @@ type MealEditSectionProps = {
 export function MealEditSection({ user, mealDoc }: ComponentProps<MealEditSectionProps>) {
   return (
     <EditSection
-      title={$t('mealEditSection.title')}
+      title={$t('meals.mealEditSection.title')}
       basePath="meals"
       entity={mealDoc}
       basicInformation={[

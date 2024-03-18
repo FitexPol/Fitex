@@ -21,7 +21,7 @@ export const createShoppingList = new Elysia().use(context).post(
     try {
       await shoppingListDoc.save();
     } catch {
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('errors.badRequest'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
@@ -29,7 +29,7 @@ export const createShoppingList = new Elysia().use(context).post(
     set.status = 'Created';
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      $t('createShoppingList.success'),
+      $t('shoppingLists.createShoppingList.success'),
     );
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
   },

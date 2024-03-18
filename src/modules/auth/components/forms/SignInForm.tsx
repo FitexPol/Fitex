@@ -12,10 +12,10 @@ type SignInFormProps = {
 export function SignInForm({ errors }: ComponentProps<SignInFormProps>) {
   return (
     <form hx-post="/api/auth/sign-in" hx-swap="outerHTML" hx-target-4xx="this">
-      <Input control={signInForm.username} label={$t('username')} error={errors?.username} />
-      <Input control={signInForm.password} label={$t('password')} error={errors?.password} />
+      <Input control={signInForm.username} label={$t('auth.username')} error={errors?.username} />
+      <Input control={signInForm.password} label={$t('auth.password')} error={errors?.password} />
 
-      <Button type="submit">{$t('submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

@@ -16,7 +16,7 @@ const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id
   if (!shoppingListDoc) {
     return (
       <Document>
-        <span>{$t('errors.notFound')}</span>
+        <span>{$t('_errors.notFound')}</span>
       </Document>
     );
   }
@@ -24,7 +24,7 @@ const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id
   if (!shoppingListDoc.author._id.equals(user!.id)) {
     return (
       <Document>
-        <span>{$t('errors.permissionDenied')}</span>
+        <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
   }

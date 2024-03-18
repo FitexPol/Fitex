@@ -17,7 +17,7 @@ export const mealFormPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{$t('errors.notFound')}</span>
+          <span>{$t('_errors.notFound')}</span>
         </Document>
       );
     }
@@ -25,7 +25,7 @@ export const mealFormPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document user={user}>
-          <span>{$t('errors.permissionDenied')}</span>
+          <span>{$t('_errors.permissionDenied')}</span>
         </Document>
       );
     }
@@ -41,7 +41,7 @@ export const mealFormPage = new Elysia()
         <FormSection title={shoppingListDoc.name}>
           {shoppingListMeal ? (
             !shoppingListMeal.meal || shoppingListMeal.meal instanceof Types.ObjectId ? (
-              <span>{$t('errors.population')}</span>
+              <span>{$t('_errors.population')}</span>
             ) : (
               <UpdateMealForm
                 shoppingListId={shoppingListDoc.id}
@@ -50,7 +50,7 @@ export const mealFormPage = new Elysia()
               />
             )
           ) : (
-            <span>{$t('errors.notFound')}</span>
+            <span>{$t('_errors.notFound')}</span>
           )}
         </FormSection>
       </Document>

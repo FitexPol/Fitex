@@ -21,7 +21,7 @@ const tabs = new Map<FormType, Tab>([
     'signIn',
     {
       href: '/auth',
-      label: $t('authSection.signIn'),
+      label: $t('auth.signIn'),
       component: <SignInForm />,
     },
   ],
@@ -29,7 +29,7 @@ const tabs = new Map<FormType, Tab>([
     'signUp',
     {
       href: getPath('/auth', { type: 'signUp' }),
-      label: $t('authSection.signUp'),
+      label: $t('auth.signUp'),
       component: <SignUpForm />,
     },
   ],

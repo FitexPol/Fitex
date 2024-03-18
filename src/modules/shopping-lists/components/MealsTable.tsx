@@ -21,9 +21,9 @@ export function MealsTable({ shoppingListDoc }: ComponentProps<MealsTableProps>)
       <>
         <Table.Header>
           <>
-            <Table.Header.Item>{$t('name')}</Table.Header.Item>
-            <Table.Header.Item>{$t('quantity')}</Table.Header.Item>
-            <Table.Header.Item>{$t('actions')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_name')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_quantity')}</Table.Header.Item>
+            <Table.Header.Item>{$t('_actions')}</Table.Header.Item>
           </>
         </Table.Header>
 
@@ -54,7 +54,7 @@ export function MealsTable({ shoppingListDoc }: ComponentProps<MealsTableProps>)
                           hx-delete={`/api/shopping-lists/${shoppingListDoc.id}/meals/${meal.id}`}
                           hx-target="#meals"
                           hx-swap="outerHTML"
-                          hx-confirm={$t('deletionConfirmation')}
+                          hx-confirm={$t('_deletionConfirmation')}
                           hx-indicator="#loader"
                         >
                           {icons.trash.toSvg()}

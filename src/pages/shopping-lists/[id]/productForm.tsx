@@ -17,7 +17,7 @@ export const productFormPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{$t('errors.notFound')}</span>
+          <span>{$t('_errors.notFound')}</span>
         </Document>
       );
     }
@@ -25,7 +25,7 @@ export const productFormPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document user={user}>
-          <span>{$t('errors.permissionDenied')}</span>
+          <span>{$t('_errors.permissionDenied')}</span>
         </Document>
       );
     }
@@ -43,7 +43,7 @@ export const productFormPage = new Elysia()
               endpoint={getPath(`/api/shopping-lists/${id}/products/${productDoc.id}`)}
             />
           ) : (
-            <span>{$t('errors.notFound')}</span>
+            <span>{$t('_errors.notFound')}</span>
           )}
         </FormSection>
       </Document>

@@ -63,8 +63,8 @@ type LayoutProps = {
 
 function Layout({ children, user }: ComponentProps<LayoutProps>) {
   const navigation: { name: string; href: string; isHidden?: boolean }[] = [
-    { name: $t('modules.shoppingLists'), href: '/shopping-lists' },
-    { name: $t('modules.meals'), href: '/meals' },
+    { name: $t('shoppingLists'), href: '/shopping-lists' },
+    { name: $t('meals'), href: '/meals' },
   ];
 
   return (
@@ -123,7 +123,7 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
 function LogoutButton({ class: className }: ComponentProps) {
   return (
     <Button hx-get="/api/auth/logout" class={$tm('pico-reset w-full', className)}>
-      {$t('logout')}
+      {$t('_logout')}
     </Button>
   );
 }

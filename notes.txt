@@ -1,6 +1,10 @@
 TODO:
-  - posprzątać tłumaczenia (usunąc placeholder z formów)
+  - naprawić sumowanie
+  - update elysia
   - error handling
+  - usuwanie zasobów
+  - breadcrumbs
+  - dodac query params body
   - zaznaczanie produktów
   - grupowanie produktów po kategorii
   - tagowanie posiłków

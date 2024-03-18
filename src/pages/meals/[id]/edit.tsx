@@ -12,7 +12,7 @@ export const mealEditPage = new Elysia().use(context).get('/edit', async ({ user
   if (!mealDoc) {
     return (
       <Document user={user}>
-        <span>{$t('errors.notFound')}</span>
+        <span>{$t('_errors.notFound')}</span>
       </Document>
     );
   }
@@ -20,7 +20,7 @@ export const mealEditPage = new Elysia().use(context).get('/edit', async ({ user
   if (!mealDoc.author._id.equals(user!.id)) {
     return (
       <Document user={user}>
-        <span>{$t('errors.permissionDenied')}</span>
+        <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
   }

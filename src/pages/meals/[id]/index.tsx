@@ -15,7 +15,7 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
   if (!mealDoc) {
     return (
       <Document>
-        <span>{$t('errors.notFound')}</span>
+        <span>{$t('_errors.notFound')}</span>
       </Document>
     );
   }
@@ -23,7 +23,7 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
   if (!mealDoc.author._id.equals(user!.id)) {
     return (
       <Document>
-        <span>{$t('permissionDenied')}</span>
+        <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
   }

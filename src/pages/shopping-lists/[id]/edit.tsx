@@ -14,7 +14,7 @@ export const shoppingListEditPage = new Elysia()
     if (!shoppingListDoc) {
       return (
         <Document user={user}>
-          <span>{$t('errors.notFound')}</span>
+          <span>{$t('_errors.notFound')}</span>
         </Document>
       );
     }
@@ -22,7 +22,7 @@ export const shoppingListEditPage = new Elysia()
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       return (
         <Document>
-          <span>{$t('errors.permissionDenied')}</span>
+          <span>{$t('_errors.permissionDenied')}</span>
         </Document>
       );
     }

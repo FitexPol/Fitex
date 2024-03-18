@@ -12,6 +12,7 @@ import { SortQuery, sortOptions } from '@vars';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
+import { IncludedMeals } from './IncludedMeals';
 
 type ShoppingListsSectionProps = {
   user: JWTUser;
@@ -40,7 +41,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
 
   return (
     <CardsSection
-      title={$t('shoppingListsSection.title')}
+      title={$t('shoppingLists.shoppingListsSection.title')}
       basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}
@@ -48,31 +49,16 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
       totalCount={totalShoppingListDocs}
     >
       <>
-        {shoppingListDocs.map((shoppingListDoc) => {
-          shoppingListDoc.meals;
-          const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
-            if (!meal || meal instanceof Types.ObjectId) return acc;
-
-            const text = quantity > 1 ? `${meal.name} (x${quantity})` : meal.name;
-
-            return acc.length > 0 ? `${acc}, ${text}` : text;
-          }, '');
-
-          return (
-            <CardsSection.Item
-              entityId={shoppingListDoc.id}
-              entityName={shoppingListDoc.name}
-              basePath={basePath}
-              products={getProductsSum(shoppingListDoc)}
-            >
-              {meals && (
-                <small class="text-xs">
-                  * {$t('includedMeals')}: {meals}
-                </small>
-              )}
-            </CardsSection.Item>
-          );
-        })}
+        {shoppingListDocs.map((shoppingListDoc) => (
+          <CardsSection.Item
+            entityId={shoppingListDoc.id}
+            entityName={shoppingListDoc.name}
+            basePath={basePath}
+            products={getProductsSum(shoppingListDoc)}
+          >
+            {shoppingListDoc.meals.length > 0 ? <IncludedMeals meals={shoppingListDoc.meals} /> : <></>}
+          </CardsSection.Item>
+        ))}
       </>
     </CardsSection>
   );

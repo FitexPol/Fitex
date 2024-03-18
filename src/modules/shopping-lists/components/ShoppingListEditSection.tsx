@@ -30,13 +30,13 @@ export async function ShoppingListEditSection({
 
   return (
     <EditSection
-      title={$t('shoppingListEditSection.title')}
+      title={$t('shoppingLists.shoppingListEditSection.title')}
       basePath="shopping-lists"
       entity={shoppingListDoc}
       basicInformation={[{ label: 'Nazwa', value: shoppingListDoc.name }]}
       user={user}
     >
-      <EditSection.Group title={$t('shoppingListEditSection.meals')}>
+      <EditSection.Group title={$t('meals')}>
         <>
           <form
             class="mt-2 grid !grid-cols-12"
@@ -48,8 +48,8 @@ export async function ShoppingListEditSection({
           >
             <Select
               control={addMealForm.mealId}
-              label={$t('shoppingListEditSection.addMeal.label')}
-              placeholder={$t('shoppingListEditSection.addMeal.placeholder')}
+              label={$t('shoppingLists.addMeal.label')}
+              placeholder={$t('shoppingLists.addMeal.placeholder')}
               options={mealOptions}
               class="col-span-10 sm:col-span-11"
             />

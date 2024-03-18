@@ -54,7 +54,7 @@ export async function EditSection<T extends Entity>({
           <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
 
           <Group
-            title={$t('basicInformation')}
+            title={$t('_basicInformation')}
             customElement={
               <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
                 {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
@@ -82,8 +82,8 @@ export async function EditSection<T extends Entity>({
               >
                 <Input
                   control={addProductForm.name}
-                  label={$t('addProduct.label')}
-                  placeholder={$t('addProduct.placeholder')}
+                  label={$t('products.addProduct.label')}
+                  placeholder={$t('products.addProduct.placeholder')}
                   datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
                   class="col-span-10 sm:col-span-11"
                 />
