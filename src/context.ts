@@ -9,7 +9,7 @@ export const context = new Elysia()
       secret: 'secret',
     }),
   )
-  .derive(async ({ cookie: { auth }, jwt }) => {
+  .derive({ as: 'global' }, async ({ cookie: { auth }, jwt }) => {
     const user = await jwt.verify(auth.value);
 
     if (!user) return { user: undefined };
