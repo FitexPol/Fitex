@@ -29,6 +29,7 @@ export const productSchema = new Schema<Product>({
   unit: {
     type: String,
     enum: Object.values(Unit),
+    default: Unit.Unit,
   },
 });
 

@@ -11,7 +11,7 @@ import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 export const productFormPage = new Elysia()
   .use(context)
-  .get('/product-form', async ({ params: { id }, user, query }) => {
+  .get('/product-form', async ({ params: { id }, user, query: { productId } }) => {
     const shoppingListDoc = await ShoppingList.findById(id).exec();
 
     if (!shoppingListDoc) {
@@ -31,7 +31,7 @@ export const productFormPage = new Elysia()
     }
 
     const productDoc = shoppingListDoc.products.find((productDoc) =>
-      productDoc._id.equals(getQueryParamSecure(query.productId)),
+      productDoc._id.equals(getQueryParamSecure(productId)),
     );
 
     return (

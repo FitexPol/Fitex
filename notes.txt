@@ -1,7 +1,5 @@
 TODO:
-  - barrelsby
   - zapisywanie kupionych produktów
-  - usuwanie zasobów
   - error handling
   - breadcrumbs
   - dodac query params body
