@@ -1,5 +1,4 @@
 TODO:
-  - update elysia
   - barrelsby
   - zapisywanie kupionych produktów
   - usuwanie zasobów
