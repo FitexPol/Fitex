@@ -9,6 +9,7 @@ import { HxResponseHeader } from '@vars';
 import { SignInForm } from '../components/forms/SignInForm';
 import { type SignInFormErrors, type SignInForm as SignInFormType, signInForm } from '../forms/signIn';
 import { User } from '../models/user';
+import { setAuthCookie } from '../utils/setAuthCookie';
 
 export const signIn = new Elysia().use(context).post(
   '/sign-in',
@@ -33,14 +34,14 @@ export const signIn = new Elysia().use(context).post(
       id: userDoc.id,
       username: userDoc.username,
     });
-
-    auth.set({
-      value: token,
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      maxAge: 7 * 86400,
-    });
+    setAuthCookie(auth, token);
+    // auth.set({
+    //   value: token,
+    //   path: '/',
+    //   httpOnly: true,
+    //   secure: true,
+    //   maxAge: 7 * 86400,
+    // });
 
     set.status = 200;
     set.headers[HxResponseHeader.Location] = '/';

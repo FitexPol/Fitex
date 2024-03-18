@@ -15,7 +15,7 @@
   "forwardPorts": [3000],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "curl -fsSL https://bun.sh/install | bash -s \"bun-v1.0.30\" && export BUN_INSTALL=\"/home/vscode/.bun\" && export PATH=\"$BUN_INSTALL/bin:$PATH\" && bun install",
+  "postCreateCommand": "curl -fsSL https://bun.sh/install | bash -s \"bun-v1.0.33\" && export BUN_INSTALL=\"/home/vscode/.bun\" && export PATH=\"$BUN_INSTALL/bin:$PATH\" && bun install",
 
   // Configure tool-specific properties.
   "customizations": {
