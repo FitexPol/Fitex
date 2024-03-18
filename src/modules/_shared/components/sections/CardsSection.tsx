@@ -39,13 +39,13 @@ export function CardsSection({
 }: ComponentProps<CardsSectionProps>) {
   return (
     <section>
-      <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row lg:items-center">
+      <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row xl:items-center">
         <div class="flex items-center gap-2">
           <h1 class="mb-0 text-xl">{title}</h1>
           <Link href={`/${basePath}/basic-information-form`}>{icons['plus-circle'].toSvg()}</Link>
         </div>
 
-        <div class="flex flex-col gap-2 lg:flex-row">
+        <div class="flex flex-col gap-2 xl:flex-row">
           <Dropdown label={`${$t('_itemsPerPage')}: ${activeFilters.itemsPerPage}`}>
             <>
               {itemsPerPageOptions.map(({ label, query: param }) => (

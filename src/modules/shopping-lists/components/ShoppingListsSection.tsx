@@ -1,5 +1,3 @@
-import { Types } from 'mongoose';
-
 import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
 import type { ComponentProps, Query, SortOption } from '@types';
@@ -10,9 +8,9 @@ import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
+import { IncludedMeals } from './IncludedMeals';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
-import { IncludedMeals } from './IncludedMeals';
 
 type ShoppingListsSectionProps = {
   user: JWTUser;

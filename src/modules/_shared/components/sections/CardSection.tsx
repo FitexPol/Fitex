@@ -48,7 +48,7 @@ export function CardSection({
         </>
       </Card>
 
-      <FloatingLink basePath={basePath} entityId={entityId} icon="edit-2" />
+      <FloatingLink href={`/${basePath}/${entityId}/edit`} icon="edit-2" />
     </section>
   );
 }

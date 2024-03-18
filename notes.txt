@@ -1,8 +1,9 @@
 TODO:
-  - naprawić sumowanie
   - update elysia
-  - error handling
+  - barrelsby
+  - zapisywanie kupionych produktów
   - usuwanie zasobów
+  - error handling
   - breadcrumbs
   - dodac query params body
   - zaznaczanie produktów
