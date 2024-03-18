@@ -2,15 +2,13 @@ import { Elysia, type ValidationError } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
 import { SignInForm } from '../components/forms/SignInForm';
 import { type SignInFormErrors, type SignInForm as SignInFormType, signInForm } from '../forms/signIn';
 import { User } from '../models/user';
-
-const _t = $t('auth');
 
 export const signIn = new Elysia().use(context).post(
   '/sign-in',
@@ -20,7 +18,7 @@ export const signIn = new Elysia().use(context).post(
     if (!userDoc) {
       set.status = 'Not Found';
 
-      return <SignInForm errors={{ username: _t('_shared.errors.notFound') }} />;
+      return <SignInForm errors={{ username: $t('_errors.notFound') }} />;
     }
 
     const isPasswordCorrect = await Bun.password.verify(body.password, userDoc.password);
@@ -28,7 +26,7 @@ export const signIn = new Elysia().use(context).post(
     if (!isPasswordCorrect) {
       set.status = 'Bad Request';
 
-      return <SignInForm errors={{ password: _t('signIn.errors.wrongPassword') }} />;
+      return <SignInForm errors={{ password: $t('auth.signIn.errors.wrongPassword') }} />;
     }
 
     const token = await jwt.sign({

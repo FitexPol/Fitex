@@ -1,13 +1,13 @@
 import { type ValidationError } from 'elysia';
 
-import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
+import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 
 import { BasicInformationForm } from '../components/forms/BasicInformationForm';
 import {
   type BasicInformationFormErrors,
   type BasicInformationForm as BasicInformationFormType,
   basicInformationForm,
-} from '../forms/basic-information';
+} from '../forms/basicInformation';
 
 export function getBasicInformationFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
   const errors: BasicInformationFormErrors = getBodySchemaErrors<BasicInformationFormType>(

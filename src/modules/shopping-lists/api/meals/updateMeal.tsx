@@ -2,15 +2,12 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { type UpdateMealForm, updateMealForm } from '../../forms/update-meal';
+import { type UpdateMealForm, updateMealForm } from '../../forms/updateMeal';
 import { ShoppingList } from '../../models/shoppingList';
-
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
 
 export const updateMeal = new Elysia().use(context).patch(
   ':mealId',
@@ -19,26 +16,26 @@ export const updateMeal = new Elysia().use(context).patch(
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
 
       return;
     }
 
-    const mealDoc = shoppingListDoc.meals.find(({ meal }) => meal!._id.equals(mealId));
+    const mealDoc = shoppingListDoc.meals.find(({ meal }) => {
+      if (!meal) return false;
+      return meal._id.equals(mealId);
+    });
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
@@ -49,15 +46,15 @@ export const updateMeal = new Elysia().use(context).patch(
       await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('updateMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      $t('shoppingLists.updateMeal.success'),
+    );
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
   },
   {

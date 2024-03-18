@@ -2,15 +2,13 @@ import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
 import type { ComponentProps, Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
-import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
-import { getPage } from '@utils/getPage';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
-import { getSkipValue } from '@utils/getSkipValue';
+import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
+import { getPage } from '@utils/pagination/getPage';
+import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
 import { Meal, type MealDoc } from '../models/meal';
-
-const _t = $t('meals');
 
 type MealsSectionProps = {
   user: JWTUser;
@@ -39,7 +37,7 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
 
   return (
     <CardsSection
-      title={_t('mealsSection.title')}
+      title={$t('meals.mealsSection.title')}
       basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}

@@ -5,8 +5,6 @@ import { $t } from '@utils/$t';
 
 import { type MealDoc } from '../models/meal';
 
-const _t = $t('meals');
-
 type MealEditSectionProps = {
   user: JWTUser;
   mealDoc: MealDoc;
@@ -15,7 +13,7 @@ type MealEditSectionProps = {
 export function MealEditSection({ user, mealDoc }: ComponentProps<MealEditSectionProps>) {
   return (
     <EditSection
-      title={_t('mealEditSection.title')}
+      title={$t('meals.mealEditSection.title')}
       basePath="meals"
       entity={mealDoc}
       basicInformation={[

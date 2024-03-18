@@ -9,8 +9,6 @@ import { Link } from './Link';
 import { $t } from '../utils/$t';
 import { $tm } from '../utils/$tm';
 
-const _t = $t('_shared');
-
 type DocumentProps = {
   layout?: 'default' | 'none';
   user?: JWTUser;
@@ -65,8 +63,8 @@ type LayoutProps = {
 
 function Layout({ children, user }: ComponentProps<LayoutProps>) {
   const navigation: { name: string; href: string; isHidden?: boolean }[] = [
-    { name: _t('_document.navigation.shoppingLists'), href: '/shopping-lists' },
-    { name: _t('_document.navigation.meals'), href: '/meals' },
+    { name: $t('shoppingLists'), href: '/shopping-lists' },
+    { name: $t('meals'), href: '/meals' },
   ];
 
   return (
@@ -125,7 +123,7 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
 function LogoutButton({ class: className }: ComponentProps) {
   return (
     <Button hx-get="/api/auth/logout" class={$tm('pico-reset w-full', className)}>
-      {_t('_document.logout')}
+      {$t('_logout')}
     </Button>
   );
 }

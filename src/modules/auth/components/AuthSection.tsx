@@ -8,8 +8,6 @@ import { getPath } from '@utils/getPath';
 import { SignInForm } from './forms/SignInForm';
 import { SignUpForm } from './forms/SignUpForm';
 
-const _t = $t('auth');
-
 type FormType = 'signIn' | 'signUp';
 
 type Tab = {
@@ -23,7 +21,7 @@ const tabs = new Map<FormType, Tab>([
     'signIn',
     {
       href: '/auth',
-      label: _t('authSection.signIn'),
+      label: $t('auth.signIn'),
       component: <SignInForm />,
     },
   ],
@@ -31,7 +29,7 @@ const tabs = new Map<FormType, Tab>([
     'signUp',
     {
       href: getPath('/auth', { type: 'signUp' }),
-      label: _t('authSection.signUp'),
+      label: $t('auth.signUp'),
       component: <SignUpForm />,
     },
   ],

@@ -15,6 +15,7 @@
     "lint:fix": "eslint --fix ./src & bun run tslint",
     "format": "prettier --check ./src",
     "format:fix": "prettier --write ./src",
+    "i18n-extract": "bun run ./src/i18n/extract.ts",
     "docker:start": "bun run docker:build && bun run docker:run",
     "docker:build": "docker build --pull -t fitex:prod .",
     "docker:run": "docker run -d -p 3000:3000 fitex:prod",

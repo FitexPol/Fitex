@@ -2,16 +2,13 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { type BasicInformationForm, basicInformationForm } from '../forms/basic-information';
+import { type BasicInformationForm, basicInformationForm } from '../forms/basicInformation';
 import { Meal } from '../models/meal';
 import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
-
-const _t = $t('meals');
-const _tShared = $t('_shared');
 
 export const createMeal = new Elysia().use(context).post(
   '',
@@ -27,16 +24,13 @@ export const createMeal = new Elysia().use(context).post(
     } catch {
       set.status = 'Bad Request';
 
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
     set.status = 'Created';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', _t('createMeal.success'));
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('meals.createMeal.success'));
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
   },
   {

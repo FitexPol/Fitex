@@ -5,9 +5,7 @@ import { type MealDoc } from '@meals/models/meal';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { updateMealForm } from '../../forms/update-meal';
-
-const _tShared = $t('_shared');
+import { updateMealForm } from '../../forms/updateMeal';
 
 type UpdateMealFormProps = {
   shoppingListId: string;
@@ -21,18 +19,18 @@ export function UpdateMealForm({ shoppingListId, mealDoc, quantity }: ComponentP
       <Select
         control={updateMealForm.mealId}
         value={mealDoc.id}
-        label={_tShared('_shared.forms.name')}
+        label={$t('_name')}
         options={[{ label: mealDoc.name, value: mealDoc.id }]}
       />
 
       <Input
         control={updateMealForm.quantity}
         value={quantity?.toString() ?? '1'}
-        label={_tShared('_shared.forms.quantity')}
+        label={$t('_quantity')}
         step=".1"
       />
 
-      <Button type="submit">{_tShared('_shared.forms.submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

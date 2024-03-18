@@ -3,10 +3,8 @@ import { Input } from '@components/inputs/Input';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basic-information';
+import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basicInformation';
 import { type ShoppingListDoc } from '../../models/shoppingList';
-
-const _tShared = $t('_shared');
 
 type BasicInformationFormProps = {
   shoppingListDoc?: ShoppingListDoc;
@@ -27,11 +25,11 @@ export function BasicInformationForm({ shoppingListDoc, errors }: ComponentProps
       <Input
         control={basicInformationForm.name}
         value={shoppingListDoc?.name}
-        label={_tShared('_shared.forms.name')}
+        label={$t('_name')}
         error={errors?.name}
       />
 
-      <Button type="submit">{_tShared('_shared.forms.submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

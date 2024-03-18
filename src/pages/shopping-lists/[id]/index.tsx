@@ -10,15 +10,13 @@ import { shoppingListEditPage } from './edit';
 import { mealFormPage } from './mealForm';
 import { productFormPage } from './productForm';
 
-const _t = $t('shoppingLists');
-
 const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id }, user }) => {
   const shoppingListDoc = await ShoppingList.findById(id).populate('meals.meal').exec();
 
   if (!shoppingListDoc) {
     return (
       <Document>
-        <span>{_t('_shared.errors.notFound')}</span>
+        <span>{$t('_errors.notFound')}</span>
       </Document>
     );
   }
@@ -26,7 +24,7 @@ const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id
   if (!shoppingListDoc.author._id.equals(user!.id)) {
     return (
       <Document>
-        <span>{_t('_shared.errors.permissionDenied')}</span>
+        <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
   }

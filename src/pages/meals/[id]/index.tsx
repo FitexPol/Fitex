@@ -9,15 +9,13 @@ import { $t } from '@utils/$t';
 import { mealEditPage } from './edit';
 import { productFormPage } from './productForm';
 
-const _t = $t('meals');
-
 const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user }) => {
   const mealDoc = await Meal.findById(id).exec();
 
   if (!mealDoc) {
     return (
       <Document>
-        <span>{_t('_shared.errors.notFound')}</span>
+        <span>{$t('_errors.notFound')}</span>
       </Document>
     );
   }
@@ -25,7 +23,7 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
   if (!mealDoc.author._id.equals(user!.id)) {
     return (
       <Document>
-        <span>{_t('_shared.permissionDenied')}</span>
+        <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
   }

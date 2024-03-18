@@ -1,20 +1,19 @@
 import { icons } from 'feather-icons';
 
-import { Meal } from '@/modules/meals/models/meal';
-import { ShoppingList } from '@/modules/shopping-lists/models/shoppingList';
 import { type JWTUser } from '@auth/models/user';
+import { Meal } from '@meals/models/meal';
+import { ShoppingList } from '@shopping-lists/models/shoppingList';
 
-import { addProductForm } from '../../forms/add-product';
+import { addProductForm } from '../../forms/addProduct';
 import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
 import { Button } from '../Button';
 import { Card } from '../Card';
+import { FloatingLink } from '../FloatingLink';
 import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
-
-const _tShared = $t('_shared');
 
 type EditSectionProps<T extends Entity> = {
   title: string;
@@ -55,7 +54,7 @@ export async function EditSection<T extends Entity>({
           <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
 
           <Group
-            title={_tShared('_shared.basicInformation')}
+            title={$t('_basicInformation')}
             customElement={
               <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
                 {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
@@ -71,7 +70,7 @@ export async function EditSection<T extends Entity>({
             </ul>
           </Group>
 
-          <Group title={_tShared('_shared.products')}>
+          <Group title={$t('products')}>
             <>
               <form
                 class="mt-2 grid !grid-cols-12"
@@ -83,7 +82,8 @@ export async function EditSection<T extends Entity>({
               >
                 <Input
                   control={addProductForm.name}
-                  label={_tShared('editSection.addProduct.label')}
+                  label={$t('products.addProduct.label')}
+                  placeholder={$t('products.addProduct.placeholder')}
                   datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
                   class="col-span-10 sm:col-span-11"
                 />
@@ -100,12 +100,7 @@ export async function EditSection<T extends Entity>({
         </>
       </Card>
 
-      <Link
-        href={`/${basePath}/${entity.id}`}
-        class="fixed bottom-5 right-5 rounded-full bg-pico-primary p-3 shadow-md"
-      >
-        {icons['clipboard'].toSvg({ class: 'w-7 h-7 stroke-white' })}
-      </Link>
+      <FloatingLink basePath={basePath} entityId={entity.id} icon="clipboard" />
     </section>
   );
 }

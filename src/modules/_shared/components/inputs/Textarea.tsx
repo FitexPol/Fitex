@@ -1,11 +1,11 @@
 import { type ComponentProps, type FormControl } from '../../types';
-import { getPlaceholder } from '../../utils/getPlaceholder';
 import { getTextValidators } from '../../utils/getTextValidators';
 
 type TextareaProps = {
   control: FormControl;
   value?: string;
   label?: string;
+  placeholder?: string;
   rows?: string;
   error?: string;
 };
@@ -14,18 +14,19 @@ export function Textarea({
   control,
   value = '',
   label,
+  placeholder,
   rows,
   error,
   class: className,
 }: ComponentProps<TextareaProps>) {
-  const { placeholder, ...textareaAttributes }: JSX.HtmlTextAreaTag = getTextareaAttributes(control);
+  const textareaAttributes: JSX.HtmlTextAreaTag = getTextareaAttributes(control);
 
   return (
     <label class={className}>
       {!!label && <span class="mb-1 block text-sm">{label}</span>}
       <textarea
         {...textareaAttributes}
-        placeholder={getPlaceholder(placeholder)}
+        placeholder={placeholder}
         rows={rows}
         aria-invalid={error && 'true'}
         class="resize-none px-4 py-3"

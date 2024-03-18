@@ -4,11 +4,9 @@ import { Select } from '@components/inputs/Select';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type UpdateProductFormErrors, updateProductForm } from '../../forms/update-product';
+import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
-
-const _tShared = $t('_shared');
 
 type UpdateProductFormProps = {
   productDoc: ProductDoc;
@@ -22,14 +20,14 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
       <Input
         control={updateProductForm.name}
         value={productDoc.name}
-        label={_tShared('_shared.forms.name')}
+        label={$t('_name')}
         error={errors?.name}
       />
 
       <Input
         control={updateProductForm.quantity}
         value={productDoc.quantity?.toString() ?? ''}
-        label={_tShared('_shared.forms.quantity')}
+        label={$t('_quantity')}
         step=".1"
         error={errors?.quantity}
       />
@@ -41,11 +39,11 @@ export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentPro
           value: unit,
           label: unit,
         }))}
-        label={_tShared('_shared.unit')}
+        label={$t('_unit')}
         error={errors?.unit}
       />
 
-      <Button type="submit">{_tShared('_shared.forms.submit')}</Button>
+      <Button type="submit">{$t('_submit')}</Button>
     </form>
   );
 }

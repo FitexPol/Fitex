@@ -4,15 +4,13 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Select } from '@components/inputs/Select';
 import { EditSection } from '@components/sections/EditSection';
-import { getMealOptions } from '@meals/utils/getMealOptions';
+import { Meal } from '@meals/models/meal';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { MealsTable } from './MealsTable';
-import { addMealForm } from '../forms/add-meal';
+import { addMealForm } from '../forms/addMeal';
 import { type ShoppingListDoc } from '../models/shoppingList';
-
-const _t = $t('shoppingLists');
 
 type ShoppingListEditSectionProps = {
   user: JWTUser;
@@ -23,17 +21,22 @@ export async function ShoppingListEditSection({
   user,
   shoppingListDoc,
 }: ComponentProps<ShoppingListEditSectionProps>) {
-  const mealOptions = await getMealOptions(user);
+  const mealDocs = await Meal.find({ author: user.id }).sort({ name: 1 });
+
+  const mealOptions = mealDocs.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
 
   return (
     <EditSection
-      title={_t('shoppingListEditSection.title')}
+      title={$t('shoppingLists.shoppingListEditSection.title')}
       basePath="shopping-lists"
       entity={shoppingListDoc}
       basicInformation={[{ label: 'Nazwa', value: shoppingListDoc.name }]}
       user={user}
     >
-      <EditSection.Group title={_t('shoppingListEditSection.meals')}>
+      <EditSection.Group title={$t('meals')}>
         <>
           <form
             class="mt-2 grid !grid-cols-12"
@@ -45,7 +48,8 @@ export async function ShoppingListEditSection({
           >
             <Select
               control={addMealForm.mealId}
-              label={_t('shoppingListEditSection.addMeal.label')}
+              label={$t('shoppingLists.addMeal.label')}
+              placeholder={$t('shoppingLists.addMeal.placeholder')}
               options={mealOptions}
               class="col-span-10 sm:col-span-11"
             />

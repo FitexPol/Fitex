@@ -6,15 +6,13 @@ import { MealEditSection } from '@meals/components/MealEditSection';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 
-const _t = $t('meals');
-
 export const mealEditPage = new Elysia().use(context).get('/edit', async ({ user, params: { id } }) => {
   const mealDoc = await Meal.findById(id).exec();
 
   if (!mealDoc) {
     return (
       <Document user={user}>
-        <span>{_t('_shared.errors.notFound')}</span>
+        <span>{$t('_errors.notFound')}</span>
       </Document>
     );
   }
@@ -22,7 +20,7 @@ export const mealEditPage = new Elysia().use(context).get('/edit', async ({ user
   if (!mealDoc.author._id.equals(user!.id)) {
     return (
       <Document user={user}>
-        <span>{_t('_shared.errors.permissionDenied')}</span>
+        <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
   }

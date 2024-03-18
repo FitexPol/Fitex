@@ -2,17 +2,14 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { ProductsTable } from '@components/ProductsTable';
-import { type AddProductForm, addProductForm } from '@forms/add-product';
+import { type AddProductForm, addProductForm } from '@forms/addProduct';
 import { Product } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { ShoppingList } from '../../models/shoppingList';
-
-const _t = $t('shoppingLists');
-const _tShared = $t('_shared');
 
 export const addProduct = new Elysia().use(context).post(
   '',
@@ -21,17 +18,14 @@ export const addProduct = new Elysia().use(context).post(
 
     if (!shoppingListDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
 
     if (!shoppingListDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
 
       return;
     }
@@ -40,7 +34,7 @@ export const addProduct = new Elysia().use(context).post(
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
         'error',
-        _tShared('_shared.addProduct.errors.productAlreadyExists'),
+        $t('products.addProduct.errors.productAlreadyExists'),
       );
 
       return;
@@ -53,17 +47,14 @@ export const addProduct = new Elysia().use(context).post(
       await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      _tShared('_shared.addProduct.success'),
+      $t('products.addProduct.success'),
     );
 
     return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;

@@ -3,13 +3,10 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { ProductsTable } from '@components/ProductsTable';
 import { $t } from '@utils/$t';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { Meal } from '../../models/meal';
-
-const _t = $t('meals');
-const _tShared = $t('_shared');
 
 export const deleteProduct = new Elysia()
   .use(context)
@@ -18,17 +15,14 @@ export const deleteProduct = new Elysia()
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
 
     if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
 
       return;
     }
@@ -39,17 +33,14 @@ export const deleteProduct = new Elysia()
       await mealDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      _tShared('_shared.deleteProduct.success'),
+      $t('products.deleteProduct.success'),
     );
 
     return <ProductsTable entity={mealDoc} basePath="meals" />;

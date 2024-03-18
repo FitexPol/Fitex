@@ -1,18 +1,18 @@
+import { Types } from 'mongoose';
+
 import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
 import type { ComponentProps, Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
-import { getItemsPerPageOption } from '@utils/getItemPerPageOption';
-import { getPage } from '@utils/getPage';
-import { getPopulatedDoc } from '@utils/getPopulatedDoc';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
-import { getSkipValue } from '@utils/getSkipValue';
+import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
+import { getPage } from '@utils/pagination/getPage';
+import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 import { getProductsSum } from '../utils/getProductsSum';
-
-const _t = $t('shoppingLists');
+import { IncludedMeals } from './IncludedMeals';
 
 type ShoppingListsSectionProps = {
   user: JWTUser;
@@ -41,7 +41,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
 
   return (
     <CardsSection
-      title={_t('shoppingListsSection.title')}
+      title={$t('shoppingLists.shoppingListsSection.title')}
       basePath={basePath}
       query={query}
       activeFilters={{ itemsPerPage, page }}
@@ -49,32 +49,16 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
       totalCount={totalShoppingListDocs}
     >
       <>
-        {shoppingListDocs.map((shoppingListDoc) => {
-          const meals = shoppingListDoc.meals.reduce((acc, { meal, quantity }) => {
-            const mealDoc = getPopulatedDoc(meal);
-
-            if (!mealDoc) return acc;
-
-            const text = quantity > 1 ? `${mealDoc.name} (x${quantity})` : mealDoc.name;
-
-            return acc.length > 0 ? `${acc}, ${text}` : text;
-          }, '');
-
-          return (
-            <CardsSection.Item
-              entityId={shoppingListDoc.id}
-              entityName={shoppingListDoc.name}
-              basePath={basePath}
-              products={getProductsSum(shoppingListDoc)}
-            >
-              {meals && (
-                <small class="text-xs">
-                  * {_t('_shared.includedMeals')}: {meals}
-                </small>
-              )}
-            </CardsSection.Item>
-          );
-        })}
+        {shoppingListDocs.map((shoppingListDoc) => (
+          <CardsSection.Item
+            entityId={shoppingListDoc.id}
+            entityName={shoppingListDoc.name}
+            basePath={basePath}
+            products={getProductsSum(shoppingListDoc)}
+          >
+            {shoppingListDoc.meals.length > 0 ? <IncludedMeals meals={shoppingListDoc.meals} /> : <></>}
+          </CardsSection.Item>
+        ))}
       </>
     </CardsSection>
   );

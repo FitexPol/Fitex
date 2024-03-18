@@ -2,15 +2,13 @@ import { Elysia, type ValidationError } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getBodySchemaErrors } from '@utils/getBodySchemaErrors';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { HxResponseHeader } from '@vars';
 
 import { SignUpForm } from '../components/forms/SignUpForm';
 import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms/signUp';
 import { User } from '../models/user';
-
-const _t = $t('auth');
 
 export const signUp = new Elysia().use(context).post(
   '/sign-up',
@@ -18,7 +16,7 @@ export const signUp = new Elysia().use(context).post(
     if (body.password !== body.repeatedPassword) {
       set.status = 'Bad Request';
 
-      return <SignUpForm errors={{ repeatedPassword: _t('signUp.errors.wrongRepeatedPassword') }} />;
+      return <SignUpForm errors={{ repeatedPassword: $t('auth.signUp.errors.wrongRepeatedPassword') }} />;
     }
 
     const existingUser = await User.exists({ username: body.username });
@@ -26,7 +24,7 @@ export const signUp = new Elysia().use(context).post(
     if (existingUser) {
       set.status = 'Bad Request';
 
-      return <SignUpForm errors={{ username: _t('signUp.errors.userExists') }} />;
+      return <SignUpForm errors={{ username: $t('auth.signUp.errors.userExists') }} />;
     }
 
     const hash = await Bun.password.hash(body.password);

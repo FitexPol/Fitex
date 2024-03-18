@@ -1,17 +1,14 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { type UpdateProductForm, updateProductForm } from '@forms/update-product';
+import { type UpdateProductForm, updateProductForm } from '@forms/updateProduct';
 import { type Unit } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/getBodySchema';
-import { getNotificationHeader } from '@utils/getNotificationHeader';
+import { getBodySchema } from '@utils/api/getBodySchema';
+import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { Meal } from '../../models/meal';
-
-const _t = $t('meals');
-const _tShared = $t('_shared');
 
 export const updateProduct = new Elysia().use(context).patch(
   ':productId',
@@ -20,17 +17,14 @@ export const updateProduct = new Elysia().use(context).patch(
 
     if (!mealDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
 
     if (!mealDoc.author._id.equals(user!.id)) {
       set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _t('_shared.errors.permissionDenied'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
 
       return;
     }
@@ -39,7 +33,7 @@ export const updateProduct = new Elysia().use(context).patch(
 
     if (!productDoc) {
       set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', _t('_shared.errors.notFound'));
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
 
       return;
     }
@@ -52,17 +46,14 @@ export const updateProduct = new Elysia().use(context).patch(
       await mealDoc.save();
     } catch {
       set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        _tShared('_shared.errors.badRequest'),
-      );
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
 
       return;
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
       'success',
-      _tShared('_shared.updateProduct.success'),
+      $t('products.updateProduct.success'),
     );
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
   },

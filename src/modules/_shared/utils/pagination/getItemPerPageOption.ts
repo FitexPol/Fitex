@@ -1,4 +1,4 @@
-import { ItemsPerPage } from '../vars';
+import { ItemsPerPage } from '../../vars';
 
 export function getItemsPerPageOption(queryParam: string): number {
   switch (queryParam) {
