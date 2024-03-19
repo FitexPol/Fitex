@@ -1,6 +1,5 @@
-const notificationPortal = document.getElementById('notification-portal');
-
 document.body.addEventListener('notification', ({ detail }) => {
+  const notificationPortal = document.getElementById('notification-portal');
   const messageNode = document.createElement('span');
   messageNode.textContent = decodeURIComponent(detail.message);
 
@@ -19,24 +18,6 @@ document.body.addEventListener('notification', ({ detail }) => {
     notificationPortal.close();
   }, 2000);
 });
-
-// const modalPortal = document.getElementById('modal-portal');
-
-// document.body.addEventListener('showModal', () => {
-//   modalPortal.showModal();
-// });
-
-// document.body.addEventListener('closeModal', () => {
-//   closeModal();
-// });
-
-// modalPortal.addEventListener('click', (e) => {
-//   if (e.target === modalPortal) closeModal();
-// });
-
-// function closeModal() {
-//   modalPortal.close();
-// }
 
 function toggleMenu() {
   const menu = document.getElementById('menu');
