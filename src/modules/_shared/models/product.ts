@@ -12,6 +12,7 @@ export type Product = {
   name: string;
   quantity: number;
   unit: Unit;
+  isChecked: boolean;
 };
 
 export const productSchema = new Schema<Product>({
@@ -30,6 +31,10 @@ export const productSchema = new Schema<Product>({
     type: String,
     enum: Object.values(Unit),
     default: Unit.Unit,
+  },
+  isChecked: {
+    type: Boolean,
+    default: false,
   },
 });
 

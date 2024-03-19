@@ -1,16 +1,16 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
-import { ProductsTable } from '@components/ProductsTable';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
+import { ShoppingListSection } from '../../components/ShoppingListSection';
 import { ShoppingList } from '../../models/shoppingList';
 
-export const deleteProduct = new Elysia()
+export const toggleCheckState = new Elysia()
   .use(context)
-  .delete('', async ({ params: { id: shoppingListId, productId }, set, user }) => {
+  .patch('check-state', async ({ params: { id: shoppingListId, productId }, set, user }) => {
     const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
 
     if (!shoppingListDoc) {
@@ -27,9 +27,16 @@ export const deleteProduct = new Elysia()
       return;
     }
 
-    shoppingListDoc.products = shoppingListDoc.products.filter(
-      (productDoc) => !productDoc._id.equals(productId),
-    );
+    const productDoc = shoppingListDoc.products.find((productDoc) => productDoc._id.equals(productId));
+
+    if (!productDoc) {
+      set.status = 'Not Found';
+      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
+
+      return;
+    }
+
+    productDoc.isChecked = !productDoc.isChecked;
 
     try {
       await shoppingListDoc.save();
@@ -40,10 +47,5 @@ export const deleteProduct = new Elysia()
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      $t('products.deleteProduct.success'),
-    );
-
-    return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
+    return <ShoppingListSection shoppingListDoc={shoppingListDoc} />;
   });

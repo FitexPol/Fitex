@@ -7,6 +7,7 @@ type ShoppingList = {
   name: string;
   creationDate: Date;
   products: ProductDoc[];
+  selectedProducts: string[];
 };
 
 const shoppingListSchema = new Schema<ShoppingList>({
@@ -28,6 +29,10 @@ const shoppingListSchema = new Schema<ShoppingList>({
   },
   products: {
     type: [productSchema],
+    default: [],
+  },
+  selectedProducts: {
+    type: [String],
     default: [],
   },
 });

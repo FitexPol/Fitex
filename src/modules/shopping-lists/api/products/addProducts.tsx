@@ -62,6 +62,7 @@ export const addProducts = new Elysia().use(context).put('', async ({ params: { 
     }
 
     existingProductDoc.quantity += quantity;
+    existingProductDoc.isChecked = false;
   });
 
   try {
