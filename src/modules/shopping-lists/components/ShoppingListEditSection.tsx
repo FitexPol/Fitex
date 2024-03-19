@@ -1,15 +1,8 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
-import { Button } from '@components/Button';
-import { Select } from '@components/inputs/Select';
 import { EditSection } from '@components/sections/EditSection';
-import { Meal } from '@meals/models/meal';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { MealsTable } from './MealsTable';
-import { addMealForm } from '../forms/addMeal';
 import { type ShoppingListDoc } from '../models/shoppingList';
 
 type ShoppingListEditSectionProps = {
@@ -21,47 +14,13 @@ export async function ShoppingListEditSection({
   user,
   shoppingListDoc,
 }: ComponentProps<ShoppingListEditSectionProps>) {
-  const mealDocs = await Meal.find({ author: user.id }).sort({ name: 1 });
-
-  const mealOptions = mealDocs.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
-
   return (
     <EditSection
       title={$t('shoppingLists.shoppingListEditSection.title')}
       basePath="shopping-lists"
       entity={shoppingListDoc}
-      basicInformation={[{ label: 'Nazwa', value: shoppingListDoc.name }]}
+      basicInformation={[{ label: $t('_name'), value: shoppingListDoc.name }]}
       user={user}
-    >
-      <EditSection.Group title={$t('meals')}>
-        <>
-          <form
-            class="mt-2 grid !grid-cols-12"
-            hx-post={`/api/shopping-lists/${shoppingListDoc.id}/meals`}
-            hx-target="#meals"
-            hx-swap="outerHTML"
-            hx-on--after-request="this.reset()"
-            hx-indicator="#loader"
-          >
-            <Select
-              control={addMealForm.mealId}
-              label={$t('shoppingLists.addMeal.label')}
-              placeholder={$t('shoppingLists.addMeal.placeholder')}
-              options={mealOptions}
-              class="col-span-10 sm:col-span-11"
-            />
-
-            <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
-              {icons['plus-circle'].toSvg()}
-            </Button>
-          </form>
-
-          <MealsTable shoppingListDoc={shoppingListDoc} />
-        </>
-      </EditSection.Group>
-    </EditSection>
+    />
   );
 }

@@ -9,7 +9,7 @@ import { $t } from '@utils/$t';
 export const shoppingListEditPage = new Elysia()
   .use(context)
   .get('/edit', async ({ user, params: { id } }) => {
-    const shoppingListDoc = await ShoppingList.findById(id).populate('meals.meal').exec();
+    const shoppingListDoc = await ShoppingList.findById(id).exec();
 
     if (!shoppingListDoc) {
       return (

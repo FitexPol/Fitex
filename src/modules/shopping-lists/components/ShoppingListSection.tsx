@@ -1,9 +1,9 @@
 import { CardSection } from '@components/sections/CardSection';
 import type { ComponentProps } from '@types';
+import { $t } from '@utils/$t';
+import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
-import { IncludedMeals } from './IncludedMeals';
 import { type ShoppingListDoc } from '../models/shoppingList';
-import { getProductsSum } from '../utils/getProductsSum';
 
 type ShoppingListSectionProps = {
   shoppingListDoc: ShoppingListDoc;
@@ -11,13 +11,25 @@ type ShoppingListSectionProps = {
 
 export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<ShoppingListSectionProps>) {
   return (
-    <CardSection
-      entityId={shoppingListDoc.id}
-      entityName={shoppingListDoc.name}
-      basePath="shopping-lists"
-      products={getProductsSum(shoppingListDoc)}
-    >
-      {shoppingListDoc.meals.length > 0 ? <IncludedMeals meals={shoppingListDoc.meals} /> : <></>}
+    <CardSection entity={shoppingListDoc} basePath="shopping-lists">
+      <>
+        {shoppingListDoc.products.length > 0 ? (
+          <ul>
+            {shoppingListDoc.products
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map(({ name, quantity, unit }) => (
+                <li>
+                  <label>
+                    <input type="checkbox" name={name} />
+                    {name} - {getRoundedQuantity(quantity)} {unit}
+                  </label>
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <span>{$t('products.noProducts')}</span>
+        )}
+      </>
     </CardSection>
   );
 }

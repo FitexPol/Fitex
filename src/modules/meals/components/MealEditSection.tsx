@@ -17,8 +17,8 @@ export function MealEditSection({ user, mealDoc }: ComponentProps<MealEditSectio
       basePath="meals"
       entity={mealDoc}
       basicInformation={[
-        { label: 'Nazwa', value: mealDoc.name },
-        { label: 'Opis', value: mealDoc.description },
+        { label: $t('_name'), value: mealDoc.name },
+        { label: $t('_description'), value: mealDoc.description },
       ]}
       user={user}
     />
