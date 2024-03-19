@@ -197,7 +197,7 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
               {basePath === 'meals' && (
                 <Link href={`/${basePath}/${entity.id}/shopping-lists`}>{icons['plus-circle'].toSvg()}</Link>
               )}
-              
+
               <Button
                 class="pico-reset !text-inherit"
                 hx-delete={`/api/${basePath}/${entity.id}`}
