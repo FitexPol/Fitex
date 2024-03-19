@@ -10,7 +10,7 @@ import { ShoppingList } from '../../models/shoppingList';
 
 export const deleteProduct = new Elysia()
   .use(context)
-  .delete(':productId', async ({ params: { id: shoppingListId, productId }, set, user }) => {
+  .delete('', async ({ params: { id: shoppingListId, productId }, set, user }) => {
     const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
 
     if (!shoppingListDoc) {

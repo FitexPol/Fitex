@@ -8,9 +8,7 @@ import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
-import { IncludedMeals } from './IncludedMeals';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
-import { getProductsSum } from '../utils/getProductsSum';
 
 type ShoppingListsSectionProps = {
   user: JWTUser;
@@ -34,7 +32,6 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
     .skip(getSkipValue(page, itemsPerPage))
     .limit(itemsPerPage)
     .sort(sortValue)
-    .populate('meals.meal')
     .exec();
 
   return (
@@ -48,14 +45,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
     >
       <>
         {shoppingListDocs.map((shoppingListDoc) => (
-          <CardsSection.Item
-            entityId={shoppingListDoc.id}
-            entityName={shoppingListDoc.name}
-            basePath={basePath}
-            products={getProductsSum(shoppingListDoc)}
-          >
-            {shoppingListDoc.meals.length > 0 ? <IncludedMeals meals={shoppingListDoc.meals} /> : <></>}
-          </CardsSection.Item>
+          <CardsSection.Item entity={shoppingListDoc} basePath={basePath} />
         ))}
       </>
     </CardsSection>

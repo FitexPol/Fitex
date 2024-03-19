@@ -1,7 +1,6 @@
 import { icons } from 'feather-icons';
 
-import { type ProductDoc } from '../../models/product';
-import type { BasePath, ComponentProps } from '../../types';
+import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
@@ -153,27 +152,25 @@ function getFilteredItems(totalPages: number, page: number): number[] {
   return [1, -1, page - 1, page, page + 1, -1, totalPages];
 }
 
-type ItemProps = {
-  entityId: string;
-  entityName: string;
+type ItemProps<T extends Entity> = {
+  entity: T;
   basePath: BasePath;
-  products: ProductDoc[];
 };
 
-function Item({ entityId, entityName, basePath, products, children }: ComponentProps<ItemProps>) {
+function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<ItemProps<T>>) {
   return (
     <li>
       <Card class="group relative h-full">
         <>
-          <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{entityName}</h3>} />
+          <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{entity.name}</h3>} />
 
-          <Link href={getPath(`/${basePath}/${entityId}`)} class="contrast flex-grow">
+          <Link href={getPath(`/${basePath}/${entity.id}`)} class="contrast flex-grow">
             <>
               <h4 class="mb-2 text-sm">{$t('products')}:</h4>
 
-              {products.length > 0 ? (
+              {entity.products.length > 0 ? (
                 <ul class="max-h-40 overflow-y-auto">
-                  {products
+                  {entity.products
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .map(({ name, quantity, unit }) => (
                       <li class="flex justify-between text-xs">
@@ -197,9 +194,13 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
 
           <Card.Footer class="flex justify-end gap-2">
             <>
+              {basePath === 'meals' && (
+                <Link href={`/${basePath}/${entity.id}/shopping-lists`}>{icons['plus-circle'].toSvg()}</Link>
+              )}
+
               <Button
                 class="pico-reset !text-inherit"
-                hx-delete={`/api/${basePath}/${entityId}`}
+                hx-delete={`/api/${basePath}/${entity.id}`}
                 hx-target="closest section"
                 hx-swap="outerHTML"
                 hx-confirm={$t('_deletionConfirmation')}
@@ -208,7 +209,7 @@ function Item({ entityId, entityName, basePath, products, children }: ComponentP
                 {icons.trash.toSvg()}
               </Button>
 
-              <Link href={`/${basePath}/${entityId}/edit`}>{icons.edit.toSvg()}</Link>
+              <Link href={`/${basePath}/${entity.id}/edit`}>{icons.edit.toSvg()}</Link>
             </>
           </Card.Footer>
         </>

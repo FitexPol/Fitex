@@ -11,7 +11,7 @@ import { HxResponseHeader } from '@vars';
 import { ShoppingList } from '../../models/shoppingList';
 
 export const updateProduct = new Elysia().use(context).patch(
-  ':productId',
+  '',
   async ({ params: { id: shoppingListId, productId }, set, user, body }) => {
     const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
 
@@ -41,6 +41,7 @@ export const updateProduct = new Elysia().use(context).patch(
     productDoc.name = body.name;
     productDoc.quantity = Number(body.quantity);
     productDoc.unit = body.unit as Unit;
+    productDoc.isChecked = false;
 
     try {
       await shoppingListDoc.save();
