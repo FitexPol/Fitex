@@ -35,19 +35,34 @@ function toggleSidePanel() {
   }
 }
 
-function updateAddToShoppingListLink(mealId) {
-  const productList = document.getElementById(`products-${mealId}`);
-  const checkboxes = productList.querySelectorAll('input');
-  const queryParams = new URLSearchParams();
+function submitAddToShoppingListForm(event, form, mealId) {
+  event.preventDefault();
 
-  checkboxes.forEach((checkbox, i) => {
-    if (!checkbox.checked) return;
+  const formData = new FormData(form);
+  const productIds = [];
 
-    queryParams.append(`product-${i}`, checkbox.name);
+  formData.forEach((value, key) => {
+    if (key.startsWith('product-')) {
+      productIds.push(key.split('-')[1]);
+    }
   });
 
-  const link = document.getElementById(`add-to-shopping-list-${mealId}`);
-  const url = new URL(link.href);
-  
-  link.href = queryParams.toString().length > 0 ? `${url.pathname}?${queryParams.toString()}` : url.pathname;
+  if (productIds.length === 0) {
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach((checkbox) => {
+      productIds.push(checkbox.name.split('-')[1]);
+    });
+  }
+
+  htmx.ajax('PUT', `/api/shopping-lists/${formData.get('shoppingListId')}/products`, {
+    values: {
+      mealId,
+      ...productIds.reduce((acc, productId, i) => {
+        acc[`product-${i}`] = productId;
+        return acc;
+      }, {}),
+    },
+    indicator: '#loader',
+  });
 }

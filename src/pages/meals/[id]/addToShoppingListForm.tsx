@@ -2,13 +2,14 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { ShoppingListsSection } from '@meals/components/ShoppingListsSection';
+import { FormSection } from '@components/sections/FormSection';
+import { AddToShoppingListForm } from '@meals/components/forms/AddToShoppingListForm';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 
-export const shoppingListsPage = new Elysia()
+export const addToShoppingListFormPage = new Elysia()
   .use(context)
-  .get('/shopping-lists', async ({ params: { id }, user, query }) => {
+  .get('/add-to-shopping-list-form', async ({ params: { id }, user }) => {
     const mealDoc = await Meal.findById(id).exec();
 
     if (!mealDoc) {
@@ -29,7 +30,9 @@ export const shoppingListsPage = new Elysia()
 
     return (
       <Document user={user}>
-        <ShoppingListsSection user={user!} mealId={mealDoc.id} query={query} />
+        <FormSection title={$t('meals.addToShoppingList')} floatingLinkHref="/meals">
+          <AddToShoppingListForm user={user!} mealDoc={mealDoc} />
+        </FormSection>
       </Document>
     );
   });
