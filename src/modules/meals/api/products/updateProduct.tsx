@@ -55,7 +55,7 @@ export const updateProduct = new Elysia().use(context).patch(
       'success',
       $t('products.updateProduct.success'),
     );
-    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
     body: getBodySchema<UpdateProductForm>(updateProductForm),

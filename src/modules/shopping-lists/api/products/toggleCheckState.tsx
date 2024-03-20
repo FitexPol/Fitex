@@ -5,7 +5,7 @@ import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingListSection } from '../../components/ShoppingListSection';
+import { ShoppingListCardProducts } from '../../components/ShoppingListCardProducts';
 import { ShoppingList } from '../../models/shoppingList';
 
 export const toggleCheckState = new Elysia()
@@ -47,5 +47,5 @@ export const toggleCheckState = new Elysia()
       return;
     }
 
-    return <ShoppingListSection shoppingListDoc={shoppingListDoc} />;
+    return <ShoppingListCardProducts shoppingListDoc={shoppingListDoc} />;
   });

@@ -2,7 +2,7 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Meal } from '@meals/models/meal';
-import { Product } from '@models/product';
+import { Product, type ProductDoc } from '@models/product';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
@@ -52,7 +52,19 @@ export const addProducts = new Elysia().use(context).put('', async ({ params: { 
     return;
   }
 
-  mealDoc.products.forEach(({ name, quantity, unit }) => {
+  const productDocs = Object.entries(query).reduce((acc, [key, value]) => {
+    if (!key.startsWith('product-') || !value) return acc;
+
+    const productDoc = mealDoc.products.find((productDoc) => productDoc._id.equals(value));
+
+    if (!productDoc) return acc;
+
+    return [...acc, productDoc];
+  }, [] as ProductDoc[]);
+
+  const iterable = productDocs.length ? productDocs : mealDoc.products;
+
+  iterable.forEach(({ name, quantity, unit }) => {
     const existingProductDoc = shoppingListDoc.products.find((productDoc) => productDoc.name === name);
 
     if (!existingProductDoc || (existingProductDoc && existingProductDoc.unit !== unit)) {

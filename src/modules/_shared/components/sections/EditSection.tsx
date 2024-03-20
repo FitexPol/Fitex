@@ -10,7 +10,6 @@ import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
 import { Button } from '../Button';
 import { Card } from '../Card';
-import { FloatingLink } from '../FloatingLink';
 import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
@@ -29,7 +28,6 @@ export async function EditSection<T extends Entity>({
   entity,
   basicInformation,
   user,
-  children,
 }: ComponentProps<EditSectionProps<T>>) {
   const productNames: Record<string, string> = {};
   const shoppingListDocs = await ShoppingList.find({ author: user.id });
@@ -51,9 +49,51 @@ export async function EditSection<T extends Entity>({
     <section class="mb-10">
       <Card>
         <>
-          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} class="relative pr-10">
+          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} class="relative pr-10" />
+
+          <div class="mb-4 border-b border-solid border-b-pico-muted last-of-type:border-none">
+            <div class="flex items-center gap-2">
+              <h2 class="mb-0 text-lg">{$t('_basicInformation')}</h2>
+              <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
+                {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
+              </Link>
+            </div>
+
+            <ul class="mt-1">
+              {basicInformation.map(({ label, value }) => (
+                <li class="text-sm">
+                  <strong>{label}:</strong> {value}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <form
+            class="mt-2 grid !grid-cols-12"
+            hx-post={`/api/${basePath}/${entity.id}/products`}
+            hx-target="#products"
+            hx-swap="outerHTML"
+            hx-on--after-request="this.reset()"
+            hx-indicator="#loader"
+          >
+            <Input
+              control={addProductForm.name}
+              label={$t('products.addProduct.label')}
+              placeholder={$t('products.addProduct.placeholder')}
+              datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
+              class="col-span-10 sm:col-span-11"
+            />
+
+            <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
+              {icons['plus-circle'].toSvg()}
+            </Button>
+          </form>
+
+          <ProductsTable entity={entity} basePath={basePath} />
+
+          <Card.Footer class="flex justify-end">
             <Button
-              class="pico-reset absolute right-4 top-4 !text-inherit"
+              class="pico-reset !text-inherit"
               hx-delete={`/api/${basePath}/${entity.id}`}
               hx-target="closest section"
               hx-swap="outerHTML"
@@ -62,56 +102,9 @@ export async function EditSection<T extends Entity>({
             >
               {icons.trash.toSvg()}
             </Button>
-          </Card.Header>
-
-          <Group
-            title={$t('_basicInformation')}
-            customElement={
-              <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
-                {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
-              </Link>
-            }
-          >
-            <ul class="mt-1">
-              {basicInformation.map(({ label, value }) => (
-                <li class="text-sm">
-                  <strong>{label}:</strong> {value}
-                </li>
-              ))}
-            </ul>
-          </Group>
-
-          <Group title={$t('products')}>
-            <>
-              <form
-                class="mt-2 grid !grid-cols-12"
-                hx-post={`/api/${basePath}/${entity.id}/products`}
-                hx-target="#products"
-                hx-swap="outerHTML"
-                hx-on--after-request="this.reset()"
-                hx-indicator="#loader"
-              >
-                <Input
-                  control={addProductForm.name}
-                  label={$t('products.addProduct.label')}
-                  placeholder={$t('products.addProduct.placeholder')}
-                  datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
-                  class="col-span-10 sm:col-span-11"
-                />
-
-                <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
-                  {icons['plus-circle'].toSvg()}
-                </Button>
-              </form>
-
-              <ProductsTable entity={entity} basePath={basePath} />
-            </>
-          </Group>
-          {children}
+          </Card.Footer>
         </>
       </Card>
-
-      <FloatingLink href={`/${basePath}/${entity.id}`} icon="clipboard" />
     </section>
   );
 }

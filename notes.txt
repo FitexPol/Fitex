@@ -1,9 +1,7 @@
 TODO:
-  - zapisywanie kupionych produktów
   - error handling
   - breadcrumbs
-  - dodac query params body
-  - zaznaczanie produktów
+  - poprawić burger menu
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)

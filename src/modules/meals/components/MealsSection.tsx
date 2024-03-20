@@ -8,6 +8,7 @@ import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
+import { MealCard } from './MealCard';
 import { Meal, type MealDoc } from '../models/meal';
 
 type MealsSectionProps = {
@@ -46,7 +47,7 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
     >
       <>
         {mealDocs.map((mealDoc) => (
-          <CardsSection.Item entity={mealDoc} basePath={basePath} />
+          <MealCard mealDoc={mealDoc} />
         ))}
       </>
     </CardsSection>

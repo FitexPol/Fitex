@@ -129,7 +129,7 @@ function LogoutButton({ class: className }: ComponentProps) {
 
 function Loader() {
   return (
-    <div id="loader" class="loader-indicator fixed bottom-5 left-5" hx-preserve="true">
+    <div id="loader" class="loader-indicator fixed bottom-5 left-5 z-50" hx-preserve="true">
       <div
         class="relative inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
         role="status"

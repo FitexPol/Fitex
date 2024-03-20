@@ -56,7 +56,7 @@ export const updateProduct = new Elysia().use(context).patch(
       'success',
       $t('products.updateProduct.success'),
     );
-    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
+    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   },
   {
     body: getBodySchema<UpdateProductForm>(updateProductForm),

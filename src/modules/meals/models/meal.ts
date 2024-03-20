@@ -9,6 +9,7 @@ type Meal = {
   isFavorite: boolean;
   creationDate: Date;
   products: ProductDoc[];
+  isVisible: boolean;
 };
 
 const mealSchema = new Schema<Meal>({
@@ -40,6 +41,10 @@ const mealSchema = new Schema<Meal>({
   products: {
     type: [productSchema],
     default: [],
+  },
+  isVisible: {
+    type: Boolean,
+    default: false,
   },
 });
 
