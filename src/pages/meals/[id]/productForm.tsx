@@ -36,7 +36,7 @@ export const productFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <FormSection title={mealDoc.name}>
+        <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${id}`}>
           {productDoc ? (
             <UpdateProductForm
               productDoc={productDoc}

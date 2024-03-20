@@ -18,6 +18,7 @@ export function MealCard({ mealDoc }: ComponentProps<MealCardProps>) {
           id={`products-form-${mealDoc.id}`}
           hx-get={`/api/meals/${mealDoc.id}/shopping-lists`}
           hx-indicator="#loader"
+          class="mb-4"
         >
           {mealDoc.products
             .sort((a, b) => a.name.localeCompare(b.name))

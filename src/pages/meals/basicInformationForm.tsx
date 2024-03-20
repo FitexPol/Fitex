@@ -14,7 +14,7 @@ export const basicInformationFormPage = new Elysia()
     if (!query.id) {
       return (
         <Document user={user}>
-          <FormSection title={$t('_basicInformation')}>
+          <FormSection title={$t('_basicInformation')} floatingLinkHref="/meals">
             <BasicInformationForm />
           </FormSection>
         </Document>
@@ -41,7 +41,7 @@ export const basicInformationFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <FormSection title={mealDoc.name}>
+        <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
           <BasicInformationForm mealDoc={mealDoc} />
         </FormSection>
       </Document>
