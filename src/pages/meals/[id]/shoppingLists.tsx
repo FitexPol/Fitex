@@ -8,7 +8,7 @@ import { $t } from '@utils/$t';
 
 export const shoppingListsPage = new Elysia()
   .use(context)
-  .get('/shopping-lists', async ({ params: { id }, user }) => {
+  .get('/shopping-lists', async ({ params: { id }, user, query }) => {
     const mealDoc = await Meal.findById(id).exec();
 
     if (!mealDoc) {
@@ -29,7 +29,7 @@ export const shoppingListsPage = new Elysia()
 
     return (
       <Document user={user}>
-        <ShoppingListsSection user={user!} mealId={mealDoc.id} />
+        <ShoppingListsSection user={user!} mealId={mealDoc.id} query={query} />
       </Document>
     );
   });

@@ -2,11 +2,10 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { ShoppingListSection } from '@shopping-lists/components/ShoppingListSection';
+import { ShoppingListEditSection } from '@shopping-lists/components/ShoppingListEditSection';
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 
-import { shoppingListEditPage } from './edit';
 import { productFormPage } from './productForm';
 
 const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id }, user }) => {
@@ -14,7 +13,7 @@ const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id
 
   if (!shoppingListDoc) {
     return (
-      <Document>
+      <Document user={user}>
         <span>{$t('_errors.notFound')}</span>
       </Document>
     );
@@ -30,11 +29,11 @@ const shoppingListPage = new Elysia().use(context).get('', async ({ params: { id
 
   return (
     <Document user={user}>
-      <ShoppingListSection shoppingListDoc={shoppingListDoc} />
+      <ShoppingListEditSection user={user!} shoppingListDoc={shoppingListDoc} />
     </Document>
   );
 });
 
 export const shoppingListPages = new Elysia().group('/:id', (app) =>
-  app.use(shoppingListPage).use(shoppingListEditPage).use(productFormPage),
+  app.use(shoppingListPage).use(productFormPage),
 );

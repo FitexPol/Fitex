@@ -46,7 +46,7 @@ export const updateBasicInformation = new Elysia().use(context).patch(
       $t('_basicInformation.updateBasicInformation.success'),
     );
 
-    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
     body: getBodySchema<BasicInformationForm>(basicInformationForm),

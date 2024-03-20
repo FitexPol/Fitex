@@ -2,17 +2,15 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { type BasicInformationForm, basicInformationForm } from '../forms/basicInformation';
+import { ShoppingListCard } from '../components/ShoppingListCard';
 import { ShoppingList } from '../models/shoppingList';
-import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
 
-export const updateBasicInformation = new Elysia().use(context).patch(
-  '',
-  async ({ params: { id }, set, user, body }) => {
+export const toggleVisibilityState = new Elysia()
+  .use(context)
+  .patch('visibility-state', async ({ params: { id }, set, user }) => {
     const shoppingListDoc = await ShoppingList.findById(id).exec();
 
     if (!shoppingListDoc) {
@@ -29,10 +27,10 @@ export const updateBasicInformation = new Elysia().use(context).patch(
       return;
     }
 
+    shoppingListDoc.isVisible = !shoppingListDoc.isVisible;
+
     try {
-      await shoppingListDoc.updateOne({
-        name: body.name,
-      });
+      await shoppingListDoc.save();
     } catch {
       set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
@@ -40,19 +38,5 @@ export const updateBasicInformation = new Elysia().use(context).patch(
       return;
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      $t('_basicInformation.updateBasicInformation.success'),
-    );
-
-    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
-  },
-  {
-    body: getBodySchema<BasicInformationForm>(basicInformationForm),
-    error({ code, error }) {
-      if (code === 'VALIDATION') {
-        return getBasicInformationFormWithErrors(error);
-      }
-    },
-  },
-);
+    return <ShoppingListCard shoppingListDoc={shoppingListDoc} />;
+  });

@@ -31,7 +31,7 @@ export const createShoppingList = new Elysia().use(context).post(
       'success',
       $t('shoppingLists.createShoppingList.success'),
     );
-    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}/edit`;
+    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   },
   {
     body: getBodySchema<BasicInformationForm>(basicInformationForm),

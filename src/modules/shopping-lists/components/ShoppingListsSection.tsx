@@ -8,6 +8,7 @@ import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, sortOptions } from '@vars';
 
+import { ShoppingListCard } from './ShoppingListCard';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 type ShoppingListsSectionProps = {
@@ -45,7 +46,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
     >
       <>
         {shoppingListDocs.map((shoppingListDoc) => (
-          <CardsSection.Item entity={shoppingListDoc} basePath={basePath} />
+          <ShoppingListCard shoppingListDoc={shoppingListDoc} />
         ))}
       </>
     </CardsSection>

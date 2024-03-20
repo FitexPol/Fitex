@@ -4,7 +4,6 @@ import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
-import { getRoundedQuantity } from '../../utils/getRoundedQuantity';
 import { itemsPerPageOptions, sortOptions } from '../../vars';
 import { Button } from '../Button';
 import { Card } from '../Card';
@@ -38,7 +37,7 @@ export function CardsSection({
   children,
 }: ComponentProps<CardsSectionProps>) {
   return (
-    <section>
+    <section class="mb-20">
       <div class="mb-6 flex items-center justify-between gap-y-5">
         <h1 class="mb-0 text-xl">{title}</h1>
         <Button class="pico-reset" onclick="toggleSidePanel()">
@@ -192,42 +191,36 @@ type ItemProps<T extends Entity> = {
 function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<ItemProps<T>>) {
   return (
     <li>
-      <Card class="group relative h-full">
+      <Card class="relative h-full">
         <>
-          <Card.Header title={<h3 class="mb-0 pr-7 text-lg">{entity.name}</h3>} />
-
-          <Link href={getPath(`/${basePath}/${entity.id}`)} class="contrast flex-grow">
+          <Button
+            class="pico-reset flex w-full items-center justify-between !text-lg"
+            hx-patch={`/api/${basePath}/${entity.id}/visibility-state`}
+            hx-target="closest li"
+            hx-swap="outerHTML"
+            hx-indicator="#loader"
+          >
             <>
-              <h4 class="mb-2 text-sm">{$t('products')}:</h4>
-
-              {entity.products.length > 0 ? (
-                <ul class="max-h-40 overflow-y-auto">
-                  {entity.products
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map(({ name, quantity, unit }) => (
-                      <li class="flex justify-between text-xs">
-                        <span>{name}</span>
-
-                        {quantity && (
-                          <span>
-                            {getRoundedQuantity(quantity)} {unit}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                </ul>
-              ) : (
-                <span class="text-xs">{$t('products.noProducts')}</span>
-              )}
-
-              {children}
+              {entity.name}
+              {icons['chevron-down'].toSvg({ class: entity.isVisible ? 'rotate-180' : 'rotate-0' })}
             </>
-          </Link>
+          </Button>
 
-          <Card.Footer class="flex justify-end gap-2">
-            <>
+          <div class={$tm('mt-4 border-t-2 border-t-pico-muted pt-3', !entity.isVisible && 'hidden')}>
+            {children}
+
+            <div class="flex justify-end gap-2">
               {basePath === 'meals' && (
-                <Link href={`/${basePath}/${entity.id}/shopping-lists`}>{icons['plus-circle'].toSvg()}</Link>
+                <Button
+                  type="submit"
+                  form={`products-form-${entity.id}`}
+                  class="pico-reset inline-flex !w-auto items-center gap-2 !text-xs !text-pico-text"
+                >
+                  <>
+                    {$t('meals.addToShoppingList')}
+                    {icons['plus-circle'].toSvg({ class: 'w-5 h-5' })}
+                  </>
+                </Button>
               )}
 
               <Button
@@ -238,12 +231,12 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
                 hx-confirm={$t('_deletionConfirmation')}
                 hx-indicator="#loader"
               >
-                {icons.trash.toSvg()}
+                {icons.trash.toSvg({ class: 'w-5 h-5' })}
               </Button>
 
-              <Link href={`/${basePath}/${entity.id}/edit`}>{icons.edit.toSvg()}</Link>
-            </>
-          </Card.Footer>
+              <Link href={`/${basePath}/${entity.id}`}>{icons.edit.toSvg({ class: 'w-5 h-5' })}</Link>
+            </div>
+          </div>
         </>
       </Card>
     </li>

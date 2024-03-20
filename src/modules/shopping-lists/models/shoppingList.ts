@@ -7,7 +7,7 @@ type ShoppingList = {
   name: string;
   creationDate: Date;
   products: ProductDoc[];
-  selectedProducts: string[];
+  isVisible: boolean;
 };
 
 const shoppingListSchema = new Schema<ShoppingList>({
@@ -31,9 +31,9 @@ const shoppingListSchema = new Schema<ShoppingList>({
     type: [productSchema],
     default: [],
   },
-  selectedProducts: {
-    type: [String],
-    default: [],
+  isVisible: {
+    type: Boolean,
+    default: false,
   },
 });
 

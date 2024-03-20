@@ -12,7 +12,7 @@ type Children = {
 
 export type ComponentProps<Props = object> = Props & Class & Children;
 export type Populated<T> = PopulatedDoc<Document<Types.ObjectId> & T>;
-export type Entity = HydratedDocument<{ name: string; products: ProductDoc[] }>;
+export type Entity = HydratedDocument<{ name: string; products: ProductDoc[]; isVisible: boolean }>;
 
 export type SortOption<T> = {
   label: string;

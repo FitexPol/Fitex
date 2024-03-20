@@ -31,7 +31,7 @@ export const createMeal = new Elysia().use(context).post(
 
     set.status = 'Created';
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('meals.createMeal.success'));
-    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}/edit`;
+    set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
     body: getBodySchema<BasicInformationForm>(basicInformationForm),

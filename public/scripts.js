@@ -34,3 +34,20 @@ function toggleSidePanel() {
     });
   }
 }
+
+function updateAddToShoppingListLink(mealId) {
+  const productList = document.getElementById(`products-${mealId}`);
+  const checkboxes = productList.querySelectorAll('input');
+  const queryParams = new URLSearchParams();
+
+  checkboxes.forEach((checkbox, i) => {
+    if (!checkbox.checked) return;
+
+    queryParams.append(`product-${i}`, checkbox.name);
+  });
+
+  const link = document.getElementById(`add-to-shopping-list-${mealId}`);
+  const url = new URL(link.href);
+  
+  link.href = queryParams.toString().length > 0 ? `${url.pathname}?${queryParams.toString()}` : url.pathname;
+}

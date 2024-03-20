@@ -2,11 +2,10 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { MealSection } from '@meals/components/MealSection';
+import { MealEditSection } from '@meals/components/MealEditSection';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 
-import { mealEditPage } from './edit';
 import { productFormPage } from './productForm';
 import { shoppingListsPage } from './shoppingLists';
 
@@ -15,7 +14,7 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
 
   if (!mealDoc) {
     return (
-      <Document>
+      <Document user={user}>
         <span>{$t('_errors.notFound')}</span>
       </Document>
     );
@@ -23,7 +22,7 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
 
   if (!mealDoc.author._id.equals(user!.id)) {
     return (
-      <Document>
+      <Document user={user}>
         <span>{$t('_errors.permissionDenied')}</span>
       </Document>
     );
@@ -31,11 +30,11 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
 
   return (
     <Document user={user}>
-      <MealSection mealDoc={mealDoc} />
+      <MealEditSection user={user!} mealDoc={mealDoc} />
     </Document>
   );
 });
 
 export const mealPages = new Elysia().group('/:id', (app) =>
-  app.use(mealPage).use(mealEditPage).use(productFormPage).use(shoppingListsPage),
+  app.use(mealPage).use(productFormPage).use(shoppingListsPage),
 );

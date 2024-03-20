@@ -40,14 +40,6 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
 
                     <Table.Body.Row.Cell>
                       <div class="flex items-center gap-2">
-                        <Link
-                          href={getPath(`/${basePath}/${entity.id}/product-form`, {
-                            productId: product.id,
-                          })}
-                        >
-                          {icons['edit'].toSvg()}
-                        </Link>
-
                         <Button
                           class="pico-reset !text-inherit"
                           hx-delete={`/api/${basePath}/${entity.id}/products/${product.id}`}
@@ -56,8 +48,16 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
                           hx-confirm={$t('_deletionConfirmation')}
                           hx-indicator="#loader"
                         >
-                          {icons.trash.toSvg()}
+                          {icons.trash.toSvg({ class: 'w-5 h-5' })}
                         </Button>
+
+                        <Link
+                          href={getPath(`/${basePath}/${entity.id}/product-form`, {
+                            productId: product.id,
+                          })}
+                        >
+                          {icons['edit'].toSvg({ class: 'w-5 h-5' })}
+                        </Link>
                       </div>
                     </Table.Body.Row.Cell>
                   </>
