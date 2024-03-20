@@ -9,7 +9,7 @@ type FormSectionProps = {
 
 export async function FormSection({ title, floatingLinkHref, children }: ComponentProps<FormSectionProps>) {
   return (
-    <section>
+    <section class="mb-20">
       <Card>
         <>
           <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />

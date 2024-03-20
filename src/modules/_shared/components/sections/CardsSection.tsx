@@ -62,6 +62,7 @@ export function CardsSection({
                         <Checkbox
                           name={label}
                           isChecked={param === activeFilters.itemsPerPage.toString()}
+                          onchange="event.preventDefault()"
                           class="text-pico-text"
                         >
                           {label}
@@ -80,7 +81,12 @@ export function CardsSection({
                         href={getPath(`/${basePath}`, { itemsPerPage: query.itemsPerPage, sort: param })}
                         class="capitalize"
                       >
-                        <Checkbox name={label} isChecked={label === activeSortLabel} class="text-pico-text">
+                        <Checkbox
+                          name={label}
+                          isChecked={label === activeSortLabel}
+                          onchange="event.preventDefault()"
+                          class="text-pico-text"
+                        >
                           {label}
                         </Checkbox>
                       </Link>
