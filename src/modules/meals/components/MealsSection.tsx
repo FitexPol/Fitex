@@ -27,7 +27,6 @@ export async function MealsSection({ user, query: q }: ComponentProps<MealsSecti
   const { label: sortLabel, value: sortValue }: MealsSortOption = getSortOption(query.sort);
   const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
   const page = getPage(query.page);
-
   const totalMealDocs = await Meal.countDocuments({ author: user!.id });
 
   const mealDocs = await Meal.find({ author: user!.id })

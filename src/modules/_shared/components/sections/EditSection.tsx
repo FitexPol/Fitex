@@ -47,7 +47,7 @@ export async function EditSection<T extends Entity>({
   });
 
   return (
-    <section class="mb-10">
+    <section class="mb-20">
       <Card>
         <>
           <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} class="relative pr-10" />

@@ -23,7 +23,6 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
     page: getQueryParamSecure(q.page),
   };
 
-  const basePath = 'shopping-lists';
   const { label: sortLabel, value: sortValue }: ShoppingListsSortOption = getSortOption(query.sort);
   const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
   const page = getPage(query.page);
@@ -38,7 +37,7 @@ export async function ShoppingListsSection({ user, query: q }: ComponentProps<Sh
   return (
     <CardsSection
       title={$t('shoppingLists.shoppingListsSection.title')}
-      basePath={basePath}
+      basePath="shopping-lists"
       query={query}
       activeFilters={{ itemsPerPage, page }}
       activeSortLabel={sortLabel}
