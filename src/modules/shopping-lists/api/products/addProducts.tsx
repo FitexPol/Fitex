@@ -5,12 +5,11 @@ import { Meal } from '@meals/models/meal';
 import { Product, type ProductDoc } from '@models/product';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { HxResponseHeader } from '@vars';
 
 import { ShoppingList } from '../../models/shoppingList';
 
-export const addProducts = new Elysia().use(context).put('', async ({ params: { id }, set, user, query }) => {
+export const addProducts = new Elysia().use(context).put('', async ({ params: { id }, set, user, body }) => {
   const shoppingListDoc = await ShoppingList.findById(id).exec();
 
   if (!shoppingListDoc) {
@@ -27,7 +26,7 @@ export const addProducts = new Elysia().use(context).put('', async ({ params: { 
     return;
   }
 
-  const mealId = getQueryParamSecure(query.mealId);
+  const mealId = (body as Record<string, string>).mealId;
 
   if (!mealId) {
     set.status = 'Bad Request';
@@ -52,7 +51,7 @@ export const addProducts = new Elysia().use(context).put('', async ({ params: { 
     return;
   }
 
-  const productDocs = Object.entries(query).reduce((acc, [key, value]) => {
+  const productDocs = Object.entries(body as Record<string, string>).reduce((acc, [key, value]) => {
     if (!key.startsWith('product-') || !value) return acc;
 
     const productDoc = mealDoc.products.find((productDoc) => productDoc._id.equals(value));

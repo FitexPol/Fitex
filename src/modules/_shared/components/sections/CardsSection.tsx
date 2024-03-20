@@ -191,7 +191,7 @@ type ItemProps<T extends Entity> = {
 function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<ItemProps<T>>) {
   return (
     <li>
-      <Card class="relative h-full">
+      <Card>
         <>
           <Button
             class="pico-reset flex w-full items-center justify-between !text-lg"
@@ -211,16 +211,15 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
 
             <div class="flex justify-end gap-2">
               {basePath === 'meals' && (
-                <Button
-                  type="submit"
-                  form={`products-form-${entity.id}`}
+                <Link
+                  href={`/meals/${entity.id}/add-to-shopping-list-form`}
                   class="pico-reset inline-flex !w-auto items-center gap-2 !text-xs !text-pico-text"
                 >
                   <>
                     {$t('meals.addToShoppingList')}
                     {icons['plus-circle'].toSvg({ class: 'w-5 h-5' })}
                   </>
-                </Button>
+                </Link>
               )}
 
               <Button

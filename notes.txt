@@ -1,6 +1,7 @@
 TODO:
-  - error handling
+  - przycisk powrotu
   - breadcrumbs
+  - error handling
   - poprawić burger menu
   - grupowanie produktów po kategorii
   - tagowanie posiłków

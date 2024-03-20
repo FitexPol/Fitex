@@ -1,4 +1,3 @@
-import { Checkbox } from '@components/inputs/Checkbox';
 import { CardsSection } from '@components/sections/CardsSection';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
@@ -14,21 +13,15 @@ export function MealCard({ mealDoc }: ComponentProps<MealCardProps>) {
   return (
     <CardsSection.Item entity={mealDoc} basePath="meals">
       {mealDoc.products.length > 0 ? (
-        <form
-          id={`products-form-${mealDoc.id}`}
-          hx-get={`/api/meals/${mealDoc.id}/shopping-lists`}
-          hx-indicator="#loader"
-        >
+        <ul>
           {mealDoc.products
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map(({ id, name, quantity, unit }) => (
-              <Checkbox name={id}>
-                <>
-                  {name} - {getRoundedQuantity(quantity)} {unit}
-                </>
-              </Checkbox>
+            .map(({ name, quantity, unit }) => (
+              <li>
+                {name} - {getRoundedQuantity(quantity)} {unit}
+              </li>
             ))}
-        </form>
+        </ul>
       ) : (
         <span>{$t('products.noProducts')}</span>
       )}

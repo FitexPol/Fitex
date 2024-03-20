@@ -1,11 +1,13 @@
 import { type ComponentProps } from '../../types';
 import { Card } from '../Card';
+import { FloatingLink } from '../FloatingLink';
 
 type FormSectionProps = {
   title: string;
+  floatingLinkHref: string;
 };
 
-export async function FormSection({ title, children }: ComponentProps<FormSectionProps>) {
+export async function FormSection({ title, floatingLinkHref, children }: ComponentProps<FormSectionProps>) {
   return (
     <section>
       <Card>
@@ -14,6 +16,8 @@ export async function FormSection({ title, children }: ComponentProps<FormSectio
           {children}
         </>
       </Card>
+
+      <FloatingLink href={floatingLinkHref} icon="arrow-left" />
     </section>
   );
 }

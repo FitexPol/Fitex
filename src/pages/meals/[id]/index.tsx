@@ -6,8 +6,8 @@ import { MealEditSection } from '@meals/components/MealEditSection';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 
+import { addToShoppingListFormPage } from './addToShoppingListForm';
 import { productFormPage } from './productForm';
-import { shoppingListsPage } from './shoppingLists';
 
 const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user }) => {
   const mealDoc = await Meal.findById(id).exec();
@@ -36,5 +36,5 @@ const mealPage = new Elysia().use(context).get('', async ({ params: { id }, user
 });
 
 export const mealPages = new Elysia().group('/:id', (app) =>
-  app.use(mealPage).use(productFormPage).use(shoppingListsPage),
+  app.use(mealPage).use(productFormPage).use(addToShoppingListFormPage),
 );

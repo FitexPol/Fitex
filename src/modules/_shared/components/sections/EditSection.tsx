@@ -10,6 +10,7 @@ import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
 import { Button } from '../Button';
 import { Card } from '../Card';
+import { FloatingLink } from '../FloatingLink';
 import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
@@ -105,6 +106,8 @@ export async function EditSection<T extends Entity>({
           </Card.Footer>
         </>
       </Card>
+
+      <FloatingLink href={`/${basePath}`} icon="arrow-left" />
     </section>
   );
 }
