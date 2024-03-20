@@ -1,3 +1,4 @@
+import { Checkbox } from '@components/inputs/Checkbox';
 import { CardSection } from '@components/sections/CardSection';
 import { type ProductDoc } from '@models/product';
 import type { ComponentProps } from '@types';
@@ -11,10 +12,8 @@ type ShoppingListSectionProps = {
 };
 
 export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<ShoppingListSectionProps>) {
-  function getInputAttributes({ name, id }: ProductDoc) {
+  function getHxAttributes({ id }: ProductDoc): HtmxAttributes {
     return {
-      type: 'checkbox',
-      name,
       'hx-patch': `/api/shopping-lists/${shoppingListDoc.id}/products/${id}/check-state`,
       'hx-target': 'closest section',
       'hx-swap': 'outerHTML',
@@ -40,10 +39,9 @@ export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<Sh
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((product) => (
                 <li>
-                  <label>
-                    <input {...getInputAttributes(product)} />
+                  <Checkbox name={product.name} {...getHxAttributes}>
                     {getProduct(product)}
-                  </label>
+                  </Checkbox>
                 </li>
               ))}
 
@@ -52,10 +50,9 @@ export async function ShoppingListSection({ shoppingListDoc }: ComponentProps<Sh
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((product) => (
                 <li>
-                  <label>
-                    <input {...getInputAttributes(product)} checked />
+                  <Checkbox name={product.name} isChecked {...getHxAttributes}>
                     <s>{getProduct(product)}</s>
-                  </label>
+                  </Checkbox>
                 </li>
               ))}
           </ul>

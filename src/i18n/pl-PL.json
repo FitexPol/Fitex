@@ -7,6 +7,7 @@
   "_errors.badRequest": "Coś poszło nie tak, spróbuj ponownie później",
   "_errors.notFound": "Nie odnaleziono zasobu",
   "_errors.permissionDenied": "Nie masz uprawnień by oglądać ten zasób",
+  "_filters": "Filtry",
   "_itemsPerPage": "Pozycji na stronie",
   "_logout": "Wyloguj",
   "_name": "Nazwa",

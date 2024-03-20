@@ -1,5 +1,6 @@
 import { icons } from 'feather-icons';
 
+import { Checkbox } from '@components/inputs/Checkbox';
 import { Link } from '@components/Link';
 import { CardSection } from '@components/sections/CardSection';
 import type { ComponentProps } from '@types';
@@ -22,10 +23,11 @@ export async function MealSection({ mealDoc }: ComponentProps<MealSectionProps>)
               .sort((a, b) => a.name.localeCompare(b.name))
               .map(({ name, quantity, unit }) => (
                 <li>
-                  <label>
-                    <input type="checkbox" name={name} />
-                    {name} - {getRoundedQuantity(quantity)} {unit}
-                  </label>
+                  <Checkbox name={name}>
+                    <>
+                      {name} - {getRoundedQuantity(quantity)} {unit}
+                    </>
+                  </Checkbox>
                 </li>
               ))}
 

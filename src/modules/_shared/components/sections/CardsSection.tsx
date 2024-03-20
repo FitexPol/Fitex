@@ -8,7 +8,8 @@ import { getRoundedQuantity } from '../../utils/getRoundedQuantity';
 import { itemsPerPageOptions, sortOptions } from '../../vars';
 import { Button } from '../Button';
 import { Card } from '../Card';
-import { Dropdown } from '../Dropdown';
+import { FloatingLink } from '../FloatingLink';
+import { Checkbox } from '../inputs/Checkbox';
 import { Link } from '../Link';
 
 type CardsSectionProps = {
@@ -38,42 +39,58 @@ export function CardsSection({
 }: ComponentProps<CardsSectionProps>) {
   return (
     <section>
-      <div class="mb-6 flex flex-col items-start justify-between gap-y-5 md:flex-row xl:items-center">
-        <div class="flex items-center gap-2">
-          <h1 class="mb-0 text-xl">{title}</h1>
-          <Link href={`/${basePath}/basic-information-form`}>{icons['plus-circle'].toSvg()}</Link>
-        </div>
+      <div class="mb-6 flex items-center justify-between gap-y-5">
+        <h1 class="mb-0 text-xl">{title}</h1>
+        <Button class="pico-reset" onclick="toggleSidePanel()">
+          {icons['filter'].toSvg()}
+        </Button>
 
-        <div class="flex flex-col gap-2 xl:flex-row">
-          <Dropdown label={`${$t('_itemsPerPage')}: ${activeFilters.itemsPerPage}`}>
-            <>
-              {itemsPerPageOptions.map(({ label, query: param }) => (
-                <Dropdown.Item active={param === activeFilters.itemsPerPage.toString()}>
-                  <Link href={getPath(`/${basePath}`, { itemsPerPage: param, sort: query.sort })}>
-                    {label}
-                  </Link>
-                </Dropdown.Item>
-              ))}
-            </>
-          </Dropdown>
+        <div id="side-panel" class="fixed inset-0 z-10 hidden bg-black/50">
+          <div
+            class="absolute right-0 top-0 h-full bg-pico-card-background p-5"
+            onclick="event.stopPropagation()"
+          >
+            <Button class="pico-reset" onclick="toggleSidePanel()">
+              {icons.x.toSvg()}
+            </Button>
 
-          <Dropdown label={`${$t('_sort')}: ${activeSortLabel}`}>
-            <>
-              {sortOptions.map(({ label, query: param }) => (
-                <Dropdown.Item active={label === activeSortLabel}>
-                  <Link
-                    href={getPath(`/${basePath}`, {
-                      itemsPerPage: query.itemsPerPage,
-                      sort: param,
-                    })}
-                    class="capitalize"
-                  >
-                    {label}
-                  </Link>
-                </Dropdown.Item>
-              ))}
-            </>
-          </Dropdown>
+            <div class="max-h-[calc(100%-2rem)] overflow-y-auto">
+              <FilterSection title={$t('_itemsPerPage')}>
+                <ul>
+                  {itemsPerPageOptions.map(({ label, query: param }) => (
+                    <li class="text-sm">
+                      <Link href={getPath(`/${basePath}`, { itemsPerPage: param, sort: query.sort })}>
+                        <Checkbox
+                          name={label}
+                          isChecked={param === activeFilters.itemsPerPage.toString()}
+                          class="text-pico-text"
+                        >
+                          {label}
+                        </Checkbox>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FilterSection>
+
+              <FilterSection title={$t('_sort')}>
+                <ul>
+                  {sortOptions.map(({ label, query: param }) => (
+                    <li class="text-sm">
+                      <Link
+                        href={getPath(`/${basePath}`, { itemsPerPage: query.itemsPerPage, sort: param })}
+                        class="capitalize"
+                      >
+                        <Checkbox name={label} isChecked={label === activeSortLabel} class="text-pico-text">
+                          {label}
+                        </Checkbox>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FilterSection>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -92,7 +109,22 @@ export function CardsSection({
         path={`/${basePath}`}
         currentQuery={query}
       />
+
+      <FloatingLink href={`/${basePath}/basic-information-form`} icon="plus" />
     </section>
+  );
+}
+
+type FilterSectionProps = {
+  title: string;
+};
+
+function FilterSection({ title, children }: ComponentProps<FilterSectionProps>) {
+  return (
+    <div class="mt-5">
+      <span class="mb-2 inline-block text-white">{title}:</span>
+      {children}
+    </div>
   );
 }
 
