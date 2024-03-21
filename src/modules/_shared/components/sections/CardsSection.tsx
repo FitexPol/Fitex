@@ -100,9 +100,7 @@ export function CardsSection({
       </div>
 
       {totalCount > 0 ? (
-        <ul class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 xl:!grid-cols-4 2xl:!grid-cols-5">
-          {children}
-        </ul>
+        <ul class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 2xl:!grid-cols-4">{children}</ul>
       ) : (
         <span>{$t('_noResults')}</span>
       )}
@@ -197,10 +195,10 @@ type ItemProps<T extends Entity> = {
 function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<ItemProps<T>>) {
   return (
     <li>
-      <Card>
+      <Card class="h-full">
         <>
           <Button
-            class="pico-reset flex w-full items-center justify-between !text-lg"
+            class="pico-reset flex w-full items-center justify-between !text-lg sm:pointer-events-none"
             hx-patch={`/api/${basePath}/${entity.id}/visibility-state`}
             hx-target="closest li"
             hx-swap="outerHTML"
@@ -208,38 +206,45 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
           >
             <>
               {entity.name}
-              {icons['chevron-down'].toSvg({ class: entity.isVisible ? 'rotate-180' : 'rotate-0' })}
+              {icons['chevron-down'].toSvg({ class: $tm('sm:hidden', entity.isVisible && 'rotate-180') })}
             </>
           </Button>
 
-          <div class={$tm('mt-4 border-t-2 border-t-pico-muted pt-3', !entity.isVisible && 'hidden')}>
+          <div
+            class={$tm(
+              'mt-4 flex h-full flex-col border-t-2 border-t-pico-muted pt-3',
+              !entity.isVisible && 'hidden',
+            )}
+          >
             {children}
 
-            <div class="flex justify-end gap-2">
+            <div class="mt-auto flex items-center justify-between gap-2">
               {basePath === 'meals' && (
                 <Link
                   href={`/meals/${entity.id}/add-to-shopping-list-form`}
-                  class="pico-reset inline-flex !w-auto items-center gap-2 !text-xs !text-pico-text"
+                  class="pico-reset inline-flex !w-auto items-center gap-1 !text-xs !text-pico-text"
                 >
                   <>
-                    {$t('meals.addToShoppingList')}
                     {icons['plus-circle'].toSvg({ class: 'w-5 h-5' })}
+                    {$t('meals.addToShoppingList')}
                   </>
                 </Link>
               )}
 
-              <Button
-                class="pico-reset !text-inherit"
-                hx-delete={`/api/${basePath}/${entity.id}`}
-                hx-target="closest section"
-                hx-swap="outerHTML"
-                hx-confirm={$t('_deletionConfirmation')}
-                hx-indicator="#loader"
-              >
-                {icons.trash.toSvg({ class: 'w-5 h-5' })}
-              </Button>
+              <div class="ml-auto flex items-center gap-2">
+                <Button
+                  class="pico-reset !text-inherit"
+                  hx-delete={`/api/${basePath}/${entity.id}`}
+                  hx-target="closest section"
+                  hx-swap="outerHTML"
+                  hx-confirm={$t('_deletionConfirmation')}
+                  hx-indicator="#loader"
+                >
+                  {icons.trash.toSvg({ class: 'w-5 h-5' })}
+                </Button>
 
-              <Link href={`/${basePath}/${entity.id}`}>{icons.edit.toSvg({ class: 'w-5 h-5' })}</Link>
+                <Link href={`/${basePath}/${entity.id}`}>{icons.edit.toSvg({ class: 'w-5 h-5' })}</Link>
+              </div>
             </div>
           </div>
         </>

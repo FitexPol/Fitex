@@ -22,6 +22,12 @@ document.body.addEventListener('notification', ({ detail }) => {
 function toggleMenu() {
   const menu = document.getElementById('menu');
   menu.classList.toggle('hidden');
+
+  if (!menu.classList.contains('hidden')) {
+    menu.addEventListener('click', () => {
+      menu.classList.add('hidden');
+    });
+  }
 }
 
 function toggleSidePanel() {
@@ -41,7 +47,7 @@ function submitAddToShoppingListForm(event, form, mealId) {
   const formData = new FormData(form);
   const productIds = [];
 
-  formData.forEach((value, key) => {
+  formData.forEach((_, key) => {
     if (key.startsWith('product-')) {
       productIds.push(key.split('-')[1]);
     }

@@ -88,19 +88,25 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
 
         <ul
           id="menu"
-          class="absolute left-0 top-14 hidden w-full flex-col border-b-2 border-b-pico-muted bg-pico-background pb-4 sm:static sm:flex sm:w-[inherit] sm:flex-row sm:border-0 sm:bg-transparent sm:pb-[inherit]"
+          class={$tm(
+            'absolute left-1/2 top-14 hidden h-[calc(100vh-3.5rem)] w-screen -translate-x-1/2 flex-col border-b-2 border-b-pico-muted bg-black/50 pb-4',
+            'sm:static sm:flex sm:h-auto sm:w-[inherit] sm:transform-none sm:flex-row sm:border-0 sm:bg-transparent sm:pb-[inherit]',
+          )}
         >
           {navigation
             .filter(({ isHidden }) => !isHidden)
             .map(({ href, name }) => (
-              <li class="w-full py-2 sm:w-auto sm:py-0">
+              <li class="w-full bg-pico-background py-2 sm:w-auto sm:py-0" onclick="event.stopPropagation()">
                 <Link href={href} class="m-0 w-full text-center">
                   {name}
                 </Link>
               </li>
             ))}
 
-          <li class="mt-2 w-full border-y border-pico-muted py-2 sm:mt-[inherit] sm:w-[inherit] sm:border-none sm:py-[inherit]">
+          <li
+            class="w-full border-y border-pico-muted bg-pico-background py-2 sm:mt-[inherit] sm:w-[inherit] sm:border-none sm:py-[inherit]"
+            onclick="event.stopPropagation()"
+          >
             <Dropdown label={user?.username ?? ''} icon={icons.user.toSvg()} class="!hidden sm:!inline">
               <>
                 <Dropdown.Item>
