@@ -19,14 +19,17 @@ document.body.addEventListener('notification', ({ detail }) => {
   }, 2000);
 });
 
-const loader = document.getElementById('loader');
-const progressBar = loader.firstChild;
+let loader = document.getElementById('loader');
+let progressBar = loader.firstChild;
 let progress = 0;
 let animationDuration;
 let interval;
 
 document.addEventListener('htmx:beforeRequest', ({ detail }) => {
   if (!detail.boosted) return;
+
+  loader = document.getElementById('loader');
+  progressBar = loader.firstChild;
 
   animationDuration = 25;
   progressBar.style['transition-duration'] = `${animationDuration}ms`;
