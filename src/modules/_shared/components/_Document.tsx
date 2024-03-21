@@ -135,13 +135,8 @@ function LogoutButton({ class: className }: ComponentProps) {
 
 function Loader() {
   return (
-    <div id="loader" class="loader-indicator fixed bottom-5 left-5 z-50" hx-preserve="true">
-      <div
-        class="relative inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-        role="status"
-      >
-        <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"></span>
-      </div>
+    <div id="loader" class="fixed left-0 right-0 top-0 z-50 h-0" hx-preserve="true">
+      <div class="size-full origin-left scale-x-0 bg-pico-primary transition-transform ease-linear" />
     </div>
   );
 }

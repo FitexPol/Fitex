@@ -113,7 +113,11 @@ export function CardsSection({
         currentQuery={query}
       />
 
-      <FloatingLink href={`/${basePath}/basic-information-form`} icon="plus" />
+      <FloatingLink
+        href={`/${basePath}/basic-information-form`}
+        icon={{ type: 'plus', class: 'stroke-white' }}
+        class="left-auto right-5 bg-pico-primary"
+      />
     </section>
   );
 }

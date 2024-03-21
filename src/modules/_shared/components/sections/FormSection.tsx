@@ -17,7 +17,7 @@ export async function FormSection({ title, floatingLinkHref, children }: Compone
         </>
       </Card>
 
-      <FloatingLink href={floatingLinkHref} icon="arrow-left" />
+      <FloatingLink href={floatingLinkHref} icon={{ type: 'arrow-left' }} />
     </section>
   );
 }
