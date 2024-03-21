@@ -22,6 +22,12 @@ document.body.addEventListener('notification', ({ detail }) => {
 function toggleMenu() {
   const menu = document.getElementById('menu');
   menu.classList.toggle('hidden');
+
+  if (!menu.classList.contains('hidden')) {
+    menu.addEventListener('click', () => {
+      menu.classList.add('hidden');
+    });
+  }
 }
 
 function toggleSidePanel() {

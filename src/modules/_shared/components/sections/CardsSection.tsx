@@ -231,7 +231,7 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
                 </Link>
               )}
 
-              <div class="flex items-center gap-2">
+              <div class="ml-auto flex items-center gap-2">
                 <Button
                   class="pico-reset !text-inherit"
                   hx-delete={`/api/${basePath}/${entity.id}`}
