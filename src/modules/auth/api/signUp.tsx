@@ -1,41 +1,49 @@
-import { Elysia, type ValidationError } from 'elysia';
+import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
+import { InlineError, type InlineErrorDetails } from '@utils/errors/InlineError';
+import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
 import { SignUpForm } from '../components/forms/SignUpForm';
-import { type SignUpFormErrors, type SignUpForm as SignUpFormType, signUpForm } from '../forms/signUp';
+import { type SignUpForm as SignUpFormType, signUpForm } from '../forms/signUp';
 import { User } from '../models/user';
 import { setAuthCookie } from '../utils/setAuthCookie';
 
 export const signUp = new Elysia().use(context).post(
   '/sign-up',
   async ({ body, jwt, set, cookie: { auth } }) => {
-    if (body.password !== body.repeatedPassword) {
-      set.status = 'Bad Request';
-
-      return <SignUpForm errors={{ repeatedPassword: $t('auth.signUp.errors.wrongRepeatedPassword') }} />;
-    }
+    if (body.password !== body.repeatedPassword)
+      throw new InlineError<SignUpFormType>({
+        status: 400,
+        message: $t('auth.signUp.errors.wrongRepeatedPassword'),
+        field: 'repeatedPassword',
+      });
 
     const existingUser = await User.exists({ username: body.username });
 
-    if (existingUser) {
-      set.status = 'Bad Request';
-
-      return <SignUpForm errors={{ username: $t('auth.signUp.errors.userExists') }} />;
-    }
+    if (existingUser)
+      throw new InlineError<SignUpFormType>({
+        status: 400,
+        message: $t('auth.signUp.errors.userExists'),
+        field: 'username',
+      });
 
     const hash = await Bun.password.hash(body.password);
 
-    const user = new User({
+    const userDoc = new User({
       username: body.username,
       password: hash,
     });
 
-    const userDoc = await user.save();
+    try {
+      await userDoc.save();
+    } catch {
+      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+    }
 
     const token = await jwt.sign({
       id: userDoc.id,
@@ -43,27 +51,23 @@ export const signUp = new Elysia().use(context).post(
     });
 
     setAuthCookie(auth, token);
-    // auth.set({
-    //   value: token,
-    //   path: '/',
-    //   httpOnly: true,
-    //   secure: true,
-    //   maxAge: 7 * 86400,
-    // });
 
     set.status = 'Created';
     set.headers[HxResponseHeader.Location] = '/';
   },
   {
     body: getBodySchema<SignUpFormType>(signUpForm),
-    error({ code, error }) {
-      if (code === 'VALIDATION') return getSignUpFormWithErrors(error);
+    error({ code, error, set }) {
+      switch (code) {
+        case 'VALIDATION':
+          return <SignUpForm errors={getBodySchemaErrors<SignUpFormType>(error, signUpForm)} />;
+        case 'InlineError': {
+          const { status, message, field }: InlineErrorDetails<SignUpFormType> = JSON.parse(error.message);
+
+          set.status = status;
+          return <SignUpForm errors={{ [field]: message }} />;
+        }
+      }
     },
   },
 );
-
-function getSignUpFormWithErrors(error: Readonly<ValidationError>): JSX.Element {
-  const errors: SignUpFormErrors = getBodySchemaErrors<SignUpFormType>(error, signUpForm);
-
-  return <SignUpForm errors={errors} />;
-}

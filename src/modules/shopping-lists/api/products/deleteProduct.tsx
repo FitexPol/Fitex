@@ -4,29 +4,15 @@ import { context } from '@/context';
 import { ProductsTable } from '@components/ProductsTable';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
+import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { shoppingListContext } from '../context';
 
 export const deleteProduct = new Elysia()
   .use(context)
-  .delete('', async ({ params: { id: shoppingListId, productId }, set, user }) => {
-    const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
-
-    if (!shoppingListDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
-
-      return;
-    }
-
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
+  .use(shoppingListContext)
+  .delete('', async ({ shoppingListDoc, params: { productId }, set }) => {
     shoppingListDoc.products = shoppingListDoc.products.filter(
       (productDoc) => !productDoc._id.equals(productId),
     );
@@ -34,10 +20,7 @@ export const deleteProduct = new Elysia()
     try {
       await shoppingListDoc.save();
     } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
+      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(

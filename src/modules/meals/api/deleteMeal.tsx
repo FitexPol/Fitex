@@ -5,30 +5,16 @@ import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { getQueryParams } from '@utils/api/getQueryParams';
+import { NotificationError } from '@utils/errors/NotificationError';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
+import { mealContext } from './context';
 import { MealsSection } from '../components/MealsSection';
-import { Meal } from '../models/meal';
 
 export const deleteMeal = new Elysia()
   .use(context)
-  .delete('/:id', async ({ user, set, params: { id }, request }) => {
-    const mealDoc = await Meal.findById(id).exec();
-
-    if (!mealDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
-
-      return;
-    }
-
-    if (!mealDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
+  .use(mealContext)
+  .delete('/:id', async ({ mealDoc, user, set, request }) => {
     try {
       await mealDoc.deleteOne();
 
@@ -37,10 +23,7 @@ export const deleteMeal = new Elysia()
         { $pull: { meals: { meal: mealDoc._id } } },
       );
     } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
+      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('meals.deleteMeal.success'));

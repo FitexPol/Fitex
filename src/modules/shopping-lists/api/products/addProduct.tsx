@@ -7,59 +7,40 @@ import { Product } from '@models/product';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
+import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { shoppingListContext } from '../context';
 
-export const addProduct = new Elysia().use(context).post(
-  '',
-  async ({ params: { id }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(id).exec();
+export const addProduct = new Elysia()
+  .use(context)
+  .use(shoppingListContext)
+  .post(
+    '',
+    async ({ shoppingListDoc, set, body }) => {
+      if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name))
+        throw new NotificationError({
+          status: 400,
+          message: $t('products.addProduct.errors.productAlreadyExists'),
+        });
 
-    if (!shoppingListDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
+      const productDoc = new Product({ name: body.name });
+      shoppingListDoc.products.push(productDoc);
 
-      return;
-    }
+      try {
+        await shoppingListDoc.save();
+      } catch {
+        throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      }
 
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
-    if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name)) {
-      set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        $t('products.addProduct.errors.productAlreadyExists'),
+        'success',
+        $t('products.addProduct.success'),
       );
 
-      return;
-    }
-
-    const productDoc = new Product({ name: body.name });
-    shoppingListDoc.products.push(productDoc);
-
-    try {
-      await shoppingListDoc.save();
-    } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
-    }
-
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      $t('products.addProduct.success'),
-    );
-
-    return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
-  },
-  {
-    body: getBodySchema<AddProductForm>(addProductForm),
-  },
-);
+      return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
+    },
+    {
+      body: getBodySchema<AddProductForm>(addProductForm),
+    },
+  );

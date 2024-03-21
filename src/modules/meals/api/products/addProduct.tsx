@@ -7,59 +7,40 @@ import { Product } from '@models/product';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
+import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
-import { Meal } from '../../models/meal';
+import { mealContext } from '../context';
 
-export const addProduct = new Elysia().use(context).post(
-  '',
-  async ({ params: { id }, set, user, body }) => {
-    const mealDoc = await Meal.findById(id).exec();
+export const addProduct = new Elysia()
+  .use(context)
+  .use(mealContext)
+  .post(
+    '',
+    async ({ mealDoc, set, body }) => {
+      if (mealDoc.products.some((productDoc) => productDoc.name === body.name))
+        throw new NotificationError({
+          status: 400,
+          message: $t('products.addProduct.errors.productAlreadyExists'),
+        });
 
-    if (!mealDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
+      const productDoc = new Product({ name: body.name });
 
-      return;
-    }
+      try {
+        mealDoc.products.push(productDoc);
+        await mealDoc.save();
+      } catch {
+        throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      }
 
-    if (!mealDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
-    if (mealDoc.products.some((productDoc) => productDoc.name === body.name)) {
-      set.status = 'Bad Request';
       set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        $t('products.addProduct.errors.productAlreadyExists'),
+        'success',
+        $t('products.addProduct.success'),
       );
 
-      return;
-    }
-
-    const productDoc = new Product({ name: body.name });
-
-    try {
-      mealDoc.products.push(productDoc);
-      await mealDoc.save();
-    } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
-    }
-
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      $t('products.addProduct.success'),
-    );
-
-    return <ProductsTable entity={mealDoc} basePath="meals" />;
-  },
-  {
-    body: getBodySchema<AddProductForm>(addProductForm),
-  },
-);
+      return <ProductsTable entity={mealDoc} basePath="meals" />;
+    },
+    {
+      body: getBodySchema<AddProductForm>(addProductForm),
+    },
+  );

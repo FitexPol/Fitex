@@ -3,12 +3,17 @@ import { Elysia } from 'elysia';
 import { context } from '@/context';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
+import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
+import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
-import { type BasicInformationForm, basicInformationForm } from '../forms/basicInformation';
+import { BasicInformationForm } from '../components/forms/BasicInformationForm';
+import {
+  type BasicInformationForm as BasicInformationFormType,
+  basicInformationForm,
+} from '../forms/basicInformation';
 import { Meal } from '../models/meal';
-import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
 
 export const createMeal = new Elysia().use(context).post(
   '',
@@ -22,11 +27,7 @@ export const createMeal = new Elysia().use(context).post(
     try {
       await mealDoc.save();
     } catch {
-      set.status = 'Bad Request';
-
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
+      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
     }
 
     set.status = 'Created';
@@ -34,10 +35,15 @@ export const createMeal = new Elysia().use(context).post(
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
-    body: getBodySchema<BasicInformationForm>(basicInformationForm),
+    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
     error({ code, error }) {
-      if (code === 'VALIDATION') {
-        return getBasicInformationFormWithErrors(error);
+      switch (code) {
+        case 'VALIDATION':
+          return (
+            <BasicInformationForm
+              errors={getBodySchemaErrors<BasicInformationFormType>(error, basicInformationForm)}
+            />
+          );
       }
     },
   },

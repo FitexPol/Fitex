@@ -2,6 +2,8 @@ import { jwt } from '@elysiajs/jwt';
 import { Elysia } from 'elysia';
 
 import { type JWTUser } from '@auth/models/user';
+import { InlineError } from '@utils/errors/InlineError';
+import { NotificationError } from '@utils/errors/NotificationError';
 
 export const context = new Elysia()
   .use(
@@ -9,6 +11,7 @@ export const context = new Elysia()
       secret: 'secret',
     }),
   )
+  .error({ InlineError, NotificationError })
   .derive({ as: 'global' }, async ({ cookie: { auth }, jwt }) => {
     const user = await jwt.verify(auth.value);
 
