@@ -28,7 +28,7 @@
   "auth.signUp.repeatedPassword": "Powtórz hasło",
   "auth.username": "Nazwa użytkownika",
   "meals": "Posiłki",
-  "meals.addToShoppingList": "Dodaj produkty do listy zakupów",
+  "meals.addToShoppingList": "Dodaj do listy zakupów",
   "meals.chooseProductsToAdd": "Wybierz produkty, które chcesz dodać",
   "meals.chooseProductsToAdd.hint": "Jeśli nie zaznaczysz żadnego produktu, dodadzą się wszystkie",
   "meals.chooseShoppingList": "Wybierz listę zakupów",

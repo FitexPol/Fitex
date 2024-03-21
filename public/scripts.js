@@ -41,7 +41,7 @@ function submitAddToShoppingListForm(event, form, mealId) {
   const formData = new FormData(form);
   const productIds = [];
 
-  formData.forEach((value, key) => {
+  formData.forEach((_, key) => {
     if (key.startsWith('product-')) {
       productIds.push(key.split('-')[1]);
     }
