@@ -216,7 +216,7 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
 
           <div
             class={$tm(
-              'mt-4 flex h-full flex-col border-t-2 border-t-pico-muted pt-3',
+              'mt-4 flex h-full flex-col border-t-2 border-t-pico-muted pt-3 sm:flex',
               !entity.isVisible && 'hidden',
             )}
           >
