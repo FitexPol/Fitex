@@ -107,7 +107,7 @@ export async function EditSection<T extends Entity>({
         </>
       </Card>
 
-      <FloatingLink href={`/${basePath}`} icon="arrow-left" />
+      <FloatingLink href={`/${basePath}`} icon={{ type: 'arrow-left' }} />
     </section>
   );
 }

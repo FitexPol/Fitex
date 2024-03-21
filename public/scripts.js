@@ -19,6 +19,42 @@ document.body.addEventListener('notification', ({ detail }) => {
   }, 2000);
 });
 
+const loader = document.getElementById('loader');
+const progressBar = loader.firstChild;
+let progress = 0;
+let animationDuration;
+let interval;
+
+document.addEventListener('htmx:beforeRequest', ({ detail }) => {
+  if (!detail.boosted) return;
+
+  animationDuration = 25;
+  progressBar.style['transition-duration'] = `${animationDuration}ms`;
+  loader.style.height = '2px';
+
+  interval = setInterval(() => {
+    progress += 0.1;
+    progressBar.style.transform = `scaleX(${progress})`;
+
+    if (progress >= 0.6) clearInterval(interval);
+  }, animationDuration);
+});
+
+document.addEventListener('htmx:afterRequest', ({ detail }) => {
+  if (!detail.boosted) return;
+
+  clearInterval(interval);
+  animationDuration = 150;
+  progressBar.style['transition-duration'] = `${animationDuration}ms`;
+  progressBar.style.transform = 'scaleX(1)';
+
+  setTimeout(() => {
+    loader.style.height = '0';
+    progress = 0;
+    progressBar.style.transform = 'scaleX(0)';
+  }, animationDuration);
+});
+
 function toggleMenu() {
   const menu = document.getElementById('menu');
   menu.classList.toggle('hidden');

@@ -2,16 +2,26 @@ import { icons } from 'feather-icons';
 
 import { Link } from './Link';
 import type { ComponentProps } from '../types';
+import { $tm } from '../utils/$tm';
 
 type FloatingLinkProps = {
   href: string;
-  icon: keyof typeof icons;
+  icon: {
+    type: keyof typeof icons;
+    class?: string;
+  };
 };
 
-export function FloatingLink({ href, icon }: ComponentProps<FloatingLinkProps>) {
+export function FloatingLink({ href, icon, class: className }: ComponentProps<FloatingLinkProps>) {
   return (
-    <Link href={href} class="fixed bottom-5 right-5 rounded-full bg-pico-primary p-3 shadow-md">
-      {icons[icon].toSvg({ class: 'w-7 h-7 stroke-white' })}
+    <Link
+      href={href}
+      class={$tm(
+        'fixed bottom-5 left-5 rounded-full border-2 border-pico-primary p-2.5 shadow-md',
+        className,
+      )}
+    >
+      {icons[icon.type].toSvg({ class: $tm('w-7 h-7 stroke-pico-primary', icon.class) })}
     </Link>
   );
 }
