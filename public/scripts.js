@@ -1,3 +1,5 @@
+localStorage.removeItem('htmx-history-cache');
+
 document.body.addEventListener('notification', ({ detail }) => {
   const notificationPortal = document.getElementById('notification-portal');
   const messageNode = document.createElement('span');
