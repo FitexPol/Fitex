@@ -40,7 +40,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           <script src="/public/scripts.js" defer />
         </head>
 
-        <body hx-ext="response-targets">
+        <body hx-ext="response-targets" hx-history="false">
           {renderContent(layout)}
 
           <dialog
