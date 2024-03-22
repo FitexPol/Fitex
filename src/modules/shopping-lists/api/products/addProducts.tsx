@@ -1,93 +1,61 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { NotificationError } from '@errors/NotificationError';
 import { Meal } from '@meals/models/meal';
 import { Product, type ProductDoc } from '@models/product';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { shoppingListContext } from '../context';
 
-export const addProducts = new Elysia().use(context).put('', async ({ params: { id }, set, user, body }) => {
-  const shoppingListDoc = await ShoppingList.findById(id).exec();
+export const addProducts = new Elysia()
+  .use(shoppingListContext)
+  .put('', async ({ shoppingListDoc, set, user, body }) => {
+    const mealId = (body as Record<string, string>).mealId;
 
-  if (!shoppingListDoc) {
-    set.status = 'Not Found';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
+    if (!mealId) throw new NotificationError('Bad Request');
 
-    return;
-  }
+    const mealDoc = await Meal.findById(mealId).exec();
 
-  if (!shoppingListDoc.author._id.equals(user!.id)) {
-    set.status = 'Forbidden';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
+    if (!mealDoc) throw new NotificationError('Not Found');
 
-    return;
-  }
+    if (!mealDoc.author._id.equals(user.id)) throw new NotificationError('Permission Denied');
 
-  const mealId = (body as Record<string, string>).mealId;
+    const productDocs = Object.entries(body as Record<string, string>).reduce((acc, [key, value]) => {
+      if (!key.startsWith('product-') || !value) return acc;
 
-  if (!mealId) {
-    set.status = 'Bad Request';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
+      const productDoc = mealDoc.products.find((productDoc) => productDoc._id.equals(value));
 
-    return;
-  }
+      if (!productDoc) return acc;
 
-  const mealDoc = await Meal.findById(mealId).exec();
+      return [...acc, productDoc];
+    }, [] as ProductDoc[]);
 
-  if (!mealDoc) {
-    set.status = 'Not Found';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
+    const iterable = productDocs.length ? productDocs : mealDoc.products;
 
-    return;
-  }
+    iterable.forEach(({ name, quantity, unit }) => {
+      const existingProductDoc = shoppingListDoc.products.find((productDoc) => productDoc.name === name);
 
-  if (!mealDoc.author._id.equals(user!.id)) {
-    set.status = 'Forbidden';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
+      if (!existingProductDoc || (existingProductDoc && existingProductDoc.unit !== unit)) {
+        const newProductDoc = new Product({ name, quantity, unit });
+        shoppingListDoc.products.push(newProductDoc);
+        return;
+      }
 
-    return;
-  }
+      existingProductDoc.quantity += quantity;
+      existingProductDoc.isChecked = false;
+    });
 
-  const productDocs = Object.entries(body as Record<string, string>).reduce((acc, [key, value]) => {
-    if (!key.startsWith('product-') || !value) return acc;
-
-    const productDoc = mealDoc.products.find((productDoc) => productDoc._id.equals(value));
-
-    if (!productDoc) return acc;
-
-    return [...acc, productDoc];
-  }, [] as ProductDoc[]);
-
-  const iterable = productDocs.length ? productDocs : mealDoc.products;
-
-  iterable.forEach(({ name, quantity, unit }) => {
-    const existingProductDoc = shoppingListDoc.products.find((productDoc) => productDoc.name === name);
-
-    if (!existingProductDoc || (existingProductDoc && existingProductDoc.unit !== unit)) {
-      const newProductDoc = new Product({ name, quantity, unit });
-      shoppingListDoc.products.push(newProductDoc);
-      return;
+    try {
+      await shoppingListDoc.save();
+    } catch {
+      throw new NotificationError('Mongo Error');
     }
 
-    existingProductDoc.quantity += quantity;
-    existingProductDoc.isChecked = false;
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
+      'success',
+      $t('products.addProducts.success'),
+    );
+    set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   });
-
-  try {
-    await shoppingListDoc.save();
-  } catch {
-    set.status = 'Bad Request';
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-    return;
-  }
-
-  set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-    'success',
-    $t('products.addProducts.success'),
-  );
-  set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
-});

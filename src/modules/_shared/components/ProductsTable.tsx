@@ -48,7 +48,7 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
                           hx-confirm={$t('_deletionConfirmation')}
                           hx-indicator="#loader"
                         >
-                          {icons.trash.toSvg({ class: 'w-5 h-5' })}
+                          {icons.trash.toSvg()}
                         </Button>
 
                         <Link
@@ -56,7 +56,7 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
                             productId: product.id,
                           })}
                         >
-                          {icons['edit'].toSvg({ class: 'w-5 h-5' })}
+                          {icons['edit'].toSvg()}
                         </Link>
                       </div>
                     </Table.Body.Row.Cell>

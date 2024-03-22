@@ -16,7 +16,7 @@ export async function ShoppingListEditSection({
 }: ComponentProps<ShoppingListEditSectionProps>) {
   return (
     <EditSection
-      title={`${$t('shoppingLists.shoppingListEditSection.title')}: ${shoppingListDoc.name}`}
+      title={shoppingListDoc.name}
       basePath="shopping-lists"
       entity={shoppingListDoc}
       basicInformation={[{ label: $t('_name'), value: shoppingListDoc.name }]}

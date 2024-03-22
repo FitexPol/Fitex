@@ -2,8 +2,13 @@ import { jwt } from '@elysiajs/jwt';
 import { Elysia } from 'elysia';
 
 import { type JWTUser } from '@auth/models/user';
+import { InlineError } from '@errors/InlineError';
+import { NotificationError } from '@errors/NotificationError';
+import { PageNotFoundError } from '@errors/PageNotFoundError';
+import { PageNotPermittedError } from '@errors/PageNotPermitted';
 
 export const context = new Elysia()
+  .error({ InlineError, NotificationError, PageNotFoundError, PageNotPermittedError })
   .use(
     jwt({
       secret: 'secret',

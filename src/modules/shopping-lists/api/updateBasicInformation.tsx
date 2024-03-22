@@ -1,43 +1,28 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
+import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { type BasicInformationForm, basicInformationForm } from '../forms/basicInformation';
-import { ShoppingList } from '../models/shoppingList';
-import { getBasicInformationFormWithErrors } from '../utils/getBasicInformationFormWithErrors';
+import { shoppingListContext } from './context';
+import { BasicInformationForm } from '../components/forms/BasicInformationForm';
+import {
+  type BasicInformationForm as BasicInformationFormType,
+  basicInformationForm,
+} from '../forms/basicInformation';
 
-export const updateBasicInformation = new Elysia().use(context).patch(
+export const updateBasicInformation = new Elysia().use(shoppingListContext).patch(
   '',
-  async ({ params: { id }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(id).exec();
-
-    if (!shoppingListDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
-
-      return;
-    }
-
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
+  async ({ shoppingListDoc, set, body }) => {
     try {
       await shoppingListDoc.updateOne({
         name: body.name,
       });
     } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
+      throw new NotificationError('Mongo Error');
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
@@ -48,10 +33,15 @@ export const updateBasicInformation = new Elysia().use(context).patch(
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   },
   {
-    body: getBodySchema<BasicInformationForm>(basicInformationForm),
+    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
     error({ code, error }) {
-      if (code === 'VALIDATION') {
-        return getBasicInformationFormWithErrors(error);
+      switch (code) {
+        case 'VALIDATION':
+          return (
+            <BasicInformationForm
+              errors={getBodySchemaErrors<BasicInformationFormType>(error, basicInformationForm)}
+            />
+          );
       }
     },
   },

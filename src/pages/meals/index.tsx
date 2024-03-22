@@ -1,16 +1,16 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
 import { Document } from '@components/_Document';
 import { MealsSection } from '@meals/components/MealsSection';
 
 import { mealPages as singleMealPages } from './[id]';
 import { basicInformationFormPage } from './basicInformationForm';
+import { userContext } from '../context';
 
-const mealsPage = new Elysia().use(context).get('', async ({ user, query }) => {
+const mealsPage = new Elysia().use(userContext).get('', async ({ user, query }) => {
   return (
     <Document user={user}>
-      <MealsSection user={user!} query={query} />
+      <MealsSection user={user} query={query} />
     </Document>
   );
 });

@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
 import { ProductsTable } from '@components/ProductsTable';
+import { NotificationError } from '@errors/NotificationError';
 import { type AddProductForm, addProductForm } from '@forms/addProduct';
 import { Product } from '@models/product';
 import { $t } from '@utils/$t';
@@ -9,36 +9,16 @@ import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { shoppingListContext } from '../context';
 
-export const addProduct = new Elysia().use(context).post(
+export const addProduct = new Elysia().use(shoppingListContext).post(
   '',
-  async ({ params: { id }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(id).exec();
-
-    if (!shoppingListDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
-
-      return;
-    }
-
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
-    if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name)) {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-        'error',
-        $t('products.addProduct.errors.productAlreadyExists'),
-      );
-
-      return;
-    }
+  async ({ shoppingListDoc, set, body }) => {
+    if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name))
+      throw new NotificationError({
+        status: 400,
+        message: $t('products.addProduct.errors.productAlreadyExists'),
+      });
 
     const productDoc = new Product({ name: body.name });
     shoppingListDoc.products.push(productDoc);
@@ -46,10 +26,7 @@ export const addProduct = new Elysia().use(context).post(
     try {
       await shoppingListDoc.save();
     } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
+      throw new NotificationError('Mongo Error');
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(

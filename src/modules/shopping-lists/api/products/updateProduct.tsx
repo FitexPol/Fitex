@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { NotificationError } from '@errors/NotificationError';
 import { type UpdateProductForm, updateProductForm } from '@forms/updateProduct';
 import { type Unit } from '@models/product';
 import { $t } from '@utils/$t';
@@ -8,35 +8,14 @@ import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { ShoppingList } from '../../models/shoppingList';
+import { shoppingListContext } from '../context';
 
-export const updateProduct = new Elysia().use(context).patch(
+export const updateProduct = new Elysia().use(shoppingListContext).patch(
   '',
-  async ({ params: { id: shoppingListId, productId }, set, user, body }) => {
-    const shoppingListDoc = await ShoppingList.findById(shoppingListId).exec();
-
-    if (!shoppingListDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
-
-      return;
-    }
-
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
-      set.status = 'Forbidden';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.permissionDenied'));
-
-      return;
-    }
-
+  async ({ shoppingListDoc, params: { productId }, set, body }) => {
     const productDoc = shoppingListDoc.products.find((productDoc) => productDoc._id.equals(productId));
 
-    if (!productDoc) {
-      set.status = 'Not Found';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.notFound'));
-
-      return;
-    }
+    if (!productDoc) throw new NotificationError('Not Found');
 
     productDoc.name = body.name;
     productDoc.quantity = Number(body.quantity);
@@ -46,10 +25,7 @@ export const updateProduct = new Elysia().use(context).patch(
     try {
       await shoppingListDoc.save();
     } catch {
-      set.status = 'Bad Request';
-      set.headers[HxResponseHeader.Trigger] = getNotificationHeader('error', $t('_errors.badRequest'));
-
-      return;
+      throw new NotificationError('Mongo Error');
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
