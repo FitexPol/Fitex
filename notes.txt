@@ -1,6 +1,7 @@
 TODO:
-  - error handling
+  - error handling (dodać error page)
   - breadcrumbs
+  - usunac autofocus na notyfikacje
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)

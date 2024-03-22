@@ -4,6 +4,7 @@ import { context } from '@/context';
 import { Document } from '@components/_Document';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
+import { HxResponseHeader } from '@vars';
 
 import { authPage } from './auth';
 import { mealPages } from './meals';
@@ -12,6 +13,9 @@ import { shoppingListPages } from './shopping-lists';
 export const pages = new Elysia()
   .use(context)
   .onError(({ code, set, user, error }) => {
+    set.headers['Content-Type'] = 'text/html';
+    set.headers[HxResponseHeader.Retarget] = 'body';
+
     const ErrorPage = ({ children }: ComponentProps) => {
       return (
         <Document user={user} layout={user ? 'default' : 'none'}>
