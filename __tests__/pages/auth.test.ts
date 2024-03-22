@@ -1,20 +1,19 @@
 // import { html } from '@elysiajs/html';
-// // eslint-disable-next-line import/no-unresolved
 // import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 // import { Elysia } from 'elysia';
 // import { JSDOM } from 'jsdom';
 // import mongoose from 'mongoose';
 
 // import { signIn } from '@auth/api/signIn';
-// import { Role, User } from '@auth/models/user';
+// import { User } from '@auth/models/user';
 // import { mongoUri } from '@vars';
 
-// import { homePage } from './home';
+// import { authPage } from './auth';
 
 // const testApp = new Elysia()
 //   .use(html())
 //   .group('/api/auth', (app) => app.use(signIn))
-//   .use(homePage);
+//   .use(authPage);
 
 // describe('Home page', () => {
 //   let authToken: string;

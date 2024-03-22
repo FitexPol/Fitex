@@ -8,6 +8,7 @@
   "_errors.mongoError": "Podczas zapisu do bazy wystąpił nieoczekiwany błąd",
   "_errors.notFound": "Nie odnaleziono zasobu",
   "_errors.permissionDenied": "Nie masz uprawnień by oglądać ten zasób",
+  "_errors.translation": "BŁĄD: Nie udało się załadować tłumaczenia",
   "_itemsPerPage": "Pozycji na stronie",
   "_logout": "Wyloguj",
   "_name": "Nazwa",
@@ -37,7 +38,6 @@
   "meals.createMeal": "Utwórz posiłek",
   "meals.createMeal.success": "Posiłek został utworzony",
   "meals.deleteMeal.success": "Posiłek został usunięty",
-  "meals.mealEditSection.title": "Edytujesz posiłek",
   "meals.mealsSection.title": "Twoje posiłki",
   "products.addProduct.errors.productAlreadyExists": "Taki produkt został już dodany",
   "products.addProduct.label": "Dodaj produkt",
@@ -51,6 +51,5 @@
   "shoppingLists.createShoppingList": "Utwórz listę",
   "shoppingLists.createShoppingList.success": "Lista zakupów została utworzona",
   "shoppingLists.deleteMeal.success": "Posiłek został usunięty",
-  "shoppingLists.shoppingListEditSection.title": "Edytujesz listę zakupów",
   "shoppingLists.shoppingListsSection.title": "Twoje listy zakupów"
 }

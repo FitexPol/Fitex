@@ -44,7 +44,7 @@ const mealSchema = new Schema<Meal>({
   },
   isVisible: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 

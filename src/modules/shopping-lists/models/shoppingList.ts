@@ -33,7 +33,7 @@ const shoppingListSchema = new Schema<ShoppingList>({
   },
   isVisible: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 

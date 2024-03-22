@@ -12,5 +12,5 @@ export type TranslationModule = keyof typeof pl;
 
 export function $t(tString: string, lang: Lang = Lang.Pl): string {
   const tModule = translations[lang];
-  return tModule[tString] ? tModule[tString] : tModule['_errors.translation'];
+  return tModule[tString] ? tModule[tString] : $t('_errors.translation');
 }
