@@ -1,13 +1,12 @@
 import { icons } from 'feather-icons';
 
 import { type JWTUser } from '@auth/models/user';
-import { Meal } from '@meals/models/meal';
-import { ShoppingList } from '@shopping-lists/models/shoppingList';
 
 import { addProductForm } from '../../forms/addProduct';
 import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
+import { getUserProductNames } from '../../utils/getProductNameOptions';
 import { Button } from '../Button';
 import { Card } from '../Card';
 import { FloatingLink } from '../FloatingLink';
@@ -30,21 +29,7 @@ export async function EditSection<T extends Entity>({
   basicInformation,
   user,
 }: ComponentProps<EditSectionProps<T>>) {
-  const productNames: Record<string, string> = {};
-  const shoppingListDocs = await ShoppingList.find({ author: user.id });
-  const mealDocs = await Meal.find({ author: user.id });
-
-  shoppingListDocs.forEach(({ products }) => {
-    products.forEach(({ name }) => {
-      productNames[name] = name;
-    });
-  });
-
-  mealDocs.forEach(({ products }) => {
-    products.forEach(({ name }) => {
-      productNames[name] = name;
-    });
-  });
+  const productNames = await getUserProductNames(user);
 
   return (
     <section class="mb-20">
@@ -81,7 +66,7 @@ export async function EditSection<T extends Entity>({
               control={addProductForm.name}
               label={$t('products.addProduct.label')}
               placeholder={$t('products.addProduct.placeholder')}
-              datalist={{ id: 'products-datalist', options: Object.values(productNames) }}
+              datalist={{ id: 'products-datalist', options: productNames }}
               class="col-span-10 sm:col-span-11"
             />
 

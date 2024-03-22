@@ -21,6 +21,7 @@ export const productFormPage = new Elysia()
         <FormSection title={shoppingListDoc.name} floatingLinkHref={`/shopping-lists/${shoppingListDoc.id}`}>
           {productDoc ? (
             <UpdateProductForm
+              user={user}
               productDoc={productDoc}
               endpoint={getPath(`/api/shopping-lists/${shoppingListDoc.id}/products/${productDoc.id}`)}
             />

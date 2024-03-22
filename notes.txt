@@ -1,5 +1,5 @@
 TODO:
-  - error handling (dodać error page)
+  - podpowiadanie przy edycji produktów
   - breadcrumbs
   - usunac autofocus na notyfikacje
   - grupowanie produktów po kategorii
