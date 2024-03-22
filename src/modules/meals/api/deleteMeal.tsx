@@ -1,18 +1,16 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { NotificationError } from '@errors/NotificationError';
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { getQueryParams } from '@utils/api/getQueryParams';
-import { NotificationError } from '@utils/errors/NotificationError';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { mealContext } from './context';
 import { MealsSection } from '../components/MealsSection';
 
 export const deleteMeal = new Elysia()
-  .use(context)
   .use(mealContext)
   .delete('/:id', async ({ mealDoc, user, set, request }) => {
     try {
@@ -23,7 +21,7 @@ export const deleteMeal = new Elysia()
         { $pull: { meals: { meal: mealDoc._id } } },
       );
     } catch {
-      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      throw new NotificationError('Mongo Error');
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('meals.deleteMeal.success'));
@@ -36,5 +34,5 @@ export const deleteMeal = new Elysia()
       return;
     }
 
-    return <MealsSection user={user!} query={getQueryParams(currentUrl)} />;
+    return <MealsSection user={user} query={getQueryParams(currentUrl)} />;
   });

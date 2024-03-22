@@ -116,6 +116,7 @@ export function CardsSection({
       <FloatingLink
         href={`/${basePath}/basic-information-form`}
         icon={{ type: 'plus', class: 'stroke-white' }}
+        text={basePath === 'meals' ? $t('meals.createMeal') : $t('shoppingLists.createShoppingList')}
         class="left-auto right-5 bg-pico-primary"
       />
     </section>
@@ -229,7 +230,7 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
                   class="pico-reset inline-flex !w-auto items-center gap-1 !text-xs !text-pico-text"
                 >
                   <>
-                    {icons['plus-circle'].toSvg({ class: 'w-5 h-5' })}
+                    {icons['plus-circle'].toSvg()}
                     {$t('meals.addToShoppingList')}
                   </>
                 </Link>
@@ -244,10 +245,10 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
                   hx-confirm={$t('_deletionConfirmation')}
                   hx-indicator="#loader"
                 >
-                  {icons.trash.toSvg({ class: 'w-5 h-5' })}
+                  {icons.trash.toSvg()}
                 </Button>
 
-                <Link href={`/${basePath}/${entity.id}`}>{icons.edit.toSvg({ class: 'w-5 h-5' })}</Link>
+                <Link href={`/${basePath}/${entity.id}`}>{icons.edit.toSvg()}</Link>
               </div>
             </div>
           </div>

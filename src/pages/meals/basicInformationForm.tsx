@@ -1,6 +1,5 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
 import { Document } from '@components/_Document';
 import { FormSection } from '@components/sections/FormSection';
 import { BasicInformationForm } from '@meals/components/forms/BasicInformationForm';
@@ -8,13 +7,15 @@ import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
+import { userContext } from '../context';
+
 export const basicInformationFormPage = new Elysia()
-  .use(context)
+  .use(userContext)
   .get('/basic-information-form', async ({ user, query }) => {
     if (!query.id) {
       return (
         <Document user={user}>
-          <FormSection title={$t('_basicInformation')} floatingLinkHref="/meals">
+          <FormSection title={$t('meals.createMeal')} floatingLinkHref="/meals">
             <BasicInformationForm />
           </FormSection>
         </Document>
@@ -31,7 +32,7 @@ export const basicInformationFormPage = new Elysia()
       );
     }
 
-    if (!mealDoc.author._id.equals(user!.id)) {
+    if (!mealDoc.author._id.equals(user.id)) {
       return (
         <Document user={user}>
           <span>{$t('_errors.permissionDenied')}</span>
@@ -41,7 +42,7 @@ export const basicInformationFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
+        <FormSection title={$t('_basicInformation')} floatingLinkHref={`/meals/${mealDoc.id}`}>
           <BasicInformationForm mealDoc={mealDoc} />
         </FormSection>
       </Document>

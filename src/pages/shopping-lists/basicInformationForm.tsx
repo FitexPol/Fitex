@@ -1,6 +1,5 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
 import { Document } from '@components/_Document';
 import { FormSection } from '@components/sections/FormSection';
 import { BasicInformationForm } from '@shopping-lists/components/forms/BasicInformationForm';
@@ -8,13 +7,15 @@ import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
+import { userContext } from '../context';
+
 export const basicInformationFormPage = new Elysia()
-  .use(context)
+  .use(userContext)
   .get('/basic-information-form', async ({ user, query }) => {
     if (!query.id) {
       return (
         <Document user={user}>
-          <FormSection title={$t('_basicInformation')} floatingLinkHref="/shopping-lists">
+          <FormSection title={$t('shoppingLists.createShoppingList')} floatingLinkHref="/shopping-lists">
             <BasicInformationForm />
           </FormSection>
         </Document>
@@ -31,7 +32,7 @@ export const basicInformationFormPage = new Elysia()
       );
     }
 
-    if (!shoppingListDoc.author._id.equals(user!.id)) {
+    if (!shoppingListDoc.author._id.equals(user.id)) {
       return (
         <Document user={user}>
           <span>{$t('_errors.permissionDenied')}</span>
@@ -41,7 +42,10 @@ export const basicInformationFormPage = new Elysia()
 
     return (
       <Document user={user}>
-        <FormSection title={shoppingListDoc.name} floatingLinkHref={`/shopping-lists/${shoppingListDoc.id}`}>
+        <FormSection
+          title={$t('_basicInformation')}
+          floatingLinkHref={`/shopping-lists/${shoppingListDoc.id}`}
+        >
           <BasicInformationForm shoppingListDoc={shoppingListDoc} />
         </FormSection>
       </Document>

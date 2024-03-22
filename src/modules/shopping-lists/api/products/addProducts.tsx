@@ -1,29 +1,26 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { NotificationError } from '@errors/NotificationError';
 import { Meal } from '@meals/models/meal';
 import { Product, type ProductDoc } from '@models/product';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
-import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
 import { shoppingListContext } from '../context';
 
 export const addProducts = new Elysia()
-  .use(context)
   .use(shoppingListContext)
   .put('', async ({ shoppingListDoc, set, user, body }) => {
     const mealId = (body as Record<string, string>).mealId;
 
-    if (!mealId) throw new NotificationError({ status: 400, message: $t('_errors.badRequest') });
+    if (!mealId) throw new NotificationError('Bad Request');
 
     const mealDoc = await Meal.findById(mealId).exec();
 
-    if (!mealDoc) throw new NotificationError({ status: 400, message: $t('_errors.notFound') });
+    if (!mealDoc) throw new NotificationError('Not Found');
 
-    if (!mealDoc.author._id.equals(user!.id))
-      throw new NotificationError({ status: 400, message: $t('_errors.permissionDenied') });
+    if (!mealDoc.author._id.equals(user.id)) throw new NotificationError('Permission Denied');
 
     const productDocs = Object.entries(body as Record<string, string>).reduce((acc, [key, value]) => {
       if (!key.startsWith('product-') || !value) return acc;
@@ -53,7 +50,7 @@ export const addProducts = new Elysia()
     try {
       await shoppingListDoc.save();
     } catch {
-      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      throw new NotificationError('Mongo Error');
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(

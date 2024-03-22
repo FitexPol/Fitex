@@ -1,8 +1,8 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { type NotificationErrorDetails } from '@errors/NotificationError';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
-import { type NotificationErrorDetails } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
 import { authApi } from './auth/api';

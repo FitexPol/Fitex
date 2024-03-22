@@ -1,4 +1,4 @@
-import type { Form, FormErrors } from '../../types';
+import type { Form, FormErrors } from '../types';
 
 export type InlineErrorDetails<T extends Form> = {
   status: number;

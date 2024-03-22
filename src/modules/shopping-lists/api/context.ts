@@ -1,22 +1,21 @@
-import { Elysia } from 'elysia';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { type Elysia } from 'elysia';
 
-import { context } from '@/context';
-import { $t } from '@utils/$t';
-import { NotificationError } from '@utils/errors/NotificationError';
+import { userContext } from '@auth/api/context';
+import { NotificationError } from '@errors/NotificationError';
 
 import { ShoppingList } from '../models/shoppingList';
 
-export const shoppingListContext = new Elysia()
-  .use(context)
-  .derive({ as: 'scoped' }, async ({ params: { id }, user }) => {
+export const shoppingListContext = (app: Elysia) =>
+  app.use(userContext).derive({ as: 'scoped' }, async ({ params: { id }, user }) => {
     const shoppingListDoc = await ShoppingList.findById(id).exec();
 
-    if (!shoppingListDoc) throw new NotificationError({ status: 404, message: $t('_errors.notFound') });
+    if (!shoppingListDoc) throw new NotificationError('Not Found');
 
-    if (!shoppingListDoc.author._id.equals(user!.id))
-      throw new NotificationError({ status: 403, message: $t('_errors.permissionDenied') });
+    if (!shoppingListDoc.author._id.equals(user.id)) throw new NotificationError('Permission Denied');
 
     return {
       shoppingListDoc,
-    };
+      user,
+    } as const;
   });

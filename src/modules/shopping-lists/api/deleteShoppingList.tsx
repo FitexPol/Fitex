@@ -1,23 +1,21 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { getQueryParams } from '@utils/api/getQueryParams';
-import { NotificationError } from '@utils/errors/NotificationError';
 import { HxRequestHeader, HxResponseHeader } from '@vars';
 
 import { shoppingListContext } from './context';
 import { ShoppingListsSection } from '../components/ShoppingListsSection';
 
 export const deleteShoppingList = new Elysia()
-  .use(context)
   .use(shoppingListContext)
   .delete('/:id', async ({ shoppingListDoc, user, set, request }) => {
     try {
       await shoppingListDoc.deleteOne();
     } catch {
-      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      throw new NotificationError('Mongo Error');
     }
 
     set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
@@ -33,5 +31,5 @@ export const deleteShoppingList = new Elysia()
       return;
     }
 
-    return <ShoppingListsSection user={user!} query={getQueryParams(currentUrl)} />;
+    return <ShoppingListsSection user={user} query={getQueryParams(currentUrl)} />;
   });

@@ -1,16 +1,16 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
 import { Document } from '@components/_Document';
 import { ShoppingListsSection } from '@shopping-lists/components/ShoppingListsSection';
 
 import { shoppingListPages as singleShoppingListPages } from './[id]';
 import { basicInformationFormPage } from './basicInformationForm';
+import { userContext } from '../context';
 
-const shoppingListsPage = new Elysia().use(context).get('', async ({ user, query }) => {
+const shoppingListsPage = new Elysia().use(userContext).get('', async ({ user, query }) => {
   return (
     <Document user={user}>
-      <ShoppingListsSection user={user!} query={query} />
+      <ShoppingListsSection user={user} query={query} />
     </Document>
   );
 });

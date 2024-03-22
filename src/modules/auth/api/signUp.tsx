@@ -1,11 +1,11 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { InlineError, type InlineErrorDetails } from '@errors/InlineError';
+import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
-import { InlineError, type InlineErrorDetails } from '@utils/errors/InlineError';
-import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
 import { SignUpForm } from '../components/forms/SignUpForm';
@@ -42,7 +42,7 @@ export const signUp = new Elysia().use(context).post(
     try {
       await userDoc.save();
     } catch {
-      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      throw new NotificationError('Mongo Error');
     }
 
     const token = await jwt.sign({

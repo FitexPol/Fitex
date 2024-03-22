@@ -1,11 +1,11 @@
 import { Elysia } from 'elysia';
 
-import { context } from '@/context';
+import { userContext } from '@auth/api/context';
+import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
-import { NotificationError } from '@utils/errors/NotificationError';
 import { HxResponseHeader } from '@vars';
 
 import { BasicInformationForm } from '../components/forms/BasicInformationForm';
@@ -15,18 +15,18 @@ import {
 } from '../forms/basicInformation';
 import { ShoppingList } from '../models/shoppingList';
 
-export const createShoppingList = new Elysia().use(context).post(
+export const createShoppingList = new Elysia().use(userContext).post(
   '',
   async ({ body, user, set }) => {
     const shoppingListDoc = new ShoppingList({
       name: body.name,
-      author: user!.id,
+      author: user.id,
     });
 
     try {
       await shoppingListDoc.save();
     } catch {
-      throw new NotificationError({ status: 500, message: $t('_errors.mongoError') });
+      throw new NotificationError('Mongo Error');
     }
 
     set.status = 'Created';

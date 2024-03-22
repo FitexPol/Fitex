@@ -1,10 +1,10 @@
 import { Elysia } from 'elysia';
 
 import { context } from '@/context';
+import { InlineError, type InlineErrorDetails } from '@errors/InlineError';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
-import { InlineError, type InlineErrorDetails } from '@utils/errors/InlineError';
 import { HxResponseHeader } from '@vars';
 
 import { SignInForm } from '../components/forms/SignInForm';
@@ -41,7 +41,7 @@ export const signIn = new Elysia().use(context).post(
     setAuthCookie(auth, token);
 
     set.status = 200;
-    set.headers[HxResponseHeader.Location] = '/';
+    set.headers[HxResponseHeader.Location] = '/shopping-lists';
   },
   {
     body: getBodySchema<SignInFormType>(signInForm),
