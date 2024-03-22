@@ -1,3 +1,4 @@
+import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Select } from '@components/inputs/Select';
@@ -7,20 +8,30 @@ import { $t } from '@utils/$t';
 import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
+import { getUserProductNames } from '../../utils/getProductNameOptions';
 
 type UpdateProductFormProps = {
+  user: JWTUser;
   productDoc: ProductDoc;
   endpoint: string;
   errors?: UpdateProductFormErrors;
 };
 
-export function UpdateProductForm({ productDoc, endpoint, errors }: ComponentProps<UpdateProductFormProps>) {
+export async function UpdateProductForm({
+  user,
+  productDoc,
+  endpoint,
+  errors,
+}: ComponentProps<UpdateProductFormProps>) {
+  const productNames = await getUserProductNames(user);
+
   return (
     <form hx-patch={endpoint}>
       <Input
         control={updateProductForm.name}
         value={productDoc.name}
         label={$t('_name')}
+        datalist={{ id: 'products-datalist', options: productNames }}
         error={errors?.name}
       />
 

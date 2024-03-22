@@ -18,7 +18,7 @@ export function FloatingLink({ href, icon, text, class: className }: ComponentPr
     <Link
       href={href}
       class={$tm(
-        'fixed bottom-5 left-5 inline-flex items-center gap-1 rounded-full border-2 border-pico-primary bg-pico-background p-2.5 shadow-md',
+        'fixed bottom-5 left-5 inline-flex items-center gap-1 rounded-full border-2 border-pico-primary bg-pico-card-background p-2.5 shadow-md',
         className,
       )}
     >

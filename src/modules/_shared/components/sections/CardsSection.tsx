@@ -203,7 +203,7 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
       <Card class="h-full">
         <>
           <Button
-            class="pico-reset flex w-full items-center justify-between !text-lg sm:pointer-events-none"
+            class="pico-reset flex w-full items-center justify-between !text-left !text-lg sm:pointer-events-none"
             hx-patch={`/api/${basePath}/${entity.id}/visibility-state`}
             hx-target="closest li"
             hx-swap="outerHTML"
