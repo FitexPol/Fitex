@@ -4,7 +4,7 @@ import { Document } from '@components/_Document';
 import { MealsSection } from '@meals/components/MealsSection';
 
 import { mealPages as singleMealPages } from './[id]';
-import { basicInformationFormPage } from './basicInformationForm';
+import { nameFormPage } from './nameForm';
 import { userContext } from '../context';
 
 const mealsPage = new Elysia().use(userContext).get('', async ({ user, query }) => {
@@ -16,5 +16,5 @@ const mealsPage = new Elysia().use(userContext).get('', async ({ user, query }) 
 });
 
 export const mealPages = new Elysia().group('/meals', (app) =>
-  app.use(mealsPage).use(basicInformationFormPage).use(singleMealPages),
+  app.use(mealsPage).use(nameFormPage).use(singleMealPages),
 );

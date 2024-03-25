@@ -9,7 +9,7 @@ import { productFormPage } from './productForm';
 const shoppingListPage = new Elysia().use(shoppingListContext).get('', async ({ shoppingListDoc, user }) => {
   return (
     <Document user={user}>
-      <ShoppingListEditSection user={user} shoppingListDoc={shoppingListDoc} />
+      <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
     </Document>
   );
 });

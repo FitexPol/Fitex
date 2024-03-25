@@ -114,7 +114,7 @@ export function CardsSection({
       />
 
       <FloatingLink
-        href={`/${basePath}/basic-information-form`}
+        href={`/${basePath}/name-form`}
         icon={{ type: 'plus', class: 'stroke-white' }}
         text={basePath === 'meals' ? $t('meals.createMeal') : $t('shoppingLists.createShoppingList')}
         class="left-auto right-5 bg-pico-primary"
@@ -223,34 +223,9 @@ function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<I
           >
             {children}
 
-            <div class="mt-auto flex items-center justify-between gap-2">
-              {basePath === 'meals' && (
-                <Link
-                  href={`/meals/${entity.id}/add-to-shopping-list-form`}
-                  class="pico-reset inline-flex !w-auto items-center gap-1 !text-xs !text-pico-text"
-                >
-                  <>
-                    {icons['plus-circle'].toSvg()}
-                    {$t('meals.addToShoppingList')}
-                  </>
-                </Link>
-              )}
-
-              <div class="ml-auto flex items-center gap-2">
-                <Button
-                  class="pico-reset !text-inherit"
-                  hx-delete={`/api/${basePath}/${entity.id}`}
-                  hx-target="closest section"
-                  hx-swap="outerHTML"
-                  hx-confirm={$t('_deletionConfirmation')}
-                  hx-indicator="#loader"
-                >
-                  {icons.trash.toSvg()}
-                </Button>
-
-                <Link href={`/${basePath}/${entity.id}`}>{icons.edit.toSvg()}</Link>
-              </div>
-            </div>
+            <Link href={`/${basePath}/${entity.id}`} class="mt-auto self-end">
+              {icons.edit.toSvg({ class: 'size-6' })}
+            </Link>
           </div>
         </>
       </Card>

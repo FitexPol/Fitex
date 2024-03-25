@@ -8,11 +8,8 @@ import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { BasicInformationForm } from '../components/forms/BasicInformationForm';
-import {
-  type BasicInformationForm as BasicInformationFormType,
-  basicInformationForm,
-} from '../forms/basicInformation';
+import { NameForm } from '../components/forms/NameForm';
+import { type NameForm as NameFormType, nameForm } from '../forms/name';
 import { ShoppingList } from '../models/shoppingList';
 
 export const createShoppingList = new Elysia().use(userContext).post(
@@ -37,15 +34,11 @@ export const createShoppingList = new Elysia().use(userContext).post(
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   },
   {
-    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
+    body: getBodySchema<NameFormType>(nameForm),
     error({ code, error }) {
       switch (code) {
         case 'VALIDATION':
-          return (
-            <BasicInformationForm
-              errors={getBodySchemaErrors<BasicInformationFormType>(error, basicInformationForm)}
-            />
-          );
+          return <NameForm errors={getBodySchemaErrors<NameFormType>(error, nameForm)} />;
       }
     },
   },

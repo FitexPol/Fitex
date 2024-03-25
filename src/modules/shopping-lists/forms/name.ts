@@ -1,6 +1,6 @@
 import type { Form, FormErrors } from '@types';
 
-export const basicInformationForm = {
+export const nameForm = {
   name: {
     type: 'text',
     name: 'name',
@@ -13,5 +13,5 @@ export const basicInformationForm = {
   },
 } satisfies Form;
 
-export type BasicInformationForm = typeof basicInformationForm;
-export type BasicInformationFormErrors = FormErrors<BasicInformationForm>;
+export type NameForm = typeof nameForm;
+export type NameFormErrors = FormErrors<NameForm>;
