@@ -24,6 +24,12 @@ export type Datalist = {
   options: string[];
 };
 
+export type Tab = {
+  href: string;
+  label: string;
+  component: JSX.Element;
+};
+
 export type BasePath = 'meals' | 'shopping-lists';
 export type Query = Record<string, string | undefined>;
 

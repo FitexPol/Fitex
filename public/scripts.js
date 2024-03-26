@@ -80,34 +80,11 @@ function toggleSidePanel() {
   }
 }
 
-function submitAddToShoppingListForm(event, form, mealId) {
-  event.preventDefault();
+function toggleAccordionItem(buttonElement) {
+  const content = buttonElement.nextElementSibling;
+  content.classList.toggle('hidden');
 
-  const formData = new FormData(form);
-  const productIds = [];
-
-  formData.forEach((_, key) => {
-    if (key.startsWith('product-')) {
-      productIds.push(key.split('-')[1]);
-    }
-  });
-
-  if (productIds.length === 0) {
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-
-    checkboxes.forEach((checkbox) => {
-      productIds.push(checkbox.name.split('-')[1]);
-    });
-  }
-
-  htmx.ajax('PUT', `/api/shopping-lists/${formData.get('shoppingListId')}/products`, {
-    values: {
-      mealId,
-      ...productIds.reduce((acc, productId, i) => {
-        acc[`product-${i}`] = productId;
-        return acc;
-      }, {}),
-    },
-    indicator: '#loader',
-  });
+  buttonElement.querySelector('svg').style.transform = content.classList.contains('hidden')
+    ? 'rotate(0deg)'
+    : 'rotate(180deg)';
 }

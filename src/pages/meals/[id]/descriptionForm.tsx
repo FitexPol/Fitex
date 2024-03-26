@@ -6,12 +6,14 @@ import { DescriptionForm } from '@meals/components/forms/DescriptionForm';
 
 import { mealContext } from './context';
 
-export const descriptionForm = new Elysia().use(mealContext).get('/description-form', ({ user, mealDoc }) => {
-  return (
-    <Document user={user}>
-      <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
-        <DescriptionForm mealDoc={mealDoc} />
-      </FormSection>
-    </Document>
-  );
-});
+export const descriptionFormPage = new Elysia()
+  .use(mealContext)
+  .get('/description-form', ({ user, mealDoc }) => {
+    return (
+      <Document user={user}>
+        <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
+          <DescriptionForm mealDoc={mealDoc} />
+        </FormSection>
+      </Document>
+    );
+  });

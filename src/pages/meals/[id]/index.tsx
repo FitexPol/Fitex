@@ -3,8 +3,9 @@ import { Elysia } from 'elysia';
 import { Document } from '@components/_Document';
 import { MealEditSection } from '@meals/components/MealEditSection';
 
+import { addProductsPage } from './addProducts';
 import { mealContext } from './context';
-import { descriptionForm } from './descriptionForm';
+import { descriptionFormPage } from './descriptionForm';
 import { productFormPage } from './productForm';
 
 const mealPage = new Elysia().use(mealContext).get('', ({ mealDoc, user }) => {
@@ -16,5 +17,5 @@ const mealPage = new Elysia().use(mealContext).get('', ({ mealDoc, user }) => {
 });
 
 export const mealPages = new Elysia().group('/:id', (app) =>
-  app.use(mealPage).use(descriptionForm).use(productFormPage),
+  app.use(mealPage).use(descriptionFormPage).use(addProductsPage).use(productFormPage),
 );

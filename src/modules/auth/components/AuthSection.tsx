@@ -1,6 +1,6 @@
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
-import type { ComponentProps } from '@types';
+import type { ComponentProps, Tab } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
@@ -9,12 +9,6 @@ import { SignInForm } from './forms/SignInForm';
 import { SignUpForm } from './forms/SignUpForm';
 
 type FormType = 'signIn' | 'signUp';
-
-type Tab = {
-  href: string;
-  label: string;
-  component: JSX.Element;
-};
 
 const tabs = new Map<FormType, Tab>([
   [

@@ -37,27 +37,6 @@ export function EditSection<T extends Entity>({
             class="relative pr-10"
           />
 
-          {/* <form
-            class="mt-2 grid !grid-cols-12"
-            hx-post={`/api/${basePath}/${entity.id}/products`}
-            hx-target="#products"
-            hx-swap="outerHTML"
-            hx-on--after-request="this.reset()"
-            hx-indicator="#loader"
-          >
-            <Input
-              control={addProductForm.name}
-              label={$t('products.addProduct.label')}
-              placeholder={$t('products.addProduct.placeholder')}
-              datalist={{ id: 'products-datalist', options: productNames }}
-              class="col-span-10 sm:col-span-11"
-            />
-
-            <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
-              {icons['plus-circle'].toSvg()}
-            </Button>
-          </form> */}
-
           <Group title={$t('products')}>
             <ProductsTable entity={entity} basePath={basePath} />
           </Group>
@@ -82,7 +61,7 @@ export function EditSection<T extends Entity>({
       <FloatingLink href={`/${basePath}`} icon={{ type: 'arrow-left' }} />
 
       <FloatingLink
-        href={`/${basePath}/add-product-form`}
+        href={`/${basePath}/${entity.id}/add-products`}
         icon={{ type: 'plus', class: 'stroke-white' }}
         text={$t('products.addProducts')}
         class="left-auto right-5 bg-pico-primary"
