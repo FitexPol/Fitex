@@ -2,7 +2,6 @@ import { icons } from 'feather-icons';
 
 import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
-import { getPath } from '../../utils/getPath';
 import { Button } from '../Button';
 import { Card } from '../Card';
 import { FloatingLink } from '../FloatingLink';
@@ -29,7 +28,7 @@ export function EditSection<T extends Entity>({
             title={
               <h1 class="mb-0 text-2xl">
                 {title}
-                <Link href={getPath(`/${basePath}/name-form`, { id: entity.id })} class="ml-2 inline-flex">
+                <Link href={`/${basePath}/${entity.id}/name`} class="ml-2 inline-flex">
                   {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
                 </Link>
               </h1>
@@ -59,7 +58,7 @@ export function EditSection<T extends Entity>({
       </Card>
 
       <FloatingLink
-        href={`/${basePath}/${entity.id}/add-products`}
+        href={`/${basePath}/${entity.id}/products`}
         icon={{ type: 'plus', class: 'stroke-white' }}
         text={$t('products.addProducts')}
         class="left-auto right-5 bg-pico-primary"

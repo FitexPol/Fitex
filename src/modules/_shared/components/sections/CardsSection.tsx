@@ -114,7 +114,7 @@ export function CardsSection({
       />
 
       <FloatingLink
-        href={`/${basePath}/name-form`}
+        href={`/${basePath}/new`}
         icon={{ type: 'plus', class: 'stroke-white' }}
         text={basePath === 'meals' ? $t('meals.createMeal') : $t('shoppingLists.createShoppingList')}
         class="left-auto right-5 bg-pico-primary"

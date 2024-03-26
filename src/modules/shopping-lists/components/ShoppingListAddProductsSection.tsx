@@ -26,7 +26,7 @@ export function ShoppingListAddProductsSection({
     [
       'meals',
       {
-        href: getPath(`/shopping-lists/${shoppingListDoc.id}/add-products`, { tab: 'meals' }),
+        href: getPath(`/shopping-lists/${shoppingListDoc.id}/products`, { tab: 'meals' }),
         label: $t('meals'),
         component: <MealProducts user={user} shoppingListDoc={shoppingListDoc} />,
       },

@@ -34,7 +34,7 @@ export async function AddProductsSection<T extends Entity>({
     [
       'products',
       {
-        href: `/${basePath}/${entity.id}/add-products`,
+        href: `/${basePath}/${entity.id}/products`,
         label: $t('products.mostUsed'),
         component: <MostUsedProducts productNames={productNames} basePath={basePath} entity={entity} />,
       },
