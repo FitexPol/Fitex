@@ -9,7 +9,6 @@ import { $tm } from '../../utils/$tm';
 import { geMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 import { Button } from '../Button';
 import { Card } from '../Card';
-import { FloatingLink } from '../FloatingLink';
 import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { MostUsedProducts } from '../MostUsedProducts';
@@ -65,7 +64,7 @@ export async function AddProductsSection<T extends Entity>({
         };
 
   return (
-    <section class="mb-20">
+    <section>
       <Card>
         <>
           <Card.Header title={<h1 class="mb-0 text-2xl">{entity.name}</h1>} />
@@ -108,8 +107,6 @@ export async function AddProductsSection<T extends Entity>({
           </>
         </>
       </Card>
-
-      <FloatingLink href={`/${basePath}/${entity.id}`} icon={{ type: 'arrow-left' }} />
     </section>
   );
 }

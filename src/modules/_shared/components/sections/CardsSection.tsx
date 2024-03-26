@@ -37,7 +37,7 @@ export function CardsSection({
   children,
 }: ComponentProps<CardsSectionProps>) {
   return (
-    <section class="mb-20">
+    <section>
       <div class="mb-6 flex items-center justify-between gap-y-5">
         <h1 class="mb-0 text-xl">{title}</h1>
         <Button class="pico-reset" onclick="toggleSidePanel()">

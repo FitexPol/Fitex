@@ -22,7 +22,7 @@ export function EditSection<T extends Entity>({
   children,
 }: ComponentProps<EditSectionProps<T>>) {
   return (
-    <section class="mb-20">
+    <section>
       <Card>
         <>
           <Card.Header
@@ -57,8 +57,6 @@ export function EditSection<T extends Entity>({
           </Card.Footer>
         </>
       </Card>
-
-      <FloatingLink href={`/${basePath}`} icon={{ type: 'arrow-left' }} />
 
       <FloatingLink
         href={`/${basePath}/${entity.id}/add-products`}

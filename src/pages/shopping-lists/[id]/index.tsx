@@ -7,13 +7,15 @@ import { addProductsPage } from './addProducts';
 import { shoppingListContext } from './context';
 import { productFormPage } from './productForm';
 
-const shoppingListPage = new Elysia().use(shoppingListContext).get('', async ({ shoppingListDoc, user }) => {
-  return (
-    <Document user={user}>
-      <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
-    </Document>
-  );
-});
+const shoppingListPage = new Elysia()
+  .use(shoppingListContext)
+  .get('', ({ request, shoppingListDoc, user }) => {
+    return (
+      <Document currentUrl={request.url} user={user}>
+        <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
+      </Document>
+    );
+  });
 
 export const shoppingListPages = new Elysia().group('/:id', (app) =>
   app.use(shoppingListPage).use(addProductsPage).use(productFormPage),

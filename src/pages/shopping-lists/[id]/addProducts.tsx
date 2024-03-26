@@ -8,11 +8,11 @@ import { shoppingListContext } from './context';
 
 export const addProductsPage = new Elysia()
   .use(shoppingListContext)
-  .get('/add-products', ({ user, shoppingListDoc, query }) => {
+  .get('/add-products', ({ request, user, shoppingListDoc, query }) => {
     const tabQuery = getQueryParamSecure(query.tab);
 
     return (
-      <Document user={user}>
+      <Document currentUrl={request.url} user={user}>
         <ShoppingListAddProductsSection
           user={user}
           shoppingListDoc={shoppingListDoc}

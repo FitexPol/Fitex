@@ -8,9 +8,9 @@ import { mealContext } from './context';
 import { descriptionFormPage } from './descriptionForm';
 import { productFormPage } from './productForm';
 
-const mealPage = new Elysia().use(mealContext).get('', ({ mealDoc, user }) => {
+const mealPage = new Elysia().use(mealContext).get('', ({ request, mealDoc, user }) => {
   return (
-    <Document user={user}>
+    <Document currentUrl={request.url} user={user}>
       <MealEditSection mealDoc={mealDoc} />
     </Document>
   );

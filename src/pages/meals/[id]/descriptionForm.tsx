@@ -8,10 +8,10 @@ import { mealContext } from './context';
 
 export const descriptionFormPage = new Elysia()
   .use(mealContext)
-  .get('/description-form', ({ user, mealDoc }) => {
+  .get('/description-form', ({ request, user, mealDoc }) => {
     return (
-      <Document user={user}>
-        <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
+      <Document currentUrl={request.url} user={user}>
+        <FormSection title={mealDoc.name}>
           <DescriptionForm mealDoc={mealDoc} />
         </FormSection>
       </Document>

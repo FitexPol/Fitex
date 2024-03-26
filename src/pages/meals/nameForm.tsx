@@ -9,40 +9,42 @@ import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { userContext } from '../context';
 
-export const nameFormPage = new Elysia().use(userContext).get('/name-form', async ({ user, query }) => {
-  if (!query.id) {
+export const nameFormPage = new Elysia()
+  .use(userContext)
+  .get('/name-form', async ({ request, user, query }) => {
+    if (!query.id) {
+      return (
+        <Document currentUrl={request.url} user={user}>
+          <FormSection title={$t('meals.createMeal')}>
+            <NameForm />
+          </FormSection>
+        </Document>
+      );
+    }
+
+    const mealDoc = await Meal.findById(getQueryParamSecure(query.id)).exec();
+
+    if (!mealDoc) {
+      return (
+        <Document currentUrl={request.url} user={user}>
+          <span>{$t('_errors.notFound')}</span>
+        </Document>
+      );
+    }
+
+    if (!mealDoc.author._id.equals(user.id)) {
+      return (
+        <Document currentUrl={request.url} user={user}>
+          <span>{$t('_errors.permissionDenied')}</span>
+        </Document>
+      );
+    }
+
     return (
-      <Document user={user}>
-        <FormSection title={$t('meals.createMeal')} floatingLinkHref="/meals">
-          <NameForm />
+      <Document currentUrl={request.url} user={user}>
+        <FormSection title={mealDoc.name}>
+          <NameForm mealDoc={mealDoc} />
         </FormSection>
       </Document>
     );
-  }
-
-  const mealDoc = await Meal.findById(getQueryParamSecure(query.id)).exec();
-
-  if (!mealDoc) {
-    return (
-      <Document user={user}>
-        <span>{$t('_errors.notFound')}</span>
-      </Document>
-    );
-  }
-
-  if (!mealDoc.author._id.equals(user.id)) {
-    return (
-      <Document user={user}>
-        <span>{$t('_errors.permissionDenied')}</span>
-      </Document>
-    );
-  }
-
-  return (
-    <Document user={user}>
-      <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
-        <NameForm mealDoc={mealDoc} />
-      </FormSection>
-    </Document>
-  );
-});
+  });
