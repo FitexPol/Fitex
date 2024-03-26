@@ -8,13 +8,10 @@ import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { shoppingListContext } from './context';
-import { BasicInformationForm } from '../components/forms/BasicInformationForm';
-import {
-  type BasicInformationForm as BasicInformationFormType,
-  basicInformationForm,
-} from '../forms/basicInformation';
+import { NameForm } from '../components/forms/NameForm';
+import { type NameForm as NameFormType, nameForm } from '../forms/name';
 
-export const updateBasicInformation = new Elysia().use(shoppingListContext).patch(
+export const updateName = new Elysia().use(shoppingListContext).patch(
   '',
   async ({ shoppingListDoc, set, body }) => {
     try {
@@ -25,23 +22,15 @@ export const updateBasicInformation = new Elysia().use(shoppingListContext).patc
       throw new NotificationError('Mongo Error');
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      $t('_basicInformation.updateBasicInformation.success'),
-    );
-
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('_updateName.success'));
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   },
   {
-    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
+    body: getBodySchema<NameFormType>(nameForm),
     error({ code, error }) {
       switch (code) {
         case 'VALIDATION':
-          return (
-            <BasicInformationForm
-              errors={getBodySchemaErrors<BasicInformationFormType>(error, basicInformationForm)}
-            />
-          );
+          return <NameForm errors={getBodySchemaErrors<NameFormType>(error, nameForm)} />;
       }
     },
   },

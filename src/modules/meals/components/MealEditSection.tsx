@@ -1,4 +1,6 @@
-import { type JWTUser } from '@auth/models/user';
+import { icons } from 'feather-icons';
+
+import { Link } from '@components/Link';
 import { EditSection } from '@components/sections/EditSection';
 import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
@@ -6,21 +8,22 @@ import { $t } from '@utils/$t';
 import { type MealDoc } from '../models/meal';
 
 type MealEditSectionProps = {
-  user: JWTUser;
   mealDoc: MealDoc;
 };
 
-export function MealEditSection({ user, mealDoc }: ComponentProps<MealEditSectionProps>) {
+export function MealEditSection({ mealDoc }: ComponentProps<MealEditSectionProps>) {
   return (
-    <EditSection
-      title={mealDoc.name}
-      basePath="meals"
-      entity={mealDoc}
-      basicInformation={[
-        { label: $t('_name'), value: mealDoc.name },
-        { label: $t('_description'), value: mealDoc.description },
-      ]}
-      user={user}
-    />
+    <EditSection title={mealDoc.name} basePath="meals" entity={mealDoc}>
+      <EditSection.Group
+        title={$t('_description')}
+        customElement={
+          <Link href={`/meals/${mealDoc.id}/description-form`} class="ml-1 inline-flex">
+            {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
+          </Link>
+        }
+      >
+        <p>{mealDoc.description}</p>
+      </EditSection.Group>
+    </EditSection>
   );
 }

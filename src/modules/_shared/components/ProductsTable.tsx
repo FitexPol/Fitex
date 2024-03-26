@@ -14,7 +14,7 @@ type ProductsTableProps<T extends Entity> = {
 
 export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentProps<ProductsTableProps<T>>) {
   return (
-    <Table id="products">
+    <Table id="products" class="mt-2">
       <>
         <Table.Header>
           <>

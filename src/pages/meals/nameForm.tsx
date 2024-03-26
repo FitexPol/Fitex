@@ -1,22 +1,22 @@
 import { Elysia } from 'elysia';
 
+import { NameForm } from '@/modules/meals/components/forms/NameForm';
 import { Document } from '@components/_Document';
 import { FormSection } from '@components/sections/FormSection';
-import { BasicInformationForm } from '@meals/components/forms/BasicInformationForm';
 import { Meal } from '@meals/models/meal';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { userContext } from '../context';
 
-export const basicInformationFormPage = new Elysia()
+export const nameFormPage = new Elysia()
   .use(userContext)
-  .get('/basic-information-form', async ({ user, query }) => {
+  .get('/name-form', async ({ request, user, query }) => {
     if (!query.id) {
       return (
-        <Document user={user}>
-          <FormSection title={$t('meals.createMeal')} floatingLinkHref="/meals">
-            <BasicInformationForm />
+        <Document currentUrl={request.url} user={user}>
+          <FormSection title={$t('meals.createMeal')}>
+            <NameForm />
           </FormSection>
         </Document>
       );
@@ -26,7 +26,7 @@ export const basicInformationFormPage = new Elysia()
 
     if (!mealDoc) {
       return (
-        <Document user={user}>
+        <Document currentUrl={request.url} user={user}>
           <span>{$t('_errors.notFound')}</span>
         </Document>
       );
@@ -34,16 +34,16 @@ export const basicInformationFormPage = new Elysia()
 
     if (!mealDoc.author._id.equals(user.id)) {
       return (
-        <Document user={user}>
+        <Document currentUrl={request.url} user={user}>
           <span>{$t('_errors.permissionDenied')}</span>
         </Document>
       );
     }
 
     return (
-      <Document user={user}>
-        <FormSection title={$t('_basicInformation')} floatingLinkHref={`/meals/${mealDoc.id}`}>
-          <BasicInformationForm mealDoc={mealDoc} />
+      <Document currentUrl={request.url} user={user}>
+        <FormSection title={mealDoc.name}>
+          <NameForm mealDoc={mealDoc} />
         </FormSection>
       </Document>
     );

@@ -4,11 +4,11 @@ import { createShoppingList } from './createShoppingList';
 import { deleteShoppingList } from './deleteShoppingList';
 import { productsApi } from './products';
 import { toggleVisibilityState } from './toggleVisibilityState';
-import { updateBasicInformation } from './updateBasicInformation';
+import { updateName } from './updateName';
 
 export const shoppingListsApi = new Elysia().group('/shopping-lists', (app) =>
   app
     .use(createShoppingList)
     .use(deleteShoppingList)
-    .group(':id', (app) => app.use(updateBasicInformation).use(toggleVisibilityState).use(productsApi)),
+    .group(':id', (app) => app.use(updateName).use(toggleVisibilityState).use(productsApi)),
 );

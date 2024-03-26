@@ -8,41 +8,29 @@ import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { mealContext } from './context';
-import { BasicInformationForm } from '../components/forms/BasicInformationForm';
-import {
-  type BasicInformationForm as BasicInformationFormType,
-  basicInformationForm,
-} from '../forms/basicInformation';
+import { NameForm } from '../components/forms/NameForm';
+import { type NameForm as NameFormType, nameForm } from '../forms/name';
 
-export const updateBasicInformation = new Elysia().use(mealContext).patch(
+export const updateName = new Elysia().use(mealContext).patch(
   '',
   async ({ mealDoc, body, set }) => {
     try {
       await mealDoc.updateOne({
         name: body.name,
-        description: body.description,
       });
     } catch {
       throw new NotificationError('Mongo Error');
     }
 
-    set.headers[HxResponseHeader.Trigger] = getNotificationHeader(
-      'success',
-      $t('_basicInformation.updateBasicInformation.success'),
-    );
-
+    set.headers[HxResponseHeader.Trigger] = getNotificationHeader('success', $t('_updateName.success'));
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
-    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
+    body: getBodySchema<NameFormType>(nameForm),
     error({ code, error }) {
       switch (code) {
         case 'VALIDATION':
-          return (
-            <BasicInformationForm
-              errors={getBodySchemaErrors<BasicInformationFormType>(error, basicInformationForm)}
-            />
-          );
+          return <NameForm errors={getBodySchemaErrors<NameFormType>(error, nameForm)} />;
       }
     },
   },

@@ -1,5 +1,6 @@
 TODO:
   - podpowiadanie przy edycji produktów
+  - przycisk powrotu
   - usunac autofocus na notyfikacje
   - grupowanie produktów po kategorii
   - tagowanie posiłków

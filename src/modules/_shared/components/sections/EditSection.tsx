@@ -1,16 +1,11 @@
 import { icons } from 'feather-icons';
 
-import { type JWTUser } from '@auth/models/user';
-
-import { addProductForm } from '../../forms/addProduct';
 import type { BasePath, ComponentProps, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { getPath } from '../../utils/getPath';
-import { getUserProductNames } from '../../utils/getProductNameOptions';
 import { Button } from '../Button';
 import { Card } from '../Card';
 import { FloatingLink } from '../FloatingLink';
-import { Input } from '../inputs/Input';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
 
@@ -18,64 +13,35 @@ type EditSectionProps<T extends Entity> = {
   title: string;
   basePath: BasePath;
   entity: T;
-  basicInformation: { label: string; value: string }[];
-  user: JWTUser;
 };
 
-export async function EditSection<T extends Entity>({
+export function EditSection<T extends Entity>({
   title,
   basePath,
   entity,
-  basicInformation,
-  user,
+  children,
 }: ComponentProps<EditSectionProps<T>>) {
-  const productNames = await getUserProductNames(user);
-
   return (
-    <section class="mb-20">
+    <section>
       <Card>
         <>
-          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} class="relative pr-10" />
+          <Card.Header
+            title={
+              <h1 class="mb-0 text-2xl">
+                {title}
+                <Link href={getPath(`/${basePath}/name-form`, { id: entity.id })} class="ml-2 inline-flex">
+                  {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
+                </Link>
+              </h1>
+            }
+            class="relative pr-10"
+          />
 
-          <div class="mb-4 border-b border-solid border-b-pico-muted last-of-type:border-none">
-            <div class="flex items-center gap-2">
-              <h2 class="mb-0 text-lg">{$t('_basicInformation')}</h2>
-              <Link href={getPath(`/${basePath}/basic-information-form`, { id: entity.id })}>
-                {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
-              </Link>
-            </div>
+          <Group title={$t('products')}>
+            <ProductsTable entity={entity} basePath={basePath} />
+          </Group>
 
-            <ul class="mt-1">
-              {basicInformation.map(({ label, value }) => (
-                <li class="text-sm">
-                  <strong>{label}:</strong> {value}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <form
-            class="mt-2 grid !grid-cols-12"
-            hx-post={`/api/${basePath}/${entity.id}/products`}
-            hx-target="#products"
-            hx-swap="outerHTML"
-            hx-on--after-request="this.reset()"
-            hx-indicator="#loader"
-          >
-            <Input
-              control={addProductForm.name}
-              label={$t('products.addProduct.label')}
-              placeholder={$t('products.addProduct.placeholder')}
-              datalist={{ id: 'products-datalist', options: productNames }}
-              class="col-span-10 sm:col-span-11"
-            />
-
-            <Button type="submit" class="pico-reset col-span-2 !m-auto h-fit !w-fit sm:col-span-1">
-              {icons['plus-circle'].toSvg()}
-            </Button>
-          </form>
-
-          <ProductsTable entity={entity} basePath={basePath} />
+          {children}
 
           <Card.Footer class="flex justify-end">
             <Button
@@ -92,7 +58,12 @@ export async function EditSection<T extends Entity>({
         </>
       </Card>
 
-      <FloatingLink href={`/${basePath}`} icon={{ type: 'arrow-left' }} />
+      <FloatingLink
+        href={`/${basePath}/${entity.id}/add-products`}
+        icon={{ type: 'plus', class: 'stroke-white' }}
+        text={$t('products.addProducts')}
+        class="left-auto right-5 bg-pico-primary"
+      />
     </section>
   );
 }
@@ -106,7 +77,7 @@ function Group({ title, customElement, children }: ComponentProps<GroupProps>) {
   const HComponent = <h2 class="mb-0 text-lg">{title}</h2>;
 
   return (
-    <div class="mb-4 border-b border-solid border-b-pico-muted last-of-type:border-none">
+    <div class="mb-4 border-b border-solid border-b-pico-muted last-of-type:mb-0 last-of-type:border-none">
       {customElement ? (
         <div class="flex items-center gap-2">
           {HComponent}

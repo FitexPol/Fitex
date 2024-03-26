@@ -1,19 +1,20 @@
 import { Elysia } from 'elysia';
 
-import { ProductsTable } from '@components/ProductsTable';
+import { MostUsedProducts } from '@components/MostUsedProducts';
 import { NotificationError } from '@errors/NotificationError';
 import { type AddProductForm, addProductForm } from '@forms/addProduct';
 import { Product } from '@models/product';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
+import { geMostUsedProductNames } from '@utils/getMostUsedProductNames';
 import { HxResponseHeader } from '@vars';
 
 import { shoppingListContext } from '../context';
 
 export const addProduct = new Elysia().use(shoppingListContext).post(
   '',
-  async ({ shoppingListDoc, set, body }) => {
+  async ({ shoppingListDoc, set, body, user }) => {
     if (shoppingListDoc.products.some((productDoc) => productDoc.name === body.name))
       throw new NotificationError({
         status: 400,
@@ -34,7 +35,11 @@ export const addProduct = new Elysia().use(shoppingListContext).post(
       $t('products.addProduct.success'),
     );
 
-    return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
+    const productNames = await geMostUsedProductNames(user);
+
+    return (
+      <MostUsedProducts basePath="shopping-lists" entity={shoppingListDoc} productNames={productNames} />
+    );
   },
   {
     body: getBodySchema<AddProductForm>(addProductForm),

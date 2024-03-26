@@ -12,13 +12,13 @@ import { shoppingListPages } from './shopping-lists';
 
 export const pages = new Elysia()
   .use(context)
-  .onError(({ code, set, user, error }) => {
+  .onError(({ request, code, set, user, error }) => {
     set.headers['Content-Type'] = 'text/html';
     set.headers[HxResponseHeader.Retarget] = 'body';
 
     const ErrorPage = ({ children }: ComponentProps) => {
       return (
-        <Document user={user} layout={user ? 'default' : 'none'}>
+        <Document currentUrl={request.url} user={user} layout={user ? 'default' : 'none'}>
           <span>{children}</span>
         </Document>
       );

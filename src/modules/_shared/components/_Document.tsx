@@ -5,20 +5,29 @@ import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
+import { FloatingLink } from './FloatingLink';
 import { Link } from './Link';
 import { $t } from '../utils/$t';
 import { $tm } from '../utils/$tm';
 
 type DocumentProps = {
+  currentUrl: string;
   layout?: 'default' | 'none';
   user?: JWTUser;
+  isBackButtonVisible?: boolean;
 };
 
-export function Document({ layout = 'default', user, children }: ComponentProps<DocumentProps>) {
+export function Document({
+  currentUrl,
+  layout = 'default',
+  user,
+  isBackButtonVisible = true,
+  children,
+}: ComponentProps<DocumentProps>) {
   function renderContent(layout: DocumentProps['layout']) {
     switch (layout) {
       case 'none':
-        return <main class="flex min-h-screen items-center justify-center">{children}</main>;
+        return <main class="flex min-h-[90vh] items-center justify-center">{children}</main>;
       default:
         return <Layout user={user}>{children}</Layout>;
     }
@@ -40,9 +49,8 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           <script src="/public/scripts.js" defer />
         </head>
 
-        <body hx-ext="response-targets" hx-history="false">
+        <body hx-ext="response-targets" hx-history="false" class="pb-16">
           {renderContent(layout)}
-
           <dialog
             id="notification-portal"
             class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
@@ -50,6 +58,7 @@ export function Document({ layout = 'default', user, children }: ComponentProps<
           />
           <dialog id="modal-portal" hx-preserve="true" />
           <Loader />
+          {isBackButtonVisible && <BackButton currentUrl={currentUrl} />}
         </body>
       </html>
     </>
@@ -131,6 +140,17 @@ function LogoutButton({ class: className }: ComponentProps) {
       {$t('_logout')}
     </Button>
   );
+}
+
+type BackButtonProps = {
+  currentUrl: string;
+};
+
+function BackButton({ currentUrl }: ComponentProps<BackButtonProps>) {
+  const segments: string[] = currentUrl.split('/').filter(Boolean).slice(2);
+  segments.pop();
+
+  return <FloatingLink href={`/${segments.join('/')}`} icon={{ type: 'arrow-left' }} />;
 }
 
 function Loader() {

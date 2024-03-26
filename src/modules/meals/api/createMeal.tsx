@@ -8,11 +8,8 @@ import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
-import { BasicInformationForm } from '../components/forms/BasicInformationForm';
-import {
-  type BasicInformationForm as BasicInformationFormType,
-  basicInformationForm,
-} from '../forms/basicInformation';
+import { NameForm } from '../components/forms/NameForm';
+import { type NameForm as NameFormType, nameForm } from '../forms/name';
 import { Meal } from '../models/meal';
 
 export const createMeal = new Elysia().use(userContext).post(
@@ -20,7 +17,6 @@ export const createMeal = new Elysia().use(userContext).post(
   async ({ body, user, set }) => {
     const mealDoc = new Meal({
       name: body.name,
-      description: body.description,
       author: user.id,
     });
 
@@ -35,15 +31,11 @@ export const createMeal = new Elysia().use(userContext).post(
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
-    body: getBodySchema<BasicInformationFormType>(basicInformationForm),
+    body: getBodySchema<NameFormType>(nameForm),
     error({ code, error }) {
       switch (code) {
         case 'VALIDATION':
-          return (
-            <BasicInformationForm
-              errors={getBodySchemaErrors<BasicInformationFormType>(error, basicInformationForm)}
-            />
-          );
+          return <NameForm errors={getBodySchemaErrors<NameFormType>(error, nameForm)} />;
       }
     },
   },

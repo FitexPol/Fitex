@@ -11,14 +11,14 @@ import { mealContext } from './context';
 
 export const productFormPage = new Elysia()
   .use(mealContext)
-  .get('/product-form', async ({ mealDoc, user, query: { productId } }) => {
+  .get('/product-form', ({ request, mealDoc, user, query: { productId } }) => {
     const productDoc = mealDoc.products.find((productDoc) =>
       productDoc._id.equals(getQueryParamSecure(productId)),
     );
 
     return (
-      <Document user={user}>
-        <FormSection title={mealDoc.name} floatingLinkHref={`/meals/${mealDoc.id}`}>
+      <Document currentUrl={request.url} user={user}>
+        <FormSection title={mealDoc.name}>
           {productDoc ? (
             <UpdateProductForm
               user={user}

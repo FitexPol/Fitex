@@ -2,21 +2,21 @@ import { Elysia } from 'elysia';
 
 import { Document } from '@components/_Document';
 import { FormSection } from '@components/sections/FormSection';
-import { BasicInformationForm } from '@shopping-lists/components/forms/BasicInformationForm';
+import { NameForm } from '@shopping-lists/components/forms/NameForm';
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { userContext } from '../context';
 
-export const basicInformationFormPage = new Elysia()
+export const nameFormPage = new Elysia()
   .use(userContext)
-  .get('/basic-information-form', async ({ user, query }) => {
+  .get('/name-form', async ({ request, user, query }) => {
     if (!query.id) {
       return (
-        <Document user={user}>
-          <FormSection title={$t('shoppingLists.createShoppingList')} floatingLinkHref="/shopping-lists">
-            <BasicInformationForm />
+        <Document currentUrl={request.url} user={user}>
+          <FormSection title={$t('shoppingLists.createShoppingList')}>
+            <NameForm />
           </FormSection>
         </Document>
       );
@@ -26,7 +26,7 @@ export const basicInformationFormPage = new Elysia()
 
     if (!shoppingListDoc) {
       return (
-        <Document user={user}>
+        <Document currentUrl={request.url} user={user}>
           <span>{$t('_errors.notFound')}</span>
         </Document>
       );
@@ -34,19 +34,16 @@ export const basicInformationFormPage = new Elysia()
 
     if (!shoppingListDoc.author._id.equals(user.id)) {
       return (
-        <Document user={user}>
+        <Document currentUrl={request.url} user={user}>
           <span>{$t('_errors.permissionDenied')}</span>
         </Document>
       );
     }
 
     return (
-      <Document user={user}>
-        <FormSection
-          title={$t('_basicInformation')}
-          floatingLinkHref={`/shopping-lists/${shoppingListDoc.id}`}
-        >
-          <BasicInformationForm shoppingListDoc={shoppingListDoc} />
+      <Document currentUrl={request.url} user={user}>
+        <FormSection title={shoppingListDoc.name}>
+          <NameForm shoppingListDoc={shoppingListDoc} />
         </FormSection>
       </Document>
     );

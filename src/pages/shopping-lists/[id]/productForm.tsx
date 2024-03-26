@@ -11,14 +11,14 @@ import { shoppingListContext } from './context';
 
 export const productFormPage = new Elysia()
   .use(shoppingListContext)
-  .get('/product-form', async ({ shoppingListDoc, user, query: { productId } }) => {
+  .get('/product-form', ({ request, shoppingListDoc, user, query: { productId } }) => {
     const productDoc = shoppingListDoc.products.find((productDoc) =>
       productDoc._id.equals(getQueryParamSecure(productId)),
     );
 
     return (
-      <Document user={user}>
-        <FormSection title={shoppingListDoc.name} floatingLinkHref={`/shopping-lists/${shoppingListDoc.id}`}>
+      <Document currentUrl={request.url} user={user}>
+        <FormSection title={shoppingListDoc.name}>
           {productDoc ? (
             <UpdateProductForm
               user={user}

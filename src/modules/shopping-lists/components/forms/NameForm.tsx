@@ -3,15 +3,15 @@ import { Input } from '@components/inputs/Input';
 import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
-import { type BasicInformationFormErrors, basicInformationForm } from '../../forms/basicInformation';
+import { type NameFormErrors, nameForm } from '../../forms/name';
 import { type ShoppingListDoc } from '../../models/shoppingList';
 
-type BasicInformationFormProps = {
+type NameFormProps = {
   shoppingListDoc?: ShoppingListDoc;
-  errors?: BasicInformationFormErrors;
+  errors?: NameFormErrors;
 };
 
-export function BasicInformationForm({ shoppingListDoc, errors }: ComponentProps<BasicInformationFormProps>) {
+export function NameForm({ shoppingListDoc, errors }: ComponentProps<NameFormProps>) {
   const hxAttributes: HtmxAttributes = shoppingListDoc
     ? {
         'hx-patch': `/api/shopping-lists/${shoppingListDoc.id}`,
@@ -22,12 +22,7 @@ export function BasicInformationForm({ shoppingListDoc, errors }: ComponentProps
 
   return (
     <form {...hxAttributes}>
-      <Input
-        control={basicInformationForm.name}
-        value={shoppingListDoc?.name}
-        label={$t('_name')}
-        error={errors?.name}
-      />
+      <Input control={nameForm.name} value={shoppingListDoc?.name} label={$t('_name')} error={errors?.name} />
 
       <Button type="submit">{$t('_submit')}</Button>
     </form>
