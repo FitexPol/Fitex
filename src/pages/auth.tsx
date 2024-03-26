@@ -18,7 +18,7 @@ export const authPage = new Elysia().use(context).guard(
   (app) =>
     app.get('/auth', ({ request, query }) => {
       return (
-        <Document currentUrl={request.url} layout="none">
+        <Document currentUrl={request.url} layout="none" isBackButtonVisible={false}>
           <AuthSection typeQuery={getQueryParamSecure(query.type)} />
         </Document>
       );

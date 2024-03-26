@@ -27,7 +27,7 @@ export function Document({
   function renderContent(layout: DocumentProps['layout']) {
     switch (layout) {
       case 'none':
-        return <main class="flex min-h-screen items-center justify-center">{children}</main>;
+        return <main class="flex min-h-[90vh] items-center justify-center">{children}</main>;
       default:
         return <Layout user={user}>{children}</Layout>;
     }
