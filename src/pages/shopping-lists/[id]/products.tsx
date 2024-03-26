@@ -6,9 +6,9 @@ import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { shoppingListContext } from './context';
 
-export const addProductsPage = new Elysia()
+export const productsPage = new Elysia()
   .use(shoppingListContext)
-  .get('/add-products', ({ request, user, shoppingListDoc, query }) => {
+  .get('/products', ({ request, user, shoppingListDoc, query }) => {
     const tabQuery = getQueryParamSecure(query.tab);
 
     return (

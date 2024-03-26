@@ -7,7 +7,7 @@ import { shoppingListContext } from '../context';
 
 export const toggleCheckState = new Elysia()
   .use(shoppingListContext)
-  .patch('check-state', async ({ shoppingListDoc, params: { productId } }) => {
+  .patch('/check-state', async ({ shoppingListDoc, params: { productId } }) => {
     const productDoc = shoppingListDoc.products.find((productDoc) => productDoc._id.equals(productId));
 
     if (!productDoc) throw new NotificationError('Not Found');

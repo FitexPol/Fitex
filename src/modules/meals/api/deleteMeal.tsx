@@ -8,7 +8,7 @@ import { HxResponseHeader } from '@vars';
 
 import { mealContext } from './context';
 
-export const deleteMeal = new Elysia().use(mealContext).delete('/:id', async ({ mealDoc, set }) => {
+export const deleteMeal = new Elysia().use(mealContext).delete('', async ({ mealDoc, set }) => {
   try {
     await mealDoc.deleteOne();
 

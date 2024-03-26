@@ -7,7 +7,7 @@ import { MealCard } from '../components/MealCard';
 
 export const toggleVisibilityState = new Elysia()
   .use(mealContext)
-  .patch('visibility-state', async ({ mealDoc }) => {
+  .patch('/visibility-state', async ({ mealDoc }) => {
     mealDoc.isVisible = !mealDoc.isVisible;
 
     try {

@@ -7,7 +7,7 @@ import { ShoppingListCard } from '../components/ShoppingListCard';
 
 export const toggleVisibilityState = new Elysia()
   .use(shoppingListContext)
-  .patch('visibility-state', async ({ shoppingListDoc }) => {
+  .patch('/visibility-state', async ({ shoppingListDoc }) => {
     shoppingListDoc.isVisible = !shoppingListDoc.isVisible;
 
     try {

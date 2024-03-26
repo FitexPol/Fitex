@@ -10,5 +10,5 @@ export const productsApi = new Elysia().group('/products', (app) =>
   app
     .use(addProduct)
     .use(addMealProduct)
-    .group(':productId', (app) => app.use(updateProduct).use(toggleCheckState).use(deleteProduct)),
+    .group('/:productId', (app) => app.use(updateProduct).use(toggleCheckState).use(deleteProduct)),
 );
