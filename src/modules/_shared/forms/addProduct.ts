@@ -6,6 +6,7 @@ export const addProductForm = {
     name: 'name',
     validators: {
       required: true,
+      maxLength: 100,
       message: 'Product name is required',
     },
   },

@@ -20,7 +20,7 @@ const shoppingListSchema = new Schema<ShoppingList>({
     type: String,
     required: true,
     minLength: 3,
-    maxlength: 50,
+    maxlength: 100,
   },
   creationDate: {
     type: Date,

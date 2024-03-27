@@ -5,7 +5,7 @@ export const descriptionForm = {
     type: 'text',
     name: 'description',
     validators: {
-      maxLength: 100,
+      maxLength: 10000,
       message: 'Meal description must be between 3 and 100 characters long',
     },
   },
