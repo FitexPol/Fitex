@@ -14,7 +14,7 @@ type BreadcrumbsProps = {
 
 export function Breadcrumbs({ items }: ComponentProps<BreadcrumbsProps>) {
   return (
-    <ul class="flex items-center gap-2 overflow-x-auto">
+    <ul class="mb-6 flex items-center gap-2 overflow-x-auto">
       <Item href="/">{icons.home.toSvg({ class: 'size-4' })}</Item>
       {items.map(({ href, label }) => (
         <Item href={href}>{label}</Item>
