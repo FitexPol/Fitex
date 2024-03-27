@@ -1,7 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { Document } from '@components/_Document';
+import { Breadcrumbs } from '@components/Breadcrumbs';
 import { ShoppingListEditSection } from '@shopping-lists/components/ShoppingListEditSection';
+import { getBreadcrumbs } from '@shopping-lists/utils/getBreadcrumbs';
 
 import { shoppingListContext } from './context';
 import { namePage } from './name';
@@ -12,7 +14,12 @@ const shoppingListPage = new Elysia()
   .use(shoppingListContext)
   .get('', ({ request, shoppingListDoc, user }) => (
     <Document currentUrl={request.url} user={user}>
-      <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
+      <>
+        <Breadcrumbs
+          items={getBreadcrumbs([{ href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name }])}
+        />
+        <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
+      </>
     </Document>
   ));
 

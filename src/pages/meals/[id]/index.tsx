@@ -1,7 +1,9 @@
 import { Elysia } from 'elysia';
 
 import { Document } from '@components/_Document';
+import { Breadcrumbs } from '@components/Breadcrumbs';
 import { MealEditSection } from '@meals/components/MealEditSection';
+import { getBreadcrumbs } from '@meals/utils/getBreadcrumbs';
 
 import { mealContext } from './context';
 import { descriptionPage } from './description';
@@ -11,7 +13,10 @@ import { productsPage } from './products';
 
 const mealPage = new Elysia().use(mealContext).get('', ({ request, mealDoc, user }) => (
   <Document currentUrl={request.url} user={user}>
-    <MealEditSection mealDoc={mealDoc} />
+    <>
+      <Breadcrumbs items={getBreadcrumbs([{ href: `/${mealDoc.id}`, label: mealDoc.name }])} />
+      <MealEditSection mealDoc={mealDoc} />
+    </>
   </Document>
 ));
 
