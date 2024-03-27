@@ -52,7 +52,7 @@ export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentP
                         </Button>
 
                         <Link
-                          href={getPath(`/${basePath}/${entity.id}/product-form`, {
+                          href={getPath(`/${basePath}/${entity.id}/product`, {
                             productId: product.id,
                           })}
                         >

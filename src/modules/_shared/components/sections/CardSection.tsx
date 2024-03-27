@@ -1,11 +1,11 @@
 import { type ComponentProps } from '../../types';
 import { Card } from '../Card';
 
-type FormSectionProps = {
+type CardSectionProps = {
   title: string;
 };
 
-export async function FormSection({ title, children }: ComponentProps<FormSectionProps>) {
+export async function CardSection({ title, children }: ComponentProps<CardSectionProps>) {
   return (
     <section>
       <Card>

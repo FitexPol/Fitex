@@ -19,7 +19,7 @@ export const productSchema = new Schema<Product>({
   name: {
     type: String,
     required: true,
-    maxLength: 50,
+    maxLength: 100,
   },
   quantity: {
     type: Number,

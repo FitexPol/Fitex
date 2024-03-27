@@ -9,7 +9,7 @@ import { shoppingListContext } from './context';
 
 export const deleteShoppingList = new Elysia()
   .use(shoppingListContext)
-  .delete('/:id', async ({ shoppingListDoc, set }) => {
+  .delete('', async ({ shoppingListDoc, set }) => {
     try {
       await shoppingListDoc.deleteOne();
     } catch {

@@ -11,7 +11,7 @@ import { HxResponseHeader } from '@vars';
 import { mealContext } from '../context';
 
 export const updateProduct = new Elysia().use(mealContext).patch(
-  ':productId',
+  '',
   async ({ mealDoc, params: { productId }, set, body }) => {
     const productDoc = mealDoc.products.find((productDoc) => productDoc._id.equals(productId));
 

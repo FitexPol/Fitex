@@ -10,7 +10,7 @@ import { mealContext } from '../context';
 
 export const deleteProduct = new Elysia()
   .use(mealContext)
-  .delete(':productId', async ({ mealDoc, params: { productId }, set }) => {
+  .delete('', async ({ mealDoc, params: { productId }, set }) => {
     mealDoc.products = mealDoc.products.filter((productDoc) => !productDoc._id.equals(productId));
 
     try {

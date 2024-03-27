@@ -9,6 +9,7 @@ import { updateName } from './updateName';
 export const shoppingListsApi = new Elysia().group('/shopping-lists', (app) =>
   app
     .use(createShoppingList)
-    .use(deleteShoppingList)
-    .group(':id', (app) => app.use(updateName).use(toggleVisibilityState).use(productsApi)),
+    .group('/:id', (app) =>
+      app.use(deleteShoppingList).use(updateName).use(toggleVisibilityState).use(productsApi),
+    ),
 );

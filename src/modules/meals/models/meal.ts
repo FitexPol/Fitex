@@ -22,11 +22,11 @@ const mealSchema = new Schema<Meal>({
     type: String,
     required: true,
     minLength: 3,
-    maxlength: 50,
+    maxlength: 100,
   },
   description: {
     type: String,
-    maxlength: 100,
+    maxlength: 10000,
   },
   isFavorite: {
     type: Boolean,

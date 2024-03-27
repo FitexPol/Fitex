@@ -1,0 +1,43 @@
+import { Elysia } from 'elysia';
+
+import { Document } from '@components/_Document';
+import { Breadcrumbs } from '@components/Breadcrumbs';
+import { UpdateProductForm } from '@components/forms/UpdateProductForm';
+import { CardSection } from '@components/sections/CardSection';
+import { PageNotFoundError } from '@errors/PageNotFoundError';
+import { getBreadcrumbs } from '@meals/utils/getBreadcrumbs';
+import { getPath } from '@utils/getPath';
+import { getQueryParamSecure } from '@utils/getQueryParamSecure';
+
+import { mealContext } from './context';
+
+export const productPage = new Elysia()
+  .use(mealContext)
+  .get('/product', ({ request, mealDoc, user, query: { productId } }) => {
+    const productDoc = mealDoc.products.find((productDoc) =>
+      productDoc._id.equals(getQueryParamSecure(productId)),
+    );
+
+    if (!productDoc) throw new PageNotFoundError();
+
+    return (
+      <Document currentUrl={request.url} user={user}>
+        <>
+          <Breadcrumbs
+            items={getBreadcrumbs([
+              { href: `/${mealDoc.id}`, label: mealDoc.name },
+              { href: getPath('/product', { productId: productDoc.id }), label: productDoc.name },
+            ])}
+          />
+
+          <CardSection title={mealDoc.name}>
+            <UpdateProductForm
+              user={user}
+              productDoc={productDoc}
+              endpoint={getPath(`/api/meals/${mealDoc.id}/products/${productDoc.id}`)}
+            />
+          </CardSection>
+        </>
+      </Document>
+    );
+  });

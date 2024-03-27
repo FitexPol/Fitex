@@ -17,7 +17,7 @@ export function MealEditSection({ mealDoc }: ComponentProps<MealEditSectionProps
       <EditSection.Group
         title={$t('_description')}
         customElement={
-          <Link href={`/meals/${mealDoc.id}/description-form`} class="ml-1 inline-flex">
+          <Link href={`/meals/${mealDoc.id}/description`} class="ml-1 inline-flex">
             {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
           </Link>
         }
