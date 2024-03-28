@@ -26,22 +26,22 @@
 //       return;
 //     }
 
-//     const username = 'Test';
-//     const password = 'TestPassword';
+    // const username = 'Test';
+    // const password = 'TestPassword';
 
 //     let userDoc = await User.findOne({ username });
 
-//     if (!userDoc) {
-//       const hash = await Bun.password.hash(password);
+    // if (!userDoc) {
+    //   const hash = await Bun.password.hash(password);
 
-//       const user = new User({
-//         username,
-//         password: hash,
-//         roles: [Role.Admin],
-//       });
+    //   const user = new User({
+    //     username,
+    //     password: hash,
+    //     roles: [Role.Admin],
+    //   });
 
-//       userDoc = await user.save();
-//     }
+    //   userDoc = await user.save();
+    // }
 
 //     const formData = new FormData();
 //     formData.append('username', username);

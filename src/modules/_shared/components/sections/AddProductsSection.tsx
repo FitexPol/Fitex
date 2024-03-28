@@ -7,7 +7,7 @@ import { addProductForm } from '../../forms/addProduct';
 import type { BasePath, ComponentProps, Entity, Tab } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
-import { geMostUsedProductNames } from '../../utils/getMostUsedProductNames';
+import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 import { Button } from '../Button';
 import { Input } from '../inputs/Input';
 import { Link } from '../Link';
@@ -28,7 +28,7 @@ export async function AddProductsSection<T extends Entity>({
   activeTab,
   additionalTabs,
 }: ComponentProps<AddProductsSectionProps<T>>) {
-  const productNames = await geMostUsedProductNames(user);
+  const productNames = await getMostUsedProductNames(user);
 
   const tabs = new Map<string, Tab>([
     [

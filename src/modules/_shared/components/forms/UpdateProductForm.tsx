@@ -8,7 +8,7 @@ import { $t } from '@utils/$t';
 import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
-import { geMostUsedProductNames } from '../../utils/getMostUsedProductNames';
+import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 
 type UpdateProductFormProps = {
   user: JWTUser;
@@ -23,7 +23,7 @@ export async function UpdateProductForm({
   endpoint,
   errors,
 }: ComponentProps<UpdateProductFormProps>) {
-  const productNames = await geMostUsedProductNames(user);
+  const productNames = await getMostUsedProductNames(user);
 
   return (
     <form hx-patch={endpoint}>

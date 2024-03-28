@@ -1,10 +1,11 @@
 {
   "name": "fitex",
-  "version": "0.0.86",
+  "version": "0.0.87",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "test": "bun test",
+    "test": "bun --env-file=.env.test test --preload ./__tests__/setup.ts",
+    "test:watch": "bun --env-file=.env.test test --preload ./__tests__/setup.ts --watch",
     "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run tw:watch\"",
     "build": "NODE_ENV=production bun build ./src/index.ts --target bun --minify & bun run tw:build",
     "start": "NODE_ENV=production bun ./src/index.ts",

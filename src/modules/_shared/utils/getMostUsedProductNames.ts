@@ -2,7 +2,7 @@ import { type JWTUser } from '@auth/models/user';
 import { Meal } from '@meals/models/meal';
 import { ShoppingList } from '@shopping-lists/models/shoppingList';
 
-export async function geMostUsedProductNames(user: JWTUser): Promise<string[]> {
+export async function getMostUsedProductNames(user: JWTUser): Promise<string[]> {
   const productNames: Record<string, { count: number; name: string }> = {};
 
   const shoppingListDocs = await ShoppingList.find({ author: user.id });
