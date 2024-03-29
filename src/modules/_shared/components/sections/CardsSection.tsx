@@ -1,6 +1,6 @@
 import { icons } from 'feather-icons';
 
-import type { BasePath, ComponentProps, Entity } from '../../types';
+import type { BasePath, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
@@ -35,7 +35,7 @@ export function CardsSection({
   activeSortLabel,
   totalCount,
   children,
-}: ComponentProps<CardsSectionProps>) {
+}: Html.PropsWithChildren<CardsSectionProps>) {
   return (
     <section>
       <div class="mb-6 flex items-center justify-between gap-y-5">
@@ -127,7 +127,7 @@ type FilterSectionProps = {
   title: string;
 };
 
-function FilterSection({ title, children }: ComponentProps<FilterSectionProps>) {
+function FilterSection({ title, children }: Html.PropsWithChildren<FilterSectionProps>) {
   return (
     <div class="mt-5">
       <span class="mb-2 inline-block text-white">{title}:</span>
@@ -144,7 +144,7 @@ type PaginationProps = {
   currentQuery: Record<string, string>;
 };
 
-function Pagination({ itemsPerPage, page, totalCount, path, currentQuery }: ComponentProps<PaginationProps>) {
+function Pagination({ itemsPerPage, page, totalCount, path, currentQuery }: PaginationProps) {
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   return (
@@ -197,7 +197,7 @@ type ItemProps<T extends Entity> = {
   basePath: BasePath;
 };
 
-function Item<T extends Entity>({ entity, basePath, children }: ComponentProps<ItemProps<T>>) {
+function Item<T extends Entity>({ entity, basePath, children }: Html.PropsWithChildren<ItemProps<T>>) {
   return (
     <li>
       <Card class="h-full">

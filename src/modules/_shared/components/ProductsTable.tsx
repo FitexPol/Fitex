@@ -3,7 +3,7 @@ import { icons } from 'feather-icons';
 import { Button } from '@components/Button';
 import { Link } from '@components/Link';
 import { Table } from '@components/Table';
-import type { BasePath, ComponentProps, Entity } from '@types';
+import type { BasePath, Entity } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
@@ -12,7 +12,7 @@ type ProductsTableProps<T extends Entity> = {
   basePath: BasePath;
 };
 
-export function ProductsTable<T extends Entity>({ entity, basePath }: ComponentProps<ProductsTableProps<T>>) {
+export function ProductsTable<T extends Entity>({ entity, basePath }: ProductsTableProps<T>) {
   return (
     <Table id="products" class="mt-2">
       <>

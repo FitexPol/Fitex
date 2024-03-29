@@ -1,6 +1,5 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
-import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type NameFormErrors, nameForm } from '../../forms/name';
@@ -11,8 +10,8 @@ type NameFormProps = {
   errors?: NameFormErrors;
 };
 
-export function NameForm({ mealDoc, errors }: ComponentProps<NameFormProps>) {
-  const hxAttributes: HtmxAttributes = mealDoc
+export function NameForm({ mealDoc, errors }: NameFormProps) {
+  const hxAttributes: Htmx.Attributes = mealDoc
     ? {
         'hx-patch': `/api/meals/${mealDoc.id}`,
       }

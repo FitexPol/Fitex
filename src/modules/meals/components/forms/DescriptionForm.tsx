@@ -1,6 +1,5 @@
 import { Button } from '@components/Button';
 import { Textarea } from '@components/inputs/Textarea';
-import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type DescriptionFormErrors, descriptionForm } from '../../forms/description';
@@ -11,7 +10,7 @@ type DescriptionFormProps = {
   errors?: DescriptionFormErrors;
 };
 
-export function DescriptionForm({ mealDoc, errors }: ComponentProps<DescriptionFormProps>) {
+export function DescriptionForm({ mealDoc, errors }: DescriptionFormProps) {
   return (
     <>
       <form hx-patch={`/api/meals/${mealDoc.id}/description`}>

@@ -1,5 +1,4 @@
 import { CardsSection } from '@components/sections/CardsSection';
-import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
@@ -9,7 +8,7 @@ type MealCardProps = {
   mealDoc: MealDoc;
 };
 
-export function MealCard({ mealDoc }: ComponentProps<MealCardProps>) {
+export function MealCard({ mealDoc }: MealCardProps) {
   return (
     <CardsSection.Item entity={mealDoc} basePath="meals">
       {mealDoc.products.length > 0 ? (

@@ -2,7 +2,6 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Select } from '@components/inputs/Select';
-import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
@@ -17,12 +16,7 @@ type UpdateProductFormProps = {
   errors?: UpdateProductFormErrors;
 };
 
-export async function UpdateProductForm({
-  user,
-  productDoc,
-  endpoint,
-  errors,
-}: ComponentProps<UpdateProductFormProps>) {
+export async function UpdateProductForm({ user, productDoc, endpoint, errors }: UpdateProductFormProps) {
   const productNames = await getMostUsedProductNames(user);
 
   return (

@@ -68,7 +68,7 @@
 
 //     const blob = await response.blob();
 //     const homePageRaw = await blob.text();
-//     const document = new JSDOM(homePageRaw).window.document;
+//     const { document } = new JSDOM(homePageRaw).window;
 //     const titles = document.querySelectorAll('h2');
 
 //     expect(titles.length).toBe(2);

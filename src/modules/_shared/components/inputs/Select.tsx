@@ -1,4 +1,4 @@
-import { type ComponentProps, type FormControl } from '../../types';
+import type { FormControl, PropsWithClass } from '../../types';
 
 export type SelectOption = {
   value: string;
@@ -23,7 +23,7 @@ export function Select({
   placeholder,
   isDisabled,
   class: className,
-}: ComponentProps<SelectProps>) {
+}: PropsWithClass<SelectProps>) {
   return (
     <label class={className}>
       {!!label && <span class="mb-1 block text-sm">{label}</span>}

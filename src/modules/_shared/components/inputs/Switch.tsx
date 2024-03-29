@@ -1,11 +1,16 @@
-import { type ComponentProps, type FormControl } from '../../types';
+import type { FormControl, PropsWithClass } from '../../types';
 
 type SwitchProps = {
   control: Omit<FormControl, 'type'>;
   checked?: boolean;
 };
 
-export function Switch({ control, checked, class: className, children }: ComponentProps<SwitchProps>) {
+export function Switch({
+  control,
+  checked,
+  class: className,
+  children,
+}: Html.PropsWithChildren<PropsWithClass<SwitchProps>>) {
   return (
     <label class={className}>
       {children}

@@ -1,21 +1,21 @@
-import { type ComponentProps } from '../types';
+import { type PropsWithClass } from '../types';
 import { $tm } from '../utils/$tm';
 
 type DropdownProps = {
   label: string;
-  icon?: JSX.Element;
+  icon: JSX.Element;
 };
 
 export function Dropdown({
-  children,
   label,
   icon,
   class: className,
-}: ComponentProps<DropdownProps>): JSX.Element {
+  children,
+}: Html.PropsWithChildren<PropsWithClass<DropdownProps>>): JSX.Element {
   return (
     <details class={$tm('dropdown mb-0', className)}>
       <summary class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2" safe>
           {!!icon && icon}
           {label}
         </div>
@@ -30,7 +30,7 @@ type ItemProps = {
   active?: boolean;
 };
 
-function Item({ active, children }: ComponentProps<ItemProps>): JSX.Element {
+function Item({ active, children }: Html.PropsWithChildren<ItemProps>): JSX.Element {
   return <li class={$tm(active && 'pointer-events-none bg-pico-muted')}>{children}</li>;
 }
 

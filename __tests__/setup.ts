@@ -1,3 +1,4 @@
+import '@kitajs/html/register';
 // eslint-disable-next-line import/no-unresolved
 import { afterAll, beforeAll } from 'bun:test';
 import mongoose from 'mongoose';

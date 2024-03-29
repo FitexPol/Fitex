@@ -4,7 +4,7 @@ import { type JWTUser } from '@auth/models/user';
 
 import { CardSection } from './CardSection';
 import { addProductForm } from '../../forms/addProduct';
-import type { BasePath, ComponentProps, Entity, Tab } from '../../types';
+import type { BasePath, Entity, Tab } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
@@ -27,7 +27,7 @@ export async function AddProductsSection<T extends Entity>({
   basePath,
   activeTab,
   additionalTabs,
-}: ComponentProps<AddProductsSectionProps<T>>) {
+}: AddProductsSectionProps<T>) {
   const productNames = await getMostUsedProductNames(user);
 
   const tabs = new Map<string, Tab>([
@@ -53,7 +53,7 @@ export async function AddProductsSection<T extends Entity>({
     return tab.component;
   }
 
-  const hxAttributes: HtmxAttributes =
+  const hxAttributes: Htmx.Attributes =
     activeTab === 'products'
       ? {
           'hx-target': '#most-used-products',

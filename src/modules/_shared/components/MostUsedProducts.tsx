@@ -2,7 +2,7 @@ import { icons } from 'feather-icons';
 
 import { Button } from './Button';
 import { Input } from './inputs/Input';
-import type { BasePath, ComponentProps, Entity } from '../types';
+import type { BasePath, Entity } from '../types';
 import { $tm } from '../utils/$tm';
 
 type MostUsedProductsProps<T extends Entity> = {
@@ -15,7 +15,7 @@ export function MostUsedProducts<T extends Entity>({
   productNames,
   basePath,
   entity,
-}: ComponentProps<MostUsedProductsProps<T>>) {
+}: MostUsedProductsProps<T>) {
   return (
     <ul id="most-used-products" class="mt-2">
       {productNames.map((productName) => (

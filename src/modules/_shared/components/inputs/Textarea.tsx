@@ -1,4 +1,4 @@
-import { type ComponentProps, type FormControl } from '../../types';
+import type { FormControl, PropsWithClass } from '../../types';
 import { getTextValidators } from '../../utils/getTextValidators';
 
 type TextareaProps = {
@@ -18,7 +18,7 @@ export function Textarea({
   rows,
   error,
   class: className,
-}: ComponentProps<TextareaProps>) {
+}: PropsWithClass<TextareaProps>) {
   const textareaAttributes: JSX.HtmlTextAreaTag = getTextareaAttributes(control);
 
   return (

@@ -1,6 +1,6 @@
 import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
-import type { ComponentProps, Query, SortOption } from '@types';
+import type { Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
@@ -16,7 +16,7 @@ type ShoppingListsSectionProps = {
   query: Query;
 };
 
-export async function ShoppingListsSection({ user, query: q }: ComponentProps<ShoppingListsSectionProps>) {
+export async function ShoppingListsSection({ user, query: q }: ShoppingListsSectionProps) {
   const query = {
     sort: getQueryParamSecure(q.sort),
     itemsPerPage: getQueryParamSecure(q.itemsPerPage),

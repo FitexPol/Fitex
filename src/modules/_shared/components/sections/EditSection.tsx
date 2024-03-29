@@ -1,6 +1,6 @@
 import { icons } from 'feather-icons';
 
-import type { BasePath, ComponentProps, Entity } from '../../types';
+import type { BasePath, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { Button } from '../Button';
 import { Card } from '../Card';
@@ -19,7 +19,7 @@ export function EditSection<T extends Entity>({
   basePath,
   entity,
   children,
-}: ComponentProps<EditSectionProps<T>>) {
+}: Html.PropsWithChildren<EditSectionProps<T>>) {
   return (
     <section>
       <Card>
@@ -72,7 +72,7 @@ type GroupProps = {
   customElement?: JSX.Element;
 };
 
-function Group({ title, customElement, children }: ComponentProps<GroupProps>) {
+function Group({ title, customElement, children }: Html.PropsWithChildren<GroupProps>) {
   const HComponent = <h2 class="mb-0 text-lg">{title}</h2>;
 
   return (

@@ -5,7 +5,7 @@ import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { AddProductsSection } from '@components/sections/AddProductsSection';
 import { Meal } from '@meals/models/meal';
-import type { ComponentProps, Tab } from '@types';
+import { type Tab } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
@@ -21,7 +21,7 @@ export function ShoppingListAddProductsSection({
   user,
   shoppingListDoc,
   activeTab,
-}: ComponentProps<ShoppingListAddProductsSectionProps>) {
+}: ShoppingListAddProductsSectionProps) {
   const additionalTabs = new Map<string, Tab>([
     [
       'meals',
@@ -49,7 +49,7 @@ type MealProductsProps = {
   shoppingListDoc: ShoppingListDoc;
 };
 
-async function MealProducts({ user, shoppingListDoc }: ComponentProps<MealProductsProps>) {
+async function MealProducts({ user, shoppingListDoc }: MealProductsProps) {
   const meals = await Meal.find({ author: user.id }).sort({ name: 1 }).exec();
 
   return (

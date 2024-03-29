@@ -1,6 +1,5 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
-import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type NameFormErrors, nameForm } from '../../forms/name';
@@ -11,8 +10,8 @@ type NameFormProps = {
   errors?: NameFormErrors;
 };
 
-export function NameForm({ shoppingListDoc, errors }: ComponentProps<NameFormProps>) {
-  const hxAttributes: HtmxAttributes = shoppingListDoc
+export function NameForm({ shoppingListDoc, errors }: NameFormProps) {
+  const hxAttributes: Htmx.Attributes = shoppingListDoc
     ? {
         'hx-patch': `/api/shopping-lists/${shoppingListDoc.id}`,
       }

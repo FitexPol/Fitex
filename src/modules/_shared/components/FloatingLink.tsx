@@ -1,7 +1,7 @@
 import { icons } from 'feather-icons';
 
 import { Link } from './Link';
-import type { ComponentProps } from '../types';
+import { type PropsWithClass } from '../types';
 import { $tm } from '../utils/$tm';
 
 type FloatingLinkProps = {
@@ -13,7 +13,7 @@ type FloatingLinkProps = {
   text?: string;
 };
 
-export function FloatingLink({ href, icon, text, class: className }: ComponentProps<FloatingLinkProps>) {
+export function FloatingLink({ href, icon, text, class: className }: PropsWithClass<FloatingLinkProps>) {
   return (
     <Link
       href={href}
@@ -22,10 +22,13 @@ export function FloatingLink({ href, icon, text, class: className }: ComponentPr
         className,
       )}
     >
-      <>
-        {text && <span class="ml-2 text-sm font-medium text-white">{text}</span>}
-        {icons[icon.type].toSvg({ class: $tm('w-7 h-7 stroke-pico-primary', icon.class) })}
-      </>
+      {text && (
+        <span class="ml-2 text-sm font-medium text-white" safe>
+          {text}
+        </span>
+      )}
+
+      {Html.escapeHtml(icons[icon.type].toSvg({ class: $tm('w-7 h-7 stroke-pico-primary', icon.class) }))}
     </Link>
   );
 }

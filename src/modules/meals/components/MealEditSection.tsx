@@ -2,7 +2,6 @@ import { icons } from 'feather-icons';
 
 import { Link } from '@components/Link';
 import { EditSection } from '@components/sections/EditSection';
-import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type MealDoc } from '../models/meal';
@@ -11,7 +10,7 @@ type MealEditSectionProps = {
   mealDoc: MealDoc;
 };
 
-export function MealEditSection({ mealDoc }: ComponentProps<MealEditSectionProps>) {
+export function MealEditSection({ mealDoc }: MealEditSectionProps) {
   return (
     <EditSection title={mealDoc.name} basePath="meals" entity={mealDoc}>
       <EditSection.Group

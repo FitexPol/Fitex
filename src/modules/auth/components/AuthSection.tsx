@@ -1,6 +1,6 @@
 import { Card } from '@components/Card';
 import { Link } from '@components/Link';
-import type { ComponentProps, Tab } from '@types';
+import { type Tab } from '@types';
 import { $t } from '@utils/$t';
 import { $tm } from '@utils/$tm';
 import { getPath } from '@utils/getPath';
@@ -33,7 +33,7 @@ type AuthSectionProps = {
   typeQuery: string;
 };
 
-export function AuthSection({ typeQuery }: ComponentProps<AuthSectionProps>) {
+export function AuthSection({ typeQuery }: AuthSectionProps) {
   const activeTab: FormType = getActiveForm(typeQuery);
 
   function Component() {

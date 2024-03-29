@@ -1,6 +1,6 @@
 import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
-import type { ComponentProps, Query, SortOption } from '@types';
+import type { Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
@@ -16,7 +16,7 @@ type MealsSectionProps = {
   query: Query;
 };
 
-export async function MealsSection({ user, query: q }: ComponentProps<MealsSectionProps>) {
+export async function MealsSection({ user, query: q }: MealsSectionProps) {
   const query = {
     sort: getQueryParamSecure(q.sort),
     itemsPerPage: getQueryParamSecure(q.itemsPerPage),
