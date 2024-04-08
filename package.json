@@ -1,6 +1,6 @@
 {
   "name": "fitex",
-  "version": "0.0.88",
+  "version": "0.0.89",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
@@ -30,9 +30,9 @@
     "@elysiajs/html": "^1.0.2",
     "@elysiajs/jwt": "^1.0.2",
     "@elysiajs/static": "^1.0.2",
-    "@elysiajs/swagger": "^1.0.2",
+    "@elysiajs/swagger": "^1.0.3",
     "clsx": "^2.0.0",
-    "elysia": "^1.0.2",
+    "elysia": "^1.0.13",
     "feather-icons": "^4.29.1",
     "mongoose": "^8.2.0",
     "tailwind-merge": "^1.14.0"
