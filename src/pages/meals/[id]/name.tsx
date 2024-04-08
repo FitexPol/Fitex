@@ -10,17 +10,15 @@ import { mealContext } from './context';
 
 export const namePage = new Elysia().use(mealContext).get('/name', ({ request, user, mealDoc }) => (
   <Document currentUrl={request.url} user={user}>
-    <>
-      <MealBreadcrumbs
-        items={[
-          { href: `/${mealDoc.id}`, label: mealDoc.name },
-          { href: '/name', label: $t('_name') },
-        ]}
-      />
+    <MealBreadcrumbs
+      items={[
+        { href: `/${mealDoc.id}`, label: mealDoc.name },
+        { href: '/name', label: $t('_name') },
+      ]}
+    />
 
-      <CardSection title={mealDoc.name}>
-        <NameForm mealDoc={mealDoc} />
-      </CardSection>
-    </>
+    <CardSection title={mealDoc.name}>
+      <NameForm mealDoc={mealDoc} />
+    </CardSection>
   </Document>
 ));

@@ -1,6 +1,6 @@
-import { type ComponentProps } from '../../types';
+import { type PropsWithClass } from '../../types';
 
-type CheckboxProps = HtmxAttributes & {
+type CheckboxProps = Htmx.Attributes & {
   name: string;
   isChecked?: boolean;
   onchange?: string;
@@ -13,7 +13,7 @@ export function Checkbox({
   children,
   class: className,
   ...hxAttributes
-}: ComponentProps<CheckboxProps>) {
+}: Html.PropsWithChildren<PropsWithClass<CheckboxProps>>) {
   return (
     <label class={className}>
       <input type="checkbox" name={name} checked={isChecked} {...hxAttributes} onchange={onchange} />

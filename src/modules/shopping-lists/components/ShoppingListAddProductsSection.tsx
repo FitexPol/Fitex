@@ -1,11 +1,10 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
+import { Icon } from '@components/Icon';
 import { Input } from '@components/inputs/Input';
 import { AddProductsSection } from '@components/sections/AddProductsSection';
 import { Meal } from '@meals/models/meal';
-import type { ComponentProps, Tab } from '@types';
+import { type Tab } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
 
@@ -21,7 +20,7 @@ export function ShoppingListAddProductsSection({
   user,
   shoppingListDoc,
   activeTab,
-}: ComponentProps<ShoppingListAddProductsSectionProps>) {
+}: ShoppingListAddProductsSectionProps) {
   const additionalTabs = new Map<string, Tab>([
     [
       'meals',
@@ -49,7 +48,7 @@ type MealProductsProps = {
   shoppingListDoc: ShoppingListDoc;
 };
 
-async function MealProducts({ user, shoppingListDoc }: ComponentProps<MealProductsProps>) {
+async function MealProducts({ user, shoppingListDoc }: MealProductsProps) {
   const meals = await Meal.find({ author: user.id }).sort({ name: 1 }).exec();
 
   return (
@@ -62,10 +61,8 @@ async function MealProducts({ user, shoppingListDoc }: ComponentProps<MealProduc
               class="pico-reset flex w-full items-center justify-between !py-3 !text-left !text-lg"
               onclick="toggleAccordionItem(this)"
             >
-              <>
-                {mealDoc.name}
-                {icons['chevron-down'].toSvg()}
-              </>
+              {Html.escapeHtml(mealDoc.name)}
+              <Icon type="chevron-down" />
             </Button>
 
             <ul class="mb-0 hidden border-t border-pico-muted pt-2">
@@ -98,7 +95,7 @@ async function MealProducts({ user, shoppingListDoc }: ComponentProps<MealProduc
                       type="submit"
                       class="pico-reset col-span-2 !m-auto !mt-5 h-fit !w-fit sm:col-span-1"
                     >
-                      {icons['plus-circle'].toSvg()}
+                      <Icon type="plus-circle" />
                     </Button>
                   </form>
                 </li>

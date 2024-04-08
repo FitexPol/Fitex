@@ -2,7 +2,6 @@ import { Elysia } from 'elysia';
 
 import { context } from '@/context';
 import { Document } from '@components/_Document';
-import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { HxResponseHeader } from '@vars';
 
@@ -16,7 +15,7 @@ export const pages = new Elysia()
     set.headers['Content-Type'] = 'text/html';
     set.headers[HxResponseHeader.Retarget] = 'body';
 
-    const ErrorPage = ({ children }: ComponentProps) => {
+    const ErrorPage = ({ children }: Html.PropsWithChildren) => {
       return (
         <Document currentUrl={request.url} user={user} layout={user ? 'default' : 'none'}>
           <span>{children}</span>
@@ -27,11 +26,11 @@ export const pages = new Elysia()
     switch (code) {
       case 'PageNotFoundError': {
         set.status = 404;
-        return <ErrorPage>{$t('_errors.notFound')}</ErrorPage>;
+        return <ErrorPage>{Html.escapeHtml($t('_errors.notFound'))}</ErrorPage>;
       }
       case 'PageNotPermittedError': {
         set.status = 403;
-        return <ErrorPage>{$t('_errors.permissionDenied')}</ErrorPage>;
+        return <ErrorPage>{Html.escapeHtml($t('_errors.permissionDenied'))}</ErrorPage>;
       }
       default: {
         set.status = 500;

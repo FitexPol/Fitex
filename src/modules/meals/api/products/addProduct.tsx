@@ -7,7 +7,7 @@ import { Product } from '@models/product';
 import { $t } from '@utils/$t';
 import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
-import { geMostUsedProductNames } from '@utils/getMostUsedProductNames';
+import { getMostUsedProductNames } from '@utils/getMostUsedProductNames';
 import { HxResponseHeader } from '@vars';
 
 import { mealContext } from '../context';
@@ -35,7 +35,7 @@ export const addProduct = new Elysia().use(mealContext).post(
       $t('products.addProduct.success'),
     );
 
-    const productNames = await geMostUsedProductNames(user);
+    const productNames = await getMostUsedProductNames(user);
 
     return <MostUsedProducts basePath="meals" entity={mealDoc} productNames={productNames} />;
   },

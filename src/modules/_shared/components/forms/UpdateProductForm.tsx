@@ -2,13 +2,12 @@ import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
 import { Select } from '@components/inputs/Select';
-import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
-import { geMostUsedProductNames } from '../../utils/getMostUsedProductNames';
+import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 
 type UpdateProductFormProps = {
   user: JWTUser;
@@ -17,13 +16,8 @@ type UpdateProductFormProps = {
   errors?: UpdateProductFormErrors;
 };
 
-export async function UpdateProductForm({
-  user,
-  productDoc,
-  endpoint,
-  errors,
-}: ComponentProps<UpdateProductFormProps>) {
-  const productNames = await geMostUsedProductNames(user);
+export async function UpdateProductForm({ user, productDoc, endpoint, errors }: UpdateProductFormProps) {
+  const productNames = await getMostUsedProductNames(user);
 
   return (
     <form hx-patch={endpoint}>
@@ -54,7 +48,7 @@ export async function UpdateProductForm({
         error={errors?.unit}
       />
 
-      <Button type="submit">{$t('_submit')}</Button>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );
 }

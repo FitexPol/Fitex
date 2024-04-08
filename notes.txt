@@ -1,6 +1,6 @@
 TODO:
-  - podpowiadanie przy edycji produktów
-  - przycisk powrotu
+  - usunac response-targets
+  - ogarnac query params
   - usunac autofocus na notyfikacje
   - grupowanie produktów po kategorii
   - tagowanie posiłków

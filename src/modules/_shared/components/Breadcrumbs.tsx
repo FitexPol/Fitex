@@ -1,7 +1,5 @@
-import { icons } from 'feather-icons';
-
+import { Icon } from './Icon';
 import { Link } from './Link';
-import { type ComponentProps } from '../types';
 
 export type BreadcrumbsItem = {
   href: string;
@@ -12,10 +10,12 @@ type BreadcrumbsProps = {
   items: BreadcrumbsItem[];
 };
 
-export function Breadcrumbs({ items }: ComponentProps<BreadcrumbsProps>) {
+export function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <ul class="mb-6 flex items-center gap-2 overflow-x-auto">
-      <Item href="/">{icons.home.toSvg({ class: 'size-4' })}</Item>
+      <Item href="/">
+        <Icon type="home" class="size-4" />
+      </Item>
 
       {items
         .reduce((acc, { href, label }) => {
@@ -26,7 +26,7 @@ export function Breadcrumbs({ items }: ComponentProps<BreadcrumbsProps>) {
           return [...acc, { href: `${lastItem.href}${href}`, label }];
         }, [] as BreadcrumbsItem[])
         .map(({ href, label }) => (
-          <Item href={href}>{label}</Item>
+          <Item href={href}>{Html.escapeHtml(label)}</Item>
         ))}
     </ul>
   );
@@ -36,7 +36,7 @@ type ItemProps = {
   href: string;
 };
 
-function Item({ href, children }: ComponentProps<ItemProps>) {
+function Item({ href, children }: Html.PropsWithChildren<ItemProps>) {
   return (
     <li class="mb-0 flex items-center gap-2 before:content-['/'] first-of-type:before:hidden last-of-type:pointer-events-none">
       <Link href={href} class="text-nowrap">

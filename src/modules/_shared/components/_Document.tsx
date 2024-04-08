@@ -1,12 +1,11 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
-import type { ComponentProps } from '@types';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
 import { FloatingLink } from './FloatingLink';
+import { Icon } from './Icon';
 import { Link } from './Link';
+import { type PropsWithClass } from '../types';
 import { $t } from '../utils/$t';
 import { $tm } from '../utils/$tm';
 
@@ -23,7 +22,7 @@ export function Document({
   user,
   isBackButtonVisible = true,
   children,
-}: ComponentProps<DocumentProps>) {
+}: Html.PropsWithChildren<DocumentProps>) {
   function renderContent(layout: DocumentProps['layout']) {
     switch (layout) {
       case 'none':
@@ -34,34 +33,36 @@ export function Document({
   }
 
   return (
-    <>
-      <html lang="pl-PL">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Fitex</title>
-          <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-          <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
-          <meta name="color-scheme" content="light dark" />
+    <html lang="pl-PL">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fitex</title>
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
+        <meta name="color-scheme" content="light dark" />
 
-          <link href="/public/styles.css" rel="stylesheet" />
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-          <script src="/public/scripts.js" defer />
-        </head>
+        <link href="/public/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+        <script src="/public/scripts.js" defer />
+      </head>
 
-        <body hx-ext="response-targets" hx-history="false" class="pb-16">
-          {renderContent(layout)}
-          <dialog
-            id="notification-portal"
-            class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
-            hx-preserve="true"
-          />
-          <dialog id="modal-portal" hx-preserve="true" />
-          <Loader />
-          {isBackButtonVisible && <BackButton currentUrl={currentUrl} />}
-        </body>
-      </html>
-    </>
+      <body hx-ext="response-targets" hx-history="false" class="pb-16">
+        {renderContent(layout)}
+        <dialog
+          id="notification-portal"
+          class="bottom-auto left-1/2 right-auto top-3 block min-h-min w-auto min-w-fit -translate-x-1/2"
+          hx-preserve="true"
+        />
+        <dialog id="modal-portal" hx-preserve="true" />
+        <Loader />
+        {isBackButtonVisible && (
+          <>
+            <BackButton currentUrl={currentUrl} />
+          </>
+        )}
+      </body>
+    </html>
   );
 }
 
@@ -69,7 +70,7 @@ type LayoutProps = {
   user?: JWTUser;
 };
 
-function Layout({ children, user }: ComponentProps<LayoutProps>) {
+function Layout({ children, user }: Html.PropsWithChildren<LayoutProps>) {
   const navigation: { name: string; href: string; isHidden?: boolean }[] = [
     { name: $t('shoppingLists'), href: '/shopping-lists' },
     { name: $t('meals'), href: '/meals' },
@@ -90,7 +91,7 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
           <li>{user?.username ?? ''}</li>
           <li>
             <button class="pico-reset" onclick="toggleMenu()">
-              {icons.menu.toSvg()}
+              <Icon type="menu" />
             </button>
           </li>
         </ul>
@@ -107,7 +108,7 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
             .map(({ href, name }) => (
               <li class="w-full bg-pico-background py-2 sm:w-auto sm:py-0" onclick="event.stopPropagation()">
                 <Link href={href} class="m-0 w-full text-center">
-                  {name}
+                  {Html.escapeHtml(name)}
                 </Link>
               </li>
             ))}
@@ -116,12 +117,10 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
             class="w-full border-y border-pico-muted bg-pico-background py-2 sm:mt-[inherit] sm:w-[inherit] sm:border-none sm:py-[inherit]"
             onclick="event.stopPropagation()"
           >
-            <Dropdown label={user?.username ?? ''} icon={icons.user.toSvg()} class="!hidden sm:!inline">
-              <>
-                <Dropdown.Item>
-                  <LogoutButton />
-                </Dropdown.Item>
-              </>
+            <Dropdown label={user?.username ?? ''} isIconVisible class="!hidden sm:!inline">
+              <Dropdown.Item>
+                <LogoutButton />
+              </Dropdown.Item>
             </Dropdown>
 
             <LogoutButton class="sm:hidden" />
@@ -134,10 +133,10 @@ function Layout({ children, user }: ComponentProps<LayoutProps>) {
   );
 }
 
-function LogoutButton({ class: className }: ComponentProps) {
+function LogoutButton({ class: className }: PropsWithClass) {
   return (
     <Button hx-get="/api/auth/logout" class={$tm('pico-reset w-full', className)}>
-      {$t('_logout')}
+      {Html.escapeHtml($t('_logout'))}
     </Button>
   );
 }
@@ -146,7 +145,7 @@ type BackButtonProps = {
   currentUrl: string;
 };
 
-function BackButton({ currentUrl }: ComponentProps<BackButtonProps>) {
+function BackButton({ currentUrl }: BackButtonProps) {
   const segments: string[] = currentUrl.split('/').filter(Boolean).slice(2);
   segments.pop();
 

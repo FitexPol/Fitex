@@ -1,8 +1,8 @@
-import type { ComponentProps, Datalist, FormControl, NumberValidators } from '@types';
+import type { Datalist, FormControl, NumberValidators, PropsWithClass } from '@types';
 
 import { getTextValidators } from '../../utils/getTextValidators';
 
-type InputProps = HtmxAttributes & {
+type InputProps = Htmx.Attributes & {
   control: FormControl;
   value?: string;
   label?: string;
@@ -24,12 +24,16 @@ export function Input({
   error,
   class: className,
   ...hxAttributes
-}: ComponentProps<InputProps>) {
+}: PropsWithClass<InputProps>) {
   const inputAttributes: JSX.HtmlInputTag = getInputAttributes(control);
 
   return (
     <label class={className}>
-      {!!label && <span class="mb-1 block text-sm">{label}</span>}
+      {!!label && (
+        <span class="mb-1 block text-sm" safe>
+          {label}
+        </span>
+      )}
       <input
         {...hxAttributes}
         {...inputAttributes}

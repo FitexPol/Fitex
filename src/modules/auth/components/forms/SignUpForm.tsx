@@ -1,6 +1,5 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/inputs/Input';
-import type { ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 
 import { type SignUpFormErrors, signUpForm } from '../../forms/signUp';
@@ -9,7 +8,7 @@ type SignUpFormProps = {
   errors?: SignUpFormErrors;
 };
 
-export function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
+export function SignUpForm({ errors }: SignUpFormProps) {
   return (
     <form hx-post="/api/auth/sign-up" hx-swap="outerHTML" hx-target-4xx="this">
       <Input control={signUpForm.username} label={$t('auth.username')} error={errors?.username} />
@@ -21,7 +20,7 @@ export function SignUpForm({ errors }: ComponentProps<SignUpFormProps>) {
         error={errors?.repeatedPassword}
       />
 
-      <Button type="submit">{$t('_submit')}</Button>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );
 }

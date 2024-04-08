@@ -1,35 +1,48 @@
+import { type TOptional } from '@sinclair/typebox/build/require/type/optional';
+import { type TString } from '@sinclair/typebox/build/require/type/string';
 import { t } from 'elysia';
 
-import type { Form, TextValidators } from '../../types';
-
-type SchemaTextField = ReturnType<typeof t.String> | ReturnType<typeof t.RegExp>;
+import type { Form, FormControl, TextValidators, Validator } from '../../types';
 
 type SchemaObject<T extends Form> = {
-  [K in keyof T]: SchemaTextField;
+  [K in keyof T]: T[K] extends FormControl
+    ? T[K]['validators'] extends Validator
+      ? T[K]['validators']['required'] extends true
+        ? TString
+        : TOptional<TString>
+      : TOptional<TString>
+    : TOptional<TString>;
 };
 
 type Schema<T extends Form> = ReturnType<typeof t.Object<SchemaObject<T>>>;
 
 export function getBodySchema<T extends Form>(form: Form): Schema<T> {
   const schemaObject: SchemaObject<T> = Object.entries(form).reduce((acc, [key, control]) => {
-    if (Array.isArray(control) || control.type === 'number') return { ...acc, [key]: t.String() };
+    if (control.type === 'number')
+      return {
+        ...acc,
+        [key]: control.validators?.required
+          ? t.String({ error: control.validators.message })
+          : t.Optional(t.String()),
+      };
 
-    return { ...acc, [key]: getSchemaTextField(control.validators) };
+    return {
+      ...acc,
+      [key]: control.validators?.required
+        ? getSchemaTextField(control.validators)
+        : t.Optional(getSchemaTextField(control.validators)),
+    };
   }, {} as SchemaObject<T>);
 
   return t.Object(schemaObject);
 }
 
-function getSchemaTextField(validators?: TextValidators): SchemaTextField {
+function getSchemaTextField(validators?: TextValidators): TString {
   if (!validators) return t.String();
-
-  const error: string = validators.message;
-
-  if (validators.regex) return t.RegExp(validators.regex, { error });
 
   return t.String({
     minLength: validators.minLength,
     maxLength: validators.maxLength,
-    error,
+    error: validators.message,
   });
 }

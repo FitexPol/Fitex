@@ -26,22 +26,22 @@
 //       return;
 //     }
 
-//     const username = 'Test';
-//     const password = 'TestPassword';
+    // const username = 'Test';
+    // const password = 'TestPassword';
 
 //     let userDoc = await User.findOne({ username });
 
-//     if (!userDoc) {
-//       const hash = await Bun.password.hash(password);
+    // if (!userDoc) {
+    //   const hash = await Bun.password.hash(password);
 
-//       const user = new User({
-//         username,
-//         password: hash,
-//         roles: [Role.Admin],
-//       });
+    //   const user = new User({
+    //     username,
+    //     password: hash,
+    //     roles: [Role.Admin],
+    //   });
 
-//       userDoc = await user.save();
-//     }
+    //   userDoc = await user.save();
+    // }
 
 //     const formData = new FormData();
 //     formData.append('username', username);
@@ -68,7 +68,7 @@
 
 //     const blob = await response.blob();
 //     const homePageRaw = await blob.text();
-//     const document = new JSDOM(homePageRaw).window.document;
+//     const { document } = new JSDOM(homePageRaw).window;
 //     const titles = document.querySelectorAll('h2');
 
 //     expect(titles.length).toBe(2);

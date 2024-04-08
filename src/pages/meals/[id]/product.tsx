@@ -21,22 +21,20 @@ export const productPage = new Elysia()
 
     return (
       <Document currentUrl={request.url} user={user}>
-        <>
-          <MealBreadcrumbs
-            items={[
-              { href: `/${mealDoc.id}`, label: mealDoc.name },
-              { href: getPath('/product', { productId: productDoc.id }), label: productDoc.name },
-            ]}
-          />
+        <MealBreadcrumbs
+          items={[
+            { href: `/${mealDoc.id}`, label: mealDoc.name },
+            { href: getPath('/product', { productId: productDoc.id }), label: productDoc.name },
+          ]}
+        />
 
-          <CardSection title={mealDoc.name}>
-            <UpdateProductForm
-              user={user}
-              productDoc={productDoc}
-              endpoint={getPath(`/api/meals/${mealDoc.id}/products/${productDoc.id}`)}
-            />
-          </CardSection>
-        </>
+        <CardSection title={mealDoc.name}>
+          <UpdateProductForm
+            user={user}
+            productDoc={productDoc}
+            endpoint={getPath(`/api/meals/${mealDoc.id}/products/${productDoc.id}`)}
+          />
+        </CardSection>
       </Document>
     );
   });

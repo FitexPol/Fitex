@@ -12,17 +12,15 @@ export const namePage = new Elysia()
   .use(shoppingListContext)
   .get('/name', ({ request, user, shoppingListDoc }) => (
     <Document currentUrl={request.url} user={user}>
-      <>
-        <ShoppingListBreadcrumbs
-          items={[
-            { href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name },
-            { href: '/name', label: $t('_name') },
-          ]}
-        />
+      <ShoppingListBreadcrumbs
+        items={[
+          { href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name },
+          { href: '/name', label: $t('_name') },
+        ]}
+      />
 
-        <CardSection title={shoppingListDoc.name}>
-          <NameForm shoppingListDoc={shoppingListDoc} />
-        </CardSection>
-      </>
+      <CardSection title={shoppingListDoc.name}>
+        <NameForm shoppingListDoc={shoppingListDoc} />
+      </CardSection>
     </Document>
   ));

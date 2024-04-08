@@ -10,10 +10,8 @@ import { userContext } from '../context';
 
 const shoppingListsPage = new Elysia().use(userContext).get('', ({ request, user, query }) => (
   <Document currentUrl={request.url} user={user} isBackButtonVisible={false}>
-    <>
-      <ShoppingListBreadcrumbs />
-      <ShoppingListsSection user={user} query={query} />
-    </>
+    <ShoppingListBreadcrumbs />
+    <ShoppingListsSection user={user} query={query} />
   </Document>
 ));
 

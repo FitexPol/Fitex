@@ -15,19 +15,17 @@ export const productsPage = new Elysia()
 
     return (
       <Document currentUrl={request.url} user={user}>
-        <>
-          <ShoppingListBreadcrumbs
-            items={[
-              { href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name },
-              { href: '/products', label: $t('products.addProducts') },
-            ]}
-          />
-          <ShoppingListAddProductsSection
-            user={user}
-            shoppingListDoc={shoppingListDoc}
-            activeTab={tabQuery === 'meals' ? tabQuery : 'products'}
-          />
-        </>
+        <ShoppingListBreadcrumbs
+          items={[
+            { href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name },
+            { href: '/products', label: $t('products.addProducts') },
+          ]}
+        />
+        <ShoppingListAddProductsSection
+          user={user}
+          shoppingListDoc={shoppingListDoc}
+          activeTab={tabQuery === 'meals' ? tabQuery : 'products'}
+        />
       </Document>
     );
   });

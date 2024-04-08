@@ -10,10 +10,8 @@ import { userContext } from '../context';
 
 const mealsPage = new Elysia().use(userContext).get('', ({ request, user, query }) => (
   <Document currentUrl={request.url} user={user} isBackButtonVisible={false}>
-    <>
-      <MealBreadcrumbs />
-      <MealsSection user={user} query={query} />
-    </>
+    <MealBreadcrumbs />
+    <MealsSection user={user} query={query} />
   </Document>
 ));
 

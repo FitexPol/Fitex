@@ -1,6 +1,6 @@
-import type { ComponentProps } from '@types';
+import { type PropsWithClass } from '@types';
 
-type ButtonProps = HtmxAttributes & {
+type ButtonProps = Htmx.Attributes & {
   type?: 'button' | 'submit';
   onclick?: string;
   form?: string;
@@ -13,7 +13,7 @@ export function Button({
   class: className,
   form,
   ...props
-}: ComponentProps<ButtonProps>) {
+}: Html.PropsWithChildren<PropsWithClass<ButtonProps>>) {
   return (
     <button type={type} form={form} class={className} onclick={onclick} {...props}>
       {children}

@@ -1,6 +1,5 @@
 import { Checkbox } from '@components/inputs/Checkbox';
 import { type ProductDoc } from '@models/product';
-import { type ComponentProps } from '@types';
 import { $t } from '@utils/$t';
 import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
@@ -10,8 +9,8 @@ type ShoppingListCardProductsProps = {
   shoppingListDoc: ShoppingListDoc;
 };
 
-export function ShoppingListCardProducts({ shoppingListDoc }: ComponentProps<ShoppingListCardProductsProps>) {
-  function getHxAttributes({ id }: ProductDoc): HtmxAttributes {
+export function ShoppingListCardProducts({ shoppingListDoc }: ShoppingListCardProductsProps) {
+  function getHxAttributes({ id }: ProductDoc): Htmx.Attributes {
     return {
       'hx-patch': `/api/shopping-lists/${shoppingListDoc.id}/products/${id}/check-state`,
       'hx-target': 'closest ul',
@@ -23,7 +22,7 @@ export function ShoppingListCardProducts({ shoppingListDoc }: ComponentProps<Sho
   function getProduct({ name, quantity, unit }: ProductDoc) {
     return (
       <>
-        {name} - {getRoundedQuantity(quantity)} {unit}
+        {Html.escapeHtml(name)} - {Html.escapeHtml(getRoundedQuantity(quantity))} {unit}
       </>
     );
   }
@@ -53,6 +52,6 @@ export function ShoppingListCardProducts({ shoppingListDoc }: ComponentProps<Sho
         ))}
     </ul>
   ) : (
-    <span>{$t('products.noProducts')}</span>
+    <span safe>{$t('products.noProducts')}</span>
   );
 }

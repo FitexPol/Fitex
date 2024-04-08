@@ -10,12 +10,10 @@ import { userContext } from '../context';
 
 export const newPage = new Elysia().use(userContext).get('/new', ({ request, user }) => (
   <Document currentUrl={request.url} user={user}>
-    <>
-      <MealBreadcrumbs items={[{ href: '/new', label: $t('meals.createMeal') }]} />
+    <MealBreadcrumbs items={[{ href: '/new', label: $t('meals.createMeal') }]} />
 
-      <CardSection title={$t('meals.createMeal')}>
-        <NameForm />
-      </CardSection>
-    </>
+    <CardSection title={$t('meals.createMeal')}>
+      <NameForm />
+    </CardSection>
   </Document>
 ));

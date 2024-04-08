@@ -21,22 +21,20 @@ export const productPage = new Elysia()
 
     return (
       <Document currentUrl={request.url} user={user}>
-        <>
-          <ShoppingListBreadcrumbs
-            items={[
-              { href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name },
-              { href: getPath(`/product`, { productId: productDoc.id }), label: productDoc.name },
-            ]}
-          />
+        <ShoppingListBreadcrumbs
+          items={[
+            { href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name },
+            { href: getPath(`/product`, { productId: productDoc.id }), label: productDoc.name },
+          ]}
+        />
 
-          <CardSection title={shoppingListDoc.name}>
-            <UpdateProductForm
-              user={user}
-              productDoc={productDoc}
-              endpoint={getPath(`/api/shopping-lists/${shoppingListDoc.id}/products/${productDoc.id}`)}
-            />
-          </CardSection>
-        </>
+        <CardSection title={shoppingListDoc.name}>
+          <UpdateProductForm
+            user={user}
+            productDoc={productDoc}
+            endpoint={getPath(`/api/shopping-lists/${shoppingListDoc.id}/products/${productDoc.id}`)}
+          />
+        </CardSection>
       </Document>
     );
   });

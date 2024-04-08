@@ -1,11 +1,15 @@
-import { type ComponentProps } from '../types';
+import { type PropsWithClass } from '../types';
 import { $tm } from '../utils/$tm';
 
 type TableProps = {
   id?: string;
 };
 
-export function Table({ id, children, class: className }: ComponentProps<TableProps>) {
+export function Table({
+  id,
+  children,
+  class: className,
+}: Html.PropsWithChildren<PropsWithClass<TableProps>>) {
   return (
     <div id={id} class={$tm('w-full overflow-x-auto', className)}>
       <table>{children}</table>
@@ -13,7 +17,7 @@ export function Table({ id, children, class: className }: ComponentProps<TablePr
   );
 }
 
-function Header({ children }: ComponentProps) {
+function Header({ children }: Html.PropsWithChildren) {
   return (
     <thead>
       <tr>{children}</tr>
@@ -21,15 +25,15 @@ function Header({ children }: ComponentProps) {
   );
 }
 
-function HeaderItem({ children }: ComponentProps) {
+function HeaderItem({ children }: Html.PropsWithChildren) {
   return <th scope="col">{children}</th>;
 }
 
-function Body({ children }: ComponentProps) {
+function Body({ children }: Html.PropsWithChildren) {
   return <tbody>{children}</tbody>;
 }
 
-function BodyRow({ firstItem, children }: ComponentProps<{ firstItem: JSX.Element }>) {
+function BodyRow({ firstItem, children }: Html.PropsWithChildren<{ firstItem: JSX.Element }>) {
   return (
     <tr>
       <th scope="row">{firstItem}</th>
@@ -38,7 +42,7 @@ function BodyRow({ firstItem, children }: ComponentProps<{ firstItem: JSX.Elemen
   );
 }
 
-function BodyCell({ children }: ComponentProps) {
+function BodyCell({ children }: Html.PropsWithChildren) {
   return <td>{children}</td>;
 }
 

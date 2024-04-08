@@ -13,10 +13,8 @@ const shoppingListPage = new Elysia()
   .use(shoppingListContext)
   .get('', ({ request, shoppingListDoc, user }) => (
     <Document currentUrl={request.url} user={user}>
-      <>
-        <ShoppingListBreadcrumbs items={[{ href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name }]} />
-        <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
-      </>
+      <ShoppingListBreadcrumbs items={[{ href: `/${shoppingListDoc.id}`, label: shoppingListDoc.name }]} />
+      <ShoppingListEditSection shoppingListDoc={shoppingListDoc} />
     </Document>
   ));
 
