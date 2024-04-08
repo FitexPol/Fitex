@@ -9,9 +9,7 @@ describe('Document', () => {
   it('should render with an appropriate global elements', async () => {
     const document = await render(<Document currentUrl="http://domain.pl/url/segments" />);
 
-    const body = document.querySelector('body');
-    if (!body) throw new Error('Body not found');
-    expect(body.getAttribute('hx-history')).toBe('false');
+    expect(document.body.getAttribute('hx-history')).toBe('false');
 
     const notificationPortal = document.getElementById('notification-portal');
     if (!notificationPortal) throw new Error('Notification portal not found');
@@ -25,7 +23,7 @@ describe('Document', () => {
     if (!loader) throw new Error('Loader not found');
     expect(modalPortal.getAttribute('hx-preserve')).toBe('true');
 
-    const links = body.querySelectorAll('a');
+    const links = document.querySelectorAll('a');
     const backButton = links.item(links.length - 1);
     expect(backButton.getAttribute('href')).toBe('/url');
   });

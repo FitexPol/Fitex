@@ -65,6 +65,7 @@ export const signUp = new Elysia().use(context).post(
           const { status, message, field }: InlineErrorDetails<SignUpFormType> = JSON.parse(error.message);
 
           set.status = status;
+          set.headers[HxResponseHeader.Retarget] = 'this';
           return <SignUpForm errors={{ [field]: message }} />;
         }
       }
