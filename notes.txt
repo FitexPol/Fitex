@@ -1,8 +1,6 @@
 TODO:
-  - usunac response-targets
   - ogarnac query params
   - usunac autofocus na notyfikacje
   - grupowanie produktów po kategorii
   - tagowanie posiłków
   - tworzenie listy z poziomu posiłków (zaznaczanie posiłków)
-  - panel admina (zarządzanie produktami)
