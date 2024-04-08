@@ -14,7 +14,7 @@ export function SignInForm({ errors }: SignInFormProps) {
       <Input control={signInForm.username} label={$t('auth.username')} error={errors?.username} />
       <Input control={signInForm.password} label={$t('auth.password')} error={errors?.password} />
 
-      <Button type="submit">{$t('_submit')}</Button>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );
 }

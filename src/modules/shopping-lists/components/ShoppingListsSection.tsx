@@ -43,11 +43,9 @@ export async function ShoppingListsSection({ user, query: q }: ShoppingListsSect
       activeSortLabel={sortLabel}
       totalCount={totalShoppingListDocs}
     >
-      <>
-        {shoppingListDocs.map((shoppingListDoc) => (
-          <ShoppingListCard shoppingListDoc={shoppingListDoc} />
-        ))}
-      </>
+      {shoppingListDocs.map((shoppingListDoc) => (
+        <ShoppingListCard shoppingListDoc={shoppingListDoc} />
+      ))}
     </CardsSection>
   );
 }

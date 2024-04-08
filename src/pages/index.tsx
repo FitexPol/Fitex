@@ -26,11 +26,11 @@ export const pages = new Elysia()
     switch (code) {
       case 'PageNotFoundError': {
         set.status = 404;
-        return <ErrorPage>{$t('_errors.notFound')}</ErrorPage>;
+        return <ErrorPage>{Html.escapeHtml($t('_errors.notFound'))}</ErrorPage>;
       }
       case 'PageNotPermittedError': {
         set.status = 403;
-        return <ErrorPage>{$t('_errors.permissionDenied')}</ErrorPage>;
+        return <ErrorPage>{Html.escapeHtml($t('_errors.permissionDenied'))}</ErrorPage>;
       }
       default: {
         set.status = 500;

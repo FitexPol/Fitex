@@ -26,15 +26,19 @@ export function Select({
 }: PropsWithClass<SelectProps>) {
   return (
     <label class={className}>
-      {!!label && <span class="mb-1 block text-sm">{label}</span>}
+      {!!label && (
+        <span class="mb-1 block text-sm" safe>
+          {label}
+        </span>
+      )}
       <select name={control.name} disabled={isDisabled}>
         {placeholder && (
-          <option value="" disabled selected>
+          <option value="" disabled selected safe>
             {placeholder}
           </option>
         )}
         {options?.map(({ value: optionValue, label }) => (
-          <option value={optionValue} selected={optionValue === value}>
+          <option value={optionValue} selected={optionValue === value} safe>
             {label}
           </option>
         ))}

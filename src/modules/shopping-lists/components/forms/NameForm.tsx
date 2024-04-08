@@ -23,7 +23,7 @@ export function NameForm({ shoppingListDoc, errors }: NameFormProps) {
     <form {...hxAttributes}>
       <Input control={nameForm.name} value={shoppingListDoc?.name} label={$t('_name')} error={errors?.name} />
 
-      <Button type="submit">{$t('_submit')}</Button>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );
 }

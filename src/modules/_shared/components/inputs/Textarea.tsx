@@ -23,7 +23,11 @@ export function Textarea({
 
   return (
     <label class={className}>
-      {!!label && <span class="mb-1 block text-sm">{label}</span>}
+      {!!label && (
+        <span class="mb-1 block text-sm" safe>
+          {label}
+        </span>
+      )}
       <textarea
         {...textareaAttributes}
         placeholder={placeholder}

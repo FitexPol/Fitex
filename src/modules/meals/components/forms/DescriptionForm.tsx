@@ -12,18 +12,16 @@ type DescriptionFormProps = {
 
 export function DescriptionForm({ mealDoc, errors }: DescriptionFormProps) {
   return (
-    <>
-      <form hx-patch={`/api/meals/${mealDoc.id}/description`}>
-        <Textarea
-          control={descriptionForm.description}
-          value={mealDoc.description}
-          label={$t('_description')}
-          rows="5"
-          error={errors?.description}
-        />
+    <form hx-patch={`/api/meals/${mealDoc.id}/description`}>
+      <Textarea
+        control={descriptionForm.description}
+        value={mealDoc.description}
+        label={$t('_description')}
+        rows="5"
+        error={errors?.description}
+      />
 
-        <Button type="submit">{$t('_submit')}</Button>
-      </form>
-    </>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
+    </form>
   );
 }

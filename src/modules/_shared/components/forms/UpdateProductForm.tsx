@@ -48,7 +48,7 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
         error={errors?.unit}
       />
 
-      <Button type="submit">{$t('_submit')}</Button>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );
 }

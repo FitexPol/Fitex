@@ -1,10 +1,9 @@
-import { icons } from 'feather-icons';
-
 import { type JWTUser } from '@auth/models/user';
 
 import { Button } from './Button';
 import { Dropdown } from './Dropdown';
 import { FloatingLink } from './FloatingLink';
+import { Icon } from './Icon';
 import { Link } from './Link';
 import { type PropsWithClass } from '../types';
 import { $t } from '../utils/$t';
@@ -33,8 +32,6 @@ export function Document({
     }
   }
 
-  console.log(layout);
-
   return (
     <html lang="pl-PL">
       <head>
@@ -59,7 +56,11 @@ export function Document({
         />
         <dialog id="modal-portal" hx-preserve="true" />
         <Loader />
-        {isBackButtonVisible && Html.escapeHtml(<BackButton currentUrl={currentUrl} />)}
+        {isBackButtonVisible && (
+          <>
+            <BackButton currentUrl={currentUrl} />
+          </>
+        )}
       </body>
     </html>
   );
@@ -89,8 +90,8 @@ function Layout({ children, user }: Html.PropsWithChildren<LayoutProps>) {
         <ul class="sm:hidden">
           <li>{user?.username ?? ''}</li>
           <li>
-            <button class="pico-reset" onclick="toggleMenu()" safe>
-              {icons.menu.toSvg()}
+            <button class="pico-reset" onclick="toggleMenu()">
+              <Icon type="menu" />
             </button>
           </li>
         </ul>
@@ -116,12 +117,10 @@ function Layout({ children, user }: Html.PropsWithChildren<LayoutProps>) {
             class="w-full border-y border-pico-muted bg-pico-background py-2 sm:mt-[inherit] sm:w-[inherit] sm:border-none sm:py-[inherit]"
             onclick="event.stopPropagation()"
           >
-            <Dropdown label={user?.username ?? ''} icon={icons.user.toSvg()} class="!hidden sm:!inline">
-              <>
-                <Dropdown.Item>
-                  <LogoutButton />
-                </Dropdown.Item>
-              </>
+            <Dropdown label={user?.username ?? ''} isIconVisible class="!hidden sm:!inline">
+              <Dropdown.Item>
+                <LogoutButton />
+              </Dropdown.Item>
             </Dropdown>
 
             <LogoutButton class="sm:hidden" />

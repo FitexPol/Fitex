@@ -1,5 +1,4 @@
-import { icons } from 'feather-icons';
-
+import { Icon } from './Icon';
 import { Link } from './Link';
 
 export type BreadcrumbsItem = {
@@ -14,7 +13,9 @@ type BreadcrumbsProps = {
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <ul class="mb-6 flex items-center gap-2 overflow-x-auto">
-      <Item href="/">{icons.home.toSvg({ class: 'size-4' })}</Item>
+      <Item href="/">
+        <Icon type="home" class="size-4" />
+      </Item>
 
       {items
         .reduce((acc, { href, label }) => {
@@ -25,7 +26,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
           return [...acc, { href: `${lastItem.href}${href}`, label }];
         }, [] as BreadcrumbsItem[])
         .map(({ href, label }) => (
-          <Item href={href}>{label}</Item>
+          <Item href={href}>{Html.escapeHtml(label)}</Item>
         ))}
     </ul>
   );

@@ -20,11 +20,9 @@ export function NameForm({ mealDoc, errors }: NameFormProps) {
       };
 
   return (
-    <>
-      <form {...hxAttributes}>
-        <Input control={nameForm.name} value={mealDoc?.name} label={$t('_name')} error={errors?.name} />
-        <Button type="submit">{$t('_submit')}</Button>
-      </form>
-    </>
+    <form {...hxAttributes}>
+      <Input control={nameForm.name} value={mealDoc?.name} label={$t('_name')} error={errors?.name} />
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
+    </form>
   );
 }

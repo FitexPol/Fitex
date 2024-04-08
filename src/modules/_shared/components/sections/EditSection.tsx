@@ -1,10 +1,9 @@
-import { icons } from 'feather-icons';
-
 import type { BasePath, Entity } from '../../types';
 import { $t } from '../../utils/$t';
 import { Button } from '../Button';
 import { Card } from '../Card';
 import { FloatingLink } from '../FloatingLink';
+import { Icon } from '../Icon';
 import { Link } from '../Link';
 import { ProductsTable } from '../ProductsTable';
 
@@ -23,38 +22,36 @@ export function EditSection<T extends Entity>({
   return (
     <section>
       <Card>
-        <>
-          <Card.Header
-            title={
-              <h1 class="mb-0 text-2xl">
-                {title}
-                <Link href={`/${basePath}/${entity.id}/name`} class="ml-2 inline-flex">
-                  {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
-                </Link>
-              </h1>
-            }
-            class="relative pr-10"
-          />
+        <Card.Header
+          title={
+            <h1 class="mb-0 text-2xl">
+              {Html.escapeHtml(title)}
+              <Link href={`/${basePath}/${entity.id}/name`} class="ml-2 inline-flex">
+                <Icon type="edit-2" class="size-5" />
+              </Link>
+            </h1>
+          }
+          class="relative pr-10"
+        />
 
-          <Group title={$t('products')}>
-            <ProductsTable entity={entity} basePath={basePath} />
-          </Group>
+        <Group title={$t('products')}>
+          <ProductsTable entity={entity} basePath={basePath} />
+        </Group>
 
-          {children}
+        {children}
 
-          <Card.Footer class="flex justify-end">
-            <Button
-              class="pico-reset !text-inherit"
-              hx-delete={`/api/${basePath}/${entity.id}`}
-              hx-target="closest section"
-              hx-swap="outerHTML"
-              hx-confirm={$t('_deletionConfirmation')}
-              hx-indicator="#loader"
-            >
-              {icons.trash.toSvg()}
-            </Button>
-          </Card.Footer>
-        </>
+        <Card.Footer class="flex justify-end">
+          <Button
+            class="pico-reset !text-inherit"
+            hx-delete={`/api/${basePath}/${entity.id}`}
+            hx-target="closest section"
+            hx-swap="outerHTML"
+            hx-confirm={$t('_deletionConfirmation')}
+            hx-indicator="#loader"
+          >
+            <Icon type="trash" />
+          </Button>
+        </Card.Footer>
       </Card>
 
       <FloatingLink
@@ -73,7 +70,11 @@ type GroupProps = {
 };
 
 function Group({ title, customElement, children }: Html.PropsWithChildren<GroupProps>) {
-  const HComponent = <h2 class="mb-0 text-lg">{title}</h2>;
+  const HComponent = (
+    <h2 class="mb-0 text-lg" safe>
+      {title}
+    </h2>
+  );
 
   return (
     <div class="mb-4 border-b border-solid border-b-pico-muted last-of-type:mb-0 last-of-type:border-none">

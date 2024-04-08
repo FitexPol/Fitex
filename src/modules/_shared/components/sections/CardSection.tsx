@@ -8,10 +8,14 @@ export async function CardSection({ title, children }: Html.PropsWithChildren<Ca
   return (
     <section>
       <Card>
-        <>
-          <Card.Header title={<h1 class="mb-0 text-2xl">{title}</h1>} />
-          {children}
-        </>
+        <Card.Header
+          title={
+            <h1 class="mb-0 text-2xl" safe>
+              {title}
+            </h1>
+          }
+        />
+        {children}
       </Card>
     </section>
   );

@@ -1,6 +1,5 @@
-import { icons } from 'feather-icons';
-
 import { Button } from './Button';
+import { Icon } from './Icon';
 import { Input } from './inputs/Input';
 import type { BasePath, Entity } from '../types';
 import { $tm } from '../utils/$tm';
@@ -39,7 +38,7 @@ export function MostUsedProducts<T extends Entity>({
             />
 
             <Button type="submit" class="pico-reset col-span-2 !m-auto !mt-5 h-fit !w-fit sm:col-span-1">
-              {icons['plus-circle'].toSvg()}
+              <Icon type="plus-circle" />
             </Button>
           </form>
         </li>

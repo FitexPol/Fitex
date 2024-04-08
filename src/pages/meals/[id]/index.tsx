@@ -12,10 +12,8 @@ import { productsPage } from './products';
 
 const mealPage = new Elysia().use(mealContext).get('', ({ request, mealDoc, user }) => (
   <Document currentUrl={request.url} user={user}>
-    <>
-      <MealBreadcrumbs items={[{ href: `/${mealDoc.id}`, label: mealDoc.name }]} />
-      <MealEditSection mealDoc={mealDoc} />
-    </>
+    <MealBreadcrumbs items={[{ href: `/${mealDoc.id}`, label: mealDoc.name }]} />
+    <MealEditSection mealDoc={mealDoc} />
   </Document>
 ));
 

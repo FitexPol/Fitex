@@ -47,23 +47,21 @@ export function AuthSection({ typeQuery }: AuthSectionProps) {
   return (
     <div class="container">
       <Card class="relative">
-        <>
-          <div class="absolute left-0 top-0 flex -translate-y-full">
-            {Array.from(tabs.entries()).map(([tab, { href, label }]) => (
-              <Link
-                href={href}
-                class={$tm(
-                  'rounded-t-lg px-4 py-2',
-                  activeTab === tab && 'pointer-events-none bg-pico-card-background',
-                )}
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
+        <div class="absolute left-0 top-0 flex -translate-y-full">
+          {Array.from(tabs.entries()).map(([tab, { href, label }]) => (
+            <Link
+              href={href}
+              class={$tm(
+                'rounded-t-lg px-4 py-2',
+                activeTab === tab && 'pointer-events-none bg-pico-card-background',
+              )}
+            >
+              {Html.escapeHtml(label)}
+            </Link>
+          ))}
+        </div>
 
-          <Component />
-        </>
+        <Component />
       </Card>
     </div>
   );

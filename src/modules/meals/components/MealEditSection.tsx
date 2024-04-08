@@ -1,5 +1,4 @@
-import { icons } from 'feather-icons';
-
+import { Icon } from '@components/Icon';
 import { Link } from '@components/Link';
 import { EditSection } from '@components/sections/EditSection';
 import { $t } from '@utils/$t';
@@ -17,11 +16,11 @@ export function MealEditSection({ mealDoc }: MealEditSectionProps) {
         title={$t('_description')}
         customElement={
           <Link href={`/meals/${mealDoc.id}/description`} class="ml-1 inline-flex">
-            {icons['edit-2'].toSvg({ class: 'w-5 h-5' })}
+            <Icon type="edit-2" class="size-5" />
           </Link>
         }
       >
-        <p>{mealDoc.description}</p>
+        <p safe>{mealDoc.description}</p>
       </EditSection.Group>
     </EditSection>
   );

@@ -25,8 +25,8 @@ describe('Document', () => {
     if (!loader) throw new Error('Loader not found');
     expect(modalPortal.getAttribute('hx-preserve')).toBe('true');
 
-    const backButtons = body.querySelectorAll('a');
-    backButtons.forEach((button) => console.log(button.outerHTML));
+    // const backButtons = body.querySelectorAll('a');
+    // backButtons.forEach((button) => console.log(button.outerHTML));
     // if (!backButton) throw new Error('Back button not found');
     // console.log(backButton.getAttribute('href'));
     // expect(backButton.getAttribute('href')).toBe('/url');

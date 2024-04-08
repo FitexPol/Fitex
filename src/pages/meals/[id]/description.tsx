@@ -12,17 +12,15 @@ export const descriptionPage = new Elysia()
   .use(mealContext)
   .get('/description', ({ request, user, mealDoc }) => (
     <Document currentUrl={request.url} user={user}>
-      <>
-        <MealBreadcrumbs
-          items={[
-            { href: `/${mealDoc.id}`, label: mealDoc.name },
-            { href: '/description', label: $t('_description') },
-          ]}
-        />
+      <MealBreadcrumbs
+        items={[
+          { href: `/${mealDoc.id}`, label: mealDoc.name },
+          { href: '/description', label: $t('_description') },
+        ]}
+      />
 
-        <CardSection title={mealDoc.name}>
-          <DescriptionForm mealDoc={mealDoc} />
-        </CardSection>
-      </>
+      <CardSection title={mealDoc.name}>
+        <DescriptionForm mealDoc={mealDoc} />
+      </CardSection>
     </Document>
   ));

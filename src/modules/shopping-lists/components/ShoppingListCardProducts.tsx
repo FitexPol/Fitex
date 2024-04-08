@@ -22,7 +22,7 @@ export function ShoppingListCardProducts({ shoppingListDoc }: ShoppingListCardPr
   function getProduct({ name, quantity, unit }: ProductDoc) {
     return (
       <>
-        {name} - {getRoundedQuantity(quantity)} {unit}
+        {Html.escapeHtml(name)} - {Html.escapeHtml(getRoundedQuantity(quantity))} {unit}
       </>
     );
   }
@@ -52,6 +52,6 @@ export function ShoppingListCardProducts({ shoppingListDoc }: ShoppingListCardPr
         ))}
     </ul>
   ) : (
-    <span>{$t('products.noProducts')}</span>
+    <span safe>{$t('products.noProducts')}</span>
   );
 }

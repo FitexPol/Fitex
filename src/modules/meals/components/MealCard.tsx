@@ -17,12 +17,12 @@ export function MealCard({ mealDoc }: MealCardProps) {
             .sort((a, b) => a.name.localeCompare(b.name))
             .map(({ name, quantity, unit }) => (
               <li>
-                {name} - {getRoundedQuantity(quantity)} {unit}
+                {Html.escapeHtml(name)} - {Html.escapeHtml(getRoundedQuantity(quantity))} {unit}
               </li>
             ))}
         </ul>
       ) : (
-        <span>{$t('products.noProducts')}</span>
+        <span safe>{$t('products.noProducts')}</span>
       )}
     </CardsSection.Item>
   );

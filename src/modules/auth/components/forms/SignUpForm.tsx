@@ -20,7 +20,7 @@ export function SignUpForm({ errors }: SignUpFormProps) {
         error={errors?.repeatedPassword}
       />
 
-      <Button type="submit">{$t('_submit')}</Button>
+      <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );
 }

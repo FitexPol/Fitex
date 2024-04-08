@@ -44,11 +44,9 @@ export async function MealsSection({ user, query: q }: MealsSectionProps) {
       activeSortLabel={sortLabel}
       totalCount={totalMealDocs}
     >
-      <>
-        {mealDocs.map((mealDoc) => (
-          <MealCard mealDoc={mealDoc} />
-        ))}
-      </>
+      {mealDocs.map((mealDoc) => (
+        <MealCard mealDoc={mealDoc} />
+      ))}
     </CardsSection>
   );
 }
