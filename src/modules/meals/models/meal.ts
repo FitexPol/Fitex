@@ -6,7 +6,6 @@ type Meal = {
   author: Types.ObjectId;
   name: string;
   description: string;
-  isFavorite: boolean;
   creationDate: Date;
   products: ProductDoc[];
   isVisible: boolean;
@@ -27,11 +26,6 @@ const mealSchema = new Schema<Meal>({
   description: {
     type: String,
     maxlength: 10000,
-  },
-  isFavorite: {
-    type: Boolean,
-    required: true,
-    default: false,
   },
   creationDate: {
     type: Date,
