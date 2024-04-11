@@ -1,5 +1,6 @@
 TODO:
   - ogarnac query params
+  - dodac hx-vals
   - usunac autofocus na notyfikacje
   - grupowanie produktów po kategorii
   - tagowanie posiłków
