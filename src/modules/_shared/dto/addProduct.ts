@@ -1,7 +1,7 @@
 import { t } from 'elysia';
 
 import { productSchema } from '../models/product';
-import { type TStringOptions } from '../types';
+import type { DTO, TStringOptions } from '../types';
 
 const nameOptions = productSchema.path('name').options;
 
@@ -12,4 +12,4 @@ export const nameValidators: TStringOptions = {
 
 export const addProductDTO = t.Object({
   name: t.String(nameValidators),
-});
+}) satisfies DTO;

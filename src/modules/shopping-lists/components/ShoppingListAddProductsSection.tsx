@@ -1,7 +1,8 @@
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
-import { Input } from '@components/inputs/Input';
+import { NumberInput } from '@components/inputs/NumberInput';
+import { StringInput } from '@components/inputs/StringInput';
 import { AddProductsSection } from '@components/sections/AddProductsSection';
 import { updateProductDTO } from '@dto/updateProduct';
 import { Meal } from '@meals/models/meal';
@@ -74,21 +75,21 @@ async function MealProducts({ user, shoppingListDoc }: MealProductsProps) {
                     hx-swap="none"
                     class="grid !grid-cols-12 !gap-x-1 sm:!gap-x-4"
                   >
-                    <Input
+                    <StringInput
                       dto={updateProductDTO}
                       name="name"
                       value={product.name}
                       class="pointer-events-none col-span-4 mb-0 sm:col-span-7"
                     />
 
-                    <Input
+                    <NumberInput
                       dto={updateProductDTO}
                       name="quantity"
                       value={product.quantity?.toString() ?? ''}
                       class="pointer-events-none col-span-3 mb-0 sm:col-span-2"
                     />
 
-                    <Input
+                    <StringInput
                       dto={updateProductDTO}
                       name="unit"
                       value={product.unit}

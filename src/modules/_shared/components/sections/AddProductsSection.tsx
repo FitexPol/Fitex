@@ -8,7 +8,7 @@ import { $tm } from '../../utils/$tm';
 import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
-import { Input } from '../inputs/Input';
+import { StringInput } from '../inputs/StringInput';
 import { Link } from '../Link';
 import { MostUsedProducts } from '../MostUsedProducts';
 
@@ -70,7 +70,7 @@ export async function AddProductsSection<T extends Entity>({
         hx-on--after-request="this.reset()"
         {...hxAttributes}
       >
-        <Input
+        <StringInput
           dto={addProductDTO}
           name="name"
           label={$t('products.addProduct.label')}

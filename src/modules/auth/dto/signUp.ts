@@ -1,6 +1,6 @@
 import { t } from 'elysia';
 
-import { type TStringOptions } from '@types';
+import type { DTO, TStringOptions } from '@types';
 
 import { userSchema } from '../models/user';
 
@@ -22,4 +22,4 @@ export const signUpDTO = t.Object({
   username: t.String(usernameValidators),
   password: t.String(passwordValidators),
   repeatedPassword: t.String(passwordValidators),
-});
+}) satisfies DTO;

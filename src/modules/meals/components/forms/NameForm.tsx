@@ -1,5 +1,5 @@
 import { Button } from '@components/Button';
-import { Input } from '@components/inputs/Input';
+import { StringInput } from '@components/inputs/StringInput';
 import { type FormErrors } from '@types';
 import { $t } from '@utils/$t';
 
@@ -22,7 +22,14 @@ export function NameForm({ mealDoc, errors }: NameFormProps) {
 
   return (
     <form {...hxAttributes}>
-      <Input dto={mealNameDTO} name="name" value={mealDoc?.name} label={$t('_name')} error={errors?.name} />
+      <StringInput
+        dto={mealNameDTO}
+        name="name"
+        value={mealDoc?.name}
+        label={$t('_name')}
+        error={errors?.name}
+      />
+
       <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );

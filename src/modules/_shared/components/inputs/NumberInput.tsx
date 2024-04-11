@@ -1,34 +1,28 @@
-import type { DTO, DTOField, Datalist, FormControlProps, PropsWithClass } from '../../types';
+import type { DTO, Datalist, FormControlProps, PropsWithClass } from '../../types';
 
-type InputProps<T extends DTO> = Htmx.Attributes &
+type NumberInputProps<T extends DTO> = Htmx.Attributes &
   FormControlProps<T> & {
-    type?: 'text' | 'number' | 'password' | 'search';
     datalist?: Datalist;
+    min?: string;
+    max?: string;
     step?: string;
   };
 
-export function Input<T extends DTO>({
+export function NumberInput<T extends DTO>({
   dto,
   name,
-  type = 'text',
   value,
   label,
   placeholder,
   datalist,
+  min,
+  max,
   step,
   isDisabled,
   error,
   class: className,
   ...hxAttributes
-}: PropsWithClass<InputProps<T>>) {
-  const dtoField = dto.properties[String(name)] as DTOField;
-
-  const validationAttributes: JSX.HtmlInputTag = {
-    required: dto.required ? dto.required.some((required) => required === name) : false,
-    minlength: dtoField.minLength,
-    maxlength: dtoField.maxLength,
-  };
-
+}: PropsWithClass<NumberInputProps<T>>) {
   return (
     <label class={className}>
       {!!label && (
@@ -39,17 +33,20 @@ export function Input<T extends DTO>({
 
       <input
         {...hxAttributes}
-        {...validationAttributes}
         name={String(name)}
-        type={type}
+        type="number"
         value={value}
         placeholder={placeholder}
+        required={dto.required ? dto.required.some((required) => required === name) : false}
+        min={min}
+        max={max}
         list={datalist?.id}
         step={step}
         disabled={isDisabled}
         aria-invalid={error && 'true'}
         safe
       />
+
       {error && <small>{error}</small>}
 
       {datalist && (

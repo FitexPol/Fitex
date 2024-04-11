@@ -1,7 +1,8 @@
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
-import { Input } from '@components/inputs/Input';
+import { NumberInput } from '@components/inputs/NumberInput';
 import { Select } from '@components/inputs/Select';
+import { StringInput } from '@components/inputs/StringInput';
 import { $t } from '@utils/$t';
 
 import { updateProductDTO } from '../../dto/updateProduct';
@@ -22,7 +23,7 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
 
   return (
     <form hx-patch={endpoint}>
-      <Input
+      <StringInput
         dto={updateProductDTO}
         name="name"
         value={productDoc.name}
@@ -31,12 +32,12 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
         error={errors?.name}
       />
 
-      <Input
+      <NumberInput
         dto={updateProductDTO}
         name="quantity"
-        type="number"
         value={productDoc.quantity?.toString() ?? ''}
         label={$t('_quantity')}
+        min="0"
         step=".1"
         error={errors?.quantity}
       />

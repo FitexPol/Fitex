@@ -1,5 +1,5 @@
 import { Button } from '@components/Button';
-import { Input } from '@components/inputs/Input';
+import { StringInput } from '@components/inputs/StringInput';
 import { type FormErrors } from '@types';
 import { $t } from '@utils/$t';
 
@@ -12,8 +12,9 @@ type SignInFormProps = {
 export function SignInForm({ errors }: SignInFormProps) {
   return (
     <form hx-post="/api/auth/sign-in" hx-swap="outerHTML">
-      <Input dto={signInDTO} name="username" label={$t('auth.username')} error={errors?.username} />
-      <Input
+      <StringInput dto={signInDTO} name="username" label={$t('auth.username')} error={errors?.username} />
+
+      <StringInput
         dto={signInDTO}
         name="password"
         type="password"

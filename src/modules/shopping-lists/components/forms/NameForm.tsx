@@ -1,5 +1,5 @@
 import { Button } from '@components/Button';
-import { Input } from '@components/inputs/Input';
+import { StringInput } from '@components/inputs/StringInput';
 import { type FormErrors } from '@types';
 import { $t } from '@utils/$t';
 
@@ -22,7 +22,7 @@ export function NameForm({ shoppingListDoc, errors }: NameFormProps) {
 
   return (
     <form {...hxAttributes}>
-      <Input
+      <StringInput
         dto={shoppingListNameDTO}
         name="name"
         value={shoppingListDoc?.name}
