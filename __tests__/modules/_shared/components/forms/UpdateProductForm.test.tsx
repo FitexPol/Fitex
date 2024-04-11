@@ -63,7 +63,6 @@ describe('UpdateProductForm', async () => {
 
     expect(quantityInput.name).toBe('quantity');
     expect(quantityInput.type).toBe('number');
-    expect(quantityInput.min).toBe('0.1');
     expect(quantityInput.step).toBe('.1');
     expect(quantityInput.value).toBe(productDoc.quantity.toString());
 

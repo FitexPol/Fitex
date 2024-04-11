@@ -16,8 +16,6 @@ export function Textarea<T extends DTO>({
 }: PropsWithClass<TextareaProps<T>>) {
   const dtoField = dto.properties[String(name)] as DTOField;
 
-  if (dtoField.type !== 'string') throw new Error(`Expected type 'string' but got '${dtoField.type}'`);
-
   const validationAttributes: JSX.HtmlInputTag = {
     required: dto.required ? dto.required.some((required) => required === name) : false,
     minlength: dtoField.minLength,

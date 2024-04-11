@@ -51,6 +51,8 @@ export const signIn = new Elysia().use(context).post(
         case 'InlineError': {
           const { status, message, field }: InlineErrorDetails<typeof signInDTO> = JSON.parse(error.message);
 
+          console.log(message);
+
           set.status = status;
           set.headers[HxResponseHeader.Retarget] = 'this';
 

@@ -1,4 +1,4 @@
-import { type TNumber } from '@sinclair/typebox/build/require/type/number';
+import { type TObject } from '@sinclair/typebox/build/require/type/object';
 import { type TOptional } from '@sinclair/typebox/build/require/type/optional';
 import { type TString } from '@sinclair/typebox/build/require/type/string';
 import { type t } from 'elysia';
@@ -30,8 +30,8 @@ export type Tab = {
 export type BasePath = 'meals' | 'shopping-lists';
 export type Query = Record<string, string | undefined>;
 
-export type DTO = ReturnType<typeof t.Object>;
-export type DTOField = TString | TOptional<TString> | TNumber | TOptional<TNumber>;
+export type DTOField = TString | TOptional<TString>;
+export type DTO = TObject<Record<string, DTOField>>;
 export type TStringOptions = Parameters<typeof t.String>[0];
 
 export type FormControlProps<T extends DTO> = {

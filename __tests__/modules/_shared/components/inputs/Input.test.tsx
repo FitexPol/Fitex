@@ -84,13 +84,14 @@ describe('Input', () => {
     expect(error.textContent).toBe('Test error');
   });
 
-  it('should render correctly if control type is set to "number" and has no validation options set', async () => {
+  it('should render correctly if control type is set to "number"', async () => {
     const datalistOptions = ['1', '2'];
 
     const document = await render(
       <Input
-        dto={t.Object({ test: t.Optional(t.Number()) })}
+        dto={t.Object({ test: t.Optional(t.String()) })}
         name="test"
+        type="number"
         label="Test label"
         value="1"
         placeholder="Test placeholder"
@@ -128,36 +129,5 @@ describe('Input', () => {
     options.forEach((option, i) => {
       expect(option.value).toBe(datalistOptions[i]);
     });
-  });
-
-  it('should render correctly if control type is set to "number" and has validation options set', async () => {
-    const document = await render(
-      <Input
-        dto={t.Object({
-          test: t.Number({
-            minimum: 5,
-            maximum: 10,
-            error: 'Test message',
-          }),
-        })}
-        name="test"
-        error="Test error"
-      />,
-    );
-
-    const inputWrapper = document.querySelector('label');
-    if (!inputWrapper) throw new Error('Input wrapper not found');
-
-    const input = inputWrapper.querySelector('input');
-    if (!input) throw new Error('Input not found');
-
-    expect(input.min).toBe('5');
-    expect(input.max).toBe('10');
-    expect(input.required).toBeTrue();
-
-    const error = inputWrapper.querySelector('small');
-    if (!error) throw new Error('Error not found');
-
-    expect(error.textContent).toBe('Test error');
   });
 });

@@ -2,7 +2,7 @@ import type { DTO, DTOField, Datalist, FormControlProps, PropsWithClass } from '
 
 type InputProps<T extends DTO> = Htmx.Attributes &
   FormControlProps<T> & {
-    type?: 'text' | 'password' | 'search';
+    type?: 'text' | 'number' | 'password' | 'search';
     datalist?: Datalist;
     step?: string;
   };
@@ -22,7 +22,12 @@ export function Input<T extends DTO>({
   ...hxAttributes
 }: PropsWithClass<InputProps<T>>) {
   const dtoField = dto.properties[String(name)] as DTOField;
-  const validationAttributes: JSX.HtmlInputTag = getValidationAttributes(dto, name);
+
+  const validationAttributes: JSX.HtmlInputTag = {
+    required: dto.required ? dto.required.some((required) => required === name) : false,
+    minlength: dtoField.minLength,
+    maxlength: dtoField.maxLength,
+  };
 
   return (
     <label class={className}>
@@ -36,7 +41,7 @@ export function Input<T extends DTO>({
         {...hxAttributes}
         {...validationAttributes}
         name={String(name)}
-        type={dtoField.type === 'number' ? dtoField.type : type}
+        type={type}
         value={value}
         placeholder={placeholder}
         list={datalist?.id}
@@ -56,32 +61,4 @@ export function Input<T extends DTO>({
       )}
     </label>
   );
-}
-
-function getValidationAttributes<T extends DTO>(dto: T, name: keyof T['properties']): JSX.HtmlInputTag {
-  const dtoField = dto.properties[String(name)] as DTOField;
-
-  let validationAttributes: JSX.HtmlInputTag = {
-    required: dto.required ? dto.required.some((required) => required === name) : false,
-  };
-
-  switch (dtoField.type) {
-    case 'number': {
-      validationAttributes = {
-        ...validationAttributes,
-        min: dtoField.minimum,
-        max: dtoField.maximum,
-      };
-      break;
-    }
-    default: {
-      validationAttributes = {
-        ...validationAttributes,
-        minlength: dtoField.minLength,
-        maxlength: dtoField.maxLength,
-      };
-    }
-  }
-
-  return validationAttributes;
 }

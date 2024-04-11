@@ -34,6 +34,7 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
       <Input
         dto={updateProductDTO}
         name="quantity"
+        type="number"
         value={productDoc.quantity?.toString() ?? ''}
         label={$t('_quantity')}
         step=".1"
