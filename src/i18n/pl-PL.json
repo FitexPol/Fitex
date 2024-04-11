@@ -20,6 +20,8 @@
   "_submit": "Zatwierdź",
   "_unit": "Jednostka",
   "_updateName.success": "Nazwa została zaktualizowana",
+  "auth.errors.passwordLength": "Hasło musi zawierać pomiędzy 6 a 20 znaków",
+  "auth.errors.usernameLength": "Nazwa użytkownika powinna zawierać pomiędzy 3 a 20 znaków",
   "auth.password": "Hasło",
   "auth.signIn": "Zaloguj się",
   "auth.signIn.errors.notFound": "Taki użytkownik nie istnieje",
@@ -33,6 +35,8 @@
   "meals.createMeal": "Utwórz posiłek",
   "meals.createMeal.success": "Posiłek został utworzony",
   "meals.deleteMeal.success": "Posiłek został usunięty",
+  "meals.errors.mealDescriptionLength": "Opis posiłku powinien zawierać pomiędzy 3 a 10000 znaków",
+  "meals.errors.mealNameLength": "Nazwa posiłku powinna zawierać pomiędzy 3 a 100 znaków",
   "meals.mealsSection.title": "Twoje posiłki",
   "meals.updateDescription.success": "Opis został zaktualizowany",
   "products": "Produkty",
@@ -42,6 +46,7 @@
   "products.addProduct.success": "Produkt został dodany",
   "products.addProducts": "Dodaj produkty",
   "products.deleteProduct.success": "Produkt został usunięty",
+  "products.errors.productNameRequired": "Nazwa produktu jest wymagana",
   "products.mostUsed": "Najczęściej używane",
   "products.noProducts": "Brak produktów",
   "products.updateProduct.success": "Produkt został zaktualizowany",
@@ -49,5 +54,6 @@
   "shoppingLists.createShoppingList": "Utwórz listę",
   "shoppingLists.createShoppingList.success": "Lista zakupów została utworzona",
   "shoppingLists.deleteMeal.success": "Posiłek został usunięty",
+  "shoppingLists.errors.mealNameLength": "Nazwa listy zakupów powinna zawierać pomiędzy 3 a 100 znaków",
   "shoppingLists.shoppingListsSection.title": "Twoje listy zakupów"
 }

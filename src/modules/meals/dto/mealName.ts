@@ -1,6 +1,7 @@
 import { t } from 'elysia';
 
 import { type DTO } from '@types';
+import { $t } from '@utils/$t';
 
 import { mealSchema } from '../models/meal';
 
@@ -10,6 +11,6 @@ export const mealNameDTO = t.Object({
   name: t.String({
     minLength: nameOptions.minlength,
     maxLength: nameOptions.maxlength,
-    error: 'Meal name must be between 3 and 20 characters long',
+    error: $t('meals.errors.mealNameLength'),
   }),
 }) satisfies DTO;

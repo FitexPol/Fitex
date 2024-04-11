@@ -1,6 +1,7 @@
 import { t } from 'elysia';
 
 import { type DTO } from '@types';
+import { $t } from '@utils/$t';
 
 import { shoppingListSchema } from '../models/shoppingList';
 
@@ -10,6 +11,6 @@ export const shoppingListNameDTO = t.Object({
   name: t.String({
     minLength: nameOptions.minlength,
     maxLength: nameOptions.maxlength,
-    error: 'Shopping list name must be between 3 and 20 characters long',
+    error: $t('shoppingLists.errors.mealNameLength'),
   }),
 }) satisfies DTO;

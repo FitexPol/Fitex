@@ -1,6 +1,7 @@
 import { t } from 'elysia';
 
 import type { DTO, TStringOptions } from '@types';
+import { $t } from '@utils/$t';
 
 import { userSchema } from '../models/user';
 
@@ -9,13 +10,13 @@ const usernameOptions = userSchema.path('username').options;
 export const usernameValidators: TStringOptions = {
   minLength: usernameOptions.minlength,
   maxLength: usernameOptions.maxlength,
-  error: 'Username must be between 3 and 20 characters long',
+  error: $t('auth.errors.usernameLength'),
 };
 
 export const passwordValidators: TStringOptions = {
   minLength: 6,
   maxLength: 20,
-  error: 'Password must be between 6 and 20 characters long',
+  error: $t('auth.errors.passwordLength'),
 };
 
 export const signUpDTO = t.Object({

@@ -1,6 +1,6 @@
 {
   "name": "fitex",
-  "version": "0.0.89",
+  "version": "0.0.90",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {

@@ -1,4 +1,4 @@
-export function getPage(pageQuery: string): number {
+export function getPage(pageQuery?: string): number {
   let page = 1;
 
   if (pageQuery) {

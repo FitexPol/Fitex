@@ -1,6 +1,6 @@
 import { ItemsPerPage } from '../../vars';
 
-export function getItemsPerPageOption(queryParam: string): number {
+export function getItemsPerPageOption(queryParam?: string): number {
   switch (queryParam) {
     case ItemsPerPage._30:
       return Number(ItemsPerPage._30);
