@@ -1,3 +1,5 @@
+import { t } from 'elysia';
+
 import { $t } from './utils/$t';
 import { getEnvSecure } from './utils/getEnvSecure';
 
@@ -44,3 +46,9 @@ export const itemsPerPageOptions = Object.values(ItemsPerPage).map((value) => ({
   label: value,
   query: value,
 }));
+
+export const listPageQuery = t.Object({
+  sort: t.Optional(t.String()),
+  itemsPerPage: t.Optional(t.String()),
+  page: t.Optional(t.String()),
+});

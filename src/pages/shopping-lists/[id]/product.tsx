@@ -1,4 +1,4 @@
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
 
 import { Document } from '@components/_Document';
 import { UpdateProductForm } from '@components/forms/UpdateProductForm';
@@ -6,16 +6,13 @@ import { CardSection } from '@components/sections/CardSection';
 import { PageNotFoundError } from '@errors/PageNotFoundError';
 import { ShoppingListBreadcrumbs } from '@shopping-lists/components/ShoppingListBreadcrumbs';
 import { getPath } from '@utils/getPath';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 
 import { shoppingListContext } from './context';
 
-export const productPage = new Elysia()
-  .use(shoppingListContext)
-  .get('/product', ({ request, shoppingListDoc, user, query: { productId } }) => {
-    const productDoc = shoppingListDoc.products.find((productDoc) =>
-      productDoc._id.equals(getQueryParamSecure(productId)),
-    );
+export const productPage = new Elysia().use(shoppingListContext).get(
+  '/product',
+  ({ request, shoppingListDoc, user, query: { productId } }) => {
+    const productDoc = shoppingListDoc.products.find((productDoc) => productDoc._id.equals(productId));
 
     if (!productDoc) throw new PageNotFoundError();
 
@@ -37,4 +34,10 @@ export const productPage = new Elysia()
         </CardSection>
       </Document>
     );
-  });
+  },
+  {
+    query: t.Object({
+      productId: t.String(),
+    }),
+  },
+);

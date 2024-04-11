@@ -1,8 +1,8 @@
-import type { BasePath, Entity } from '../../types';
+import type { BasePath, Entity, Query } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getPath } from '../../utils/getPath';
-import { itemsPerPageOptions, sortOptions } from '../../vars';
+import { itemsPerPageOptions, type listPageQuery, sortOptions } from '../../vars';
 import { Button } from '../Button';
 import { Card } from '../Card';
 import { FloatingLink } from '../FloatingLink';
@@ -13,11 +13,7 @@ import { Link } from '../Link';
 type CardsSectionProps = {
   title: string;
   basePath: BasePath;
-  query: {
-    sort: string;
-    itemsPerPage: string;
-    page: string;
-  };
+  query: Query<typeof listPageQuery>;
   activeFilters: {
     itemsPerPage: number;
     page: number;
@@ -144,7 +140,7 @@ type PaginationProps = {
   page: number;
   totalCount: number;
   path: string;
-  currentQuery: Record<string, string>;
+  currentQuery: Query<typeof listPageQuery>;
 };
 
 function Pagination({ itemsPerPage, page, totalCount, path, currentQuery }: PaginationProps) {
@@ -163,7 +159,7 @@ function Pagination({ itemsPerPage, page, totalCount, path, currentQuery }: Pagi
   );
 }
 
-function PaginationItem(path: string, currentQuery: Record<string, string>, i: number, page: number) {
+function PaginationItem(path: string, currentQuery: Query<typeof listPageQuery>, i: number, page: number) {
   return (
     <li class="mx-1">
       <Link

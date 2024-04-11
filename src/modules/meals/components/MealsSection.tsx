@@ -2,27 +2,20 @@ import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
 import type { Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
 import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
-import { SortQuery, sortOptions } from '@vars';
+import { SortQuery, type listPageQuery, sortOptions } from '@vars';
 
 import { MealCard } from './MealCard';
 import { Meal, type MealDoc } from '../models/meal';
 
 type MealsSectionProps = {
   user: JWTUser;
-  query: Query;
+  query: Query<typeof listPageQuery>;
 };
 
-export async function MealsSection({ user, query: q }: MealsSectionProps) {
-  const query = {
-    sort: getQueryParamSecure(q.sort),
-    itemsPerPage: getQueryParamSecure(q.itemsPerPage),
-    page: getQueryParamSecure(q.page),
-  };
-
+export async function MealsSection({ user, query }: MealsSectionProps) {
   const basePath = 'meals';
   const { label: sortLabel, value: sortValue }: MealsSortOption = getSortOption(query.sort);
   const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
@@ -54,7 +47,7 @@ export async function MealsSection({ user, query: q }: MealsSectionProps) {
 type SortValues = Record<keyof MealDoc, -1 | 1>;
 type MealsSortOption = SortOption<Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>>;
 
-function getSortOption(queryParam: string): MealsSortOption {
+function getSortOption(queryParam?: string): MealsSortOption {
   switch (queryParam) {
     case SortQuery.NameAsc:
       return {

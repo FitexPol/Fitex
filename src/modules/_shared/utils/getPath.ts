@@ -1,4 +1,4 @@
-export function getPath(path: string, query?: Record<string, string>): string {
+export function getPath(path: string, query?: Record<string, string | undefined>): string {
   if (!query) return path;
 
   const filteredQuery = Object.entries(query).reduce(

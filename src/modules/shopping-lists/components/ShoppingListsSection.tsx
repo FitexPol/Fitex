@@ -2,27 +2,20 @@ import { type JWTUser } from '@auth/models/user';
 import { CardsSection } from '@components/sections/CardsSection';
 import type { Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
-import { getQueryParamSecure } from '@utils/getQueryParamSecure';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
 import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
-import { SortQuery, sortOptions } from '@vars';
+import { SortQuery, type listPageQuery, sortOptions } from '@vars';
 
 import { ShoppingListCard } from './ShoppingListCard';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 type ShoppingListsSectionProps = {
   user: JWTUser;
-  query: Query;
+  query: Query<typeof listPageQuery>;
 };
 
-export async function ShoppingListsSection({ user, query: q }: ShoppingListsSectionProps) {
-  const query = {
-    sort: getQueryParamSecure(q.sort),
-    itemsPerPage: getQueryParamSecure(q.itemsPerPage),
-    page: getQueryParamSecure(q.page),
-  };
-
+export async function ShoppingListsSection({ user, query }: ShoppingListsSectionProps) {
   const { label: sortLabel, value: sortValue }: ShoppingListsSortOption = getSortOption(query.sort);
   const itemsPerPage: number = getItemsPerPageOption(query.itemsPerPage);
   const page = getPage(query.page);
@@ -53,7 +46,7 @@ export async function ShoppingListsSection({ user, query: q }: ShoppingListsSect
 type SortValues = Record<keyof ShoppingListDoc, -1 | 1>;
 type ShoppingListsSortOption = SortOption<Pick<SortValues, 'name'> | Pick<SortValues, 'creationDate'>>;
 
-function getSortOption(queryParam: string): ShoppingListsSortOption {
+function getSortOption(queryParam?: string): ShoppingListsSortOption {
   switch (queryParam) {
     case SortQuery.NameAsc:
       return {

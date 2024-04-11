@@ -28,10 +28,10 @@ export type Tab = {
 };
 
 export type BasePath = 'meals' | 'shopping-lists';
-export type Query = Record<string, string | undefined>;
 
 export type DTOField = TString | TOptional<TString>;
 export type DTO = TObject<Record<string, DTOField>>;
+export type Query<T extends DTO> = Partial<Record<keyof T['properties'], string>>;
 export type TStringOptions = Parameters<typeof t.String>[0];
 
 export type FormControlProps<T extends DTO> = {

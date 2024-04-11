@@ -30,7 +30,7 @@ const tabs = new Map<FormType, Tab>([
 ]);
 
 type AuthSectionProps = {
-  typeQuery: string;
+  typeQuery?: string;
 };
 
 export function AuthSection({ typeQuery }: AuthSectionProps) {
@@ -67,7 +67,7 @@ export function AuthSection({ typeQuery }: AuthSectionProps) {
   );
 }
 
-function getActiveForm(queryParam: string): FormType {
+function getActiveForm(queryParam?: string): FormType {
   switch (queryParam) {
     case 'signUp':
       return 'signUp';
