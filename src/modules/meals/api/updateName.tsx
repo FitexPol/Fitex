@@ -2,14 +2,13 @@ import { Elysia } from 'elysia';
 
 import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/api/getBodySchema';
 import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { mealContext } from './context';
 import { NameForm } from '../components/forms/NameForm';
-import { type NameForm as NameFormType, nameForm } from '../forms/name';
+import { mealNameDTO } from '../dto/mealName';
 
 export const updateName = new Elysia().use(mealContext).patch(
   '',
@@ -26,11 +25,11 @@ export const updateName = new Elysia().use(mealContext).patch(
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
-    body: getBodySchema<NameFormType>(nameForm),
+    body: mealNameDTO,
     error({ code, error }) {
       switch (code) {
         case 'VALIDATION':
-          return <NameForm errors={getBodySchemaErrors<NameFormType>(error, nameForm)} />;
+          return <NameForm errors={getBodySchemaErrors(error, mealNameDTO)} />;
       }
     },
   },

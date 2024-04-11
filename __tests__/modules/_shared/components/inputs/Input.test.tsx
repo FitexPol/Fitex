@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { describe, expect, it } from 'bun:test';
+import { t } from 'elysia';
 
 import { Input } from '@components/inputs/Input';
 
@@ -11,11 +12,9 @@ describe('Input', () => {
 
     const document = await render(
       <Input
+        dto={t.Object({ test: t.Optional(t.String()) })}
+        name="test"
         label="Test label"
-        control={{
-          name: 'test',
-          type: 'text',
-        }}
         value="Test value"
         placeholder="Test placeholder"
         datalist={{ id: 'test-datalist', options: datalistOptions }}
@@ -57,16 +56,14 @@ describe('Input', () => {
   it('should render correctly if control type is not set to "number" and has validation options set', async () => {
     const document = await render(
       <Input
-        control={{
-          name: 'test',
-          type: 'text',
-          validators: {
-            message: 'Test message',
-            required: true,
+        dto={t.Object({
+          test: t.String({
             minLength: 5,
             maxLength: 10,
-          },
-        }}
+            error: 'Test message',
+          }),
+        })}
+        name="test"
         error="Test error"
       />,
     );
@@ -92,11 +89,9 @@ describe('Input', () => {
 
     const document = await render(
       <Input
+        dto={t.Object({ test: t.Optional(t.Number()) })}
+        name="test"
         label="Test label"
-        control={{
-          name: 'test',
-          type: 'number',
-        }}
         value="1"
         placeholder="Test placeholder"
         datalist={{ id: 'test-datalist', options: datalistOptions }}
@@ -138,16 +133,14 @@ describe('Input', () => {
   it('should render correctly if control type is set to "number" and has validation options set', async () => {
     const document = await render(
       <Input
-        control={{
-          name: 'test',
-          type: 'number',
-          validators: {
-            message: 'Test message',
-            required: true,
-            min: 5,
-            max: 10,
-          },
-        }}
+        dto={t.Object({
+          test: t.Number({
+            minimum: 5,
+            maximum: 10,
+            error: 'Test message',
+          }),
+        })}
+        name="test"
         error="Test error"
       />,
     );

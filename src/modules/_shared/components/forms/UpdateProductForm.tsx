@@ -4,16 +4,17 @@ import { Input } from '@components/inputs/Input';
 import { Select } from '@components/inputs/Select';
 import { $t } from '@utils/$t';
 
-import { type UpdateProductFormErrors, updateProductForm } from '../../forms/updateProduct';
+import { updateProductDTO } from '../../dto/updateProduct';
 import { type ProductDoc } from '../../models/product';
 import { Unit } from '../../models/product';
+import { type FormErrors } from '../../types';
 import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 
 type UpdateProductFormProps = {
   user: JWTUser;
   productDoc: ProductDoc;
   endpoint: string;
-  errors?: UpdateProductFormErrors;
+  errors?: FormErrors<typeof updateProductDTO>;
 };
 
 export async function UpdateProductForm({ user, productDoc, endpoint, errors }: UpdateProductFormProps) {
@@ -22,7 +23,8 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
   return (
     <form hx-patch={endpoint}>
       <Input
-        control={updateProductForm.name}
+        dto={updateProductDTO}
+        name="name"
         value={productDoc.name}
         label={$t('_name')}
         datalist={{ id: 'products-datalist', options: productNames }}
@@ -30,7 +32,8 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
       />
 
       <Input
-        control={updateProductForm.quantity}
+        dto={updateProductDTO}
+        name="quantity"
         value={productDoc.quantity?.toString() ?? ''}
         label={$t('_quantity')}
         step=".1"
@@ -38,7 +41,8 @@ export async function UpdateProductForm({ user, productDoc, endpoint, errors }: 
       />
 
       <Select
-        control={updateProductForm.unit}
+        dto={updateProductDTO}
+        name="unit"
         value={productDoc.unit}
         options={Object.values(Unit).map((unit) => ({
           value: unit,

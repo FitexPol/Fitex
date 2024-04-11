@@ -1,10 +1,9 @@
 import { Elysia } from 'elysia';
 
+import { updateProductDTO } from '@dto/updateProduct';
 import { NotificationError } from '@errors/NotificationError';
-import { type UpdateProductForm, updateProductForm } from '@forms/updateProduct';
 import { Product } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
@@ -42,6 +41,6 @@ export const addMealProduct = new Elysia().use(shoppingListContext).put(
     );
   },
   {
-    body: getBodySchema<UpdateProductForm>(updateProductForm),
+    body: updateProductDTO,
   },
 );

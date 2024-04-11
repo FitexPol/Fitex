@@ -1,21 +1,17 @@
-import type { Datalist, FormControl, NumberValidators, PropsWithClass } from '@types';
+import type { DTO, DTOField, Datalist, FormControlProps, PropsWithClass } from '../../types';
 
-import { getTextValidators } from '../../utils/getTextValidators';
+type InputProps<T extends DTO> = Htmx.Attributes &
+  FormControlProps<T> & {
+    type?: 'text' | 'password' | 'search';
+    datalist?: Datalist;
+    step?: string;
+  };
 
-type InputProps = Htmx.Attributes & {
-  control: FormControl;
-  value?: string;
-  label?: string;
-  placeholder?: string;
-  datalist?: Datalist;
-  step?: string;
-  isDisabled?: boolean;
-  error?: string;
-};
-
-export function Input({
-  control,
-  value = '',
+export function Input<T extends DTO>({
+  dto,
+  name,
+  type = 'text',
+  value,
   label,
   placeholder,
   datalist,
@@ -24,8 +20,9 @@ export function Input({
   error,
   class: className,
   ...hxAttributes
-}: PropsWithClass<InputProps>) {
-  const inputAttributes: JSX.HtmlInputTag = getInputAttributes(control);
+}: PropsWithClass<InputProps<T>>) {
+  const dtoField = dto.properties[String(name)] as DTOField;
+  const validationAttributes: JSX.HtmlInputTag = getValidationAttributes(dto, name);
 
   return (
     <label class={className}>
@@ -34,11 +31,14 @@ export function Input({
           {label}
         </span>
       )}
+
       <input
         {...hxAttributes}
-        {...inputAttributes}
-        placeholder={placeholder}
+        {...validationAttributes}
+        name={String(name)}
+        type={dtoField.type === 'number' ? dtoField.type : type}
         value={value}
+        placeholder={placeholder}
         list={datalist?.id}
         step={step}
         disabled={isDisabled}
@@ -58,36 +58,30 @@ export function Input({
   );
 }
 
-function getInputAttributes(control: FormControl): JSX.HtmlInputTag {
-  let validatorAttributes: JSX.HtmlInputTag = {};
+function getValidationAttributes<T extends DTO>(dto: T, name: keyof T['properties']): JSX.HtmlInputTag {
+  const dtoField = dto.properties[String(name)] as DTOField;
 
-  if (control.validators) {
-    switch (control.type) {
-      case 'number':
-        validatorAttributes = getNumberValidators(control.validators);
-        break;
-      default:
-        validatorAttributes = getTextValidators(control.validators);
+  let validationAttributes: JSX.HtmlInputTag = {
+    required: dto.required ? dto.required.some((required) => required === name) : false,
+  };
+
+  switch (dtoField.type) {
+    case 'number': {
+      validationAttributes = {
+        ...validationAttributes,
+        min: dtoField.minimum,
+        max: dtoField.maximum,
+      };
+      break;
+    }
+    default: {
+      validationAttributes = {
+        ...validationAttributes,
+        minlength: dtoField.minLength,
+        maxlength: dtoField.maxLength,
+      };
     }
   }
 
-  const inputAttributes: JSX.HtmlInputTag = (() => {
-    const inputAttributes = { ...control };
-    delete inputAttributes.validators;
-
-    return inputAttributes;
-  })();
-
-  return {
-    ...inputAttributes,
-    ...validatorAttributes,
-  };
-}
-
-function getNumberValidators({ min, max, required }: NumberValidators): JSX.HtmlInputTag {
-  return {
-    min,
-    max,
-    required,
-  };
+  return validationAttributes;
 }

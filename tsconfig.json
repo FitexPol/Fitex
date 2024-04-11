@@ -13,7 +13,7 @@
       "@vars": ["./src/modules/_shared/vars.ts"],
       "@components/*": ["./src/modules/_shared/components/*"],
       "@errors/*": ["./src/modules/_shared/errors/*"],
-      "@forms/*": ["./src/modules/_shared/forms/*"],
+      "@dto/*": ["./src/modules/_shared/dto/*"],
       "@models/*": ["./src/modules/_shared/models/*"],
       "@utils/*": ["./src/modules/_shared/utils/*"],
       "@admin-panel/*": ["./src/modules/admin-panel/*"],

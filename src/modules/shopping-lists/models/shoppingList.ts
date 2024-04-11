@@ -10,7 +10,7 @@ type ShoppingList = {
   isVisible: boolean;
 };
 
-const shoppingListSchema = new Schema<ShoppingList>({
+export const shoppingListSchema = new Schema<ShoppingList>({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',

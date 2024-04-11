@@ -1,7 +1,7 @@
 import { type JWTUser } from '@auth/models/user';
 
 import { CardSection } from './CardSection';
-import { addProductForm } from '../../forms/addProduct';
+import { addProductDTO } from '../../dto/addProduct';
 import type { BasePath, Entity, Tab } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
@@ -71,7 +71,8 @@ export async function AddProductsSection<T extends Entity>({
         {...hxAttributes}
       >
         <Input
-          control={addProductForm.name}
+          dto={addProductDTO}
+          name="name"
           label={$t('products.addProduct.label')}
           placeholder={$t('products.addProduct.placeholder')}
           datalist={{ id: 'products-datalist', options: productNames }}

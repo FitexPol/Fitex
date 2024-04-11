@@ -10,7 +10,7 @@ type User = {
   password: string;
 };
 
-const userSchema = new Schema<User>({
+export const userSchema = new Schema<User>({
   username: {
     type: String,
     required: true,

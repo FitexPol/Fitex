@@ -2,14 +2,13 @@ import { Elysia } from 'elysia';
 
 import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/api/getBodySchema';
 import { getBodySchemaErrors } from '@utils/api/getBodySchemaErrors';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
 import { shoppingListContext } from './context';
 import { NameForm } from '../components/forms/NameForm';
-import { type NameForm as NameFormType, nameForm } from '../forms/name';
+import { shoppingListNameDTO } from '../dto/shoppingListName';
 
 export const updateName = new Elysia().use(shoppingListContext).patch(
   '',
@@ -26,11 +25,11 @@ export const updateName = new Elysia().use(shoppingListContext).patch(
     set.headers[HxResponseHeader.Location] = `/shopping-lists/${shoppingListDoc.id}`;
   },
   {
-    body: getBodySchema<NameFormType>(nameForm),
+    body: shoppingListNameDTO,
     error({ code, error }) {
       switch (code) {
         case 'VALIDATION':
-          return <NameForm errors={getBodySchemaErrors<NameFormType>(error, nameForm)} />;
+          return <NameForm errors={getBodySchemaErrors(error, shoppingListNameDTO)} />;
       }
     },
   },

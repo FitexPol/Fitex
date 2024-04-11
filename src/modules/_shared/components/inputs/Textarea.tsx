@@ -1,25 +1,28 @@
-import type { FormControl, PropsWithClass } from '../../types';
-import { getTextValidators } from '../../utils/getTextValidators';
+import type { DTO, DTOField, FormControlProps, PropsWithClass } from '../../types';
 
-type TextareaProps = {
-  control: FormControl;
-  value?: string;
-  label?: string;
-  placeholder?: string;
+type TextareaProps<T extends DTO> = FormControlProps<T> & {
   rows?: string;
-  error?: string;
 };
 
-export function Textarea({
-  control,
+export function Textarea<T extends DTO>({
+  dto,
+  name,
   value = '',
   label,
   placeholder,
   rows,
   error,
   class: className,
-}: PropsWithClass<TextareaProps>) {
-  const textareaAttributes: JSX.HtmlTextAreaTag = getTextareaAttributes(control);
+}: PropsWithClass<TextareaProps<T>>) {
+  const dtoField = dto.properties[String(name)] as DTOField;
+
+  if (dtoField.type !== 'string') throw new Error(`Expected type 'string' but got '${dtoField.type}'`);
+
+  const validationAttributes: JSX.HtmlInputTag = {
+    required: dto.required ? dto.required.some((required) => required === name) : false,
+    minlength: dtoField.minLength,
+    maxlength: dtoField.maxLength,
+  };
 
   return (
     <label class={className}>
@@ -29,7 +32,8 @@ export function Textarea({
         </span>
       )}
       <textarea
-        {...textareaAttributes}
+        {...validationAttributes}
+        name={String(name)}
         placeholder={placeholder}
         rows={rows}
         aria-invalid={error && 'true'}
@@ -38,27 +42,8 @@ export function Textarea({
       >
         {value}
       </textarea>
+
       {error && <small>{error}</small>}
     </label>
   );
-}
-
-function getTextareaAttributes(control: FormControl): JSX.HtmlTextAreaTag {
-  if (control.type !== 'text') throw new Error('Textarea control type must be text');
-
-  const validatorAttributes: JSX.HtmlInputTag = control.validators
-    ? getTextValidators(control.validators)
-    : {};
-
-  const textareaAttributes: JSX.HtmlInputTag = (() => {
-    const textareaAttributes = { ...control };
-    delete textareaAttributes.validators;
-
-    return textareaAttributes;
-  })();
-
-  return {
-    ...textareaAttributes,
-    ...validatorAttributes,
-  };
 }

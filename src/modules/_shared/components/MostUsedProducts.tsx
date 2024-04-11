@@ -1,6 +1,7 @@
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { Input } from './inputs/Input';
+import { addProductDTO } from '../dto/addProduct';
 import type { BasePath, Entity } from '../types';
 import { $tm } from '../utils/$tm';
 
@@ -32,7 +33,8 @@ export function MostUsedProducts<T extends Entity>({
             class="grid !grid-cols-12"
           >
             <Input
-              control={{ name: 'name', type: 'text' }}
+              dto={addProductDTO}
+              name="name"
               value={productName}
               class="pointer-events-none col-span-10 mb-0 sm:col-span-11"
             />
