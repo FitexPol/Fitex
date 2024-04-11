@@ -1,13 +1,14 @@
 import { Button } from '@components/Button';
-import { Input } from '@components/inputs/Input';
+import { StringInput } from '@components/inputs/StringInput';
+import { type FormErrors } from '@types';
 import { $t } from '@utils/$t';
 
-import { type NameFormErrors, nameForm } from '../../forms/name';
+import { shoppingListNameDTO } from '../../dto/shoppingListName';
 import { type ShoppingListDoc } from '../../models/shoppingList';
 
 type NameFormProps = {
   shoppingListDoc?: ShoppingListDoc;
-  errors?: NameFormErrors;
+  errors?: FormErrors<typeof shoppingListNameDTO>;
 };
 
 export function NameForm({ shoppingListDoc, errors }: NameFormProps) {
@@ -21,7 +22,13 @@ export function NameForm({ shoppingListDoc, errors }: NameFormProps) {
 
   return (
     <form {...hxAttributes}>
-      <Input control={nameForm.name} value={shoppingListDoc?.name} label={$t('_name')} error={errors?.name} />
+      <StringInput
+        dto={shoppingListNameDTO}
+        name="name"
+        value={shoppingListDoc?.name}
+        label={$t('_name')}
+        error={errors?.name}
+      />
 
       <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>

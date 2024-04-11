@@ -26,12 +26,12 @@ describe('Breadcrumbs', () => {
       if (!link) throw new Error('Link not found');
 
       if (i === 0) {
-        expect(link.getAttribute('href')).toBe('/');
+        expect(link.href).toBe('/');
         return;
       }
 
       expectation += testItems[i - 1].href;
-      expect(link.getAttribute('href')).toBe(expectation);
+      expect(link.href).toBe(expectation);
     });
   });
 });

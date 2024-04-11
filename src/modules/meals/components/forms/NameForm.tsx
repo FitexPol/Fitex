@@ -1,13 +1,14 @@
 import { Button } from '@components/Button';
-import { Input } from '@components/inputs/Input';
+import { StringInput } from '@components/inputs/StringInput';
+import { type FormErrors } from '@types';
 import { $t } from '@utils/$t';
 
-import { type NameFormErrors, nameForm } from '../../forms/name';
+import { mealNameDTO } from '../../dto/mealName';
 import { type MealDoc } from '../../models/meal';
 
 type NameFormProps = {
   mealDoc?: MealDoc;
-  errors?: NameFormErrors;
+  errors?: FormErrors<typeof mealNameDTO>;
 };
 
 export function NameForm({ mealDoc, errors }: NameFormProps) {
@@ -21,7 +22,14 @@ export function NameForm({ mealDoc, errors }: NameFormProps) {
 
   return (
     <form {...hxAttributes}>
-      <Input control={nameForm.name} value={mealDoc?.name} label={$t('_name')} error={errors?.name} />
+      <StringInput
+        dto={mealNameDTO}
+        name="name"
+        value={mealDoc?.name}
+        label={$t('_name')}
+        error={errors?.name}
+      />
+
       <Button type="submit">{Html.escapeHtml($t('_submit'))}</Button>
     </form>
   );

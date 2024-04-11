@@ -25,7 +25,7 @@ describe('Document', () => {
 
     const links = document.querySelectorAll('a');
     const backButton = links.item(links.length - 1);
-    expect(backButton.getAttribute('href')).toBe('/url');
+    expect(backButton.href).toBe('/url');
   });
 
   it('should render without default layout if layout argument is set to "none"', async () => {
@@ -42,7 +42,7 @@ describe('Document', () => {
 
     const links = document.querySelectorAll('a');
     const backButton = links.item(links.length - 1);
-    expect(backButton.getAttribute('href')).not.toBe('/url');
+    expect(backButton.href).not.toBe('/url');
   });
 
   it('should render with an appropriate username rendered in the navigation if user argument is set', async () => {

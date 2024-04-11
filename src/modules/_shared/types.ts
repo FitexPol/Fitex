@@ -1,3 +1,7 @@
+import { type TObject } from '@sinclair/typebox/build/require/type/object';
+import { type TOptional } from '@sinclair/typebox/build/require/type/optional';
+import { type TString } from '@sinclair/typebox/build/require/type/string';
+import { type t } from 'elysia';
 import type { Document, HydratedDocument, PopulatedDoc, Types } from 'mongoose';
 
 import { type ProductDoc } from './models/product';
@@ -26,36 +30,18 @@ export type Tab = {
 export type BasePath = 'meals' | 'shopping-lists';
 export type Query = Record<string, string | undefined>;
 
-export type Validator<T = unknown> = {
-  message: string;
-  required?: boolean;
-} & T;
+export type DTOField = TString | TOptional<TString>;
+export type DTO = TObject<Record<string, DTOField>>;
+export type TStringOptions = Parameters<typeof t.String>[0];
 
-export type TextValidators = Validator<{
-  minLength?: number;
-  maxLength?: number;
-  regex?: RegExp;
-}>;
-
-export type NumberValidators = Validator<{
-  min?: number;
-  max?: number;
-}>;
-
-type Control<
-  T extends 'text' | 'number' | 'email' | 'password' | 'search',
-  P extends Validator = Validator,
-> = {
-  name: string;
-  type: T;
-  validators?: P;
+export type FormControlProps<T extends DTO> = {
+  dto: T;
+  name: keyof T['properties'];
+  value?: string;
+  label?: string;
+  placeholder?: string;
+  isDisabled?: boolean;
+  error?: string;
 };
 
-export type TextControl = Control<'text', TextValidators>;
-export type NumberControl = Control<'number', NumberValidators>;
-export type PasswordControl = Control<'password', TextValidators>;
-export type SearchControl = Control<'search', TextValidators>;
-
-export type FormControl = TextControl | NumberControl | PasswordControl | SearchControl;
-export type Form = Record<string, FormControl>;
-export type FormErrors<T extends Form> = Partial<Record<keyof T, string>>;
+export type FormErrors<T extends DTO> = Partial<Record<keyof T['properties'], string>>;

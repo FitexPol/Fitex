@@ -1,11 +1,10 @@
 import { Elysia } from 'elysia';
 
 import { MostUsedProducts } from '@components/MostUsedProducts';
+import { addProductDTO } from '@dto/addProduct';
 import { NotificationError } from '@errors/NotificationError';
-import { type AddProductForm, addProductForm } from '@forms/addProduct';
 import { Product } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { getMostUsedProductNames } from '@utils/getMostUsedProductNames';
 import { HxResponseHeader } from '@vars';
@@ -40,6 +39,6 @@ export const addProduct = new Elysia().use(mealContext).post(
     return <MostUsedProducts basePath="meals" entity={mealDoc} productNames={productNames} />;
   },
   {
-    body: getBodySchema<AddProductForm>(addProductForm),
+    body: addProductDTO,
   },
 );

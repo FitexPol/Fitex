@@ -4,7 +4,7 @@ import { describe, expect, it } from 'bun:test';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 
 describe('getNotificationHeader', () => {
-  it('should return an appropriate stringified JSON objects', () => {
+  it('should return an appropriate stringified JSON object', () => {
     const errorNotificationHeader = getNotificationHeader('error', 'Error message');
     const successNotificationHeader = getNotificationHeader('success', 'Success message');
 

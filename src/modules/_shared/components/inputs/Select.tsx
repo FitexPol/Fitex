@@ -1,29 +1,23 @@
-import type { FormControl, PropsWithClass } from '../../types';
+import type { DTO, FormControlProps, PropsWithClass } from '../../types';
 
 export type SelectOption = {
   value: string;
   label: string;
 };
 
-type SelectProps = {
-  control: FormControl;
+type SelectProps<T extends DTO> = FormControlProps<T> & {
   options: SelectOption[];
-  value?: string;
-  label?: string;
-  placeholder?: string;
-  isDisabled?: boolean;
-  error?: string;
 };
 
-export function Select({
-  control,
+export function Select<T extends DTO>({
+  name,
   options,
   value = '',
   label,
   placeholder,
   isDisabled,
   class: className,
-}: PropsWithClass<SelectProps>) {
+}: PropsWithClass<SelectProps<T>>) {
   return (
     <label class={className}>
       {!!label && (
@@ -31,7 +25,7 @@ export function Select({
           {label}
         </span>
       )}
-      <select name={control.name} disabled={isDisabled}>
+      <select name={String(name)} disabled={isDisabled}>
         {placeholder && (
           <option value="" disabled selected safe>
             {placeholder}

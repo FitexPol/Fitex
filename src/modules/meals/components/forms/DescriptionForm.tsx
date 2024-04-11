@@ -1,20 +1,22 @@
 import { Button } from '@components/Button';
 import { Textarea } from '@components/inputs/Textarea';
+import { type FormErrors } from '@types';
 import { $t } from '@utils/$t';
 
-import { type DescriptionFormErrors, descriptionForm } from '../../forms/description';
+import { mealDescriptionDTO } from '../../dto/mealDescription';
 import { type MealDoc } from '../../models/meal';
 
 type DescriptionFormProps = {
   mealDoc: MealDoc;
-  errors?: DescriptionFormErrors;
+  errors?: FormErrors<typeof mealDescriptionDTO>;
 };
 
 export function DescriptionForm({ mealDoc, errors }: DescriptionFormProps) {
   return (
     <form hx-patch={`/api/meals/${mealDoc.id}/description`}>
       <Textarea
-        control={descriptionForm.description}
+        dto={mealDescriptionDTO}
+        name="description"
         value={mealDoc.description}
         label={$t('_description')}
         rows="5"

@@ -1,14 +1,14 @@
 import { type JWTUser } from '@auth/models/user';
 
 import { CardSection } from './CardSection';
-import { addProductForm } from '../../forms/addProduct';
+import { addProductDTO } from '../../dto/addProduct';
 import type { BasePath, Entity, Tab } from '../../types';
 import { $t } from '../../utils/$t';
 import { $tm } from '../../utils/$tm';
 import { getMostUsedProductNames } from '../../utils/getMostUsedProductNames';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
-import { Input } from '../inputs/Input';
+import { StringInput } from '../inputs/StringInput';
 import { Link } from '../Link';
 import { MostUsedProducts } from '../MostUsedProducts';
 
@@ -70,8 +70,9 @@ export async function AddProductsSection<T extends Entity>({
         hx-on--after-request="this.reset()"
         {...hxAttributes}
       >
-        <Input
-          control={addProductForm.name}
+        <StringInput
+          dto={addProductDTO}
+          name="name"
           label={$t('products.addProduct.label')}
           placeholder={$t('products.addProduct.placeholder')}
           datalist={{ id: 'products-datalist', options: productNames }}

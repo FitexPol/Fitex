@@ -1,10 +1,9 @@
 import { Elysia } from 'elysia';
 
+import { updateProductDTO } from '@dto/updateProduct';
 import { NotificationError } from '@errors/NotificationError';
-import { type UpdateProductForm, updateProductForm } from '@forms/updateProduct';
 import { type Unit } from '@models/product';
 import { $t } from '@utils/$t';
-import { getBodySchema } from '@utils/api/getBodySchema';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
 import { HxResponseHeader } from '@vars';
 
@@ -34,6 +33,6 @@ export const updateProduct = new Elysia().use(mealContext).patch(
     set.headers[HxResponseHeader.Location] = `/meals/${mealDoc.id}`;
   },
   {
-    body: getBodySchema<UpdateProductForm>(updateProductForm),
+    body: updateProductDTO,
   },
 );

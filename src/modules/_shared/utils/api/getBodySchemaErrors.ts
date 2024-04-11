@@ -1,12 +1,9 @@
 import type { ValidationError } from 'elysia';
 
-import type { Form, FormErrors } from '../../types';
+import type { DTO, FormErrors } from '../../types';
 
-export function getBodySchemaErrors<T extends Form>(
-  error: Readonly<ValidationError>,
-  form: T,
-): FormErrors<T> {
-  const formErrors: FormErrors<T> = Object.keys(form).reduce((acc, key) => {
+export function getBodySchemaErrors<T extends DTO>(error: Readonly<ValidationError>, dto: T): FormErrors<T> {
+  return Object.keys(dto.properties).reduce((acc, key) => {
     const fieldName = key as keyof T;
     const errorMsg = error.all.find(({ path }) => path === `/${String(fieldName)}`)?.schema.error;
 
@@ -14,6 +11,4 @@ export function getBodySchemaErrors<T extends Form>(
 
     return { ...acc, [fieldName]: errorMsg };
   }, {} as FormErrors<T>);
-
-  return formErrors;
 }
