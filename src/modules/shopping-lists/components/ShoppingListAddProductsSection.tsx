@@ -1,14 +1,13 @@
 import { type JWTUser } from '@auth/models/user';
 import { Button } from '@components/Button';
+import { Card } from '@components/Card';
 import { Icon } from '@components/Icon';
-import { NumberInput } from '@components/inputs/NumberInput';
-import { StringInput } from '@components/inputs/StringInput';
 import { AddProductsSection } from '@components/sections/AddProductsSection';
-import { updateProductDTO } from '@dto/updateProduct';
 import { Meal } from '@meals/models/meal';
 import { type Tab } from '@types';
 import { $t } from '@utils/$t';
 import { getPath } from '@utils/getPath';
+import { getRoundedQuantity } from '@utils/getRoundedQuantity';
 
 import { type ShoppingListDoc } from '../models/shoppingList';
 
@@ -59,53 +58,32 @@ async function MealProducts({ user, shoppingListDoc }: MealProductsProps) {
         .filter(({ products }) => products.length > 0)
         .map((mealDoc) => (
           <li>
-            <Button
-              class="pico-reset flex w-full items-center justify-between !py-3 !text-left !text-lg"
-              onclick="toggleAccordionItem(this)"
-            >
-              {Html.escapeHtml(mealDoc.name)}
-              <Icon type="chevron-down" />
-            </Button>
+            <Card class="rounded-md bg-pico-muted">
+              <Button
+                class="pico-reset flex w-full items-center justify-between !text-left !text-lg"
+                onclick="toggleAccordionItem(this)"
+              >
+                {Html.escapeHtml(mealDoc.name)}
+                <Icon type="chevron-down" />
+              </Button>
 
-            <ul class="mb-0 hidden border-t border-pico-muted pt-2">
-              {mealDoc.products.map((product) => (
-                <li class="mb-0">
-                  <form
-                    hx-put={`/api/shopping-lists/${shoppingListDoc.id}/products`}
-                    hx-swap="none"
-                    class="grid !grid-cols-12 !gap-x-1 sm:!gap-x-4"
-                  >
-                    <StringInput
-                      dto={updateProductDTO}
-                      name="name"
-                      value={product.name}
-                      class="pointer-events-none col-span-4 mb-0 sm:col-span-7"
-                    />
-
-                    <NumberInput
-                      dto={updateProductDTO}
-                      name="quantity"
-                      value={product.quantity?.toString() ?? ''}
-                      class="pointer-events-none col-span-3 mb-0 sm:col-span-2"
-                    />
-
-                    <StringInput
-                      dto={updateProductDTO}
-                      name="unit"
-                      value={product.unit}
-                      class="pointer-events-none col-span-3 sm:col-span-2"
-                    />
-
+              <ul class="mb-0 mt-6 hidden">
+                {mealDoc.products.map(({ name, quantity, unit }) => (
+                  <li class="mb-2 flex gap-2">
                     <Button
-                      type="submit"
-                      class="pico-reset col-span-2 !m-auto !mt-5 h-fit !w-fit sm:col-span-1"
+                      class="pico-reset"
+                      hx-put={`/api/shopping-lists/${shoppingListDoc.id}/products`}
+                      hx-vals={JSON.stringify({ name, quantity, unit })}
+                      hx-swap="none"
                     >
-                      <Icon type="plus-circle" />
+                      <Icon type="plus-circle" class="size-5" />
                     </Button>
-                  </form>
-                </li>
-              ))}
-            </ul>
+
+                    <span safe>{`${name} - ${getRoundedQuantity(quantity)}${unit}`}</span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
           </li>
         ))}
     </ul>
