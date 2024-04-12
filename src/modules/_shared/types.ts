@@ -40,7 +40,7 @@ export type FormControlProps<T extends DTO> = {
   value?: string;
   label?: string;
   placeholder?: string;
-  isDisabled?: boolean;
+  disabled?: boolean;
   error?: string;
 };
 
