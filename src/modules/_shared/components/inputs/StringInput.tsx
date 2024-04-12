@@ -14,7 +14,7 @@ export function StringInput<T extends DTO>({
   label,
   placeholder,
   datalist,
-  isDisabled,
+  disabled,
   error,
   class: className,
   ...hxAttributes
@@ -39,7 +39,7 @@ export function StringInput<T extends DTO>({
         minlength={dtoField.minLength}
         maxlength={dtoField.maxLength}
         list={datalist?.id}
-        disabled={isDisabled}
+        disabled={disabled}
         aria-invalid={error && 'true'}
         safe
       />

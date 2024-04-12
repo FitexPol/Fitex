@@ -18,7 +18,7 @@ export function NumberInput<T extends DTO>({
   min,
   max,
   step,
-  isDisabled,
+  disabled,
   error,
   class: className,
   ...hxAttributes
@@ -42,7 +42,7 @@ export function NumberInput<T extends DTO>({
         max={max}
         list={datalist?.id}
         step={step}
-        disabled={isDisabled}
+        disabled={disabled}
         aria-invalid={error && 'true'}
         safe
       />

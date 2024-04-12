@@ -2,20 +2,20 @@
 import { describe, expect, it } from 'bun:test';
 import { t } from 'elysia';
 
-import { StringInput } from '@components/inputs/StringInput';
+import { NumberInput } from '@components/inputs/NumberInput';
 
 import { render } from '../../../../utils';
 
-describe('StringInput', () => {
+describe('NumberInput', () => {
   it('should render correctly if it has no validation options set', async () => {
-    const datalistOptions = ['Option 1', 'Option 2'];
+    const datalistOptions = ['1', '2'];
 
     const document = await render(
-      <StringInput
+      <NumberInput
         dto={t.Object({ test: t.Optional(t.String()) })}
         name="test"
         label="Test label"
-        value="Test value"
+        value="1"
         placeholder="Test placeholder"
         datalist={{ id: 'test-datalist', options: datalistOptions }}
         disabled
@@ -30,8 +30,8 @@ describe('StringInput', () => {
     const input = document.querySelector('input');
     if (!input) throw new Error('Input not found');
 
-    expect(input.type).toBe('text');
-    expect(input.value).toBe('Test value');
+    expect(input.type).toBe('number');
+    expect(input.value).toBe('1');
     expect(input.placeholder).toBe('Test placeholder');
     expect(input.required).toBeFalse();
     expect(input.getAttribute('list')).toBe('test-datalist');
@@ -53,15 +53,12 @@ describe('StringInput', () => {
 
   it('should render correctly if it has validation options set', async () => {
     const document = await render(
-      <StringInput
-        dto={t.Object({
-          test: t.String({
-            minLength: 5,
-            maxLength: 10,
-            error: 'Test message',
-          }),
-        })}
+      <NumberInput
+        dto={t.Object({ test: t.String() })}
         name="test"
+        min="1"
+        max="10"
+        step=".01"
         error="Test error"
       />,
     );
@@ -69,8 +66,8 @@ describe('StringInput', () => {
     const input = document.querySelector('input');
     if (!input) throw new Error('Input not found');
 
-    expect(input.minLength).toBe(5);
-    expect(input.maxLength).toBe(10);
+    expect(input.min).toBe('1');
+    expect(input.max).toBe('10');
     expect(input.required).toBeTrue();
 
     const error = document.querySelector('small');

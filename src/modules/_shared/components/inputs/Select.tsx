@@ -10,13 +10,15 @@ type SelectProps<T extends DTO> = FormControlProps<T> & {
 };
 
 export function Select<T extends DTO>({
+  dto,
   name,
   options,
   value = '',
   label,
   placeholder,
-  isDisabled,
+  disabled,
   class: className,
+  error,
 }: PropsWithClass<SelectProps<T>>) {
   return (
     <label class={className}>
@@ -25,7 +27,11 @@ export function Select<T extends DTO>({
           {label}
         </span>
       )}
-      <select name={String(name)} disabled={isDisabled}>
+      <select
+        name={String(name)}
+        required={dto.required ? dto.required.some((required) => required === name) : false}
+        disabled={disabled}
+      >
         {placeholder && (
           <option value="" disabled selected safe>
             {placeholder}
@@ -37,6 +43,8 @@ export function Select<T extends DTO>({
           </option>
         ))}
       </select>
+
+      {error && <small>{error}</small>}
     </label>
   );
 }

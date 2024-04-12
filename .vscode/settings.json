@@ -16,6 +16,7 @@
     "upsert",
     "retarget",
     "radio",
-    "fieldset"
+    "fieldset",
+    "vals"
   ]
 }
