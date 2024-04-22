@@ -1,13 +1,13 @@
 // eslint-disable-next-line import/no-unresolved
 import { describe, expect, it } from 'bun:test';
 
-import { ProductsTable } from '@components/ProductsTable';
+import { ProductList } from '@components/ProductList';
 import { Meal } from '@meals/models/meal';
 import { Product } from '@models/product';
 
 import { getUser, render } from '../../../utils';
 
-describe('ProductsTable', () => {
+describe('ProductList', () => {
   it('should render correctly', async () => {
     const user = await getUser();
 
@@ -19,37 +19,29 @@ describe('ProductsTable', () => {
 
     const sortedProducts = [...mealDoc.products].sort((a, b) => a.name.localeCompare(b.name));
 
-    const document = await render(<ProductsTable entity={mealDoc} basePath="meals" />);
+    const document = await render(<ProductList entity={mealDoc} basePath="meals" />);
 
-    const tRows = document.querySelectorAll('tbody tr');
+    const items = document.querySelectorAll('ul li');
 
-    expect(tRows.length).toBe(2);
+    expect(items.length).toBe(2);
 
-    tRows.forEach((row, index) => {
-      const cells: Element[] = [];
+    items.forEach((item, index) => {
+      const label = item.querySelector('label');
+      if (!label) throw new Error('Label not found');
 
-      for (let i = 0; i < 4; i++) {
-        const cell = row.children.item(i);
+      const { name, quantity } = sortedProducts[index];
+      expect(label.textContent).toBe(`${name} - ${quantity}`);
 
-        if (!cell) throw new Error(`Cell ${i} not found`);
-
-        cells.push(cell);
-      }
-
-      expect(cells[0].textContent).toBe(sortedProducts[index].name);
-      expect(cells[1].textContent).toBe(sortedProducts[index].quantity.toString());
-      expect(cells[2].textContent).toBe(sortedProducts[index].unit);
-
-      const deleteButton = cells[3].querySelector('button');
+      const deleteButton = item.querySelector('button');
       if (!deleteButton) throw new Error('Delete button not found');
 
       expect(deleteButton.getAttribute('hx-delete')).toBe(
         `/api/meals/${mealDoc.id}/products/${sortedProducts[index].id}`,
       );
       expect(deleteButton.getAttribute('hx-swap')).toBe('outerHTML');
-      expect(deleteButton.getAttribute('hx-target')).toBe('#products');
+      expect(deleteButton.getAttribute('hx-target')).toBe('closest ul');
 
-      const editButton = cells[3].querySelector('a');
+      const editButton = item.querySelector('a');
       if (!editButton) throw new Error('Edit button not found');
 
       expect(editButton.href).toBe(`/meals/${mealDoc.id}/product?productId=${sortedProducts[index].id}`);
