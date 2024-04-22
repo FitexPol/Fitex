@@ -5,7 +5,7 @@ import { Card } from '../Card';
 import { FloatingLink } from '../FloatingLink';
 import { Icon } from '../Icon';
 import { Link } from '../Link';
-import { ProductsTable } from '../ProductsTable';
+import { ProductList } from '../ProductList';
 
 type EditSectionProps<T extends Entity> = {
   title: string;
@@ -35,7 +35,7 @@ export function EditSection<T extends Entity>({
         />
 
         <Group title={$t('products')}>
-          <ProductsTable entity={entity} basePath={basePath} />
+          <ProductList entity={entity} basePath={basePath} />
         </Group>
 
         {children}

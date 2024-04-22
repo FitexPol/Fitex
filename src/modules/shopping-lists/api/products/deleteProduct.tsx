@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 
-import { ProductsTable } from '@components/ProductsTable';
+import { ProductList } from '@components/ProductList';
 import { NotificationError } from '@errors/NotificationError';
 import { $t } from '@utils/$t';
 import { getNotificationHeader } from '@utils/api/getNotificationHeader';
@@ -26,5 +26,5 @@ export const deleteProduct = new Elysia()
       $t('products.deleteProduct.success'),
     );
 
-    return <ProductsTable entity={shoppingListDoc} basePath="shopping-lists" />;
+    return <ProductList entity={shoppingListDoc} basePath="shopping-lists" />;
   });

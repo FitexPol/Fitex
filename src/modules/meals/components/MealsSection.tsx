@@ -1,5 +1,5 @@
 import { type JWTUser } from '@auth/models/user';
-import { CardsSection } from '@components/sections/CardsSection';
+import { ListSection } from '@components/sections/ListSection';
 import type { Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
@@ -7,7 +7,6 @@ import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, type listPageQuery, sortOptions } from '@vars';
 
-import { MealCard } from './MealCard';
 import { Meal, type MealDoc } from '../models/meal';
 
 type MealsSectionProps = {
@@ -29,7 +28,7 @@ export async function MealsSection({ user, query }: MealsSectionProps) {
     .exec();
 
   return (
-    <CardsSection
+    <ListSection
       title={$t('meals.mealsSection.title')}
       basePath={basePath}
       query={query}
@@ -38,9 +37,9 @@ export async function MealsSection({ user, query }: MealsSectionProps) {
       totalCount={totalMealDocs}
     >
       {mealDocs.map((mealDoc) => (
-        <MealCard mealDoc={mealDoc} />
+        <ListSection.Item basePath="meals" entity={mealDoc} />
       ))}
-    </CardsSection>
+    </ListSection>
   );
 }
 

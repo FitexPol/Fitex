@@ -10,7 +10,7 @@ import { Icon } from '../Icon';
 import { Checkbox } from '../inputs/Checkbox';
 import { Link } from '../Link';
 
-type CardsSectionProps = {
+type ListSectionProps = {
   title: string;
   basePath: BasePath;
   query: Query<typeof listPageQuery>;
@@ -22,7 +22,7 @@ type CardsSectionProps = {
   totalCount: number;
 };
 
-export function CardsSection({
+export function ListSection({
   title,
   basePath,
   query,
@@ -30,7 +30,7 @@ export function CardsSection({
   activeSortLabel,
   totalCount,
   children,
-}: Html.PropsWithChildren<CardsSectionProps>) {
+}: Html.PropsWithChildren<ListSectionProps>) {
   return (
     <section>
       <div class="mb-6 flex items-center justify-between gap-y-5">
@@ -147,7 +147,7 @@ function Pagination({ itemsPerPage, page, totalCount, path, currentQuery }: Pagi
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   return totalPages > 1 ? (
-    <ul class="mx-auto my-7 flex w-fit gap-1">
+    <ul data-test-id="pagination" class="mx-auto my-7 flex w-fit gap-1">
       {totalPages <= 5
         ? getAllItems(totalPages).map((i) => PaginationItem(path, currentQuery, i, page))
         : getFilteredItems(totalPages, page).map((i) =>
@@ -192,11 +192,15 @@ type ItemProps<T extends Entity> = {
   basePath: BasePath;
 };
 
-function Item<T extends Entity>({ entity, basePath, children }: Html.PropsWithChildren<ItemProps<T>>) {
+function Item<T extends Entity>({ entity, basePath }: Html.PropsWithChildren<ItemProps<T>>) {
   return (
     <li>
       <Card class="h-full">
-        <Button
+        <Link href={`/${basePath}/${entity.id}`} class="w-full">
+          {entity.name}
+        </Link>
+
+        {/* <Button
           class="pico-reset flex w-full items-center justify-between !text-left !text-lg sm:pointer-events-none"
           hx-patch={`/api/${basePath}/${entity.id}/visibility-state`}
           hx-target="closest li"
@@ -218,10 +222,10 @@ function Item<T extends Entity>({ entity, basePath, children }: Html.PropsWithCh
           <Link href={`/${basePath}/${entity.id}`} class="mt-auto self-end">
             <Icon type="edit" class="size-6" />
           </Link>
-        </div>
+        </div> */}
       </Card>
     </li>
   );
 }
 
-CardsSection.Item = Item;
+ListSection.Item = Item;

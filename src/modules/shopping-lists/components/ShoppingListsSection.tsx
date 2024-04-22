@@ -1,5 +1,5 @@
 import { type JWTUser } from '@auth/models/user';
-import { CardsSection } from '@components/sections/CardsSection';
+import { ListSection } from '@components/sections/ListSection';
 import type { Query, SortOption } from '@types';
 import { $t } from '@utils/$t';
 import { getItemsPerPageOption } from '@utils/pagination/getItemPerPageOption';
@@ -7,7 +7,6 @@ import { getPage } from '@utils/pagination/getPage';
 import { getSkipValue } from '@utils/pagination/getSkipValue';
 import { SortQuery, type listPageQuery, sortOptions } from '@vars';
 
-import { ShoppingListCard } from './ShoppingListCard';
 import { ShoppingList, type ShoppingListDoc } from '../models/shoppingList';
 
 type ShoppingListsSectionProps = {
@@ -28,7 +27,7 @@ export async function ShoppingListsSection({ user, query }: ShoppingListsSection
     .exec();
 
   return (
-    <CardsSection
+    <ListSection
       title={$t('shoppingLists.shoppingListsSection.title')}
       basePath="shopping-lists"
       query={query}
@@ -37,9 +36,9 @@ export async function ShoppingListsSection({ user, query }: ShoppingListsSection
       totalCount={totalShoppingListDocs}
     >
       {shoppingListDocs.map((shoppingListDoc) => (
-        <ShoppingListCard shoppingListDoc={shoppingListDoc} />
+        <ListSection.Item basePath="shopping-lists" entity={shoppingListDoc} />
       ))}
-    </CardsSection>
+    </ListSection>
   );
 }
 
